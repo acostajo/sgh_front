@@ -225,162 +225,164 @@ class Ficha extends Component {
                     />
                   </FormGroup>
                 </Col>
-                <Row>
-                  <Col>
-                    <FormGroup>
-                      <Label for="fechainclusion">Fecha de Inclusión</Label>
-                      <Input
-                        type="date"
-                        onChange={this.handleChange}
-                        value={this.state.fechainclusion}
-                        name="fechainclusion"
-                        id="fechainclusion"
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col>
-                    <FormGroup>
-                      <Label for="tipodocumento">Tipo Documento</Label>
-                      <Input
-                        type="text"
-                        onChange={this.handleChange}
-                        value={this.state.cedula}
-                        name="tipodocumento"
-                        id="tipodocumento"
-                      >
-                        <option>Cédula de Identidad</option>
-                        <option>Pasaporte</option>
-                        <option>No Aplica</option>
-                      </Input>
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col>
-                    <FormGroup>
-                      <Label for="cedula">C.I.:</Label>
-                      <Input
-                        type="number"
-                        onChange={this.handleChange}
-                        value={this.state.cedula}
-                        name="cedula"
-                        id="cedula"
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <FormGroup>
-                      <Label for="procedencia">Procedencia</Label>
-                      <Input
-                        type="text"
-                        onChange={this.handleChange}
-                        value={this.state.procedencia}
-                        name="procedencia"
-                        id="procedencia"
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col>
-                    <FormGroup>
-                      <Label for="fechanaci">FN</Label>
-                      <Input
-                        type="date"
-                        onChange={this.handleChange}
-                        value={this.state.fechanaci}
-                        name="fechanaci"
-                        id="fechanaci"
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col>
-                    <FormGroup>
-                      <Label for="telefono">Teléf</Label>
-                      <Input
-                        type="number"
-                        onChange={this.handleChange}
-                        value={this.state.telefono}
-                        name="telefono"
-                        id="telefono"
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <FormGroup>
-                      <Label for="nacionalidad">Nacionalidad</Label>
-                      <Input
-                        type="text"
-                        onChange={this.handleChange}
-                        value={this.state.nacionalidad}
-                        name="nacionalidad"
-                        id="nacionalidad"
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col>
-                    <FormGroup>
-                      <Label for="estadocivil">E. Civil</Label>
-                      <Input
-                        type="text"
-                        onChange={this.handleChange}
-                        value={this.state.estadocivil}
-                        name="estadocivil"
-                        id="estadocivil"
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col>
-                    <FormGroup>
-                      <Label for="sexo">Sexo</Label>
-                      <Input
-                        type="select"
-                        name="sexo"
-                        onChange={this.handleChange}
-                        value={this.state.sexo}
-                        id="sexo"
-                      >
-                        <option>F</option>
-                        <option>M</option>
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <FormGroup>
-                      <Label for="escolaridad">Escolaridad</Label>
-                      <Input
-                        type="text"
-                        onChange={this.handleChange}
-                        value={this.state.escolaridad}
-                        name="escolaridad"
-                        id="escolaridad"
-                      >
-                        <option>Educación Inicial</option>
-                        <option>Primaria</option>
-                        <option>Secundaria</option>
-                        <option>Escolar Básica</option>
-                        <option>Escolar Media</option>
-                        <option>Universitario</option>
-                        <option>No Aplica</option>
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                  <Col>
-                    <FormGroup>
-                      <Label for="profesion">Profesion</Label>
-                      <Input
-                        type="text"
-                        onChange={this.handleChange}
-                        value={this.state.profesion}
-                        name="profesion"
-                        id="profesion"
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
+              </Row>
+              <Row>
+                <Col>
+                  <FormGroup>
+                    <Label for="fechainclusion">Fecha de Inclusión</Label>
+                    <Input
+                      type="date"
+                      onChange={this.handleChange}
+                      value={this.state.fechainclusion}
+                      name="fechainclusion"
+                      id="fechainclusion"
+                    />
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label for="tipodocumento">Tipo Documento</Label>
+                    <Input
+                      type="text"
+                      onChange={this.handleChange}
+                      value={this.state.cedula}
+                      name="tipodocumento"
+                      id="tipodocumento"
+                    >
+                      <option>Cédula de Identidad</option>
+                      <option>Pasaporte</option>
+                      <option>No Aplica</option>
+                    </Input>
+                    />
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label for="cedula">C.I.:</Label>
+                    <Input
+                      type="number"
+                      onChange={this.handleChange}
+                      value={this.state.cedula}
+                      name="cedula"
+                      id="cedula"
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <FormGroup>
+                    <Label for="procedencia">Procedencia</Label>
+                    <Input
+                      type="text"
+                      onChange={this.handleChange}
+                      value={this.state.procedencia}
+                      name="procedencia"
+                      id="procedencia"
+                    />
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label for="fechanaci">FN</Label>
+                    <Input
+                      type="date"
+                      onChange={this.handleChange}
+                      value={this.state.fechanaci}
+                      name="fechanaci"
+                      id="fechanaci"
+                    />
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label for="telefono">Teléf</Label>
+                    <Input
+                      type="number"
+                      onChange={this.handleChange}
+                      value={this.state.telefono}
+                      name="telefono"
+                      id="telefono"
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <FormGroup>
+                    <Label for="nacionalidad">Nacionalidad</Label>
+                    <Input
+                      type="text"
+                      onChange={this.handleChange}
+                      value={this.state.nacionalidad}
+                      name="nacionalidad"
+                      id="nacionalidad"
+                    />
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label for="estadocivil">E. Civil</Label>
+                    <Input
+                      type="text"
+                      onChange={this.handleChange}
+                      value={this.state.estadocivil}
+                      name="estadocivil"
+                      id="estadocivil"
+                    />
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label for="sexo">Sexo</Label>
+                    <Input
+                      type="select"
+                      name="sexo"
+                      onChange={this.handleChange}
+                      value={this.state.sexo}
+                      id="sexo"
+                    >
+                      <option>F</option>
+                      <option>M</option>
+                    </Input>
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <FormGroup>
+                    <Label for="escolaridad">Escolaridad</Label>
+                    <Input
+                      type="text"
+                      onChange={this.handleChange}
+                      value={this.state.escolaridad}
+                      name="escolaridad"
+                      id="escolaridad"
+                    >
+                      <option>Educación Inicial</option>
+                      <option>Primaria</option>
+                      <option>Secundaria</option>
+                      <option>Escolar Básica</option>
+                      <option>Escolar Media</option>
+                      <option>Universitario</option>
+                      <option>No Aplica</option>
+                    </Input>
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label for="profesion">Profesion</Label>
+                    <Input
+                      type="text"
+                      onChange={this.handleChange}
+                      value={this.state.profesion}
+                      name="profesion"
+                      id="profesion"
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row>
                 <Col>
                   <FormGroup>
                     <Label for="diagnostico">Dx</Label>
