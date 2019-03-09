@@ -215,84 +215,175 @@ class Ficha extends Component {
                 </Col>
                 <Col>
                   <FormGroup>
-                    <Label for="cedula">C.I.:</Label>
+                    <Label for="nhc">NHC</Label>
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.cedula}
-                      name="cedula"
-                      id="cedula"
+                      value={this.state.nhc}
+                      name="nhc"
+                      id="nhc"
                     />
                   </FormGroup>
                 </Col>
+                <Row>
+                  <Col>
+                    <FormGroup>
+                      <Label for="fechainclusion">Fecha de Inclusión</Label>
+                      <Input
+                        type="date"
+                        onChange={this.handleChange}
+                        value={this.state.fechainclusion}
+                        name="fechainclusion"
+                        id="fechainclusion"
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormGroup>
+                      <Label for="tipodocumento">Tipo Documento</Label>
+                      <Input
+                        type="text"
+                        onChange={this.handleChange}
+                        value={this.state.cedula}
+                        name="tipodocumento"
+                        id="tipodocumento"
+                      >
+                        <option>Cédula de Identidad</option>
+                        <option>Pasaporte</option>
+                        <option>No Aplica</option>
+                      </Input>
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormGroup>
+                      <Label for="cedula">C.I.:</Label>
+                      <Input
+                        type="number"
+                        onChange={this.handleChange}
+                        value={this.state.cedula}
+                        name="cedula"
+                        id="cedula"
+                      />
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <FormGroup>
+                      <Label for="procedencia">Procedencia</Label>
+                      <Input
+                        type="text"
+                        onChange={this.handleChange}
+                        value={this.state.procedencia}
+                        name="procedencia"
+                        id="procedencia"
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormGroup>
+                      <Label for="fechanaci">FN</Label>
+                      <Input
+                        type="date"
+                        onChange={this.handleChange}
+                        value={this.state.fechanaci}
+                        name="fechanaci"
+                        id="fechanaci"
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormGroup>
+                      <Label for="telefono">Teléf</Label>
+                      <Input
+                        type="number"
+                        onChange={this.handleChange}
+                        value={this.state.telefono}
+                        name="telefono"
+                        id="telefono"
+                      />
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <FormGroup>
+                      <Label for="nacionalidad">Nacionalidad</Label>
+                      <Input
+                        type="text"
+                        onChange={this.handleChange}
+                        value={this.state.nacionalidad}
+                        name="nacionalidad"
+                        id="nacionalidad"
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormGroup>
+                      <Label for="estadocivil">E. Civil</Label>
+                      <Input
+                        type="text"
+                        onChange={this.handleChange}
+                        value={this.state.estadocivil}
+                        name="estadocivil"
+                        id="estadocivil"
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormGroup>
+                      <Label for="sexo">Sexo</Label>
+                      <Input
+                        type="select"
+                        name="sexo"
+                        onChange={this.handleChange}
+                        value={this.state.sexo}
+                        id="sexo"
+                      >
+                        <option>F</option>
+                        <option>M</option>
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <FormGroup>
+                      <Label for="escolaridad">Escolaridad</Label>
+                      <Input
+                        type="text"
+                        onChange={this.handleChange}
+                        value={this.state.escolaridad}
+                        name="escolaridad"
+                        id="escolaridad"
+                      >
+                        <option>Educación Inicial</option>
+                        <option>Primaria</option>
+                        <option>Secundaria</option>
+                        <option>Escolar Básica</option>
+                        <option>Escolar Media</option>
+                        <option>Universitario</option>
+                        <option>No Aplica</option>
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormGroup>
+                      <Label for="profesion">Profesion</Label>
+                      <Input
+                        type="text"
+                        onChange={this.handleChange}
+                        value={this.state.profesion}
+                        name="profesion"
+                        id="profesion"
+                      />
+                    </FormGroup>
+                  </Col>
+                </Row>
                 <Col>
                   <FormGroup>
-                    <Label for="sexo">Sexo</Label>
-                    <Input
-                      type="select"
-                      name="sexo"
-                      onChange={this.handleChange}
-                      value={this.state.sexo}
-                      id="sexo"
-                    >
-                      <option>F</option>
-                      <option>M</option>
-                    </Input>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="fechainclusion">Fecha de Inclusion</Label>
-                    <Input
-                      type="date"
-                      onChange={this.handleChange}
-                      value={this.state.fechainclusion}
-                      name="fechainclusion"
-                      id="fechainclusion"
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label for="procedencia">Procedencia</Label>
-                    <Input
-                      type="text"
-                      onChange={this.handleChange}
-                      value={this.state.procedencia}
-                      name="procedencia"
-                      id="procedencia"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="nacionalidad">Nacionalidad</Label>
-                    <Input
-                      type="text"
-                      onChange={this.handleChange}
-                      value={this.state.nacionalidad}
-                      name="nacionalidad"
-                      id="nacionalidad"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="escolaridad">Escolaridad</Label>
-                    <Input
-                      type="text"
-                      onChange={this.handleChange}
-                      value={this.state.escolaridad}
-                      name="escolaridad"
-                      id="escolaridad"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="diagnostico">Diagnostico</Label>
+                    <Label for="diagnostico">Dx</Label>
                     <Input
                       type="text"
                       onChange={this.handleChange}
@@ -304,75 +395,13 @@ class Ficha extends Component {
                 </Col>
                 <Col>
                   <FormGroup>
-                    <Label for="fechadiagnos">Fecha de Diagnostico</Label>
+                    <Label for="fechadiagnos">Fecha de Dx</Label>
                     <Input
                       type="date"
                       onChange={this.handleChange}
                       value={this.state.fechadiagnos}
                       name="fechadiagnos"
                       id="fechadiagnos"
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label for="fechanaci">Fecha de Nacimiento</Label>
-                    <Input
-                      type="date"
-                      onChange={this.handleChange}
-                      value={this.state.fechanaci}
-                      name="fechanaci"
-                      id="fechanaci"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="estadocivil">Estado Civil</Label>
-                    <Input
-                      type="text"
-                      onChange={this.handleChange}
-                      value={this.state.estadocivil}
-                      name="estadocivil"
-                      id="estadocivil"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="profesion">Profesion</Label>
-                    <Input
-                      type="text"
-                      onChange={this.handleChange}
-                      value={this.state.profesion}
-                      name="profesion"
-                      id="profesion"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="telefono">Telefono</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.telefono}
-                      name="telefono"
-                      id="telefono"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="lineabaja">Linea Baja</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.lineabaja}
-                      name="lineabaja"
-                      id="lineabaja"
                     />
                   </FormGroup>
                 </Col>
@@ -390,19 +419,7 @@ class Ficha extends Component {
               <Row>
                 <Col>
                   <FormGroup>
-                    <Label for="nhc">Numero de Historial Clinico</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.nhc}
-                      name="nhc"
-                      id="nhc"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="iniciosint">Inicio de los Sintomas</Label>
+                    <Label for="iniciosint">Fecha Inicio de los Síntomas</Label>
                     <Input
                       type="date"
                       onChange={this.handleChange}
@@ -414,21 +431,25 @@ class Ficha extends Component {
                 </Col>
                 <Col>
                   <FormGroup>
-                    <Label for="formainic">
-                      Forma de Inicio de los Sintomas
-                    </Label>
+                    <Label for="formainic">Forma de Inicio</Label>
                     <Input
                       type="textarea"
                       onChange={this.handleChange}
                       value={this.state.formainic}
                       name="formainic"
                       id="formainic"
-                    />
+                    >
+                      <option>Mono</option>
+                      <option>Oligo</option>
+                      <option>Poli</option>
+                    </Input>
                   </FormGroup>
                 </Col>
+              </Row>
+              <Row>
                 <Col>
                   <FormGroup>
-                    <Label for="apf">Antecedentes Patologicos Familiares</Label>
+                    <Label for="apf">APF Reumáticos de Interés</Label>
                     <Input
                       type="text"
                       onChange={this.handleChange}
@@ -438,11 +459,11 @@ class Ficha extends Component {
                     />
                   </FormGroup>
                 </Col>
+              </Row>
+              <Row>
                 <Col>
                   <FormGroup>
-                    <Label for="apfcv">
-                      Antecedentes Patologicos Familiares
-                    </Label>
+                    <Label for="apfcv">APF CV</Label>
                     <Input
                       type="text"
                       onChange={this.handleChange}
@@ -456,9 +477,7 @@ class Ficha extends Component {
               <Row>
                 <Col>
                   <FormGroup>
-                    <Label for="appfractura">
-                      Antecedentes Patologicos de Fractura
-                    </Label>
+                    <Label for="appfractura">APP de Fracturas</Label>
                     <Input
                       type="text"
                       onChange={this.handleChange}
@@ -470,9 +489,7 @@ class Ficha extends Component {
                 </Col>
                 <Col>
                   <FormGroup>
-                    <Label for="apffractura">
-                      Antecedentes Patologicos Familiares de Fractura
-                    </Label>
+                    <Label for="apffractura">APF de Fracturas</Label>
                     <Input
                       type="text"
                       onChange={this.handleChange}
@@ -482,9 +499,13 @@ class Ficha extends Component {
                     />
                   </FormGroup>
                 </Col>
+              </Row>
+              <Row>
                 <Col>
                   <FormGroup>
-                    <Label for="protesissitio">Datos de Protesis</Label>
+                    <Label for="protesissitio">
+                      Prótesis Articulares - Sitio
+                    </Label>
                     <Input
                       type="text"
                       onChange={this.handleChange}
@@ -496,7 +517,7 @@ class Ficha extends Component {
                 </Col>
                 <Col>
                   <FormGroup>
-                    <Label for="protefecha">Fecha de Protesis</Label>
+                    <Label for="protefecha">Prótesis Articulares - Fecha</Label>
                     <Input
                       type="date"
                       onChange={this.handleChange}
@@ -506,6 +527,8 @@ class Ficha extends Component {
                     />
                   </FormGroup>
                 </Col>
+              </Row>
+              <Row>
                 <Col>
                   <FormGroup>
                     <Label for="apfneoplasias">
