@@ -19,11 +19,12 @@ import {
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
 
+
 class BuscarFicha extends Component {
   constructor() {
     super();
     this.state = {
-      cedula: "",
+      nrodocumento: "",
       nhc: 0,
       codpaciente: 0,
       datosficha: {},
@@ -45,34 +46,34 @@ class BuscarFicha extends Component {
   }
 
   async handleSearch() {
-    const url1 = "http://127.0.0.1:8000/api/paciente?cedula=";
+    const url1 = "http://127.0.0.1:8000/api/paciente?nrodocumento=";
     const url2 = "http://127.0.0.1:8000/api/ficha?codpaciente=";
     let datospaciente = {};
     let datosficha = {};
 
-    await fetch(url1 + this.state.cedula)
-      .then(function(response) {
+    await fetch(url1 + this.state.nrodocumento)
+      .then(function (response) {
         if (response.ok) {
           return response.json();
         } else {
           return new Error("No se recibio la respuesta esperada ...");
         }
       })
-      .then(function(response) {
+      .then(function (response) {
         datospaciente = response[0];
       })
       .catch(error => console.log(error));
 
     if (datospaciente !== undefined) {
       await fetch(url2 + datospaciente.codpaciente)
-        .then(function(response) {
+        .then(function (response) {
           if (response.ok) {
             return response.json();
           } else {
             return new Error("No se recibio la respuesta esperada ...");
           }
         })
-        .then(function(response) {
+        .then(function (response) {
           datosficha = response[0];
         })
         .catch(error => console.log(error));
@@ -99,13 +100,13 @@ class BuscarFicha extends Component {
         <Row>
           <Col>
             <FormGroup>
-              <Label for="cedula">Buscar por CI</Label>
+              <Label for="nrodocumento">Buscar por CI</Label>
               <Input
                 type="text"
                 onChange={this.handleChange}
-                value={this.state.cedula}
-                name="cedula"
-                id="cedula"
+                value={this.state.nrodocumento}
+                name="nrodocumento"
+                id="nrodocumento"
               />
             </FormGroup>
             <Button onClick={this.handleSearch} color="primary">
