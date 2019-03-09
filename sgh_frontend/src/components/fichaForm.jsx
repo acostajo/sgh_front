@@ -13,19 +13,21 @@ import {
   Label,
   Input
 } from "reactstrap";
+import axios from "axios";
 
 class Ficha extends Component {
   constructor() {
     super();
     this.state = {
       visible: false,
+      aviso: false,
       //datos correspondientes al paciente
       codpaciente: 0, //código interno único para el paciente
       codusuario: "", //#código interno de usuario, para saber quién agrego la ficha
       nombres: "", //#nombres completos del paciente
       apellidos: "", //#apellidos completos del paciente
       tipodocumento: "Cédula de Identidad", //#tipo de documento
-      nrodocumento: 0, //#cédula de identidad del paciente
+      nrodocumento: "", //#cédula de identidad del paciente
       sexo: "F", // #sexo del paciente
       fechainclusion: "", // #fecha de inclusión del paciente
       procedencia: "", //#procedencia del paciente
@@ -79,12 +81,43 @@ class Ficha extends Component {
       rxmanos: false, //#erecciones sí o no
       rxmanosfecha: "", //#la fecha que tuvo las erecciones ----------> wtf erecciones hei
       rxpies: false, //#erecciones sí o no
-      rxpiesfecha: "" //#la fecha que tuvo las erecciones
+      rxpiesfecha: "",
+      deshabilitar: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
+    this.validarCedula = this.validarCedula.bind(this);
   }
+
+  async validarCedula(e) {
+    const url1 = "http://127.0.0.1:8000/api/paciente?nrodocumento=";
+    const value = e.target.value;
+
+    this.setState({
+      nrodocumento: value
+    });
+
+    console.log(e.target);
+    let aviso;
+    await axios
+      .get(url1 + value)
+      .then(function(response) {
+        console.log(response.data.length);
+        if ((response.data.length > 0) & (value !== "")) {
+          console.log(response.data);
+          aviso = true;
+        } else {
+          aviso = false;
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    this.setState({ aviso: aviso });
+  }
+
   onDismiss() {
     this.setState({ visible: false });
   }
@@ -97,6 +130,10 @@ class Ficha extends Component {
     this.setState({
       [name]: value
     });
+
+    if ((name === "sexo") & (value === "M")) {
+      this.setState({ deshabilitar: !this.state.deshabilitar });
+    }
   }
 
   async handleAdd() {
@@ -198,6 +235,9 @@ class Ficha extends Component {
         <Alert color="info" isOpen={this.state.visible} toggle={this.onDismiss}>
           La Ficha fue cargada con exito!
         </Alert>
+        <Alert color="danger" isOpen={this.state.aviso} toggle={this.onDismiss}>
+          El Nro de documento ya esta asociada a otra ficha...
+        </Alert>
         <Card>
           <CardHeader>
             <h3>Datos personales</h3>
@@ -275,8 +315,9 @@ class Ficha extends Component {
                   <FormGroup>
                     <Label for="nrodocumento">C.I.:</Label>
                     <Input
+                      style={{ borderColor: "red" }}
                       type="number"
-                      onChange={this.handleChange}
+                      onChange={this.validarCedula}
                       value={this.state.nrodocumento}
                       name="nrodocumento"
                       id="nrodocumento"
@@ -650,6 +691,7 @@ class Ficha extends Component {
                   <FormGroup>
                     <Label for="menarca">Menarca</Label>
                     <Input
+                      disabled={this.state.deshabilitar}
                       type="number"
                       onChange={this.handleChange}
                       value={this.state.menarca}
