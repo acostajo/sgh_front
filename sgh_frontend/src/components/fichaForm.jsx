@@ -24,8 +24,9 @@ class Ficha extends Component {
       codusuario: "", //#código interno de usuario, para saber quién agrego la ficha
       nombres: "", //#nombres completos del paciente
       apellidos: "", //#apellidos completos del paciente
-      cedula: 0, //#cédula de identidad del paciente
-      sexo: "", // #sexo del paciente
+      tipodocumento: "Cédula de Identidad", //#tipo de documento
+      nrodocumento: 0, //#cédula de identidad del paciente
+      sexo: "F", // #sexo del paciente
       fechainclusion: "", // #fecha de inclusión del paciente
       procedencia: "", //#procedencia del paciente
       nacionalidad: "", // #nacionalidad del paciente
@@ -96,7 +97,8 @@ class Ficha extends Component {
       codusuario: 999,
       nombres: this.state.nombres,
       apellidos: this.state.apellidos,
-      cedula: this.state.cedula,
+      tipodocumento: this.state.apellidos,
+      nrodocumento: this.state.nrodocumento,
       sexo: this.state.sexo,
       fechainclusion: this.state.fechainclusion,
       procedencia: this.state.procedencia,
@@ -243,9 +245,9 @@ class Ficha extends Component {
                   <FormGroup>
                     <Label for="tipodocumento">Tipo Documento</Label>
                     <Input
-                      type="text"
+                      type="select"
                       onChange={this.handleChange}
-                      value={this.state.cedula}
+                      value={this.state.tipodocumento}
                       name="tipodocumento"
                       id="tipodocumento"
                     >
@@ -253,18 +255,17 @@ class Ficha extends Component {
                       <option>Pasaporte</option>
                       <option>No Aplica</option>
                     </Input>
-                    />
                   </FormGroup>
                 </Col>
                 <Col>
                   <FormGroup>
-                    <Label for="cedula">C.I.:</Label>
+                    <Label for="nrodocumento">C.I.:</Label>
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.cedula}
-                      name="cedula"
-                      id="cedula"
+                      value={this.state.nrodocumento}
+                      name="nrodocumento"
+                      id="nrodocumento"
                     />
                   </FormGroup>
                 </Col>
@@ -353,7 +354,7 @@ class Ficha extends Component {
                   <FormGroup>
                     <Label for="escolaridad">Escolaridad</Label>
                     <Input
-                      type="text"
+                      type="select"
                       onChange={this.handleChange}
                       value={this.state.escolaridad}
                       name="escolaridad"
@@ -435,7 +436,7 @@ class Ficha extends Component {
                   <FormGroup>
                     <Label for="formainic">Forma de Inicio</Label>
                     <Input
-                      type="textarea"
+                      type="select"
                       onChange={this.handleChange}
                       value={this.state.formainic}
                       name="formainic"
