@@ -53,6 +53,7 @@ class Ficha extends Component {
       protesissitio: "", // #Datos de prótesis del Paciente
       protefecha: "", // #Datos de prótesis del Paciente
       apfneoplasias: "", // #Antecedentes familiares de neoplasias (tumores)
+      tabaquismo: false, // #Si el Paciente es tabaquista
       sedentarismo: false, // #Si el Paciente es sedentario
       actifisica: false, //#Si el Paciente realiza actividad física
       tabaqfecha: "", //#Fecha que comenzo a fumar
@@ -66,9 +67,15 @@ class Ficha extends Component {
       cesareas: 0, //#Cantidad de Cesáreas
       abortos: 0, //#Cantidad de abortos
       hisjospost: false, //#sí o no, tuvo hijos
-      factorreuma: 0, //#factor reumatoide
-      acp: 0, // #anticuerpos antipéptidos cíclicos citrulinados
-      acp_nivel: 0, // #anticuerpo antinuclear
+      factorreuma_pos: "", //#factor reumatoide
+      factorreuma_neg: "", //#factor reumatoide
+      factorreuma_nivel: "", //#factor reumatoide
+      acp_pos: "", // #anticuerpos antipéptidos cíclicos citrulinados
+      acp_neg: "", // #anticuerpos antipéptidos cíclicos citrulinados
+      acp_nivel: "", // #anticuerpo antinuclear
+      ana_pos: "", //ANA patron
+      ana_neg: "", //ANA patron
+      ana_patron: "", //ANA patron
       rxmanos: false, //#erecciones sí o no
       rxmanosfecha: "", //#la fecha que tuvo las erecciones ----------> wtf erecciones hei
       rxpies: false, //#erecciones sí o no
@@ -141,6 +148,7 @@ class Ficha extends Component {
       protesissitio: this.state.protesissitio, // #Datos de prótesis del Paciente
       protefecha: this.state.protefecha, // #Datos de prótesis del Paciente
       apfneoplasias: this.state.apfneoplasias, // #Antecedentes familiares de neoplasias (tumores)
+      tabaquismo: this.state.tabaquismo, // #Si el Paciente es tabaquista
       sedentarismo: this.state.sedentarismo, // #Si el Paciente es sedentario
       actifisica: this.state.actifisica, //#Si el Paciente realiza actividad física
       tabaqfecha: this.state.tabaqfecha, //#Fecha que comenzo a fumar
@@ -154,9 +162,15 @@ class Ficha extends Component {
       cesareas: this.state.cesareas, //#Cantidad de Cesáreas
       abortos: this.state.abortos, //#Cantidad de abortos
       hisjospost: this.state.hisjospost, //#sí o no, tuvo hijos
-      factorreuma: this.state.factorreuma, //#factor reumatoide
-      acp: this.state.acp, // #anticuerpos antipéptidos cíclicos citrulinados
-      acp_nivel: this.state.acp_nivel, // #anticuerpo antinuclear
+      factorreuma_pos: "", //#factor reumatoide
+      factorreuma_neg: "", //#factor reumatoide
+      factorreuma_nivel: "", //#factor reumatoide
+      acp_pos: "", // #anticuerpos antipéptidos cíclicos citrulinados
+      acp_neg: "", // #anticuerpos antipéptidos cíclicos citrulinados
+      acp_nivel: "", // #anticuerpo antinuclear
+      ana_pos: "", //ANA patron
+      ana_neg: "", //ANA patron
+      ana_patron: "", //ANA patron
       rxmanos: this.state.rxmanos, //#erecciones sí o no
       rxmanosfecha: this.state.rxmanosfecha, //#la fecha que tuvo las erecciones ----------> wtf erecciones hei
       rxpies: this.state.rxpies, //#erecciones sí o no
@@ -534,9 +548,7 @@ class Ficha extends Component {
               <Row>
                 <Col>
                   <FormGroup>
-                    <Label for="apfneoplasias">
-                      Antecedentes Familiares de Neoplasia
-                    </Label>
+                    <Label for="apfneoplasias">APF de Neoplasias</Label>
                     <Input
                       type="text"
                       onChange={this.handleChange}
@@ -545,6 +557,11 @@ class Ficha extends Component {
                       id="apfneoplasias"
                     />
                   </FormGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <h5>APF-Comorbilidades </h5>
                 </Col>
               </Row>
               <Row>
@@ -572,9 +589,23 @@ class Ficha extends Component {
                     <Label check>Actividad Fisica</Label>
                   </FormGroup>
                 </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <FormGroup check>
+                    <Input
+                      type="checkbox"
+                      onChange={this.handleChange}
+                      value={this.state.tabaquismo}
+                      name="tabaquismo"
+                      id="tabaquismo"
+                    />
+                    <Label check>Tabaquismo</Label>
+                  </FormGroup>
+                </Col>
                 <Col>
                   <FormGroup>
-                    <Label for="tabaqfecha">Fecha Inicio Tabaquismo</Label>
+                    <Label for="tabaqfecha">Fecha Inicio</Label>
                     <Input
                       type="date"
                       onChange={this.handleChange}
@@ -586,7 +617,7 @@ class Ficha extends Component {
                 </Col>
                 <Col>
                   <FormGroup>
-                    <Label for="tabnumero">Paquetes x dia</Label>
+                    <Label for="tabnumero">N° paq/año</Label>
                     <Input
                       type="number"
                       onChange={this.handleChange}
@@ -605,14 +636,19 @@ class Ficha extends Component {
                       name="extabaq"
                       id="extabaq"
                     />
-                    <Label check>Ex Tabaquismo</Label>
+                    <Label check>Ex Tabaquista</Label>
                   </FormGroup>
                 </Col>
               </Row>
               <Row>
                 <Col>
+                  <h5>Antecedentes Ginecológicos</h5>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
                   <FormGroup>
-                    <Label for="menarca">Edad Menarca</Label>
+                    <Label for="menarca">Menarca</Label>
                     <Input
                       type="number"
                       onChange={this.handleChange}
@@ -624,7 +660,7 @@ class Ficha extends Component {
                 </Col>
                 <Col>
                   <FormGroup>
-                    <Label for="menopausia">Edad Menopausia</Label>
+                    <Label for="menopausia">Menopausia</Label>
                     <Input
                       type="number"
                       onChange={this.handleChange}
@@ -637,7 +673,7 @@ class Ficha extends Component {
                 <Col>
                   <FormGroup>
                     <Label for="edadvidasex">
-                      Edad de Inicio de Actividad Sexual
+                      Edad de Inicio de Vida Sexual
                     </Label>
                     <Input
                       type="number"
@@ -648,9 +684,11 @@ class Ficha extends Component {
                     />
                   </FormGroup>
                 </Col>
+              </Row>
+              <Row>
                 <Col>
                   <FormGroup>
-                    <Label for="gestas">Cantidad de Gestas</Label>
+                    <Label for="gestas">Gestas</Label>
                     <Input
                       type="number"
                       onChange={this.handleChange}
@@ -662,7 +700,7 @@ class Ficha extends Component {
                 </Col>
                 <Col>
                   <FormGroup>
-                    <Label for="partos">Cantidad de Partos</Label>
+                    <Label for="partos">Parto</Label>
                     <Input
                       type="number"
                       onChange={this.handleChange}
@@ -672,23 +710,9 @@ class Ficha extends Component {
                     />
                   </FormGroup>
                 </Col>
-              </Row>
-              <Row>
                 <Col>
                   <FormGroup>
-                    <Label for="abortos">Cantidad de Abortos</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.abortos}
-                      name="abortos"
-                      id="abortos"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="cesareas">Cantidad de Cesareas</Label>
+                    <Label for="cesareas">Cesárea</Label>
                     <Input
                       type="number"
                       onChange={this.handleChange}
@@ -699,6 +723,20 @@ class Ficha extends Component {
                   </FormGroup>
                 </Col>
                 <Col>
+                  <FormGroup>
+                    <Label for="abortos">Abortos</Label>
+                    <Input
+                      type="number"
+                      onChange={this.handleChange}
+                      value={this.state.abortos}
+                      name="abortos"
+                      id="abortos"
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
                   <FormGroup check>
                     <Input
                       type="checkbox"
@@ -707,30 +745,80 @@ class Ficha extends Component {
                       name="hisjospost"
                       id="hisjospost"
                     />
-                    <Label check>Hijos </Label>
+                    <Label check>Hijos después del diagnóstico de AR</Label>
                   </FormGroup>
                 </Col>
+              </Row>
+              <Row>
                 <Col>
                   <FormGroup>
-                    <Label for="factorreuma">Factor Reumatoide</Label>
+                    <Label for="factorreuma_pos">FR (+)</Label>
                     <Input
-                      type="number"
+                      type="text"
                       onChange={this.handleChange}
-                      value={this.state.factorreuma}
-                      name="factorreuma"
-                      id="factorreuma"
+                      value={this.state.factorreuma_pos}
+                      name="factorreuma_pos"
+                      id="factorreuma_pos"
                     />
                   </FormGroup>
                 </Col>
                 <Col>
                   <FormGroup>
-                    <Label for="acp">ACP</Label>
+                    <Label for="factorreuma_neg">FR (-)</Label>
                     <Input
-                      type="number"
+                      type="text"
                       onChange={this.handleChange}
-                      value={this.state.acp}
-                      name="acp"
-                      id="acp"
+                      value={this.state.factorreuma_neg}
+                      name="factorreuma_neg"
+                      id="factorreuma_neg"
+                    />
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label for="acpa_pos">ACPA (+)</Label>
+                    <Input
+                      type="text"
+                      onChange={this.handleChange}
+                      value={this.state.acpa_pos}
+                      name="acpa_pos"
+                      id="acpa_pos"
+                    />
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label for="acpa_neg">ACPA (-)</Label>
+                    <Input
+                      type="text"
+                      onChange={this.handleChange}
+                      value={this.state.acpa_neg}
+                      name="acpa_neg"
+                      id="acpa_neg"
+                    />
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label for="ana_pos">ANA (+)</Label>
+                    <Input
+                      type="text"
+                      onChange={this.handleChange}
+                      value={this.state.ana_pos}
+                      name="ana_pos"
+                      id="ana_pos"
+                    />
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label for="ana_neg">ANA (-)</Label>
+                    <Input
+                      type="text"
+                      onChange={this.handleChange}
+                      value={this.state.ana_neg}
+                      name="ana_neg"
+                      id="ana_neg"
                     />
                   </FormGroup>
                 </Col>
@@ -738,16 +826,42 @@ class Ficha extends Component {
               <Row>
                 <Col>
                   <FormGroup>
-                    <Label for="acp_nivel">Nivel ACP</Label>
+                    <Label for="factorreuma_nivel">nivel/VR</Label>
                     <Input
-                      type="number"
+                      type="text"
                       onChange={this.handleChange}
-                      value={this.state.acp_nivel}
-                      name="acp_nivel"
-                      id="acp_nivel"
+                      value={this.state.factorreuma_nivel}
+                      name="factorreuma_nivel"
+                      id="factorreuma_nivel"
                     />
                   </FormGroup>
                 </Col>
+                <Col>
+                  <FormGroup>
+                    <Label for="acpa_nivel">nivel/VR</Label>
+                    <Input
+                      type="text"
+                      onChange={this.handleChange}
+                      value={this.state.acpa_nivel}
+                      name="acpa_nivel"
+                      id="acpa_nivel"
+                    />
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label for="ana_patron">Dilución/Patrón</Label>
+                    <Input
+                      type="text"
+                      onChange={this.handleChange}
+                      value={this.state.ana_patron}
+                      name="ana_patron"
+                      id="ana_patron"
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row>
                 <Col>
                   <FormGroup check>
                     <Input
@@ -758,10 +872,6 @@ class Ficha extends Component {
                       id="rxmanos"
                     />
                     <Label check>RX Manos </Label>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
                     <Label for="rxmanosfecha">Fecha de RX Manos</Label>
                     <Input
                       type="date"
@@ -772,6 +882,8 @@ class Ficha extends Component {
                     />
                   </FormGroup>
                 </Col>
+              </Row>
+              <Row>
                 <Col>
                   <FormGroup check>
                     <Input
