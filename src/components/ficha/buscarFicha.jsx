@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {
-  Card,
   Button,
-  CardHeader,
-  CardBody,
   Container,
+  Alert,
   Row,
   Fade,
   ListGroup,
@@ -18,6 +16,7 @@ import {
   Input
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
+import axios from "axios";
 
 class BuscarFicha extends Component {
   constructor() {
@@ -28,7 +27,8 @@ class BuscarFicha extends Component {
       codpaciente: 0,
       datosficha: {},
       datospaciente: {},
-      fadeIn: false
+      fadeIn: false,
+      alert: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -49,53 +49,49 @@ class BuscarFicha extends Component {
     const url2 = "http://127.0.0.1:8000/api/ficha?codpaciente=";
     let datospaciente = {};
     let datosficha = {};
-
-    await fetch(url1 + this.state.nrodocumento)
+    let codpaciente;
+    console.log(this.state.nrodocumento);
+    await axios
+      .get(url1 + this.state.nrodocumento)
       .then(function(response) {
-        if (response.ok) {
-          return response.json();
+        console.log(response.data[0]);
+        if (response.data[0] === undefined) {
+          codpaciente = null;
         } else {
-          return new Error("No se recibio la respuesta esperada ...");
+          datospaciente = response.data[0];
         }
       })
-      .then(function(response) {
-        datospaciente = response[0];
-      })
-      .catch(error => console.log(error));
+      .catch(function(error) {
+        console.log(error);
+      });
 
-    if (datospaciente !== undefined) {
-      await fetch(url2 + datospaciente.codpaciente)
+    if (codpaciente !== null) {
+      await axios
+        .get(url2 + datospaciente.codpaciente)
         .then(function(response) {
-          if (response.ok) {
-            return response.json();
-          } else {
-            return new Error("No se recibio la respuesta esperada ...");
-          }
+          console.log(response.data[0]);
+          datosficha = response.data[0];
         })
-        .then(function(response) {
-          datosficha = response[0];
-        })
-        .catch(error => console.log(error));
+        .catch(function(error) {
+          console.log(error);
+        });
       this.setState({
         datosficha: datosficha,
         datospaciente: datospaciente,
-        fadeIn: !this.state.fadeIn
+        fadeIn: !this.state.fadeIn,
+        alert: false
       });
     } else {
-      this.setState({ fadeIn: false });
-      return 0;
+      this.setState({ alert: !this.state.alert, fadeIn: !this.state.fadeIn });
     }
-
-    console.log(this.state.datosficha);
-    console.log(this.state.datospaciente);
-    // this.setState({ datosficha: datosficha, datospaciente: datospaciente });
-    // console.log(this.state.datosficha);
-    // console.log(this.state.datospaciente);
   }
 
   render() {
     return (
       <Container>
+        <Alert color="danger" isOpen={this.state.alert} toggle={this.onDismiss}>
+          no se encontro el paciente!
+        </Alert>
         <Row>
           <Col>
             <FormGroup>
