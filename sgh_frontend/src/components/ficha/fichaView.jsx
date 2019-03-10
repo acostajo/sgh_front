@@ -124,25 +124,25 @@ class FichaView extends Component {
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>CI:</strong>
-                    </Label>
-                    <p>{this.state.datospaciente.cedula}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Sexo:</strong>
-                    </Label>
-                    <p>{this.state.datospaciente.sexo}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Fecha de Inclusion :</strong>
+                      <strong>Fecha de Inclusión:</strong>
                     </Label>
                     <p>{this.state.datospaciente.fechainclusion}</p>
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label>
+                      <strong>Tipo Documento:</strong>
+                    </Label>
+                    <p>{this.state.datospaciente.tipodocumento}</p>
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label>
+                      <strong>Nro. Documento:</strong>
+                    </Label>
+                    <p>{this.state.datospaciente.nrodocumento}</p>
                   </FormGroup>
                 </Col>
               </Row>
@@ -158,9 +158,43 @@ class FichaView extends Component {
                 <Col>
                   <FormGroup>
                     <Label>
+                      <strong>FN:</strong>
+                    </Label>
+                    <p>{this.state.datospaciente.fechanaci}</p>
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label>
+                      <strong>Telef:</strong>
+                    </Label>
+                    <p>{this.state.datospaciente.telefono}</p>
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label>
                       <strong>Nacionalidad:</strong>
                     </Label>
                     <p>{this.state.datospaciente.nacionalidad}</p>
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label>
+                      <strong>E. Civil:</strong>
+                    </Label>
+                    <p>{this.state.datospaciente.estadocivil}</p>
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <FormGroup>
+                    <Label>
+                      <strong>Sexo:</strong>
+                    </Label>
+                    <p>{this.state.datospaciente.sexo}</p>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -174,41 +208,7 @@ class FichaView extends Component {
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Diagnostico:</strong>
-                    </Label>
-                    <p>{this.state.datospaciente.diagnostico}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Fecha de Diagnostico:</strong>
-                    </Label>
-                    <p>{this.state.datospaciente.fechadiagnos}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Fecha de Nacimiento:</strong>
-                    </Label>
-                    <p>{this.state.datospaciente.fechanaci}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Estado Civil:</strong>
-                    </Label>
-                    <p>{this.state.datospaciente.estadocivil}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Profesion:</strong>
+                      <strong>Profesión:</strong>
                     </Label>
                     <p>{this.state.datospaciente.profesion}</p>
                   </FormGroup>
@@ -216,17 +216,17 @@ class FichaView extends Component {
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Telefono:</strong>
+                      <strong>Dx:</strong>
                     </Label>
-                    <p>{this.state.datospaciente.telefono}</p>
+                    <p>{this.state.datospaciente.diagnostico}</p>
                   </FormGroup>
                 </Col>
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Linea Baja:</strong>
+                      <strong>Fecha de Dx:</strong>
                     </Label>
-                    <p>{this.state.datospaciente.lineabaja}</p>
+                    <p>{this.state.datospaciente.fechadiagnos}</p>
                   </FormGroup>
                 </Col>
               </Row>
@@ -244,15 +244,7 @@ class FichaView extends Component {
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Numero de Historial Clinico:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.nhc}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Inicio de los Sintomas:</strong>
+                      <strong>Fecha Inicio de los Síntomas:</strong>
                     </Label>
                     <p>{this.state.datosficha.iniciosint}</p>
                   </FormGroup>
@@ -260,25 +252,9 @@ class FichaView extends Component {
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Forma de Inicio de los Sintomas:</strong>
+                      <strong>Forma de Inicio:</strong>
                     </Label>
                     <p>{this.state.datosficha.formainic}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Antecedentes Patologicos Familiares:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.apf}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Antecedentes Patologicos Familiares CV:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.apfcv}</p>
                   </FormGroup>
                 </Col>
               </Row>
@@ -286,7 +262,23 @@ class FichaView extends Component {
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Antecedentes Patologicos de Fractura:</strong>
+                      <strong>APF Reumáticos de Interés:</strong>
+                    </Label>
+                    <p>{this.state.datosficha.apf}</p>
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label>
+                      <strong>APF CV:</strong>
+                    </Label>
+                    <p>{this.state.datosficha.apfcv}</p>
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label>
+                      <strong>APP de Fractura:</strong>
                     </Label>
                     <p>{this.state.datosficha.appfractura}</p>
                   </FormGroup>
@@ -294,9 +286,7 @@ class FichaView extends Component {
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>
-                        Antecedentes Patologicos Familiares de Fractura:
-                      </strong>
+                      <strong>APFs de Fractura:</strong>
                     </Label>
                     <p>{this.state.datosficha.apffractura}</p>
                   </FormGroup>
@@ -304,7 +294,7 @@ class FichaView extends Component {
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Datos de Protesis:</strong>
+                      <strong>Protesis Articulares - Sitio:</strong>
                     </Label>
                     <p>{this.state.datosficha.protesissitio}</p>
                   </FormGroup>
@@ -312,7 +302,7 @@ class FichaView extends Component {
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Fecha de Protesis:</strong>
+                      <strong>Protesis Articulares - Fecha:</strong>
                     </Label>
                     <p>{this.state.datosficha.protefecha}</p>
                   </FormGroup>
@@ -320,7 +310,7 @@ class FichaView extends Component {
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Antecedentes Familiares de Neoplasia:</strong>
+                      <strong>APF de Neoplasias:</strong>
                     </Label>
                     <p>{this.state.datosficha.apfneoplasias}</p>
                   </FormGroup>
@@ -351,10 +341,24 @@ class FichaView extends Component {
                     </Label>
                   </FormGroup>
                 </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <FormGroup check>
+                    <Input
+                      disabled
+                      type="checkbox"
+                      value={this.state.datosficha.tabaquismo}
+                    />
+                    <Label check>
+                      <strong>Tabaquisimo:</strong>
+                    </Label>
+                  </FormGroup>
+                </Col>
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Fecha Inicio Tabaquismo:</strong>
+                      <strong>Fecha Inicio:</strong>
                     </Label>
                     <p>{this.state.datosficha.tabaqfecha}</p>
                   </FormGroup>
@@ -362,7 +366,7 @@ class FichaView extends Component {
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Paquetes por dia:</strong>
+                      <strong>N° paq/año:</strong>
                     </Label>
                     <p>{this.state.datosficha.tabnumero}</p>
                   </FormGroup>
@@ -375,7 +379,7 @@ class FichaView extends Component {
                       value={this.state.datosficha.extabaq}
                     />
                     <Label check>
-                      <strong>Ex Tabaquismo</strong>
+                      <strong>Ex Tabaquista:</strong>
                     </Label>
                   </FormGroup>
                 </Col>
@@ -384,7 +388,7 @@ class FichaView extends Component {
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Edad Menarca:</strong>
+                      <strong>Menarca:</strong>
                     </Label>
                     <p>{this.state.datosficha.menarca}</p>
                   </FormGroup>
@@ -392,7 +396,7 @@ class FichaView extends Component {
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Edad Menopausia:</strong>
+                      <strong>Menopausia:</strong>
                     </Label>
                     <p>{this.state.datosficha.menopausia}</p>
                   </FormGroup>
@@ -405,10 +409,12 @@ class FichaView extends Component {
                     <p>{this.state.datosficha.edadvidasex}</p>
                   </FormGroup>
                 </Col>
+              </Row>
+              <Row>
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Cantidad de Gestas:</strong>
+                      <strong>Gestas:</strong>
                     </Label>
                     <p>{this.state.datosficha.gestas}</p>
                   </FormGroup>
@@ -416,27 +422,25 @@ class FichaView extends Component {
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Cantidad de Partos:</strong>
+                      <strong>Parto:</strong>
                     </Label>
                     <p>{this.state.datosficha.partos}</p>
                   </FormGroup>
                 </Col>
-              </Row>
-              <Row>
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Cantidad de Abortos:</strong>
+                      <strong>Cesáreas:</strong>
                     </Label>
-                    <p>{this.state.datosficha.abortos}</p>
+                    <p>{this.state.datosficha.cesareas}</p>
                   </FormGroup>
                 </Col>
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Cantidad de Cesareas:</strong>
+                      <strong>Abortos:</strong>
                     </Label>
-                    <p>{this.state.datosficha.cesareas}</p>
+                    <p>{this.state.datosficha.abortos}</p>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -447,24 +451,8 @@ class FichaView extends Component {
                       value={this.state.datosficha.hisjospost}
                     />
                     <Label check>
-                      <strong>Hijos</strong>
+                      <strong>Hijos después del diagnóstico de AR</strong>
                     </Label>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Factor Reumatoide:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.factorreuma}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>ACP:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.acp}</p>
                   </FormGroup>
                 </Col>
               </Row>
@@ -472,11 +460,79 @@ class FichaView extends Component {
                 <Col>
                   <FormGroup>
                     <Label>
-                      <strong>Nivel ACP:</strong>
+                      <strong>FR(+):</strong>
                     </Label>
-                    <p>{this.state.datosficha.acp_nivel}</p>
+                    <p>{this.state.datosficha.factorreuma_pos}</p>
                   </FormGroup>
                 </Col>
+                <Col>
+                  <FormGroup>
+                    <Label>
+                      <strong>FR(-):</strong>
+                    </Label>
+                    <p>{this.state.datosficha.factorreuma_neg}</p>
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label>
+                      <strong>ACPA (+):</strong>
+                    </Label>
+                    <p>{this.state.datosficha.acp_pos}</p>
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label>
+                      <strong>ACPA (-):</strong>
+                    </Label>
+                    <p>{this.state.datosficha.acp_neg}</p>
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label>
+                      <strong>ANA (+):</strong>
+                    </Label>
+                    <p>{this.state.datosficha.ana_pos}</p>
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label>
+                      <strong>ANA (-):</strong>
+                    </Label>
+                    <p>{this.state.datosficha.ana_neg}</p>
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <FormGroup>
+                    <Label>
+                      <strong>Nivel/VR:</strong>
+                    </Label>
+                    <p>{this.state.datosficha.factorreuma_nivel}</p>
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label>
+                      <strong>Nivel/VR:</strong>
+                    </Label>
+                    <p>{this.state.datosficha.acpa_nivel}</p>
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label>
+                      <strong>Dilución/Patrón:</strong>
+                    </Label>
+                    <p>{this.state.datosficha.ana_patron}</p>
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row>
                 <Col>
                   <FormGroup check>
                     <Input

@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import NavBar from "./components/navbar";
 import Home from "./components/home";
 import { Route, Switch } from "react-router-dom";
-import Ficha from "./components/fichaForm";
-import Consulta from "./components/consultaform";
-import BuscarFicha from "./components/buscarFicha";
-import FichaView from "./components/fichaView";
-import FichaEdit from "./components/fichaEdit";
+import Ficha from "./components/ficha/fichaForm";
+import Consulta from "./components/consulta/consultaForm";
+import BuscarFicha from "./components/ficha/buscarFicha";
+import FichaView from "./components/ficha/fichaView";
+import FichaEdit from "./components/ficha/fichaEdit";
 
 class App extends Component {
   render() {
@@ -15,7 +15,7 @@ class App extends Component {
         <NavBar> </NavBar>{" "}
         <div className="content">
           <Switch>
-            <Route path="/consulta" component={Consulta} />
+            <Route path="/consulta/:codficha" component={Consulta} />
             <Route path="/ficha" component={Ficha} />
             <Route path="/ficha_view/:codpaciente" component={FichaView} />
             <Route path="/ficha_edit/:codpaciente" component={FichaEdit} />
