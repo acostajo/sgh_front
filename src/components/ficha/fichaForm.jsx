@@ -98,6 +98,7 @@ class Ficha extends Component {
     this.onDismissAviso = this.onDismissAviso.bind(this);
     this.validarCedula = this.validarCedula.bind(this);
     this.validarInputs = this.validarInputs.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   async validarCedula(e) {
@@ -172,149 +173,160 @@ class Ficha extends Component {
     }
   }
 
-  validarInputs() {
-    if (this.state.fechadiagnos === "") {
-      this.setState({
-        avisoFechaDiag: !this.state.avisoFechaDiag,
-        todoOk: false
-      });
-    } else {
-      this.setState({ avisoFechaDiag: false, todoOk: true });
-    }
-    if (this.state.diagnostico === "") {
-      this.setState({ avisoDiag: !this.state.avisoDiag, todoOk: false });
-    } else {
-      this.setState({ avisoDiag: false, todoOk: true });
-    }
-    if (this.state.fechainclusion === "") {
-      this.setState({
-        avisoFechaInc: !this.state.avisoFechaInc,
-        todoOk: false
-      });
-    } else {
-      this.setState({ avisoFechaInc: false, todoOk: true });
-    }
-    if (this.state.nhc === "") {
-      this.setState({ avisoNhc: !this.state.avisoNhc, todoOk: false });
-    } else {
-      this.setState({ avisoNhc: false, todoOk: true });
-    }
-    if (this.state.nombres === "") {
-      this.setState({ avisoNombres: !this.state.avisoNombres, todoOk: false });
-    } else {
-      this.setState({ avisoNombres: false, todoOk: true });
-    }
-    if (this.state.apellidos === "") {
-      this.setState({
-        avisoApellido: !this.state.avisoApellido,
-        todoOk: false
-      });
-    } else {
-      this.setState({ avisoApellido: false, todoOk: true });
-    }
-    if (this.state.nrodocumento === "") {
-      this.setState({ avisoNroDoc: !this.state.avisoNroDoc, todoOk: false });
-    } else {
-      this.setState({ avisoNroDoc: false, todoOk: true });
-    }
-    if (this.state.todoOk === true) {
-      return true;
-    } else {
-      return false;
+  validarInputs() {}
+
+  handleSubmit() {
+    if (
+      function() {
+        console.log("se ejecuta el validar");
+        if (this.state.fechadiagnos === "") {
+          this.setState({
+            avisoFechaDiag: !this.state.avisoFechaDiag,
+            todoOk: false
+          });
+        } else {
+          this.setState({ avisoFechaDiag: false, todoOk: true });
+        }
+        if (this.state.diagnostico === "") {
+          this.setState({ avisoDiag: !this.state.avisoDiag, todoOk: false });
+        } else {
+          this.setState({ avisoDiag: false, todoOk: true });
+        }
+        if (this.state.fechainclusion === "") {
+          this.setState({
+            avisoFechaInc: !this.state.avisoFechaInc,
+            todoOk: false
+          });
+        } else {
+          this.setState({ avisoFechaInc: false, todoOk: true });
+        }
+        if (this.state.nhc === "") {
+          this.setState({ avisoNhc: !this.state.avisoNhc, todoOk: false });
+        } else {
+          this.setState({ avisoNhc: false, todoOk: true });
+        }
+        if (this.state.nombres === "") {
+          this.setState({
+            avisoNombres: !this.state.avisoNombres,
+            todoOk: false
+          });
+        } else {
+          this.setState({ avisoNombres: false, todoOk: true });
+        }
+        if (this.state.apellidos === "") {
+          this.setState({
+            avisoApellido: !this.state.avisoApellido,
+            todoOk: false
+          });
+        } else {
+          this.setState({ avisoApellido: false, todoOk: true });
+        }
+        if (this.state.nrodocumento === "") {
+          this.setState({
+            avisoNroDoc: !this.state.avisoNroDoc,
+            todoOk: false
+          });
+        } else {
+          this.setState({ avisoNroDoc: false, todoOk: true });
+        }
+        if (this.state.todoOk === true) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    ) {
+      this.handleAdd();
     }
   }
 
   async handleAdd() {
-    this.validarInputs();
-    if (this.validarInputs()) {
-      const paciente = {
-        codusuario: 999,
-        nombres: this.state.nombres,
-        apellidos: this.state.apellidos,
-        tipodocumento: this.state.tipodocumento,
-        nrodocumento: this.state.nrodocumento,
-        sexo: this.state.sexo,
-        fechainclusion: this.state.fechainclusion,
-        procedencia: this.state.procedencia,
-        nacionalidad: this.state.nacionalidad,
-        escolaridad: this.state.escolaridad,
-        diagnostico: this.state.diagnostico,
-        fechadiagnos: this.state.fechadiagnos,
-        fechanaci: this.state.fechanaci,
-        estadocivil: this.state.estadocivil,
-        profesion: this.state.profesion,
-        telefono: this.state.telefono
-      };
-      console.log(JSON.stringify(paciente));
-      await fetch("http://127.0.0.1:8000/api/paciente/", {
-        method: "POST", // or 'PUT'
-        body: JSON.stringify(paciente), // data can be `string` or {object}!
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-        .then(res => res.json())
-        .catch(error => console.error("Error:", error))
-        .then(response => {
-          this.setState({ codpaciente: response.codpaciente });
-        });
+    const paciente = {
+      codusuario: 999,
+      nombres: this.state.nombres,
+      apellidos: this.state.apellidos,
+      tipodocumento: this.state.tipodocumento,
+      nrodocumento: this.state.nrodocumento,
+      sexo: this.state.sexo,
+      fechainclusion: this.state.fechainclusion,
+      procedencia: this.state.procedencia,
+      nacionalidad: this.state.nacionalidad,
+      escolaridad: this.state.escolaridad,
+      diagnostico: this.state.diagnostico,
+      fechadiagnos: this.state.fechadiagnos,
+      fechanaci: this.state.fechanaci,
+      estadocivil: this.state.estadocivil,
+      profesion: this.state.profesion,
+      telefono: this.state.telefono
+    };
+    await fetch("http://127.0.0.1:8000/api/paciente/", {
+      method: "POST", // or 'PUT'
+      body: JSON.stringify(paciente), // data can be `string` or {object}!
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => res.json())
+      .catch(error => console.error("Error:", error))
+      .then(response => {
+        this.setState({ codpaciente: response.codpaciente });
+      });
+    const ficha = {
+      codpaciente: this.state.codpaciente, //#codigo del paciente
+      codpatron: this.state.codpatron, //#código interno único para anapatron, para saber que patron tiene asociada la ficha HA
+      codusuario: this.state.codusuario, // #código interno de usuario, para saber quién agrego la ficha
+      nhc: this.state.nhc, // #número de historial clínico, código externo de la ficha, por el cual se manejan los usuarios
+      iniciosint: this.state.iniciosint, //#Fecha en el que el Paciente empezó a notar síntomas
+      formainic: this.state.formainic, //#Descripción de los síntomas del paciente
+      apf: this.state.apf, // #Antecedentes Patológicos Familiares
+      apfcv: this.state.apfcv, // #Antecedentes patológicos familiares cardiovasculares
+      appfractura: this.state.appfractura, // #Antecedentes patológicos personales de fracturas
+      apffractura: this.state.apffractura, // #Antecedentes patológicos familiares de fracturas
+      protesissitio: this.state.protesissitio, // #Datos de prótesis del Paciente
+      protefecha: this.state.protefecha, // #Datos de prótesis del Paciente
+      apfneoplasias: this.state.apfneoplasias, // #Antecedentes familiares de neoplasias (tumores)
+      tabaquismo: this.state.tabaquismo, // #Si el Paciente es tabaquista
+      sedentarismo: this.state.sedentarismo, // #Si el Paciente es sedentario
+      actifisica: this.state.actifisica, //#Si el Paciente realiza actividad física
+      tabaqfecha: this.state.tabaqfecha, //#Fecha que comenzo a fumar
+      tabnumero: this.state.tabnumero, //#Número  de paquetes que fuma/fumo por dia
+      extabaq: this.state.extabaq, //#Si fue fumador
+      menarca: this.state.menarca, // #Edad de primera menstruación
+      menopausia: this.state.menopausia, // #Edad de menopausia
+      edadvidasex: this.state.edadvidasex, //#A los cuantos años comenzó a tener actividad sexual
+      gestas: this.state.gestas, //#Cantidad de gestas
+      partos: this.state.partos, //#Cantidad de partos
+      cesareas: this.state.cesareas, //#Cantidad de Cesáreas
+      abortos: this.state.abortos, //#Cantidad de abortos
+      hisjospost: this.state.hisjospost, //#sí o no, tuvo hijos
+      factorreuma_pos: "", //#factor reumatoide
+      factorreuma_neg: "", //#factor reumatoide
+      factorreuma_nivel: "", //#factor reumatoide
+      acp_pos: "", // #anticuerpos antipéptidos cíclicos citrulinados
+      acp_neg: "", // #anticuerpos antipéptidos cíclicos citrulinados
+      acp_nivel: "", // #anticuerpo antinuclear
+      ana_pos: "", //ANA patron
+      ana_neg: "", //ANA patron
+      ana_patron: "", //ANA patron
+      rxmanos: this.state.rxmanos, //#erecciones sí o no
+      rxmanosfecha: this.state.rxmanosfecha, //#la fecha que tuvo las erecciones ----------> wtf erecciones hei
+      rxpies: this.state.rxpies, //#erecciones sí o no
+      rxpiesfecha: this.state.rxpiesfecha //#la fecha que tuvo las erecciones
+    };
 
-      const ficha = {
-        codpaciente: this.state.codpaciente, //#codigo del paciente
-        codpatron: this.state.codpatron, //#código interno único para anapatron, para saber que patron tiene asociada la ficha HA
-        codusuario: this.state.codusuario, // #código interno de usuario, para saber quién agrego la ficha
-        nhc: this.state.nhc, // #número de historial clínico, código externo de la ficha, por el cual se manejan los usuarios
-        iniciosint: this.state.iniciosint, //#Fecha en el que el Paciente empezó a notar síntomas
-        formainic: this.state.formainic, //#Descripción de los síntomas del paciente
-        apf: this.state.apf, // #Antecedentes Patológicos Familiares
-        apfcv: this.state.apfcv, // #Antecedentes patológicos familiares cardiovasculares
-        appfractura: this.state.appfractura, // #Antecedentes patológicos personales de fracturas
-        apffractura: this.state.apffractura, // #Antecedentes patológicos familiares de fracturas
-        protesissitio: this.state.protesissitio, // #Datos de prótesis del Paciente
-        protefecha: this.state.protefecha, // #Datos de prótesis del Paciente
-        apfneoplasias: this.state.apfneoplasias, // #Antecedentes familiares de neoplasias (tumores)
-        tabaquismo: this.state.tabaquismo, // #Si el Paciente es tabaquista
-        sedentarismo: this.state.sedentarismo, // #Si el Paciente es sedentario
-        actifisica: this.state.actifisica, //#Si el Paciente realiza actividad física
-        tabaqfecha: this.state.tabaqfecha, //#Fecha que comenzo a fumar
-        tabnumero: this.state.tabnumero, //#Número  de paquetes que fuma/fumo por dia
-        extabaq: this.state.extabaq, //#Si fue fumador
-        menarca: this.state.menarca, // #Edad de primera menstruación
-        menopausia: this.state.menopausia, // #Edad de menopausia
-        edadvidasex: this.state.edadvidasex, //#A los cuantos años comenzó a tener actividad sexual
-        gestas: this.state.gestas, //#Cantidad de gestas
-        partos: this.state.partos, //#Cantidad de partos
-        cesareas: this.state.cesareas, //#Cantidad de Cesáreas
-        abortos: this.state.abortos, //#Cantidad de abortos
-        hisjospost: this.state.hisjospost, //#sí o no, tuvo hijos
-        factorreuma_pos: "", //#factor reumatoide
-        factorreuma_neg: "", //#factor reumatoide
-        factorreuma_nivel: "", //#factor reumatoide
-        acp_pos: "", // #anticuerpos antipéptidos cíclicos citrulinados
-        acp_neg: "", // #anticuerpos antipéptidos cíclicos citrulinados
-        acp_nivel: "", // #anticuerpo antinuclear
-        ana_pos: "", //ANA patron
-        ana_neg: "", //ANA patron
-        ana_patron: "", //ANA patron
-        rxmanos: this.state.rxmanos, //#erecciones sí o no
-        rxmanosfecha: this.state.rxmanosfecha, //#la fecha que tuvo las erecciones ----------> wtf erecciones hei
-        rxpies: this.state.rxpies, //#erecciones sí o no
-        rxpiesfecha: this.state.rxpiesfecha //#la fecha que tuvo las erecciones
-      };
-      console.log(JSON.stringify(ficha));
-      await fetch("http://127.0.0.1:8000/api/ficha/", {
-        method: "POST", // or 'PUT'
-        body: JSON.stringify(ficha), // data can be `string` or {object}!
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-        .then(res => res.json())
-        .catch(error => console.error("Error:", error))
-        .then(response => {
-          console.log(response);
-        });
-    }
+    await fetch("http://127.0.0.1:8000/api/ficha/", {
+      method: "POST", // or 'PUT'
+      body: JSON.stringify(ficha), // data can be `string` or {object}!
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => res.json())
+      .catch(error => console.error("Error:", error))
+      .then(response => {
+        console.log(response);
+      });
+    this.setState({ visible: !this.state.visible });
   }
 
   render() {
@@ -1092,7 +1104,7 @@ class Ficha extends Component {
             </Form>
           </CardBody>
         </Card>
-        <Button onClick={this.handleAdd} color="primary">
+        <Button onClick={this.handleSubmit} color="primary">
           Crear
         </Button>
       </Container>
