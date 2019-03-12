@@ -168,7 +168,11 @@ class BuscarFicha extends Component {
           <Row>
             <Col>
               <Button onClick={this.handleAdd} color="primary">
-                <Link to={`/consulta/${this.state.datosficha.codficha}`}>
+                <Link
+                  to={`/consulta/${this.state.datosficha.codpaciente}/${
+                    this.state.datosficha.codficha
+                  }`}
+                >
                   Agregar Consulta
                 </Link>
               </Button>

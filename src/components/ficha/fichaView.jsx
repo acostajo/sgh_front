@@ -19,7 +19,8 @@ class FichaView extends Component {
     super();
     this.state = {
       datospaciente: {},
-      datosficha: {}
+      datosficha: {},
+      visible: false
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
@@ -31,7 +32,7 @@ class FichaView extends Component {
   async handleDelete() {
     const cod = this.props.match.params.codpaciente;
     const url1 = "http://127.0.0.1:8000/api/paciente/";
-    await fetch(url1 + cod + "/", { method: "DELETE" })
+    await fetch(url1 + cod + "/", { method: "DELETE" }) //este es el method para borar y se le pasa el cod nomas
       .then(function(response) {
         if (response.ok) {
           return response.json();
@@ -44,7 +45,7 @@ class FichaView extends Component {
       })
       .catch(error => {
         console.log(error);
-        this.setState({ visible: !this.state.visible });
+        this.setState({ visible: !this.state.visible }); // aca despues de mandarle al server para elminar le setea en true
       });
   }
 
