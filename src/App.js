@@ -7,6 +7,7 @@ import Consulta from "./components/consulta/consultaForm";
 import BuscarFicha from "./components/ficha/buscarFicha";
 import FichaView from "./components/ficha/fichaView";
 import FichaEdit from "./components/ficha/fichaEdit";
+import Panolab from "./components/panolab/panolabForm";
 
 class App extends Component {
   render() {
