@@ -15,11 +15,14 @@ import {
   Input
 } from "reactstrap";
 import axios from "axios";
+import Joi from "joi-browser";
 
 class Ficha extends Component {
   constructor() {
     super();
     this.state = {
+      errores: {},
+      todoOk: false,
       visible: false,
       aviso: false,
       avisoFechaDiag: false,
@@ -38,22 +41,22 @@ class Ficha extends Component {
       nrodocumento: "", //#cédula de identidad del paciente
       sexo: "F", // #sexo del paciente
       fechainclusion: "", // #fecha de inclusión del paciente
-      procedencia: null, //#procedencia del paciente
-      nacionalidad: null, // #nacionalidad del paciente
+      procedencia: "", //#procedencia del paciente
+      nacionalidad: "", // #nacionalidad del paciente
       escolaridad: "Escolar Media", // #escolaridad del paciente
       diagnostico: "", //#diagnóstico inicial del paciente
       fechadiagnos: "", // #fecha del diagnostico
-      fechanaci: null, //#fecha de nacimiento del paciente
-      estadocivil: null, //#estado civil del paciente
-      profesion: null, // #profesión del paciente
-      telefono: null, // #número de teléfono del paciente
+      fechanaci: "", //#fecha de nacimiento del paciente
+      estadocivil: "", //#estado civil del paciente
+      profesion: "", // #profesión del paciente
+      telefono: "", // #número de teléfono del paciente
 
       // datos correspondientes a la ficha
 
-      codpatron: null, //#código interno único para anapatron, para saber que patron tiene asociada la ficha HA
-      codusuario: null, // #código interno de usuario, para saber quién agrego la ficha
+      codpatron: 0, //#código interno único para anapatron, para saber que patron tiene asociada la ficha HA
+      codusuario: 0, // #código interno de usuario, para saber quién agrego la ficha
       nhc: "", // #número de historial clínico, código externo de la ficha, por el cual se manejan los usuarios
-      iniciosint: null, //#Fecha en el que el Paciente empezó a notar síntomas
+      iniciosint: "", //#Fecha en el que el Paciente empezó a notar síntomas
       formainic: "", //#Descripción de los síntomas del paciente
       apf: "", // #Antecedentes Patológicos Familiares
       apfcv: "", // #Antecedentes patológicos familiares cardiovasculares
@@ -92,12 +95,34 @@ class Ficha extends Component {
       deshabilitar: false,
       deshabilitartaba: true
     };
+    this.schema = {
+      nombres: Joi.string()
+        .required()
+        .label("Nombres no puede estar vacío"),
+      apellidos: Joi.string()
+        .required()
+        .label("Apellidos no puede estar vacío"),
+      nhc: Joi.number()
+        .required()
+        .label("NHC no puede estar vacío"),
+      fechadiagnos: Joi.string()
+        .required()
+        .label("Fecha Diagnostico no puede estar vacío"),
+      fechainclusion: Joi.string()
+        .required()
+        .label("Fecha Inclusion no puede estar vacío"),
+      diagnostico: Joi.string()
+        .required()
+        .label("Diagnostico no puede estar vacío"),
+      nrodocumento: Joi.number()
+        .required()
+        .label("Nro de Documento no puede estar vacío")
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.onDismissVisivle = this.onDismissVisivle.bind(this);
     this.onDismissAviso = this.onDismissAviso.bind(this);
     this.validarCedula = this.validarCedula.bind(this);
-    this.validarInputs = this.validarInputs.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -109,14 +134,12 @@ class Ficha extends Component {
       nrodocumento: value
     });
 
-    console.log(e.target);
     let aviso;
     await axios
       .get(url1 + value)
       .then(function(response) {
         console.log(response.data.length);
         if ((response.data.length > 0) & (value !== "")) {
-          console.log(response.data);
           aviso = true;
         } else {
           aviso = false;
@@ -162,7 +185,6 @@ class Ficha extends Component {
     }
 
     if ((name === "tabaquismo") & (value === true)) {
-      console.log(value);
       this.setState({ deshabilitartaba: !this.state.deshabilitartaba });
     } else if ((name === "tabaquismo") & (value === false)) {
       this.setState({
@@ -173,73 +195,37 @@ class Ficha extends Component {
     }
   }
 
-  validarInputs() {}
+  validar = () => {
+    const result = Joi.validate(
+      {
+        nombres: this.state.nombres,
+        apellidos: this.state.apellidos,
+        nhc: this.state.nhc,
+        fechadiagnos: this.state.fechadiagnos,
+        fechainclusion: this.state.fechainclusion,
+        diagnostico: this.state.diagnostico,
+        nrodocumento: this.state.nrodocumento
+      },
+      this.schema,
+      {
+        abortEarly: false
+      }
+    );
+    console.log(result.error);
+    if (!result.error) return null;
+
+    const errors = {};
+    for (let item of result.error.details)
+      errors[item.path[0]] = item.context.label;
+    return errors;
+  };
 
   handleSubmit() {
-    if (
-      function() {
-        console.log("se ejecuta el validar");
-        if (this.state.fechadiagnos === "") {
-          this.setState({
-            avisoFechaDiag: !this.state.avisoFechaDiag,
-            todoOk: false
-          });
-        } else {
-          this.setState({ avisoFechaDiag: false, todoOk: true });
-        }
-        if (this.state.diagnostico === "") {
-          this.setState({ avisoDiag: !this.state.avisoDiag, todoOk: false });
-        } else {
-          this.setState({ avisoDiag: false, todoOk: true });
-        }
-        if (this.state.fechainclusion === "") {
-          this.setState({
-            avisoFechaInc: !this.state.avisoFechaInc,
-            todoOk: false
-          });
-        } else {
-          this.setState({ avisoFechaInc: false, todoOk: true });
-        }
-        if (this.state.nhc === "") {
-          this.setState({ avisoNhc: !this.state.avisoNhc, todoOk: false });
-        } else {
-          this.setState({ avisoNhc: false, todoOk: true });
-        }
-        if (this.state.nombres === "") {
-          this.setState({
-            avisoNombres: !this.state.avisoNombres,
-            todoOk: false
-          });
-        } else {
-          this.setState({ avisoNombres: false, todoOk: true });
-        }
-        if (this.state.apellidos === "") {
-          this.setState({
-            avisoApellido: !this.state.avisoApellido,
-            todoOk: false
-          });
-        } else {
-          this.setState({ avisoApellido: false, todoOk: true });
-        }
-        if (this.state.nrodocumento === "") {
-          this.setState({
-            avisoNroDoc: !this.state.avisoNroDoc,
-            todoOk: false
-          });
-        } else {
-          this.setState({ avisoNroDoc: false, todoOk: true });
-        }
-        if (this.state.todoOk === true) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    ) {
-      this.handleAdd();
-    }
+    const errors = this.validar();
+    this.setState({ errores: errors || {} });
+    if (errors) return;
+    this.handleAdd();
   }
-
   async handleAdd() {
     const paciente = {
       codusuario: 999,
@@ -347,12 +333,12 @@ class Ficha extends Component {
         >
           El Nro de documento ya esta asociada a otra ficha...
         </Alert>
-        <Card>
-          <CardHeader>
-            <h3>Datos personales</h3>
-          </CardHeader>
-          <CardBody>
-            <Form>
+        <Form>
+          <Card>
+            <CardHeader>
+              <h3>Datos personales</h3>
+            </CardHeader>
+            <CardBody>
               <Row>
                 <Col>
                   <FormGroup>
@@ -364,9 +350,9 @@ class Ficha extends Component {
                       name="nombres"
                       id="nombres"
                     />
-                    <Fade in={this.state.avisoNombres}>
-                      <Label style={{ color: "red" }}>Campo requerido</Label>
-                    </Fade>
+                    <Label style={{ color: "red", fontSize: 12 }}>
+                      {this.state.errores.nombres}
+                    </Label>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -379,9 +365,9 @@ class Ficha extends Component {
                       name="apellidos"
                       id="apellidos"
                     />
-                    <Fade in={this.state.avisoApellido}>
-                      <Label style={{ color: "red" }}>Campo requerido</Label>
-                    </Fade>
+                    <Label style={{ color: "red", fontSize: 12 }}>
+                      {this.state.errores.apellidos}
+                    </Label>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -394,9 +380,9 @@ class Ficha extends Component {
                       name="nhc"
                       id="nhc"
                     />
-                    <Fade in={this.state.avisoNhc}>
-                      <Label style={{ color: "red" }}>Campo requerido</Label>
-                    </Fade>
+                    <Label style={{ color: "red", fontSize: 12 }}>
+                      {this.state.errores.nhc}
+                    </Label>
                   </FormGroup>
                 </Col>
               </Row>
@@ -411,9 +397,9 @@ class Ficha extends Component {
                       name="fechainclusion"
                       id="fechainclusion"
                     />
-                    <Fade in={this.state.avisoFechaInc}>
-                      <Label style={{ color: "red" }}>Campo requerido</Label>
-                    </Fade>
+                    <Label style={{ color: "red", fontSize: 12 }}>
+                      {this.state.errores.fechainclusion}
+                    </Label>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -442,9 +428,9 @@ class Ficha extends Component {
                       name="nrodocumento"
                       id="nrodocumento"
                     />
-                    <Fade in={this.state.avisoNroDoc}>
-                      <Label style={{ color: "red" }}>Campo requerido</Label>
-                    </Fade>
+                    <Label style={{ color: "red", fontSize: 12 }}>
+                      {this.state.errores.nrodocumento}
+                    </Label>
                   </FormGroup>
                 </Col>
               </Row>
@@ -573,9 +559,9 @@ class Ficha extends Component {
                       name="diagnostico"
                       id="diagnostico"
                     />
-                    <Fade in={this.state.avisoDiag}>
-                      <Label style={{ color: "red" }}>Campo requerido</Label>
-                    </Fade>
+                    <Label style={{ color: "red", fontSize: 12 }}>
+                      {this.state.errores.diagnostico}
+                    </Label>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -588,22 +574,20 @@ class Ficha extends Component {
                       name="fechadiagnos"
                       id="fechadiagnos"
                     />
-                    <Fade in={this.state.avisoFechaDiag}>
-                      <Label style={{ color: "red" }}>Campo requerido</Label>
-                    </Fade>
+                    <Label style={{ color: "red", fontSize: 12 }}>
+                      {this.state.errores.fechadiagnos}
+                    </Label>
                   </FormGroup>
                 </Col>
               </Row>
-            </Form>
-          </CardBody>
-        </Card>
-        <hr />
-        <Card>
-          <CardHeader>
-            <h3>Datos de la Ficha HA</h3>
-          </CardHeader>
-          <CardBody>
-            <Form>
+            </CardBody>
+          </Card>
+          <hr />
+          <Card>
+            <CardHeader>
+              <h3>Datos de la Ficha HA</h3>
+            </CardHeader>
+            <CardBody>
               <Row>
                 <Col>
                   <FormGroup>
@@ -1102,12 +1086,12 @@ class Ficha extends Component {
                   </FormGroup>
                 </Col>
               </Row>
-            </Form>
-          </CardBody>
-        </Card>
-        <Button onClick={this.handleSubmit} color="primary">
-          Crear
-        </Button>
+            </CardBody>
+          </Card>
+          <Button onClick={this.handleSubmit} color="primary">
+            Crear
+          </Button>
+        </Form>
       </Container>
     );
   }
