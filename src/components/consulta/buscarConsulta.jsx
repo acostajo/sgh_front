@@ -22,9 +22,9 @@ class BuscarConsulta extends Component {
   constructor() {
     super();
     this.state = {
-      nrodocumento: "",
+      fechaConsulta: "",
       nombre: "",
-      listaConsulta: {},
+      listaConsulta: [],
       fadeIn: false,
       alert: false
     };
@@ -50,11 +50,11 @@ class BuscarConsulta extends Component {
     await axios
       .get(url1)
       .then(function(response) {
-        console.log(response.data[0]);
+        // console.log(response.data);
         if (response.data[0] === undefined) {
           respuesta = null;
         } else {
-          listado = response.data[0];
+          listado = response.data;
         }
       })
       .catch(function(error) {
@@ -75,21 +75,24 @@ class BuscarConsulta extends Component {
   }
 
   render() {
+    let list = [];
+    list = this.state.listaConsulta;
+    console.log(list);
     return (
       <Container>
         <Alert color="danger" isOpen={this.state.alert} toggle={this.onDismiss}>
-          no se encontro el paciente!
+          no se encontro la consulta!
         </Alert>
         <Row>
           <Col>
             <FormGroup>
               <Label for="nrodocumento">Buscar por CI</Label>
               <Input
-                type="text"
+                type="date"
                 onChange={this.handleChange}
-                value={this.state.nrodocumento}
-                name="nrodocumento"
-                id="nrodocumento"
+                value={this.state.fechaConsulta}
+                name="fechaConsulta"
+                id="fechaConsulta"
               />
             </FormGroup>
             <Button onClick={this.handleSearch} color="primary">
@@ -101,52 +104,11 @@ class BuscarConsulta extends Component {
         <Container>
           <Row>
             <Col>
-              <Fade in={this.state.fadeIn}>
-                <ListGroup>
-                  <ListGroupItem>
-                    <ListGroupItemHeading>
-                      <Link
-                        to={`/ficha_view/${this.state.datosficha.codpaciente}`}
-                      >
-                        <h4>
-                          {this.state.datosficha.nombres}{" "}
-                          {this.state.datosficha.apellidos}{" "}
-                        </h4>
-                      </Link>
-                    </ListGroupItemHeading>
-                    <ListGroupItemText>
-                      <p>
-                        <strong>Sexo: </strong> {this.state.datosficha.sexo}
-                      </p>
-                      <p>
-                        <strong>Nacionalidad: </strong>
-                        {this.state.datosficha.nacionalidad}
-                      </p>
-                      <p>
-                        <strong>Estado Civil: </strong>
-                        {this.state.datosficha.estadocivil}
-                      </p>
-                      <p>
-                        <strong>Profesion: </strong>
-                        {this.state.datosficha.profesion}
-                      </p>
-                      <p>
-                        <strong>Diagnostico: </strong>
-                        {this.state.datosficha.diagnostico}
-                      </p>
-                    </ListGroupItemText>
-                  </ListGroupItem>
-                </ListGroup>
-              </Fade>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Button onClick={this.handleAdd} color="primary">
-                <Link to={`/consulta/${this.state.datosficha.codficha}`}>
-                  Agregar Consulta
-                </Link>
-              </Button>
+              <ListGroup>
+                {list.map(item => (
+                  <ListGroupItem />
+                ))}
+              </ListGroup>
             </Col>
           </Row>
         </Container>
@@ -156,3 +118,16 @@ class BuscarConsulta extends Component {
 }
 
 export default BuscarConsulta;
+
+{
+  /* <ListGroupItemHeading>
+                      <Link
+                        to={`/ficha_view/${this.state.datosficha.codficha}`}
+                      >
+                        <h4>
+                          {this.state.datosficha.nombres}{" "}
+                          {this.state.datosficha.apellidos}{" "}
+                        </h4>
+                      </Link>
+                    </ListGroupItemHeading> */
+}

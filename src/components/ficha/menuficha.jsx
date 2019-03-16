@@ -23,6 +23,7 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import Panolab from "./../panolab/panolabForm";
+import BuscarConsulta from "../consulta/buscarConsulta";
 
 class MenuFicha extends Component {
   constructor(props) {
@@ -83,7 +84,7 @@ class MenuFicha extends Component {
             <FichaView codficha={this.state.codficha} />
           </TabPane>
           <TabPane tabId="2">
-            <h1>Consulta</h1>
+            <BuscarConsulta />
           </TabPane>
           <TabPane tabId="3">
             <Panolab codficha={this.state.codficha} />
