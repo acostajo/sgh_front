@@ -64,7 +64,7 @@ class Panolab extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleChange(e) {
     const target = e.target;

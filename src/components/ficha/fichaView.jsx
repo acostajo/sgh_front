@@ -14,11 +14,11 @@ import {
   Input
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import axios from "axios";
 class FichaView extends Component {
   constructor() {
     super();
     this.state = {
-      datospaciente: {},
       datosficha: {},
       visible: false
     };
@@ -30,8 +30,8 @@ class FichaView extends Component {
   }
 
   async handleDelete() {
-    const cod = this.props.match.params.codpaciente;
-    const url1 = "http://127.0.0.1:8000/api/paciente/";
+    const cod = this.props.codficha;
+    const url1 = "http://127.0.0.1:8000/api/ficha/";
     await fetch(url1 + cod + "/", { method: "DELETE" }) //este es el method para borar y se le pasa el cod nomas
       .then(function(response) {
         if (response.ok) {
@@ -50,48 +50,24 @@ class FichaView extends Component {
   }
 
   async componentWillMount() {
-    const cod = this.props.match.params.codpaciente;
-    const url1 = "http://127.0.0.1:8000/api/paciente?codpaciente=";
-    const url2 = "http://127.0.0.1:8000/api/ficha?codpaciente=";
-    let datospaciente = {};
+    const cod = this.props.codficha;
+    const url1 = "http://127.0.0.1:8000/api/ficha?codficha=";
     let datosficha = {};
 
-    await fetch(url1 + cod)
+    await axios
+      .get(url1 + cod)
       .then(function(response) {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return new Error("No se recibio la respuesta esperada ...");
-        }
+        console.log(response.data[0]);
+        datosficha = response.data[0];
       })
-      .then(function(response) {
-        datospaciente = response[0];
-      })
-      .catch(error => console.log(error));
-
-    if (datospaciente !== undefined) {
-      await fetch(url2 + cod)
-        .then(function(response) {
-          if (response.ok) {
-            return response.json();
-          } else {
-            return new Error("No se recibio la respuesta esperada ...");
-          }
-        })
-        .then(function(response) {
-          datosficha = response[0];
-        })
-        .catch(error => console.log(error));
-      this.setState({
-        datosficha: datosficha,
-        datospaciente: datospaciente
+      .catch(function(error) {
+        console.log(error);
       });
-    } else {
-      return 0;
-    }
 
+    this.setState({
+      datosficha: datosficha
+    });
     console.log(this.state.datosficha);
-    console.log(this.state.datospaciente);
   }
   render() {
     return (
@@ -111,7 +87,7 @@ class FichaView extends Component {
                     <Label>
                       <strong>Nombres:</strong>
                     </Label>
-                    <p>{this.state.datospaciente.nombres}</p>
+                    <p>{this.state.datosficha.nombres}</p>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -119,7 +95,7 @@ class FichaView extends Component {
                     <Label>
                       <strong>Apellidos:</strong>
                     </Label>
-                    <p>{this.state.datospaciente.apellidos}</p>
+                    <p>{this.state.datosficha.apellidos}</p>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -127,7 +103,7 @@ class FichaView extends Component {
                     <Label>
                       <strong>Fecha de Inclusión:</strong>
                     </Label>
-                    <p>{this.state.datospaciente.fechainclusion}</p>
+                    <p>{this.state.datosficha.fechainclusion}</p>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -135,7 +111,7 @@ class FichaView extends Component {
                     <Label>
                       <strong>Tipo Documento:</strong>
                     </Label>
-                    <p>{this.state.datospaciente.tipodocumento}</p>
+                    <p>{this.state.datosficha.tipodocumento}</p>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -143,7 +119,7 @@ class FichaView extends Component {
                     <Label>
                       <strong>Nro. Documento:</strong>
                     </Label>
-                    <p>{this.state.datospaciente.nrodocumento}</p>
+                    <p>{this.state.datosficha.nrodocumento}</p>
                   </FormGroup>
                 </Col>
               </Row>
@@ -153,7 +129,7 @@ class FichaView extends Component {
                     <Label>
                       <strong>Procedencia:</strong>
                     </Label>
-                    <p>{this.state.datospaciente.procedencia}</p>
+                    <p>{this.state.datosficha.procedencia}</p>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -161,7 +137,7 @@ class FichaView extends Component {
                     <Label>
                       <strong>FN:</strong>
                     </Label>
-                    <p>{this.state.datospaciente.fechanaci}</p>
+                    <p>{this.state.datosficha.fechanaci}</p>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -169,7 +145,7 @@ class FichaView extends Component {
                     <Label>
                       <strong>Telef:</strong>
                     </Label>
-                    <p>{this.state.datospaciente.telefono}</p>
+                    <p>{this.state.datosficha.telefono}</p>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -177,7 +153,7 @@ class FichaView extends Component {
                     <Label>
                       <strong>Nacionalidad:</strong>
                     </Label>
-                    <p>{this.state.datospaciente.nacionalidad}</p>
+                    <p>{this.state.datosficha.nacionalidad}</p>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -185,7 +161,7 @@ class FichaView extends Component {
                     <Label>
                       <strong>E. Civil:</strong>
                     </Label>
-                    <p>{this.state.datospaciente.estadocivil}</p>
+                    <p>{this.state.datosficha.estadocivil}</p>
                   </FormGroup>
                 </Col>
               </Row>
@@ -195,7 +171,7 @@ class FichaView extends Component {
                     <Label>
                       <strong>Sexo:</strong>
                     </Label>
-                    <p>{this.state.datospaciente.sexo}</p>
+                    <p>{this.state.datosficha.sexo}</p>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -203,7 +179,7 @@ class FichaView extends Component {
                     <Label>
                       <strong>Escolaridad:</strong>
                     </Label>
-                    <p>{this.state.datospaciente.escolaridad}</p>
+                    <p>{this.state.datosficha.escolaridad}</p>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -211,7 +187,7 @@ class FichaView extends Component {
                     <Label>
                       <strong>Profesión:</strong>
                     </Label>
-                    <p>{this.state.datospaciente.profesion}</p>
+                    <p>{this.state.datosficha.profesion}</p>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -219,7 +195,7 @@ class FichaView extends Component {
                     <Label>
                       <strong>Dx:</strong>
                     </Label>
-                    <p>{this.state.datospaciente.diagnostico}</p>
+                    <p>{this.state.datosficha.diagnostico}</p>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -227,7 +203,7 @@ class FichaView extends Component {
                     <Label>
                       <strong>Fecha de Dx:</strong>
                     </Label>
-                    <p>{this.state.datospaciente.fechadiagnos}</p>
+                    <p>{this.state.datosficha.fechadiagnos}</p>
                   </FormGroup>
                 </Col>
               </Row>

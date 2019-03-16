@@ -116,10 +116,10 @@ class Consulta extends Component {
   }
 
   async componentWillMount() {
-    const url1 = "http://127.0.0.1:8000/api/paciente?codpaciente=";
+    const url1 = "http://127.0.0.1:8000/api/ficha?codficha=";
     let datopaciente = {};
     await axios
-      .get(url1 + this.props.match.params.codpaciente) //para este necesitamos el codpaciente
+      .get(url1 + this.props.match.params.codficha) //para este necesitamos el codpaciente
       .then(function(response) {
         console.log(response.data[0]);
         datopaciente = response.data[0];
