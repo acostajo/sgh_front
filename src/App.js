@@ -15,7 +15,10 @@ class App extends Component {
         <NavBar> </NavBar>{" "}
         <div className="content">
           <Switch>
-            <Route path="/consulta/:codficha" component={Consulta} />
+            <Route
+              path="/consulta/:codpaciente/:codficha"
+              component={Consulta}
+            />
             <Route path="/ficha" component={Ficha} />
             <Route path="/ficha_view/:codpaciente" component={FichaView} />
             <Route path="/ficha_edit/:codpaciente" component={FichaEdit} />

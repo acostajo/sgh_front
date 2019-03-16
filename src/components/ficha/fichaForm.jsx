@@ -271,6 +271,7 @@ class Ficha extends Component {
       .then(response => {
         this.setState({ codpaciente: response.codpaciente });
       });
+
     const ficha = {
       codpaciente: this.state.codpaciente, //#codigo del paciente
       codpatron: this.state.codpatron, //#código interno único para anapatron, para saber que patron tiene asociada la ficha HA
