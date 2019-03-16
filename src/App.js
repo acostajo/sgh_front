@@ -8,6 +8,7 @@ import BuscarFicha from "./components/ficha/buscarFicha";
 import FichaView from "./components/ficha/fichaView";
 import FichaEdit from "./components/ficha/fichaEdit";
 import Panolab from "./components/panolab/panolabForm";
+import MenuFicha from "./components/ficha/menuficha";
 
 class App extends Component {
   render() {
@@ -16,15 +17,14 @@ class App extends Component {
         <NavBar> </NavBar>{" "}
         <div className="content">
           <Switch>
-            <Route
-              path="/consulta/:codpaciente/:codficha"
-              component={Consulta}
-            />
+            <Route path="/consulta/:codficha" component={Consulta} />
             <Route path="/ficha" component={Ficha} />
             <Route path="/ficha_view/:codpaciente" component={FichaView} />
+            <Route path="/panolab/:codficha" component={Panolab} />
             <Route path="/ficha_edit/:codpaciente" component={FichaEdit} />
             <Route path="/ficha_buscar" component={BuscarFicha} />
-            <Route path="/" component={Home} />
+            <Route path="/menu_ficha/:codficha" component={MenuFicha} />
+            <Route path="/" component={BuscarFicha} />
           </Switch>
         </div>
       </div>

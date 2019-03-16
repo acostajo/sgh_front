@@ -33,65 +33,62 @@ class Ficha extends Component {
       avisoApellido: false,
       avisoNroDoc: false,
       //datos correspondientes al paciente
-      codpaciente: "", //código interno único para el paciente
-      codusuario: "", //#código interno de usuario, para saber quién agrego la ficha
-      nombres: "", //#nombres completos del paciente
-      apellidos: "", //#apellidos completos del paciente
-      tipodocumento: "Cédula de Identidad", //#tipo de documento
-      nrodocumento: "", //#cédula de identidad del paciente
-      sexo: "F", // #sexo del paciente
-      fechainclusion: "", // #fecha de inclusión del paciente
-      procedencia: "", //#procedencia del paciente
-      nacionalidad: "", // #nacionalidad del paciente
-      escolaridad: "Escolar Media", // #escolaridad del paciente
-      diagnostico: "", //#diagnóstico inicial del paciente
-      fechadiagnos: "", // #fecha del diagnostico
-      fechanaci: "", //#fecha de nacimiento del paciente
-      estadocivil: "", //#estado civil del paciente
-      profesion: "", // #profesión del paciente
-      telefono: "", // #número de teléfono del paciente
-
-      // datos correspondientes a la ficha
-
-      codpatron: 0, //#código interno único para anapatron, para saber que patron tiene asociada la ficha HA
-      codusuario: 0, // #código interno de usuario, para saber quién agrego la ficha
-      nhc: "", // #número de historial clínico, código externo de la ficha, por el cual se manejan los usuarios
-      iniciosint: "", //#Fecha en el que el Paciente empezó a notar síntomas
-      formainic: "", //#Descripción de los síntomas del paciente
-      apf: "", // #Antecedentes Patológicos Familiares
-      apfcv: "", // #Antecedentes patológicos familiares cardiovasculares
-      appfractura: "", // #Antecedentes patológicos personales de fracturas
-      apffractura: "", // #Antecedentes patológicos familiares de fracturas
-      protesissitio: "", // #Datos de prótesis del Paciente
-      protefecha: null, // #Datos de prótesis del Paciente
-      apfneoplasias: "", // #Antecedentes familiares de neoplasias (tumores)
-      tabaquismo: false, // #Si el Paciente es tabaquista
-      sedentarismo: false, // #Si el Paciente es sedentario
-      actifisica: false, //#Si el Paciente realiza actividad física
-      tabaqfecha: null, //#Fecha que comenzo a fumar
-      tabnumero: 0, //#Número  de paquetes que fuma/fumo por dia
-      extabaq: false, //#Si fue fumador
-      menarca: 0, // #Edad de primera menstruación
-      menopausia: 0, // #Edad de menopausia
-      edadvidasex: 0, //#A los cuantos años comenzó a tener actividad sexual
-      gestas: 0, //#Cantidad de gestas
-      partos: 0, //#Cantidad de partos
-      cesareas: 0, //#Cantidad de Cesáreas
-      abortos: 0, //#Cantidad de abortos
-      hisjospost: false, //#sí o no, tuvo hijos
-      factorreuma_pos: "", //#factor reumatoide
-      factorreuma_neg: "", //#factor reumatoide
-      factorreuma_nivel: "", //#factor reumatoide
-      acp_pos: "", // #anticuerpos antipéptidos cíclicos citrulinados
-      acp_neg: "", // #anticuerpos antipéptidos cíclicos citrulinados
-      acp_nivel: "", // #anticuerpo antinuclear
-      ana_pos: "", //ANA patron
-      ana_neg: "", //ANA patron
-      ana_patron: "", //ANA patron
-      rxmanos: false, //#erecciones sí o no
-      rxmanosfecha: null, //#la fecha que tuvo las erecciones ----------> wtf erecciones hei
-      rxpies: false, //#erecciones sí o no
-      rxpiesfecha: null, //#la fecha que tuvo las erecciones
+      datosFicha: {
+        codusuario: null, //#código interno de usuario, para saber quién agrego la ficha
+        nombres: "", //#nombres completos del paciente
+        apellidos: "", //#apellidos completos del paciente
+        tipodocumento: "Cédula de Identidad", //#tipo de documento
+        nrodocumento: "", //#cédula de identidad del paciente
+        sexo: "F", // #sexo del paciente
+        fechainclusion: "", // #fecha de inclusión del paciente
+        procedencia: "", //#procedencia del paciente
+        nacionalidad: "", // #nacionalidad del paciente
+        escolaridad: "Escolar Media", // #escolaridad del paciente
+        diagnostico: "", //#diagnóstico inicial del paciente
+        fechadiagnos: "", // #fecha del diagnostico
+        fechanaci: "", //#fecha de nacimiento del paciente
+        estadocivil: "", //#estado civil del paciente
+        profesion: "", // #profesión del paciente
+        telefono: "", // #número de teléfono del paciente
+        codpatron: null, //#código interno único para anapatron, para saber que patron tiene asociada la ficha HA
+        nhc: "", // #número de historial clínico, código externo de la ficha, por el cual se manejan los usuarios
+        iniciosint: null, //#Fecha en el que el Paciente empezó a notar síntomas
+        formainic: "", //#Descripción de los síntomas del paciente
+        apf: "", // #Antecedentes Patológicos Familiares
+        apfcv: "", // #Antecedentes patológicos familiares cardiovasculares
+        appfractura: "", // #Antecedentes patológicos personales de fracturas
+        apffractura: "", // #Antecedentes patológicos familiares de fracturas
+        protesissitio: "", // #Datos de prótesis del Paciente
+        protefecha: null, // #Datos de prótesis del Paciente
+        apfneoplasias: "", // #Antecedentes familiares de neoplasias (tumores)
+        tabaquismo: false, // #Si el Paciente es tabaquista
+        sedentarismo: false, // #Si el Paciente es sedentario
+        actifisica: false, //#Si el Paciente realiza actividad física
+        tabaqfecha: null, //#Fecha que comenzo a fumar
+        tabnumero: 0, //#Número  de paquetes que fuma/fumo por dia
+        extabaq: false, //#Si fue fumador
+        menarca: 0, // #Edad de primera menstruación
+        menopausia: 0, // #Edad de menopausia
+        edadvidasex: 0, //#A los cuantos años comenzó a tener actividad sexual
+        gestas: 0, //#Cantidad de gestas
+        partos: 0, //#Cantidad de partos
+        cesareas: 0, //#Cantidad de Cesáreas
+        abortos: 0, //#Cantidad de abortos
+        hisjospost: false, //#sí o no, tuvo hijos
+        factorreuma_pos: "", //#factor reumatoide
+        factorreuma_neg: "", //#factor reumatoide
+        factorreuma_nivel: "", //#factor reumatoide
+        acp_pos: "", // #anticuerpos antipéptidos cíclicos citrulinados
+        acp_neg: "", // #anticuerpos antipéptidos cíclicos citrulinados
+        acp_nivel: "", // #anticuerpo antinuclear
+        ana_pos: "", //ANA patron
+        ana_neg: "", //ANA patron
+        ana_patron: "", //ANA patron
+        rxmanos: false, //#erecciones sí o no
+        rxmanosfecha: null, //#la fecha que tuvo las erecciones ----------> wtf erecciones hei
+        rxpies: false, //#erecciones sí o no
+        rxpiesfecha: null //#la fecha que tuvo las erecciones
+      },
       deshabilitar: false,
       deshabilitartaba: true
     };
@@ -127,11 +124,14 @@ class Ficha extends Component {
   }
 
   async validarCedula(e) {
-    const url1 = "http://127.0.0.1:8000/api/paciente?nrodocumento=";
+    const url1 = "http://127.0.0.1:8000/api/ficha?nrodocumento=";
     const value = e.target.value;
+    const name = e.target.name;
+    let fields = this.state.datosFicha;
+    fields[name] = value;
 
     this.setState({
-      nrodocumento: value
+      datosFicha: fields
     });
 
     let aviso;
@@ -161,11 +161,14 @@ class Ficha extends Component {
 
   handleChange(e) {
     const target = e.target;
+    let fields = this.state.datosFicha;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
+    fields[name] = value;
+
     this.setState({
-      [name]: value
+      datosFicha: fields
     });
     if ((name === "sexo") & (value === "M")) {
       this.setState({
@@ -198,13 +201,13 @@ class Ficha extends Component {
   validar = () => {
     const result = Joi.validate(
       {
-        nombres: this.state.nombres,
-        apellidos: this.state.apellidos,
-        nhc: this.state.nhc,
-        fechadiagnos: this.state.fechadiagnos,
-        fechainclusion: this.state.fechainclusion,
-        diagnostico: this.state.diagnostico,
-        nrodocumento: this.state.nrodocumento
+        nombres: this.state.datosFicha.nombres,
+        apellidos: this.state.datosFicha.apellidos,
+        nhc: this.state.datosFicha.nhc,
+        fechadiagnos: this.state.datosFicha.fechadiagnos,
+        fechainclusion: this.state.datosFicha.fechainclusion,
+        diagnostico: this.state.datosFicha.diagnostico,
+        nrodocumento: this.state.datosFicha.nrodocumento
       },
       this.schema,
       {
@@ -227,80 +230,7 @@ class Ficha extends Component {
     this.handleAdd();
   }
   async handleAdd() {
-    const paciente = {
-      codusuario: 999,
-      nombres: this.state.nombres,
-      apellidos: this.state.apellidos,
-      tipodocumento: this.state.tipodocumento,
-      nrodocumento: this.state.nrodocumento,
-      sexo: this.state.sexo,
-      fechainclusion: this.state.fechainclusion,
-      procedencia: this.state.procedencia,
-      nacionalidad: this.state.nacionalidad,
-      escolaridad: this.state.escolaridad,
-      diagnostico: this.state.diagnostico,
-      fechadiagnos: this.state.fechadiagnos,
-      fechanaci: this.state.fechanaci,
-      estadocivil: this.state.estadocivil,
-      profesion: this.state.profesion,
-      telefono: this.state.telefono
-    };
-    await fetch("http://127.0.0.1:8000/api/paciente/", {
-      method: "POST", // or 'PUT'
-      body: JSON.stringify(paciente), // data can be `string` or {object}!
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(res => res.json())
-      .catch(error => console.error("Error:", error))
-      .then(response => {
-        this.setState({ codpaciente: response.codpaciente });
-      });
-
-    const ficha = {
-      codpaciente: this.state.codpaciente, //#codigo del paciente
-      codpatron: this.state.codpatron, //#código interno único para anapatron, para saber que patron tiene asociada la ficha HA
-      codusuario: this.state.codusuario, // #código interno de usuario, para saber quién agrego la ficha
-      nhc: this.state.nhc, // #número de historial clínico, código externo de la ficha, por el cual se manejan los usuarios
-      iniciosint: this.state.iniciosint, //#Fecha en el que el Paciente empezó a notar síntomas
-      formainic: this.state.formainic, //#Descripción de los síntomas del paciente
-      apf: this.state.apf, // #Antecedentes Patológicos Familiares
-      apfcv: this.state.apfcv, // #Antecedentes patológicos familiares cardiovasculares
-      appfractura: this.state.appfractura, // #Antecedentes patológicos personales de fracturas
-      apffractura: this.state.apffractura, // #Antecedentes patológicos familiares de fracturas
-      protesissitio: this.state.protesissitio, // #Datos de prótesis del Paciente
-      protefecha: this.state.protefecha, // #Datos de prótesis del Paciente
-      apfneoplasias: this.state.apfneoplasias, // #Antecedentes familiares de neoplasias (tumores)
-      tabaquismo: this.state.tabaquismo, // #Si el Paciente es tabaquista
-      sedentarismo: this.state.sedentarismo, // #Si el Paciente es sedentario
-      actifisica: this.state.actifisica, //#Si el Paciente realiza actividad física
-      tabaqfecha: this.state.tabaqfecha, //#Fecha que comenzo a fumar
-      tabnumero: this.state.tabnumero, //#Número  de paquetes que fuma/fumo por dia
-      extabaq: this.state.extabaq, //#Si fue fumador
-      menarca: this.state.menarca, // #Edad de primera menstruación
-      menopausia: this.state.menopausia, // #Edad de menopausia
-      edadvidasex: this.state.edadvidasex, //#A los cuantos años comenzó a tener actividad sexual
-      gestas: this.state.gestas, //#Cantidad de gestas
-      partos: this.state.partos, //#Cantidad de partos
-      cesareas: this.state.cesareas, //#Cantidad de Cesáreas
-      abortos: this.state.abortos, //#Cantidad de abortos
-      hisjospost: this.state.hisjospost, //#sí o no, tuvo hijos
-      factorreuma_pos: "", //#factor reumatoide
-      factorreuma_neg: "", //#factor reumatoide
-      factorreuma_nivel: "", //#factor reumatoide
-      acp_pos: "", // #anticuerpos antipéptidos cíclicos citrulinados
-      acp_neg: "", // #anticuerpos antipéptidos cíclicos citrulinados
-      acp_nivel: "", // #anticuerpo antinuclear
-      ana_pos: "", //ANA patron
-      ana_neg: "", //ANA patron
-      ana_patron: "", //ANA patron
-      rxmanos: this.state.rxmanos, //#erecciones sí o no
-      rxmanosfecha: this.state.rxmanosfecha, //#la fecha que tuvo las erecciones ----------> wtf erecciones hei
-      rxpies: this.state.rxpies, //#erecciones sí o no
-      rxpiesfecha: this.state.rxpiesfecha //#la fecha que tuvo las erecciones
-    };
-
+    const ficha = this.state.datosFicha;
     await fetch("http://127.0.0.1:8000/api/ficha/", {
       method: "POST", // or 'PUT'
       body: JSON.stringify(ficha), // data can be `string` or {object}!
@@ -346,7 +276,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.nombres}
+                      value={this.state.datosFicha.nombres}
                       name="nombres"
                       id="nombres"
                     />
@@ -361,7 +291,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.apellidos}
+                      value={this.state.datosFicha.apellidos}
                       name="apellidos"
                       id="apellidos"
                     />
@@ -376,7 +306,7 @@ class Ficha extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.nhc}
+                      value={this.state.datosFicha.nhc}
                       name="nhc"
                       id="nhc"
                     />
@@ -393,7 +323,7 @@ class Ficha extends Component {
                     <Input
                       type="date"
                       onChange={this.handleChange}
-                      value={this.state.fechainclusion}
+                      value={this.state.datosFicha.fechainclusion}
                       name="fechainclusion"
                       id="fechainclusion"
                     />
@@ -408,7 +338,7 @@ class Ficha extends Component {
                     <Input
                       type="select"
                       onChange={this.handleChange}
-                      value={this.state.tipodocumento}
+                      value={this.state.datosFicha.tipodocumento}
                       name="tipodocumento"
                       id="tipodocumento"
                     >
@@ -424,7 +354,7 @@ class Ficha extends Component {
                     <Input
                       type="number"
                       onChange={this.validarCedula}
-                      value={this.state.nrodocumento}
+                      value={this.state.datosFicha.nrodocumento}
                       name="nrodocumento"
                       id="nrodocumento"
                     />
@@ -441,7 +371,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.procedencia}
+                      value={this.state.datosFicha.procedencia}
                       name="procedencia"
                       id="procedencia"
                     />
@@ -453,7 +383,7 @@ class Ficha extends Component {
                     <Input
                       type="date"
                       onChange={this.handleChange}
-                      value={this.state.fechanaci}
+                      value={this.state.datosFicha.fechanaci}
                       name="fechanaci"
                       id="fechanaci"
                     />
@@ -465,7 +395,7 @@ class Ficha extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.telefono}
+                      value={this.state.datosFicha.telefono}
                       name="telefono"
                       id="telefono"
                     />
@@ -479,7 +409,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.nacionalidad}
+                      value={this.state.datosFicha.nacionalidad}
                       name="nacionalidad"
                       id="nacionalidad"
                     />
@@ -491,7 +421,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.estadocivil}
+                      value={this.state.datosFicha.estadocivil}
                       name="estadocivil"
                       id="estadocivil"
                     />
@@ -504,7 +434,7 @@ class Ficha extends Component {
                       type="select"
                       name="sexo"
                       onChange={this.handleChange}
-                      value={this.state.sexo}
+                      value={this.state.datosFicha.sexo}
                       id="sexo"
                       defaultValue="F"
                     >
@@ -521,7 +451,7 @@ class Ficha extends Component {
                     <Input
                       type="select"
                       onChange={this.handleChange}
-                      value={this.state.escolaridad}
+                      value={this.state.datosFicha.escolaridad}
                       name="escolaridad"
                       id="escolaridad"
                     >
@@ -541,7 +471,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.profesion}
+                      value={this.state.datosFicha.profesion}
                       name="profesion"
                       id="profesion"
                     />
@@ -555,7 +485,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.diagnostico}
+                      value={this.state.datosFicha.diagnostico}
                       name="diagnostico"
                       id="diagnostico"
                     />
@@ -570,7 +500,7 @@ class Ficha extends Component {
                     <Input
                       type="date"
                       onChange={this.handleChange}
-                      value={this.state.fechadiagnos}
+                      value={this.state.datosFicha.fechadiagnos}
                       name="fechadiagnos"
                       id="fechadiagnos"
                     />
@@ -595,7 +525,7 @@ class Ficha extends Component {
                     <Input
                       type="date"
                       onChange={this.handleChange}
-                      value={this.state.iniciosint}
+                      value={this.state.datosFicha.iniciosint}
                       name="iniciosint"
                       id="iniciosint"
                     />
@@ -607,7 +537,7 @@ class Ficha extends Component {
                     <Input
                       type="select"
                       onChange={this.handleChange}
-                      value={this.state.formainic}
+                      value={this.state.datosFicha.formainic}
                       name="formainic"
                       id="formainic"
                       defaultValue="Mono"
@@ -626,7 +556,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.apf}
+                      value={this.state.datosFicha.apf}
                       name="apf"
                       id="apf"
                     />
@@ -640,7 +570,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.apfcv}
+                      value={this.state.datosFicha.apfcv}
                       name="apfcv"
                       id="apfcv"
                     />
@@ -654,7 +584,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.appfractura}
+                      value={this.state.datosFicha.appfractura}
                       name="appfractura"
                       id="appfractura"
                     />
@@ -666,7 +596,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.apffractura}
+                      value={this.state.datosFicha.apffractura}
                       name="apffractura"
                       id="apffractura"
                     />
@@ -682,7 +612,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.protesissitio}
+                      value={this.state.datosFicha.protesissitio}
                       name="protesissitio"
                       id="protesissitio"
                     />
@@ -694,7 +624,7 @@ class Ficha extends Component {
                     <Input
                       type="date"
                       onChange={this.handleChange}
-                      value={this.state.protefecha}
+                      value={this.state.datosFicha.protefecha}
                       name="protefecha"
                       id="protefecha"
                     />
@@ -708,7 +638,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.apfneoplasias}
+                      value={this.state.datosFicha.apfneoplasias}
                       name="apfneoplasias"
                       id="apfneoplasias"
                     />
@@ -726,7 +656,7 @@ class Ficha extends Component {
                     <Input
                       type="checkbox"
                       onChange={this.handleChange}
-                      value={this.state.sedentarismo}
+                      value={this.state.datosFicha.sedentarismo}
                       name="sedentarismo"
                       id="sedentarismo"
                     />
@@ -738,7 +668,7 @@ class Ficha extends Component {
                     <Input
                       type="checkbox"
                       onChange={this.handleChange}
-                      value={this.state.actifisica}
+                      value={this.state.datosFicha.actifisica}
                       name="actifisica"
                       id="actifisica"
                     />
@@ -752,7 +682,7 @@ class Ficha extends Component {
                     <Input
                       type="checkbox"
                       onChange={this.handleChange}
-                      value={this.state.tabaquismo}
+                      value={this.state.datosFicha.tabaquismo}
                       name="tabaquismo"
                       id="tabaquismo"
                     />
@@ -766,7 +696,7 @@ class Ficha extends Component {
                       disabled={this.state.deshabilitartaba}
                       type="date"
                       onChange={this.handleChange}
-                      value={this.state.tabaqfecha}
+                      value={this.state.datosFicha.tabaqfecha}
                       name="tabaqfecha"
                       id="tabaqfecha"
                     />
@@ -779,7 +709,7 @@ class Ficha extends Component {
                       disabled={this.state.deshabilitartaba}
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.tabnumero}
+                      value={this.state.datosFicha.tabnumero}
                       name="tabnumero"
                       id="tabnumero"
                     />
@@ -790,7 +720,7 @@ class Ficha extends Component {
                     <Input
                       type="checkbox"
                       onChange={this.handleChange}
-                      value={this.state.extabaq}
+                      value={this.state.datosFicha.extabaq}
                       name="extabaq"
                       id="extabaq"
                     />
@@ -811,7 +741,7 @@ class Ficha extends Component {
                       disabled={this.state.deshabilitar}
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.menarca}
+                      value={this.state.datosFicha.menarca}
                       name="menarca"
                       id="menarca"
                     />
@@ -825,7 +755,7 @@ class Ficha extends Component {
                       disabled={this.state.deshabilitar}
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.menopausia}
+                      value={this.state.datosFicha.menopausia}
                       name="menopausia"
                       id="menopausia"
                     />
@@ -839,7 +769,7 @@ class Ficha extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.edadvidasex}
+                      value={this.state.datosFicha.edadvidasex}
                       name="edadvidasex"
                       id="edadvidasex"
                     />
@@ -854,7 +784,7 @@ class Ficha extends Component {
                       disabled={this.state.deshabilitar}
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.gestas}
+                      value={this.state.datosFicha.gestas}
                       name="gestas"
                       id="gestas"
                     />
@@ -867,7 +797,7 @@ class Ficha extends Component {
                       disabled={this.state.deshabilitar}
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.partos}
+                      value={this.state.datosFicha.partos}
                       name="partos"
                       id="partos"
                     />
@@ -880,7 +810,7 @@ class Ficha extends Component {
                       disabled={this.state.deshabilitar}
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.cesareas}
+                      value={this.state.datosFicha.cesareas}
                       name="cesareas"
                       id="cesareas"
                     />
@@ -893,7 +823,7 @@ class Ficha extends Component {
                       disabled={this.state.deshabilitar}
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.abortos}
+                      value={this.state.datosFicha.abortos}
                       name="abortos"
                       id="abortos"
                     />
@@ -907,7 +837,7 @@ class Ficha extends Component {
                       disabled={this.state.deshabilitar}
                       type="checkbox"
                       onChange={this.handleChange}
-                      value={this.state.hisjospost}
+                      value={this.state.datosFicha.hisjospost}
                       name="hisjospost"
                       id="hisjospost"
                     />
@@ -922,7 +852,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.factorreuma_pos}
+                      value={this.state.datosFicha.factorreuma_pos}
                       name="factorreuma_pos"
                       id="factorreuma_pos"
                     />
@@ -934,7 +864,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.factorreuma_neg}
+                      value={this.state.datosFicha.factorreuma_neg}
                       name="factorreuma_neg"
                       id="factorreuma_neg"
                     />
@@ -953,7 +883,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.acpa_pos}
+                      value={this.state.datosFicha.acpa_pos}
                       name="acpa_pos"
                       id="acpa_pos"
                     />
@@ -965,7 +895,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.acpa_neg}
+                      value={this.state.datosFicha.acpa_neg}
                       name="acpa_neg"
                       id="acpa_neg"
                     />
@@ -977,7 +907,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.ana_pos}
+                      value={this.state.datosFicha.ana_pos}
                       name="ana_pos"
                       id="ana_pos"
                     />
@@ -989,7 +919,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.ana_neg}
+                      value={this.state.datosFicha.ana_neg}
                       name="ana_neg"
                       id="ana_neg"
                     />
@@ -1003,7 +933,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.factorreuma_nivel}
+                      value={this.state.datosFicha.factorreuma_nivel}
                       name="factorreuma_nivel"
                       id="factorreuma_nivel"
                     />
@@ -1015,7 +945,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.acpa_nivel}
+                      value={this.state.datosFicha.acpa_nivel}
                       name="acpa_nivel"
                       id="acpa_nivel"
                     />
@@ -1027,7 +957,7 @@ class Ficha extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.ana_patron}
+                      value={this.state.datosFicha.ana_patron}
                       name="ana_patron"
                       id="ana_patron"
                     />
@@ -1040,7 +970,7 @@ class Ficha extends Component {
                     <Input
                       type="checkbox"
                       onChange={this.handleChange}
-                      value={this.state.rxmanos}
+                      value={this.state.datosFicha.rxmanos}
                       name="rxmanos"
                       id="rxmanos"
                     />
@@ -1052,7 +982,7 @@ class Ficha extends Component {
                     <Input
                       type="checkbox"
                       onChange={this.handleChange}
-                      value={this.state.rxpies}
+                      value={this.state.datosFicha.rxpies}
                       name="rxpies"
                       id="rxpies"
                     />
@@ -1067,7 +997,7 @@ class Ficha extends Component {
                     <Input
                       type="date"
                       onChange={this.handleChange}
-                      value={this.state.rxmanosfecha}
+                      value={this.state.datosFicha.rxmanosfecha}
                       name="rxmanosfecha"
                       id="rxmanosfecha"
                     />
@@ -1079,7 +1009,7 @@ class Ficha extends Component {
                     <Input
                       type="date"
                       onChange={this.handleChange}
-                      value={this.state.rxpiesfecha}
+                      value={this.state.datosFicha.rxpiesfecha}
                       name="rxpiesfecha"
                       id="rxpiesfecha"
                     />

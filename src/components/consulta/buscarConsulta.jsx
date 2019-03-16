@@ -18,13 +18,13 @@ import {
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 
-class BuscarFicha extends Component {
+class BuscarConsulta extends Component {
   constructor() {
     super();
     this.state = {
       nrodocumento: "",
       nombre: "",
-      datosficha: {},
+      listaConsulta: {},
       fadeIn: false,
       alert: false
     };
@@ -43,18 +43,18 @@ class BuscarFicha extends Component {
   }
 
   async handleSearch() {
-    const url1 = "http://127.0.0.1:8000/api/ficha?nrodocumento=";
-    let datosficha = {};
+    const url1 = "http://127.0.0.1:8000/api/consulta?fechaconsulta";
+    let listado = [];
     let respuesta;
 
     await axios
-      .get(url1 + this.state.nrodocumento)
+      .get(url1)
       .then(function(response) {
         console.log(response.data[0]);
         if (response.data[0] === undefined) {
           respuesta = null;
         } else {
-          datosficha = response.data[0];
+          listado = response.data[0];
         }
       })
       .catch(function(error) {
@@ -67,7 +67,7 @@ class BuscarFicha extends Component {
       });
     } else {
       this.setState({
-        datosficha: datosficha,
+        listaConsulta: listado,
         fadeIn: !this.state.fadeIn,
         alert: false
       });
@@ -106,7 +106,7 @@ class BuscarFicha extends Component {
                   <ListGroupItem>
                     <ListGroupItemHeading>
                       <Link
-                        to={`/menu_ficha/${this.state.datosficha.codficha}`}
+                        to={`/ficha_view/${this.state.datosficha.codpaciente}`}
                       >
                         <h4>
                           {this.state.datosficha.nombres}{" "}
@@ -140,7 +140,7 @@ class BuscarFicha extends Component {
               </Fade>
             </Col>
           </Row>
-          {/* <Row>
+          <Row>
             <Col>
               <Button onClick={this.handleAdd} color="primary">
                 <Link to={`/consulta/${this.state.datosficha.codficha}`}>
@@ -148,11 +148,11 @@ class BuscarFicha extends Component {
                 </Link>
               </Button>
             </Col>
-          </Row> */}
+          </Row>
         </Container>
       </Container>
     );
   }
 }
 
-export default BuscarFicha;
+export default BuscarConsulta;
