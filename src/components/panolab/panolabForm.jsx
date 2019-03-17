@@ -23,7 +23,8 @@ class Panolab extends Component {
       visible: false,
       datosPanolab: {
         //datos correspondientes a la panoramica de laboratorio
-        codusuario: null, //	código interno de usuario, para saber quién agrego la ficha panorámica de laboratorio
+        codusuario: null, //	código interno de usuario, para saber quién agrego la ficha panorámica de laboratorio, q esta bien el null aca
+        codficha: 0, // capaz y no le gustaba que se le pase aca
         protesis: "", //	el paciente tiene prótesis, sí o no
         hemoglobina: 0, //	cantidad hemoglobina
         hemotocrito: 0, //	cantidad hematocrito
@@ -64,7 +65,7 @@ class Panolab extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.onDismissVisivle = this.onDismissVisivle.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(e) {
@@ -82,8 +83,20 @@ class Panolab extends Component {
   onDismissVisivle() {
     this.setState({ visible: !this.state.visible });
   }
+
+  handleSubmit() {
+    //const errors = this.validar();
+    //this.setState({ errores: errors || {} });
+    //if (errors) return;
+
+    this.handleAdd();
+  }
+
   async handleAdd() {
-    const panolab = this.state.datosPanolab;
+    let panolab = this.state.datosPanolab;
+
+    panolab["codficha"] = this.props.codficha;
+
     await fetch("http://127.0.0.1:8000/api/panolab/", {
       method: "POST", // or 'PUT'
       body: JSON.stringify(panolab), // data can be `string` or {object}!
@@ -95,8 +108,8 @@ class Panolab extends Component {
       .catch(error => console.error("Error:", error))
       .then(response => {
         console.log(response);
-        this.setState({ visible: !this.state.visible });
       });
+    this.setState({ visible: !this.state.visible });
   }
 
   render() {
@@ -140,8 +153,6 @@ class Panolab extends Component {
                     />
                   </FormGroup>
                 </Col>
-              </Row>
-              <Row>
                 <Col>
                   <FormGroup>
                     <Label for="hemotocrito">Hto</Label>
@@ -168,8 +179,6 @@ class Panolab extends Component {
                     />
                   </FormGroup>
                 </Col>
-              </Row>
-              <Row>
                 <Col>
                   <FormGroup>
                     <Label for="nl">N/L</Label>
@@ -182,8 +191,6 @@ class Panolab extends Component {
                     />
                   </FormGroup>
                 </Col>
-              </Row>
-              <Row>
                 <Col>
                   <FormGroup>
                     <Label for="plaqueta">Plaq</Label>
@@ -199,7 +206,7 @@ class Panolab extends Component {
               </Row>
               <Row>
                 <Col>
-                  <h3>GOT</h3>
+                  <h5>GOT</h5>
                 </Col>
               </Row>
               <Row>
@@ -230,7 +237,7 @@ class Panolab extends Component {
               </Row>
               <Row>
                 <Col>
-                  <h3>GPT</h3>
+                  <h5>GPT</h5>
                 </Col>
               </Row>
               <Row>
@@ -398,7 +405,7 @@ class Panolab extends Component {
                 </Col>
                 <Row>
                   <Col>
-                    <h3>FR</h3>
+                    <h5>FR</h5>
                   </Col>
                 </Row>
               </Row>
@@ -430,7 +437,7 @@ class Panolab extends Component {
               </Row>
               <Row>
                 <Col>
-                  <h3>Anti CCP</h3>
+                  <h5>Anti CCP</h5>
                 </Col>
               </Row>
               <Row>
@@ -473,7 +480,7 @@ class Panolab extends Component {
               </Row>
               <Row>
                 <Col>
-                  <h3>ANA</h3>
+                  <h5>ANA</h5>
                 </Col>
               </Row>
               <Row>
@@ -504,7 +511,7 @@ class Panolab extends Component {
               </Row>
               <Row>
                 <Col>
-                  <h3>AntiDNA</h3>
+                  <h5>AntiDNA</h5>
                 </Col>
               </Row>
               <Row>
