@@ -21,100 +21,69 @@ class Panolab extends Component {
     super();
     this.state = {
       visible: false,
-
-      //datos correspondientes a la panoramica de laboratorio
-      coddatoslab: 0, //	código interno único para la ficha panorámica de laboratorio
-      codficha: 0, //	código interno único para la ficha HA, para saber a qué ficha HA está asociada la ficha panorámica de laboratorio
-      codusuario: 0, //	código interno de usuario, para saber quién agrego la ficha panorámica de laboratorio
-      protesis: "", //	el paciente tiene prótesis, sí o no
-      hemoglobina: 0, //	cantidad hemoglobina
-      hemotocrito: 0, //	cantidad hematocrito
-      vcm: 0, //	cantidad de volumen corpuscular medio
-      globlanco: 0, //	cantidad de glóbulos blancos
-      nl: 0, //	cantidad de neutrófilos/linfocitos
-      plaqueta: 0, //	cantidad de plaquetas
-      gotdesde: 0, //	transaminasa glutámico-oxalacética desde
-      gothasta: 0, //	transaminasa glutámico-oxalacética hasta
-      gptdesde: 0, //	transaminasa glutámico-pirúvica desde
-      gpthasta: 0, //	transaminasa glutámico-pirúvica hasta
-      bilirrubina: 0, //	cantidad total de bilirrubina
-      uresa: 0, //	cantidad de urea
-      vsg: 0, //	velocidad de sedimentación globular
-      pcr: 0, //	cantidad de proteína c reactiva
-      glicemia: 0, //	cantidad de glicemia
-      coleste: 0, //	cantidad total de colesterol
-      ldl: 0, //	low density lipoprotein
-      hdl: 0, //	high density lipoprotein
-      vldl: 0, //	very low density lipoprotein
-      trigliceri: 0, //	cantidad de triglicéridos
-      acidourico: 0, //	cantidad de ácido úrico
-      frdesde: 0, //	factor reumatoide desde
-      frhasta: 0, //	factor reumatoide hasta
-      anticcpneg: 0, //	cantidad de anticuerpo anti péptido citrulinado cíclico negativo
-      anticcppost: 0, //	cantidad de anticuerpo anti péptido citrulinado cíclico positivo
-      anticcpposd: "", //	descripción para el anticcppost
-      anaposit: 0, //	cantidad de anticuerpo anti nuclear positivo
-      ananeg: 0, //	cantidad de anticuerpo anti nuclear negativo
-      antidnapos: 0, //	cantidad de anticuerpo anti DNA positivo
-      antidnaneg: 0, //	cantidad de anticuerpo anti DNA negativo
-      prot24: 0, //	proteinuria de 24hs
-      observacion: "", //	información adicional que se puede incluir
-      fechacreada: 0 //	fecha de creación de la orden de medicamento
+      datosPanolab: {
+        //datos correspondientes a la panoramica de laboratorio
+        codusuario: null, //	código interno de usuario, para saber quién agrego la ficha panorámica de laboratorio
+        protesis: "", //	el paciente tiene prótesis, sí o no
+        hemoglobina: 0, //	cantidad hemoglobina
+        hemotocrito: 0, //	cantidad hematocrito
+        vcm: 0, //	cantidad de volumen corpuscular medio
+        globlanco: 0, //	cantidad de glóbulos blancos
+        nl: 0, //	cantidad de neutrófilos/linfocitos
+        plaqueta: 0, //	cantidad de plaquetas
+        gotdesde: 0, //	transaminasa glutámico-oxalacética desde
+        gothasta: 0, //	transaminasa glutámico-oxalacética hasta
+        gptdesde: 0, //	transaminasa glutámico-pirúvica desde
+        gpthasta: 0, //	transaminasa glutámico-pirúvica hasta
+        bilirrubina: 0, //	cantidad total de bilirrubina
+        uresa: 0, //	cantidad de urea
+        vsg: 0, //	velocidad de sedimentación globular
+        pcr: 0, //	cantidad de proteína c reactiva
+        glicemia: 0, //	cantidad de glicemia
+        coleste: 0, //	cantidad total de colesterol
+        ldl: 0, //	low density lipoprotein
+        hdl: 0, //	high density lipoprotein
+        vldl: 0, //	very low density lipoprotein
+        trigliceri: 0, //	cantidad de triglicéridos
+        acidourico: 0, //	cantidad de ácido úrico
+        frdesde: 0, //	factor reumatoide desde
+        frhasta: 0, //	factor reumatoide hasta
+        anticcpneg: 0, //	cantidad de anticuerpo anti péptido citrulinado cíclico negativo
+        anticcppost: 0, //	cantidad de anticuerpo anti péptido citrulinado cíclico positivo
+        anticcpposd: "", //	descripción para el anticcppost
+        anaposit: 0, //	cantidad de anticuerpo anti nuclear positivo
+        ananeg: 0, //	cantidad de anticuerpo anti nuclear negativo
+        antidnapos: 0, //	cantidad de anticuerpo anti DNA positivo
+        antidnaneg: 0, //	cantidad de anticuerpo anti DNA negativo
+        prot24: 0, //	proteinuria de 24hs
+        observacion: "", //	información adicional que se puede incluir
+        fechacreada: 0 //	fecha de creación de la orden de medicamento
+      }
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
+    this.onDismissVisivle = this.onDismissVisivle.bind(this);
     // this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   handleChange(e) {
     const target = e.target;
+    let fields = this.state.datosPanolab;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
+    fields[name] = value;
+
     this.setState({
-      [name]: value
+      datosPanolab: fields
     });
   }
-
+  onDismissVisivle() {
+    this.setState({ visible: !this.state.visible });
+  }
   async handleAdd() {
-    const panolab = {
-      codficha: parseInt(this.props.match.params.codficha), //y lpara este el codficha, por eso necesitabamos que pase los dos
-      codusuario: 999,
-      protesis: this.state.protesis,
-      hemoglobina: this.state.hemoglobina,
-      hemotocrito: this.state.hemotocrito,
-      vcm: this.state.vcm,
-      globlanco: this.state.globlanco,
-      nl: this.state.nl,
-      plaqueta: this.state.plaqueta,
-      gotdesde: this.state.gotdesde,
-      gothasta: this.state.gothasta,
-      gptdesde: this.state.gptdesde,
-      gpthasta: this.state.gpthasta,
-      bilirrubina: this.state.bilirrubina,
-      uresa: this.state.uresa,
-      vsg: this.state.vsg,
-      pcr: this.state.pcr,
-      glicemia: this.state.glicemia,
-      coleste: this.state.coleste,
-      ldl: this.state.ldl,
-      hdl: this.state.hdl,
-      vldl: this.state.vldl,
-      trigliceri: this.state.trigliceri,
-      acidourico: this.state.acidourico,
-      frdesde: this.state.frdesde,
-      frhasta: this.state.frhasta,
-      anticcpneg: this.state.anticcpneg,
-      anticcppost: this.state.anticcppost,
-      anticcpposd: this.state.anticcpposd,
-      anaposit: this.state.anaposit,
-      ananeg: this.state.ananeg,
-      antidnapos: this.state.antidnapos,
-      antidnaneg: this.state.antidnaneg,
-      prot24: this.state.prot24,
-      observacion: this.state.observacion,
-      fechacreada: this.state.fechacreada
-    };
+    const panolab = this.state.datosPanolab;
     await fetch("http://127.0.0.1:8000/api/panolab/", {
       method: "POST", // or 'PUT'
       body: JSON.stringify(panolab), // data can be `string` or {object}!
@@ -125,10 +94,8 @@ class Panolab extends Component {
       .then(res => res.json())
       .catch(error => console.error("Error:", error))
       .then(response => {
-        console.log(
-          "La Ficha Panorámica de Laboratorio fue cargada con exito:",
-          response
-        );
+        console.log(response);
+        this.setState({ visible: !this.state.visible });
       });
   }
 
@@ -155,7 +122,7 @@ class Panolab extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.protesis}
+                      value={this.state.datosPanolab.protesis}
                       name="protesis"
                       id="protesis"
                     />
@@ -167,7 +134,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.hemoglobina}
+                      value={this.state.datosPanolab.hemoglobina}
                       name="hemoglobina"
                       id="hemoglobina"
                     />
@@ -181,7 +148,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.hemotocrito}
+                      value={this.state.datosPanolab.hemotocrito}
                       name="hemotocrito"
                       id="hemotocrito"
                     />
@@ -195,7 +162,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.vcm}
+                      value={this.state.datosPanolab.vcm}
                       name="vcm"
                       id="vcm"
                     />
@@ -209,7 +176,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.nl}
+                      value={this.state.datosPanolab.nl}
                       name="nl"
                       id="nl"
                     />
@@ -223,7 +190,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.plaqueta}
+                      value={this.state.datosPanolab.plaqueta}
                       name="plaqueta"
                       id="plaqueta"
                     />
@@ -242,7 +209,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.gotdesde}
+                      value={this.state.datosPanolab.gotdesde}
                       name="gotdesde"
                       id="gotdesde"
                     />
@@ -254,7 +221,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.gothasta}
+                      value={this.state.datosPanolab.gothasta}
                       name="gothasta"
                       id="gothasta"
                     />
@@ -273,7 +240,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.gptdesde}
+                      value={this.state.datosPanolab.gptdesde}
                       name="gptdesde"
                       id="gptdesde"
                     />
@@ -285,7 +252,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.gpthasta}
+                      value={this.state.datosPanolab.gpthasta}
                       name="gpthasta"
                       id="gpthasta"
                     />
@@ -299,7 +266,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.bilirrubina}
+                      value={this.state.datosPanolab.bilirrubina}
                       name="bilirrubina"
                       id="bilirrubina"
                     />
@@ -311,7 +278,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.uresa}
+                      value={this.state.datosPanolab.uresa}
                       name="uresa"
                       id="uresa"
                     />
@@ -323,7 +290,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.vsg}
+                      value={this.state.datosPanolab.vsg}
                       name="vsg"
                       id="vsg"
                     />
@@ -335,7 +302,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.pcr}
+                      value={this.state.datosPanolab.pcr}
                       name="pcr"
                       id="pcr"
                     />
@@ -347,7 +314,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.glicemia}
+                      value={this.state.datosPanolab.glicemia}
                       name="glicemia"
                       id="taglicemialla"
                     />
@@ -361,7 +328,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.coleste}
+                      value={this.state.datosPanolab.coleste}
                       name="coleste"
                       id="coleste"
                     />
@@ -373,7 +340,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.ldl}
+                      value={this.state.datosPanolab.ldl}
                       name="ldl"
                       id="ldl"
                     />
@@ -385,7 +352,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.hdl}
+                      value={this.state.datosPanolab.hdl}
                       name="hdl"
                       id="hdl"
                     />
@@ -397,7 +364,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.vldl}
+                      value={this.state.datosPanolab.vldl}
                       name="vldl"
                       id="vldl"
                     />
@@ -409,7 +376,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.trigliceri}
+                      value={this.state.datosPanolab.trigliceri}
                       name="trigliceri"
                       id="trigliceri"
                     />
@@ -423,7 +390,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.acidourico}
+                      value={this.state.datosPanolab.acidourico}
                       name="acidourico "
                       id="acidourico"
                     />
@@ -442,7 +409,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.frdesde}
+                      value={this.state.datosPanolab.frdesde}
                       name="frdesde"
                       id="frdesde"
                     />
@@ -454,7 +421,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.frhasta}
+                      value={this.state.datosPanolab.frhasta}
                       name="frhasta"
                       id="frhasta"
                     />
@@ -473,7 +440,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.anticcpneg}
+                      value={this.state.datosPanolab.anticcpneg}
                       name="anticcpneg"
                       id="anticcpneg"
                     />
@@ -485,7 +452,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.anticcppost}
+                      value={this.state.datosPanolab.anticcppost}
                       name="anticcppost"
                       id="anticcppost"
                     />
@@ -497,7 +464,7 @@ class Panolab extends Component {
                     <Input
                       type="texto"
                       onChange={this.handleChange}
-                      value={this.state.anticcpposd}
+                      value={this.state.datosPanolab.anticcpposd}
                       name="anticcpposd"
                       id="anticcpposd"
                     />
@@ -516,7 +483,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.ananeg}
+                      value={this.state.datosPanolab.ananeg}
                       name="ananeg"
                       id="ananeg"
                     />
@@ -528,7 +495,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.anaposit}
+                      value={this.state.datosPanolab.anaposit}
                       name="anaposit"
                       id="anaposit"
                     />
@@ -547,7 +514,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.antidnaneg}
+                      value={this.state.datosPanolab.antidnaneg}
                       name="antidnaneg"
                       id="antidnaneg"
                     />
@@ -559,7 +526,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.antidnapos}
+                      value={this.state.datosPanolab.antidnapos}
                       name="antidnapos"
                       id="antidnapos"
                     />
@@ -573,7 +540,7 @@ class Panolab extends Component {
                     <Input
                       type="number"
                       onChange={this.handleChange}
-                      value={this.state.prot24}
+                      value={this.state.datosPanolab.prot24}
                       name="prot24"
                       id="prot24"
                     />
@@ -585,7 +552,7 @@ class Panolab extends Component {
                     <Input
                       type="text"
                       onChange={this.handleChange}
-                      value={this.state.observacion}
+                      value={this.state.datosPanolab.observacion}
                       name="observacion"
                       id="observacion"
                     />
