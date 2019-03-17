@@ -30,7 +30,7 @@ class FichaView extends Component {
   }
 
   async handleDelete() {
-    const cod = this.props.codficha;
+    const cod = this.props.codficha; //direccto accedes, yaa, y eso nomas es, que te falta ahora?
     const url1 = "http://127.0.0.1:8000/api/ficha/";
     await fetch(url1 + cod + "/", { method: "DELETE" }) //este es el method para borar y se le pasa el cod nomas
       .then(function(response) {
@@ -556,7 +556,7 @@ class FichaView extends Component {
         </Card>
         <hr />
         <FormGroup>
-          <Link to={`/ficha_edit/${this.state.datosficha.codpaciente}`}>
+          <Link to={`/ficha_edit/${this.state.datosficha.codficha}`}>
             <Button color="success">Modificar</Button>
           </Link>
           {"      "}

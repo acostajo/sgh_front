@@ -89,7 +89,7 @@ class FichaEdit extends Component {
   }
 
   async componentWillMount() {
-    const cod = this.props.match.params.codpaciente;
+    const cod = this.props.match.params.codficha; // asi nomas, mas abajo vas a tener que borrarle y copiar como esta en ficha form, ahora vamos a ver como el manda
     const url1 = "http://127.0.0.1:8000/api/paciente?codpaciente=";
     const url2 = "http://127.0.0.1:8000/api/ficha?codpaciente=";
     let datospaciente = {};
@@ -126,7 +126,7 @@ class FichaEdit extends Component {
         codusuario: datospaciente.codusuario, //#código interno de usuario, para saber quién agrego la ficha
         nombres: datospaciente.nombres, //#nombres completos del paciente
         apellidos: datospaciente.apellidos, //#apellidos completos del paciente
-        tipodocumento: datospaciente.tipodocumento, //#tidpo de documento del paciente 
+        tipodocumento: datospaciente.tipodocumento, //#tidpo de documento del paciente
         nrodocumento: datospaciente.nrodocumento, //#cédula de identidad del paciente
         sexo: datospaciente.sexo, // #sexo del paciente
         fechainclusion: datospaciente.fechainclusion, // #fecha de inclusión del paciente
@@ -154,7 +154,7 @@ class FichaEdit extends Component {
         apfneoplasias: datosficha.apfneoplasias, // #Antecedentes familiares de neoplasias (tumores)
         sedentarismo: datosficha.sedentarismo, // #Si el Paciente es sedentario
         actifisica: datosficha.actifisica, //#Si el Paciente realiza actividad física
-        tabaquismo: datosficha.tabaquismo, 
+        tabaquismo: datosficha.tabaquismo,
         tabaqfecha: datosficha.tabaqfecha, //#Fecha que comenzo a fumar
         tabnumero: datosficha.tabnumero, //#Número  de paquetes que fuma/fumo por dia
         extabaq: datosficha.extabaq, //#Si fue fumador
@@ -248,7 +248,7 @@ class FichaEdit extends Component {
       fechanaci: this.state.fechanaci,
       estadocivil: this.state.estadocivil,
       profesion: this.state.profesion,
-      telefono: this.state.telefono,
+      telefono: this.state.telefono
     };
 
     await fetch("http://127.0.0.1:8000/api/paciente/" + cod + "/", {
@@ -293,10 +293,10 @@ class FichaEdit extends Component {
       cesareas: this.state.cesareas, //#Cantidad de Cesáreas
       abortos: this.state.abortos, //#Cantidad de abortos
       hisjospost: this.state.hisjospost, //#sí o no, tuvo hijos
-      factorreuma_pos:this.state.factorreuma_pos, //#factor reumatoide
+      factorreuma_pos: this.state.factorreuma_pos, //#factor reumatoide
       factorreuma_neg: this.state.factorreuma_neg, //#factor reumatoide
       factorreuma_nivel: this.state.factorreuma_nivel, //#factor reumatoide
-      acp_pos:this.state.acp_pos, // #anticuerpos antipéptidos cíclicos citrulinados positivos
+      acp_pos: this.state.acp_pos, // #anticuerpos antipéptidos cíclicos citrulinados positivos
       acp_neg: this.state.acp_neg, // #anticuerpos antipéptidos cíclicos citrulinados negativos
       acp_nivel: this.state.acp_nivel, // #anticuerpo antinuclear
       ana_pos: this.state.ana_pos, // #ana positivos
@@ -334,7 +334,7 @@ class FichaEdit extends Component {
         </Alert>
         <Card>
           <CardHeader>
-          <h3>Datos personales</h3>
+            <h3>Datos personales</h3>
           </CardHeader>
           <CardBody>
             <Form>
@@ -409,7 +409,6 @@ class FichaEdit extends Component {
                   <FormGroup>
                     <Label for="nrodocumento">Nro. Documento:</Label>
                     <Input
-                      
                       type="number"
                       onChange={this.validarCedula}
                       value={this.state.nrodocumento}
