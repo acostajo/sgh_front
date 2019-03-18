@@ -49,7 +49,7 @@ class BuscarConsulta extends Component {
 
     await axios
       .get(url1)
-      .then(function(response) {
+      .then(function (response) {
         // console.log(response.data);
         if (response.data[0] === undefined) {
           respuesta = null;
@@ -57,7 +57,7 @@ class BuscarConsulta extends Component {
           listado = response.data;
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
     if (respuesta === null) {
@@ -106,7 +106,33 @@ class BuscarConsulta extends Component {
             <Col>
               <ListGroup>
                 {list.map(item => (
-                  <ListGroupItem />
+                  <ListGroupItem>
+                    <ListGroupItemHeading>
+                      <Link
+                        to={`/consulta_view/${item.codconsulta}`}
+                      >
+                        <h4>
+                          {item.fechaconsulta}
+                        </h4>
+                      </Link>
+                    </ListGroupItemHeading>
+                    <ListGroupItemText>
+                      <p>
+                        <strong>Diagnostico: </strong> {item.diagnostico}
+                      </p>
+                      <p>
+                        <strong>Limitacion: </strong> {item.limitacion}
+                      </p>
+                      <p>
+                        <strong>Motivo Limitacion: </strong> {item.limitacionmotivo}
+                      </p>
+                      <p>
+                        <strong>Tratamiento Actual: </strong> {item.tratamientoactual}
+                      </p>
+
+
+                    </ListGroupItemText>
+                  </ListGroupItem>
                 ))}
               </ListGroup>
             </Col>
