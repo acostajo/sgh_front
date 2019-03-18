@@ -16,7 +16,17 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import Joi from "joi-browser";
-
+const ColoredLine = ({ color }) => (
+  <hr
+    style={{
+      color: color,
+      backgroundColor: color,
+      height: 150,
+      width: 2,
+      borderleft: 1
+    }}
+  />
+);
 class Ficha extends Component {
   constructor() {
     super();
@@ -292,6 +302,7 @@ class Ficha extends Component {
                     </Label>
                   </FormGroup>
                 </Col>
+
                 <Col>
                   <FormGroup>
                     <Label for="nhc">NHC</Label>
@@ -841,119 +852,118 @@ class Ficha extends Component {
               <Row>
                 <Col>
                   <FormGroup>
-                    <Label for="factorreuma_pos">FR (+)</Label>
-                    <Input
-                      type="text"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.factorreuma_pos}
-                      name="factorreuma_pos"
-                      id="factorreuma_pos"
-                    />
+                    <Row>
+                      <Col>
+                        <Label for="factorreuma_pos">FR (+)</Label>
+                        <Input
+                          type="text"
+                          onChange={this.handleChange}
+                          value={this.state.datosFicha.factorreuma_pos}
+                          name="factorreuma_pos"
+                          id="factorreuma_pos"
+                        />
+                      </Col>
+                      <Col>
+                        <Label for="factorreuma_neg">FR (-)</Label>
+                        <Input
+                          type="text"
+                          onChange={this.handleChange}
+                          value={this.state.datosFicha.factorreuma_neg}
+                          name="factorreuma_neg"
+                          id="factorreuma_neg"
+                        />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Label for="factorreuma_nivel">nivel/VR</Label>
+                        <Input
+                          type="text"
+                          onChange={this.handleChange}
+                          value={this.state.datosFicha.factorreuma_nivel}
+                          name="factorreuma_nivel"
+                          id="factorreuma_nivel"
+                        />
+                      </Col>
+                    </Row>
                   </FormGroup>
                 </Col>
+                <ColoredLine color="grey" />
                 <Col>
                   <FormGroup>
-                    <Label for="factorreuma_neg">FR (-)</Label>
-                    <Input
-                      type="text"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.factorreuma_neg}
-                      name="factorreuma_neg"
-                      id="factorreuma_neg"
-                    />
+                    <Row>
+                      <Col>
+                        <Label for="acpa_pos">ACPA (+)</Label>
+                        <Input
+                          type="text"
+                          onChange={this.handleChange}
+                          value={this.state.datosFicha.acpa_pos}
+                          name="acpa_pos"
+                          id="acpa_pos"
+                        />
+                      </Col>
+                      <Col>
+                        <Label for="acpa_neg">ACPA (-)</Label>
+                        <Input
+                          type="text"
+                          onChange={this.handleChange}
+                          value={this.state.datosFicha.acpa_neg}
+                          name="acpa_neg"
+                          id="acpa_neg"
+                        />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Label for="acpa_nivel">nivel/VR</Label>
+                        <Input
+                          type="text"
+                          onChange={this.handleChange}
+                          value={this.state.datosFicha.acpa_nivel}
+                          name="acpa_nivel"
+                          id="acpa_nivel"
+                        />
+                      </Col>
+                    </Row>
                   </FormGroup>
                 </Col>
-                <hr
-                  text="line style"
-                  lineStyle={{
-                    backgroundColor: "blue",
-                    height: 10
-                  }}
-                />
-                <Col style={{ borderLeftWidth: 5, borderLeftColor: "#37474F" }}>
-                  <FormGroup>
-                    <Label for="acpa_pos">ACPA (+)</Label>
-                    <Input
-                      type="text"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.acpa_pos}
-                      name="acpa_pos"
-                      id="acpa_pos"
-                    />
-                  </FormGroup>
-                </Col>
+                <ColoredLine color="grey" />
                 <Col>
                   <FormGroup>
-                    <Label for="acpa_neg">ACPA (-)</Label>
-                    <Input
-                      type="text"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.acpa_neg}
-                      name="acpa_neg"
-                      id="acpa_neg"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="ana_pos">ANA (+)</Label>
-                    <Input
-                      type="text"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.ana_pos}
-                      name="ana_pos"
-                      id="ana_pos"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="ana_neg">ANA (-)</Label>
-                    <Input
-                      type="text"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.ana_neg}
-                      name="ana_neg"
-                      id="ana_neg"
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label for="factorreuma_nivel">nivel/VR</Label>
-                    <Input
-                      type="text"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.factorreuma_nivel}
-                      name="factorreuma_nivel"
-                      id="factorreuma_nivel"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="acpa_nivel">nivel/VR</Label>
-                    <Input
-                      type="text"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.acpa_nivel}
-                      name="acpa_nivel"
-                      id="acpa_nivel"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="ana_patron">Dilución/Patrón</Label>
-                    <Input
-                      type="text"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.ana_patron}
-                      name="ana_patron"
-                      id="ana_patron"
-                    />
+                    <Row>
+                      <Col>
+                        <Label for="ana_pos">ANA (+)</Label>
+                        <Input
+                          type="text"
+                          onChange={this.handleChange}
+                          value={this.state.datosFicha.ana_pos}
+                          name="ana_pos"
+                          id="ana_pos"
+                        />
+                      </Col>
+                      <Col>
+                        <Label for="ana_neg">ANA (-)</Label>
+                        <Input
+                          type="text"
+                          onChange={this.handleChange}
+                          value={this.state.datosFicha.ana_neg}
+                          name="ana_neg"
+                          id="ana_neg"
+                        />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Label for="ana_patron">Dilución/Patrón</Label>
+                        <Input
+                          type="text"
+                          onChange={this.handleChange}
+                          value={this.state.datosFicha.ana_patron}
+                          name="ana_patron"
+                          id="ana_patron"
+                        />
+                      </Col>
+                    </Row>
                   </FormGroup>
                 </Col>
               </Row>
