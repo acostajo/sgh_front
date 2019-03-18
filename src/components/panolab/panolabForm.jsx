@@ -25,38 +25,38 @@ class Panolab extends Component {
         //datos correspondientes a la panoramica de laboratorio
         codusuario: null, //	código interno de usuario, para saber quién agrego la ficha panorámica de laboratorio, q esta bien el null aca
         codficha: 0, // capaz y no le gustaba que se le pase aca
-        protesis: "", //	el paciente tiene prótesis, sí o no
-        hemoglobina: 0, //	cantidad hemoglobina
-        hemotocrito: 0, //	cantidad hematocrito
-        vcm: 0, //	cantidad de volumen corpuscular medio
-        globlanco: 0, //	cantidad de glóbulos blancos
-        nl: 0, //	cantidad de neutrófilos/linfocitos
-        plaqueta: 0, //	cantidad de plaquetas
-        gotdesde: 0, //	transaminasa glutámico-oxalacética desde
-        gothasta: 0, //	transaminasa glutámico-oxalacética hasta
-        gptdesde: 0, //	transaminasa glutámico-pirúvica desde
-        gpthasta: 0, //	transaminasa glutámico-pirúvica hasta
-        bilirrubina: 0, //	cantidad total de bilirrubina
-        uresa: 0, //	cantidad de urea
-        vsg: 0, //	velocidad de sedimentación globular
-        pcr: 0, //	cantidad de proteína c reactiva
-        glicemia: 0, //	cantidad de glicemia
-        coleste: 0, //	cantidad total de colesterol
-        ldl: 0, //	low density lipoprotein
-        hdl: 0, //	high density lipoprotein
-        vldl: 0, //	very low density lipoprotein
-        trigliceri: 0, //	cantidad de triglicéridos
-        acidourico: 0, //	cantidad de ácido úrico
-        frdesde: 0, //	factor reumatoide desde
-        frhasta: 0, //	factor reumatoide hasta
-        anticcpneg: 0, //	cantidad de anticuerpo anti péptido citrulinado cíclico negativo
-        anticcppost: 0, //	cantidad de anticuerpo anti péptido citrulinado cíclico positivo
+        protesis: "No", //	el paciente tiene prótesis, sí o no
+        hemoglobina: null, //	cantidad hemoglobina
+        hemotocrito: null, //	cantidad hematocrito
+        vcm: null, //	cantidad de volumen corpuscular medio
+        globlanco: null, //	cantidad de glóbulos blancos
+        nl: null, //	cantidad de neutrófilos/linfocitos
+        plaqueta: null, //	cantidad de plaquetas
+        gotdesde: null, //	transaminasa glutámico-oxalacética desde
+        gothasta: null, //	transaminasa glutámico-oxalacética hasta
+        gptdesde: null, //	transaminasa glutámico-pirúvica desde
+        gpthasta: null, //	transaminasa glutámico-pirúvica hasta
+        bilirrubina: null, //	cantidad total de bilirrubina
+        uresa: null, //	cantidad de urea
+        vsg: null, //	velocidad de sedimentación globular
+        pcr: null, //	cantidad de proteína c reactiva
+        glicemia: null, //	cantidad de glicemia
+        coleste: null, //	cantidad total de colesterol
+        ldl: null, //	low density lipoprotein
+        hdl: null, //	high density lipoprotein
+        vldl: null, //	very low density lipoprotein
+        trigliceri: null, //	cantidad de triglicéridos
+        acidourico: null, //	cantidad de ácido úrico
+        frdesde: null, //	factor reumatoide desde
+        frhasta: null, //	factor reumatoide hasta
+        anticcpneg: null, //	cantidad de anticuerpo anti péptido citrulinado cíclico negativo
+        anticcppost: null, //	cantidad de anticuerpo anti péptido citrulinado cíclico positivo
         anticcpposd: "", //	descripción para el anticcppost
-        anaposit: 0, //	cantidad de anticuerpo anti nuclear positivo
-        ananeg: 0, //	cantidad de anticuerpo anti nuclear negativo
-        antidnapos: 0, //	cantidad de anticuerpo anti DNA positivo
-        antidnaneg: 0, //	cantidad de anticuerpo anti DNA negativo
-        prot24: 0, //	proteinuria de 24hs
+        anaposit: null, //	cantidad de anticuerpo anti nuclear positivo
+        ananeg: null, //	cantidad de anticuerpo anti nuclear negativo
+        antidnapos: null, //	cantidad de anticuerpo anti DNA positivo
+        antidnaneg: null, //	cantidad de anticuerpo anti DNA negativo
+        prot24: null, //	proteinuria de 24hs
         observacion: "", //	información adicional que se puede incluir
         fechacreada: 0 //	fecha de creación de la orden de medicamento
       }
@@ -133,12 +133,15 @@ class Panolab extends Component {
                   <FormGroup>
                     <Label for="protesis">Prótesis</Label>
                     <Input
-                      type="text"
+                      type="select"
                       onChange={this.handleChange}
                       value={this.state.datosPanolab.protesis}
                       name="protesis"
                       id="protesis"
-                    />
+                    >
+                      <option>Sí</option>
+                      <option>No</option>
+                    </Input>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -403,12 +406,13 @@ class Panolab extends Component {
                     />
                   </FormGroup>
                 </Col>
-                <Row>
-                  <Col>
-                    <h5>FR</h5>
-                  </Col>
-                </Row>
               </Row>
+              <Row>
+                <Col>
+                  <h5>FR</h5>
+                </Col>
+              </Row>
+
               <Row>
                 <Col>
                   <FormGroup>
