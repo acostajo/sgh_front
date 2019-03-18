@@ -44,6 +44,7 @@ class BuscarConsulta extends Component {
 
   async handleSearch() {
     const url1 = "http://127.0.0.1:8000/api/consulta?fechaconsulta=";
+    const codconsulta = "&codconsulta=";
     let listado = [];
     let respuesta;
 
