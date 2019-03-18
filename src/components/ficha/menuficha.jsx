@@ -84,7 +84,7 @@ class MenuFicha extends Component {
             <FichaView codficha={this.state.codficha} />
           </TabPane>
           <TabPane tabId="2">
-            <BuscarConsulta />
+            <BuscarConsulta codficha={this.state.codficha} />
           </TabPane>
           <TabPane tabId="3">
             <Panolab codficha={this.state.codficha} />
