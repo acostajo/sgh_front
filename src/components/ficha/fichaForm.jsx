@@ -22,16 +22,8 @@ class Ficha extends Component {
     super();
     this.state = {
       errores: {},
-      todoOk: false,
       visible: false,
       aviso: false,
-      avisoFechaDiag: false,
-      avisoDiag: false,
-      avisoFechaInc: false,
-      avisoNhc: false,
-      avisoNombres: false,
-      avisoApellido: false,
-      avisoNroDoc: false,
       //datos correspondientes al paciente
       datosFicha: {
         codusuario: null, //#código interno de usuario, para saber quién agrego la ficha

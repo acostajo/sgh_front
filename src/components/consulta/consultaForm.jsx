@@ -156,7 +156,6 @@ class Consulta extends Component {
             <h3>Datos</h3>
           </CardHeader>
           <CardBody>
-            {this.props.match.params.codpaciente}
             <Form>
               <Row>
                 <Col>

@@ -49,7 +49,7 @@ class BuscarFicha extends Component {
 
     await axios
       .get(url1 + this.state.nrodocumento)
-      .then(function(response) {
+      .then(function (response) {
         console.log(response.data[0]);
         if (response.data[0] === undefined) {
           respuesta = null;
@@ -57,7 +57,7 @@ class BuscarFicha extends Component {
           datosficha = response.data[0];
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
     if (respuesta === null) {
@@ -140,7 +140,7 @@ class BuscarFicha extends Component {
               </Fade>
             </Col>
           </Row>
-          {/* <Row>
+          <Row>
             <Col>
               <Button onClick={this.handleAdd} color="primary">
                 <Link to={`/consulta/${this.state.datosficha.codficha}`}>
@@ -148,7 +148,7 @@ class BuscarFicha extends Component {
                 </Link>
               </Button>
             </Col>
-          </Row> */}
+          </Row>
         </Container>
       </Container>
     );
