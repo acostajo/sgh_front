@@ -15,6 +15,18 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
+const ColoredLine = ({ color }) => (
+  <hr
+    style={{
+      color: color,
+      backgroundColor: color,
+      height: 70,
+      width: 2,
+      borderleft: 1
+    }}
+  />
+);
+
 class FichaView extends Component {
   constructor() {
     super();
@@ -450,79 +462,86 @@ class FichaView extends Component {
               <Row>
                 <Col>
                   <FormGroup>
-                    <Label>
-                      <strong>FR(+):</strong>
-                    </Label>
-                    <p>{this.state.datosficha.factorreuma_pos}</p>
+                    <Row>
+                      <Col>
+                        <Label>
+                          <strong>FR(+):</strong>
+                        </Label>
+                        <p>{this.state.datosficha.factorreuma_pos}</p>
+                      </Col>
+                      <Col>
+                        <Label>
+                          <strong>FR(-):</strong>
+                        </Label>
+                        <p>{this.state.datosficha.factorreuma_neg}</p>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Label>
+                          <strong>Nivel/VR:</strong>
+                        </Label>
+                        <p>{this.state.datosficha.factorreuma_nivel}</p>
+                      </Col>
+                    </Row>
                   </FormGroup>
                 </Col>
+                <ColoredLine color="grey" />
                 <Col>
                   <FormGroup>
-                    <Label>
-                      <strong>FR(-):</strong>
-                    </Label>
-                    <p>{this.state.datosficha.factorreuma_neg}</p>
+                    <Row>
+                      <Col>
+                        <Label>
+                          <strong>ACPA (+):</strong>
+                        </Label>
+                        <p>{this.state.datosficha.acp_pos}</p>
+                      </Col>
+                      <Col>
+                        <Label>
+                          <strong>ACPA (-):</strong>
+                        </Label>
+                        <p>{this.state.datosficha.acp_neg}</p>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Label>
+                          <strong>Nivel/VR:</strong>
+                        </Label>
+                        <p>{this.state.datosficha.acpa_nivel}</p>
+                      </Col>
+                    </Row>
                   </FormGroup>
                 </Col>
+                <ColoredLine color="grey" />
                 <Col>
                   <FormGroup>
-                    <Label>
-                      <strong>ACPA (+):</strong>
-                    </Label>
-                    <p>{this.state.datosficha.acp_pos}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>ACPA (-):</strong>
-                    </Label>
-                    <p>{this.state.datosficha.acp_neg}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>ANA (+):</strong>
-                    </Label>
-                    <p>{this.state.datosficha.ana_pos}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>ANA (-):</strong>
-                    </Label>
-                    <p>{this.state.datosficha.ana_neg}</p>
+                    <Row>
+                      <Col>
+                        <Label>
+                          <strong>ANA (+):</strong>
+                        </Label>
+                        <p>{this.state.datosficha.ana_pos}</p>
+                      </Col>
+                      <Col>
+                        <Label>
+                          <strong>ANA (-):</strong>
+                        </Label>
+                        <p>{this.state.datosficha.ana_neg}</p>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Label>
+                          <strong>Dilución/Patrón:</strong>
+                        </Label>
+                        <p>{this.state.datosficha.ana_patron}</p>
+                      </Col>
+                    </Row>
                   </FormGroup>
                 </Col>
               </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Nivel/VR:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.factorreuma_nivel}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Nivel/VR:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.acpa_nivel}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Dilución/Patrón:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.ana_patron}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
+
               <Row>
                 <Col>
                   <FormGroup check>
