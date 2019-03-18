@@ -9,6 +9,7 @@ import FichaView from "./components/ficha/fichaView";
 import FichaEdit from "./components/ficha/fichaEdit";
 import Panolab from "./components/panolab/panolabForm";
 import MenuFicha from "./components/ficha/menuficha";
+import ConsultaView from "./components/consulta/consultaView";
 
 class App extends Component {
   render() {
@@ -18,6 +19,10 @@ class App extends Component {
         <div className="content">
           <Switch>
             <Route path="/consulta/:codficha" component={Consulta} />
+            <Route
+              path="/consulta_view/:codconsulta"
+              component={ConsultaView}
+            />
             <Route path="/ficha" component={Ficha} />
             <Route path="/ficha_view/:codpaciente" component={FichaView} />
             <Route path="/panolab/:codficha" component={Panolab} />
