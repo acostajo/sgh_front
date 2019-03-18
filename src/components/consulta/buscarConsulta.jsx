@@ -43,14 +43,17 @@ class BuscarConsulta extends Component {
   }
 
   async handleSearch() {
-    const url1 = "http://127.0.0.1:8000/api/consulta?fechaconsulta";
+    const url1 = "http://127.0.0.1:8000/api/consulta?fechaconsulta=";
+    const codconsulta = "&codconsulta=";
     let listado = [];
     let respuesta;
 
     await axios
-      .get(url1)
+
+      .get(url1 + this.state.fechaConsulta)
       .then(function(response) {
-        // console.log(response.data);
+
+
         if (response.data[0] === undefined) {
           respuesta = null;
         } else {
@@ -72,6 +75,7 @@ class BuscarConsulta extends Component {
         alert: false
       });
     }
+    console.log(url1 + this.state.fechaConsulta);
   }
 
   render() {
@@ -97,6 +101,16 @@ class BuscarConsulta extends Component {
             </FormGroup>
             <Button onClick={this.handleSearch} color="primary">
               Buscar
+            </Button>
+          </Col>
+          <Col>
+            <Button onClick={this.handleAdd} color="primary">
+              <Link
+                to={`/consulta/${this.props.codficha}`}
+                style={{ color: "white" }}
+              >
+                Agregar Consulta
+              </Link>
             </Button>
           </Col>
         </Row>
