@@ -244,6 +244,8 @@ class FichaView extends Component {
                     <p>{this.state.datosficha.apf}</p>
                   </FormGroup>
                 </Col>
+              </Row>
+              <Row>
                 <Col>
                   <FormGroup>
                     <Label>
@@ -252,6 +254,8 @@ class FichaView extends Component {
                     <p>{this.state.datosficha.apfcv}</p>
                   </FormGroup>
                 </Col>
+              </Row>
+              <Row>
                 <Col>
                   <FormGroup>
                     <Label>
@@ -268,6 +272,9 @@ class FichaView extends Component {
                     <p>{this.state.datosficha.apffractura}</p>
                   </FormGroup>
                 </Col>
+              </Row>
+
+              <Row>
                 <Col>
                   <FormGroup>
                     <Label>
@@ -284,6 +291,8 @@ class FichaView extends Component {
                     <p>{this.state.datosficha.protefecha}</p>
                   </FormGroup>
                 </Col>
+              </Row>
+              <Row>
                 <Col>
                   <FormGroup>
                     <Label>
@@ -359,6 +368,11 @@ class FichaView extends Component {
                       <strong>Ex Tabaquista:</strong>
                     </Label>
                   </FormGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <h5>Antecedentes Ginecológicos</h5>
                 </Col>
               </Row>
               <Row>
