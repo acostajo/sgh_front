@@ -44,16 +44,13 @@ class BuscarConsulta extends Component {
 
   async handleSearch() {
     const url1 = "http://127.0.0.1:8000/api/consulta?fechaconsulta=";
-    const codconsulta = "&codconsulta=";
+    const codficha = "&codficha=";
     let listado = [];
     let respuesta;
 
     await axios
-
-      .get(url1 + this.state.fechaConsulta)
+      .get(url1 + this.state.fechaConsulta + codficha + this.props.codficha) //y asi queda concatenado todo, si no hay fecha igual trae solo lo de esa ficha, vamos a probar
       .then(function(response) {
-
-
         if (response.data[0] === undefined) {
           respuesta = null;
         } else {
@@ -123,6 +120,7 @@ class BuscarConsulta extends Component {
                   <ListGroupItem>
                     <ListGroupItemHeading>
                       <Link to={`/consulta_view/${item.codconsulta}`}>
+                        {" "}
                         <h4>{item.fechaconsulta}</h4>
                       </Link>
                     </ListGroupItemHeading>
