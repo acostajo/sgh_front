@@ -51,9 +51,10 @@ class ConsultaView extends Component {
 
   async componentWillMount() {
     const cod = this.props.match.params.codconsulta;
+
     const url1 = "http://127.0.0.1:8000/api/consulta?codconsulta=";
     let datosConsulta = {};
-
+    console.log(this.props.match.params.codconsulta);
     await axios
       .get(url1 + cod)
       .then(function(response) {

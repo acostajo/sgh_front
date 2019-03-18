@@ -61,15 +61,15 @@ class FichaEdit extends Component {
         sedentarismo: false, // #Si el Paciente es sedentario
         actifisica: false, //#Si el Paciente realiza actividad física
         tabaqfecha: "", //#Fecha que comenzo a fumar
-        tabnumero: 0, //#Número  de paquetes que fuma/fumo por dia
+        tabnumero: null, //#Número  de paquetes que fuma/fumo por dia
         extabaq: false, //#Si fue fumador
-        menarca: 0, // #Edad de primera menstruación
-        menopausia: 0, // #Edad de menopausia
-        edadvidasex: 0, //#A los cuantos años comenzó a tener actividad sexual
-        gestas: 0, //#Cantidad de gestas
-        partos: 0, //#Cantidad de partos
-        cesareas: 0, //#Cantidad de Cesáreas
-        abortos: 0, //#Cantidad de abortos
+        menarca: null, // #Edad de primera menstruación
+        menopausia: null, // #Edad de menopausia
+        edadvidasex: null, //#A los cuantos años comenzó a tener actividad sexual
+        gestas: null, //#Cantidad de gestas
+        partos: null, //#Cantidad de partos
+        cesareas: null, //#Cantidad de Cesáreas
+        abortos: null, //#Cantidad de abortos
         hisjospost: false, //#sí o no, tuvo hijos
         factorreuma_pos: "", //#factor reumatoide
         factorreuma_neg: "", //#factor reumatoide

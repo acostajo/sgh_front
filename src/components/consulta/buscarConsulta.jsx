@@ -49,7 +49,7 @@ class BuscarConsulta extends Component {
 
     await axios
       .get(url1)
-      .then(function (response) {
+      .then(function(response) {
         // console.log(response.data);
         if (response.data[0] === undefined) {
           respuesta = null;
@@ -57,7 +57,7 @@ class BuscarConsulta extends Component {
           listado = response.data;
         }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
     if (respuesta === null) {
@@ -81,12 +81,12 @@ class BuscarConsulta extends Component {
     return (
       <Container>
         <Alert color="danger" isOpen={this.state.alert} toggle={this.onDismiss}>
-          no se encontro la consulta!
+          No se encontro la consulta!
         </Alert>
         <Row>
           <Col>
             <FormGroup>
-              <Label for="nrodocumento">Buscar por CI</Label>
+              <Label for="fechaConsulta">Buscar por Fecha Consulta</Label>
               <Input
                 type="date"
                 onChange={this.handleChange}
@@ -108,12 +108,8 @@ class BuscarConsulta extends Component {
                 {list.map(item => (
                   <ListGroupItem>
                     <ListGroupItemHeading>
-                      <Link
-                        to={`/consulta_view/${item.codconsulta}`}
-                      >
-                        <h4>
-                          {item.fechaconsulta}
-                        </h4>
+                      <Link to={`/consulta_view/${item.codconsulta}`}>
+                        <h4>{item.fechaconsulta}</h4>
                       </Link>
                     </ListGroupItemHeading>
                     <ListGroupItemText>
@@ -124,13 +120,13 @@ class BuscarConsulta extends Component {
                         <strong>Limitacion: </strong> {item.limitacion}
                       </p>
                       <p>
-                        <strong>Motivo Limitacion: </strong> {item.limitacionmotivo}
+                        <strong>Motivo Limitacion: </strong>{" "}
+                        {item.limitacionmotivo}
                       </p>
                       <p>
-                        <strong>Tratamiento Actual: </strong> {item.tratamientoactual}
+                        <strong>Tratamiento Actual: </strong>{" "}
+                        {item.tratamientoactual}
                       </p>
-
-
                     </ListGroupItemText>
                   </ListGroupItem>
                 ))}
