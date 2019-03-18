@@ -43,21 +43,21 @@ class BuscarConsulta extends Component {
   }
 
   async handleSearch() {
-    const url1 = "http://127.0.0.1:8000/api/consulta?fechaconsulta";
+    const url1 = "http://127.0.0.1:8000/api/consulta?fechaconsulta=";
     let listado = [];
     let respuesta;
 
     await axios
-      .get(url1)
-      .then(function (response) {
-        // console.log(response.data);
+      .get(url1 + this.state.fechaConsulta)
+      .then(function(response) {
+        //
         if (response.data[0] === undefined) {
           respuesta = null;
         } else {
           listado = response.data;
         }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
     if (respuesta === null) {
@@ -72,6 +72,7 @@ class BuscarConsulta extends Component {
         alert: false
       });
     }
+    console.log(url1 + this.state.fechaConsulta);
   }
 
   render() {
@@ -99,6 +100,16 @@ class BuscarConsulta extends Component {
               Buscar
             </Button>
           </Col>
+          <Col>
+            <Button onClick={this.handleAdd} color="primary">
+              <Link
+                to={`/consulta/${this.props.codficha}`}
+                style={{ color: "white" }}
+              >
+                Agregar Consulta
+              </Link>
+            </Button>
+          </Col>
         </Row>
         <hr />
         <Container>
@@ -108,12 +119,8 @@ class BuscarConsulta extends Component {
                 {list.map(item => (
                   <ListGroupItem>
                     <ListGroupItemHeading>
-                      <Link
-                        to={`/consulta_view/${item.codconsulta}`}
-                      >
-                        <h4>
-                          {item.fechaconsulta}
-                        </h4>
+                      <Link to={`/consulta_view/${item.codconsulta}`}>
+                        <h4>{item.fechaconsulta}</h4>
                       </Link>
                     </ListGroupItemHeading>
                     <ListGroupItemText>
@@ -124,13 +131,13 @@ class BuscarConsulta extends Component {
                         <strong>Limitacion: </strong> {item.limitacion}
                       </p>
                       <p>
-                        <strong>Motivo Limitacion: </strong> {item.limitacionmotivo}
+                        <strong>Motivo Limitacion: </strong>{" "}
+                        {item.limitacionmotivo}
                       </p>
                       <p>
-                        <strong>Tratamiento Actual: </strong> {item.tratamientoactual}
+                        <strong>Tratamiento Actual: </strong>{" "}
+                        {item.tratamientoactual}
                       </p>
-
-
                     </ListGroupItemText>
                   </ListGroupItem>
                 ))}
