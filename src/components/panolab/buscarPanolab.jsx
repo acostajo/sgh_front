@@ -18,13 +18,12 @@ import {
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 
-class BuscarConsulta extends Component {
+class BuscarPanolab extends Component {
   constructor() {
     super();
     this.state = {
-      fechaConsulta: "",
-      nombre: "",
-      listaConsulta: [],
+      fechaPanolab: "",
+      listaPanolab: [],
       fadeIn: false,
       alert: false
     };
@@ -43,13 +42,13 @@ class BuscarConsulta extends Component {
   }
 
   async handleSearch() {
-    const url1 = "http://127.0.0.1:8000/api/consulta?fechaconsulta=";
+    const url1 = "http://127.0.0.1:8000/api/panolab?fechapanolab=";
     const codficha = "&codficha=";
     let listado = [];
     let respuesta;
 
     await axios
-      .get(url1 + this.state.fechaConsulta + codficha + this.props.codficha) //y asi queda concatenado todo, si no hay fecha igual trae solo lo de esa ficha, vamos a probar
+      .get(url1 + this.state.fechaPanolab + codficha + this.props.codficha) //y asi queda concatenado todo, si no hay fecha igual trae solo lo de esa ficha, vamos a probar
       .then(function(response) {
         if (response.data[0] === undefined) {
           respuesta = null;
@@ -67,33 +66,35 @@ class BuscarConsulta extends Component {
       });
     } else {
       this.setState({
-        listaConsulta: listado,
+        listaPanolab: listado,
         fadeIn: !this.state.fadeIn,
         alert: false
       });
     }
-    console.log(url1 + this.state.fechaConsulta);
+    console.log(url1 + this.state.fechaPanolab);
   }
 
   render() {
     let list = [];
-    list = this.state.listaConsulta;
+    list = this.state.listaPanolab;
     console.log(list);
     return (
       <Container>
         <Alert color="danger" isOpen={this.state.alert} toggle={this.onDismiss}>
-          No se encontro la consulta!
+          No se encontro la Panorámica de Laboratorio!
         </Alert>
         <Row>
           <Col>
             <FormGroup>
-              <Label for="fechaConsulta">Buscar por Fecha Consulta</Label>
+              <Label for="fechaPanolab">
+                Buscar por Fecha Panorámica de Laboratorio
+              </Label>
               <Input
                 type="date"
                 onChange={this.handleChange}
-                value={this.state.fechaConsulta}
-                name="fechaConsulta"
-                id="fechaConsulta"
+                value={this.state.fechaPanolab}
+                name="fechaPanolab"
+                id="fechaPanolab"
               />
             </FormGroup>
             <Button onClick={this.handleSearch} color="primary">
@@ -103,10 +104,10 @@ class BuscarConsulta extends Component {
           <Col>
             <Button onClick={this.handleAdd} color="primary">
               <Link
-                to={`/consulta/${this.props.codficha}`}
+                to={`/panolab/${this.props.codficha}`}
                 style={{ color: "white" }}
               >
-                Agregar Consulta
+                Agregar Panorámica de Laboratorio
               </Link>
             </Button>
           </Col>
@@ -119,25 +120,17 @@ class BuscarConsulta extends Component {
                 {list.map(item => (
                   <ListGroupItem>
                     <ListGroupItemHeading>
-                      <Link to={`/consulta_view/${item.codconsulta}`}>
+                      <Link to={`/panolab_view/${item.codpanolab}`}>
                         {" "}
-                        <h4>{item.fechaconsulta}</h4>
+                        <h4>{item.fechapanolab}</h4>
                       </Link>
                     </ListGroupItemHeading>
                     <ListGroupItemText>
                       <p>
-                        <strong>Diagnostico: </strong> {item.diagnostico}
+                        <strong>Prótesis: </strong> {item.protesis}
                       </p>
                       <p>
-                        <strong>Limitacion: </strong> {item.limitacion}
-                      </p>
-                      <p>
-                        <strong>Motivo Limitacion: </strong>{" "}
-                        {item.limitacionmotivo}
-                      </p>
-                      <p>
-                        <strong>Tratamiento Actual: </strong>{" "}
-                        {item.tratamientoactual}
+                        <strong>Observación: </strong> {item.observacion}
                       </p>
                     </ListGroupItemText>
                   </ListGroupItem>
@@ -151,17 +144,4 @@ class BuscarConsulta extends Component {
   }
 }
 
-export default BuscarConsulta;
-
-{
-  /* <ListGroupItemHeading>
-                      <Link
-                        to={`/ficha_view/${this.state.datosficha.codficha}`}
-                      >
-                        <h4>
-                          {this.state.datosficha.nombres}{" "}
-                          {this.state.datosficha.apellidos}{" "}
-                        </h4>
-                      </Link>
-                    </ListGroupItemHeading> */
-}
+export default BuscarPanolab;

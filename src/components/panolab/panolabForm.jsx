@@ -25,6 +25,7 @@ class Panolab extends Component {
         //datos correspondientes a la panoramica de laboratorio
         codusuario: null, //	código interno de usuario, para saber quién agrego la ficha panorámica de laboratorio, q esta bien el null aca
         codficha: 0, // capaz y no le gustaba que se le pase aca
+        fechaconsulta: "", //fecha de la panolab
         protesis: "No", //	el paciente tiene prótesis, sí o no
         hemoglobina: null, //	cantidad hemoglobina
         hemotocrito: null, //	cantidad hematocrito
@@ -94,8 +95,7 @@ class Panolab extends Component {
 
   async handleAdd() {
     let panolab = this.state.datosPanolab;
-
-    panolab["codficha"] = this.props.codficha;
+    panolab["codficha"] = parseInt(this.props.match.params.codficha);
 
     await fetch("http://127.0.0.1:8000/api/panolab/", {
       method: "POST", // or 'PUT'
@@ -110,6 +110,23 @@ class Panolab extends Component {
         console.log(response);
       });
     this.setState({ visible: !this.state.visible });
+  }
+
+  async componentWillMount() {
+    const url1 = "http://127.0.0.1:8000/api/ficha?codficha=";
+    let datopaciente = {};
+    await axios
+      .get(url1 + this.props.match.params.codficha) //para este necesitamos el codpaciente
+      .then(function(response) {
+        console.log(response.data[0]);
+        datopaciente = response.data[0];
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    this.setState({ datospaciente: datopaciente });
+
+    console.log(this.props.match.params.codficha);
   }
 
   render() {
@@ -168,6 +185,20 @@ class Panolab extends Component {
                     />
                   </FormGroup>
                 </Col>
+                <Col>
+                  <FormGroup>
+                    <Label for="fechapanolab">
+                      Fecha de Panorámica de Laboratorio
+                    </Label>
+                    <Input
+                      type="date"
+                      onChange={this.handleChange}
+                      value={this.state.fechapanolab}
+                      name="fechapanolab"
+                      id="fechapanolab"
+                    />
+                  </FormGroup>
+                </Col>
               </Row>
               <Row>
                 <Col>
@@ -177,6 +208,18 @@ class Panolab extends Component {
                       type="number"
                       onChange={this.handleChange}
                       value={this.state.datosPanolab.vcm}
+                      name="vcm"
+                      id="vcm"
+                    />
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label for="vcm">GB</Label>
+                    <Input
+                      type="number"
+                      onChange={this.handleChange}
+                      value={this.state.datosPanolab.globlanco}
                       name="vcm"
                       id="vcm"
                     />
