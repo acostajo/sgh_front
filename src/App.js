@@ -8,6 +8,7 @@ import BuscarFicha from "./components/ficha/buscarFicha";
 import FichaView from "./components/ficha/fichaView";
 import FichaEdit from "./components/ficha/fichaEdit";
 import Panolab from "./components/panolab/panolabForm";
+import PanolabView from "./components/panolab/panolabView";
 import MenuFicha from "./components/ficha/menuficha";
 import ConsultaView from "./components/consulta/consultaView";
 
@@ -23,9 +24,12 @@ class App extends Component {
               path="/consulta_view/:codconsulta"
               component={ConsultaView}
             />
+
+            <Route path="/panolab/:codficha" component={Panolab} />
+            <Route path="/panolab_view/:codpanolab" component={PanolabView} />
             <Route path="/ficha" component={Ficha} />
             <Route path="/ficha_view/:codpaciente" component={FichaView} />
-            <Route path="/panolab/:codficha" component={Panolab} />
+
             <Route path="/ficha_edit/:codficha" component={FichaEdit} />
             <Route path="/ficha_buscar" component={BuscarFicha} />
             <Route path="/menu_ficha/:codficha" component={MenuFicha} />
