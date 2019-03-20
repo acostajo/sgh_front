@@ -51,7 +51,7 @@ class ConsultaView extends Component {
 
   async componentWillMount() {
     const cod = this.props.match.params.codconsulta;
-
+    console.log(cod);
     const url1 = "http://127.0.0.1:8000/api/consulta?codconsulta=";
     let datosConsulta = {};
 
