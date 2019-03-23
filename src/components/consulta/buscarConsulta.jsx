@@ -119,8 +119,11 @@ class BuscarConsulta extends Component {
                 {list.map(item => (
                   <ListGroupItem>
                     <ListGroupItemHeading>
-                      <Link to={`/consulta_view/${item.codconsulta}`}>
+                      {/*<Link to={`/consulta_view/${item.codconsulta}`}>
                         {" "}
+                        <h4>{item.fechaconsulta}</h4>
+                </Link>*/}
+                      <Link to={`/menu_ficha/${item.codconsulta}`}>
                         <h4>{item.fechaconsulta}</h4>
                       </Link>
                     </ListGroupItemHeading>

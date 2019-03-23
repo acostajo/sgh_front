@@ -24,6 +24,7 @@ class BuscarFicha extends Component {
     this.state = {
       nrodocumento: "",
       nombre: "",
+      apellido: "", //no me di cuenta jajajaxD
       datosficha: {},
       fadeIn: false,
       alert: false
@@ -43,12 +44,29 @@ class BuscarFicha extends Component {
   }
 
   async handleSearch() {
-    const url1 = "http://127.0.0.1:8000/api/ficha?nrodocumento=";
+    const url_nroDoc = "http://127.0.0.1:8000/api/ficha?nrodocumento=";
+    const urlNomApe = "http://127.0.0.1:8000/api/ficha?nombres=";
+    const apellido = "&apellidos=";
+    const nroDoc = this.state.nrodocumento;
     let datosficha = {};
     let respuesta;
+    let url_usada;
+
+    if (this.state.nrodocumento === "") {
+      //si esta vacio vamos a preguntar si nombre o apellido estan con algun valor
+      if (this.state.nombre !== "" || this.state.apellido !== "") {
+        //si ocurre que alguno de los dos esta osea con un valor, vamos a asignarle ambos, un nombre y un apellido, no importa cual este vacio, total igual trae
+        url_usada = urlNomApe + apellido + this.state.apellido; //aca le concatena todo si entiendo nomas qria decir :()
+      } else {
+        //aca tenemos que avisar que nigun campo este vacio
+      }
+    } else {
+      // si no esta vacio entonces usamos la primera url
+      url_usada = url_nroDoc + nroDoc;
+    }
 
     await axios
-      .get(url1 + this.state.nrodocumento)
+      .get(url_usada) //ahora necesitamos agregar los inputs
       .then(function(response) {
         console.log(response.data[0]);
         if (response.data[0] === undefined) {
@@ -96,7 +114,33 @@ class BuscarFicha extends Component {
               Buscar
             </Button>
           </Col>
+          {/*<Col>
+            <FormGroup>
+              <Label for="nrodocumento">Buscar por Nombre y apellido</Label>
+              <Row>
+                <Col>
+                  <Input
+                    type="text"
+                    onChange={this.handleChange}
+                    value={this.state.nombre}
+                    name="nombre"
+                    id="nombre"
+                  />
+                </Col>
+                <Col>
+                  <Input
+                    type="text"
+                    onChange={this.handleChange}
+                    value={this.state.apellido}
+                    name="apellido"
+                    id="apellido"
+                  />
+                </Col>
+              </Row>
+            </FormGroup>
+            {/*sale feito, vmos a ponerle uno al lado del otro. yo pense q iba a ser en un so*/}
         </Row>
+
         <hr />
         <Container>
           <Row>

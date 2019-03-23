@@ -8,6 +8,7 @@ import {
   CardBody,
   Container,
   Row,
+  ButtonGroup,
   Col,
   Form,
   FormGroup,
@@ -15,6 +16,16 @@ import {
   Input
 } from "reactstrap";
 import axios from "axios";
+
+class Example extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { cSelected: [] };
+
+    this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
+  }
+}
 
 class Consulta extends Component {
   constructor() {
@@ -34,23 +45,23 @@ class Consulta extends Component {
       evolucion: "", //	descripción de la evolución
       limitacion: "", //	descripción de las limitaciones que posee el Paciente
       limitacionmotivo: "", //	descripción de las limitaciones que posee el Paciente
-      presionarte: 0, //	medida de la presión arterial
-      frescresp: 0, //	medida de la frecuencia cardíaca
-      freccardia: 0, //	medida de la frecuencia respiratoria
-      peso: 0, //	peso
-      talla: 0, //	talla
-      nad: 0, //	número de articulaciones dolorosas
-      nat: 0, //	número de articulaciones tumefactas
-      eva: 0, //	escala visual analógica
-      vgp: 0, //	valoración global del Paciente
-      vgm: 0, //	valoración global del médico
-      cdai: 0, //	clinical disease activity index
-      sdai: 0, //	simple disease activity index
-      haq: 0, //	health assessment questionnaire
-      das28pcr: 0, //	disease activity score 28 - proteína c reactiva
-      das28vsg: 0, //	disease activity score 28 - velocidad de sedimentación globular
-      sientepaci: 0, //	escala del 0 (sin dolor) al 10 (máximo dolor)
-      plan: 0, //	descripción del plan para el paciente
+      presionarte: null, //	medida de la presión arterial
+      frescresp: null, //	medida de la frecuencia cardíaca
+      freccardia: null, //	medida de la frecuencia respiratoria
+      peso: null, //	peso
+      talla: null, //	talla
+      nad: null, //	número de articulaciones dolorosas
+      nat: null, //	número de articulaciones tumefactas
+      eva: null, //	escala visual analógica
+      vgp: null, //	valoración global del Paciente
+      vgm: null, //	valoración global del médico
+      cdai: null, //	clinical disease activity index
+      sdai: null, //	simple disease activity index
+      haq: null, //	health assessment questionnaire
+      das28pcr: null, //	disease activity score 28 - proteína c reactiva
+      das28vsg: null, //	disease activity score 28 - velocidad de sedimentación globular
+      sientepaci: null, //	escala del 0 (sin dolor) al 10 (máximo dolor)
+      plan: null, //	descripción del plan para el paciente
       fechacreada: 0, //	fecha de creación de la consulta
       deshabilitar: false,
       deshabilitartaba: true,
@@ -141,6 +152,10 @@ class Consulta extends Component {
     console.log(this.props.match.params.codficha);
   }
 
+  onRadioBtnClick(rSelected) {
+    this.setState({ sientepaci: rSelected });
+  }
+
   render() {
     return (
       <Container>
@@ -151,6 +166,7 @@ class Consulta extends Component {
         >
           La Consulta fue cargada con exito!
         </Alert>
+
         <Card>
           <CardHeader>
             <h3>Datos</h3>
@@ -443,6 +459,55 @@ class Consulta extends Component {
                 </Col>
               </Row>
               <Row>
+                <div>
+                  <h5>¿Como se siente el Paciente?</h5>
+                  <ButtonGroup>
+                    <Button
+                      color="secondary"
+                      onClick={() => this.onRadioBtnClick("Sin dolor")}
+                      active={this.state.rSelected === "Sin dolor"}
+                    >
+                      Sin dolor
+                    </Button>
+                    <Button
+                      color="primary"
+                      onClick={() => this.onRadioBtnClick("Dolor leve")}
+                      active={this.state.rSelected === "Dolor leve"}
+                    >
+                      Dolor leve
+                    </Button>
+                    <Button
+                      color="warning"
+                      onClick={() => this.onRadioBtnClick("Dolor moderado")}
+                      active={this.state.rSelected === "Dolor moderado"}
+                    >
+                      Dolor moderado
+                    </Button>
+                    <Button
+                      color="success"
+                      onClick={() => this.onRadioBtnClick("Dolor severo")}
+                      active={this.state.rSelected === "Dolor severo"}
+                    >
+                      Dolor severo
+                    </Button>
+                    <Button
+                      color="info"
+                      onClick={() => this.onRadioBtnClick("Dolor muy severo")}
+                      active={this.state.rSelected === "Dolor muy severo"}
+                    >
+                      Dolor muy severo
+                    </Button>
+                    <Button
+                      color="danger"
+                      onClick={() => this.onRadioBtnClick("Máximo dolor")}
+                      active={this.state.rSelected === "Máximo dolor"}
+                    >
+                      Máximo dolor
+                    </Button>
+                  </ButtonGroup>
+                </div>
+              </Row>
+              {/*<Row>
                 <Col>
                   <FormGroup>
                     <Label for="sientepaci">Como se siente el Paciente</Label>
@@ -455,7 +520,7 @@ class Consulta extends Component {
                     />
                   </FormGroup>
                 </Col>
-              </Row>
+              </Row>*/}
               <Row>
                 <Col>
                   <FormGroup>
