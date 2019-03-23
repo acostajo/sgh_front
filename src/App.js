@@ -25,8 +25,8 @@ class App extends Component {
               component={ConsultaView}
             />
 
-            <Route path="/panolab/:codficha" component={Panolab} />
-            <Route path="/panolab_view/:codpanolab" component={PanolabView} />
+            {/*<Route path="/panolab/:codficha" component={Panolab} />
+            <Route path="/panolab_view/:codpanolab" component={PanolabView} />*/}
             <Route path="/ficha" component={Ficha} />
             <Route path="/ficha_view/:codpaciente" component={FichaView} />
 
@@ -35,6 +35,12 @@ class App extends Component {
             <Route path="/menu_ficha/:codficha" component={MenuFicha} />
             <Route path="/" component={BuscarFicha} />
           </Switch>
+          <div className="content">
+            <Switch>
+              <Route path="/panolab/:codficha" component={Panolab} />
+              <Route path="/panolab_view/:codpanolab" component={PanolabView} />
+            </Switch>
+          </div>
         </div>
       </div>
     );
