@@ -25,7 +25,7 @@ class Panolab extends Component {
         //datos correspondientes a la panoramica de laboratorio
         codusuario: null, //	código interno de usuario, para saber quién agrego la ficha panorámica de laboratorio, q esta bien el null aca
         codficha: 0, // capaz y no le gustaba que se le pase aca
-        fechaconsulta: "", //fecha de la panolab
+        fechapanolab: "", //fecha de la panolab
         protesis: "No", //	el paciente tiene prótesis, sí o no
         hemoglobina: null, //	cantidad hemoglobina
         hemotocrito: null, //	cantidad hematocrito

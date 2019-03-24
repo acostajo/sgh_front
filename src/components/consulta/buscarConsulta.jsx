@@ -99,9 +99,12 @@ class BuscarConsulta extends Component {
             <Button onClick={this.handleSearch} color="primary">
               Buscar
             </Button>
-          </Col>
-          <Col>
-            <Button onClick={this.handleAdd} color="primary">
+            {"          "}
+            <Button
+              style={{ float: "rigth" }}
+              onClick={this.handleAdd}
+              color="primary"
+            >
               <Link
                 to={`/consulta/${this.props.codficha}`}
                 style={{ color: "white" }}

@@ -24,7 +24,6 @@ class App extends Component {
               path="/consulta_view/:codconsulta"
               component={ConsultaView}
             />
-
             <Route path="/panolab/:codficha" component={Panolab} />
             <Route path="/panolab_view/:codpanolab" component={PanolabView} />
             <Route path="/ficha" component={Ficha} />
