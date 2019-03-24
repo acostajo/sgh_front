@@ -215,13 +215,13 @@ class Panolab extends Component {
                 </Col>
                 <Col>
                   <FormGroup>
-                    <Label for="vcm">GB</Label>
+                    <Label for="globlanco">GB</Label>
                     <Input
                       type="number"
                       onChange={this.handleChange}
                       value={this.state.datosPanolab.globlanco}
-                      name="vcm"
-                      id="vcm"
+                      name="globlanco"
+                      id="globlanco"
                     />
                   </FormGroup>
                 </Col>
@@ -369,7 +369,7 @@ class Panolab extends Component {
                       onChange={this.handleChange}
                       value={this.state.datosPanolab.glicemia}
                       name="glicemia"
-                      id="taglicemialla"
+                      id="glicemia"
                     />
                   </FormGroup>
                 </Col>
