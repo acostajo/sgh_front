@@ -60,7 +60,7 @@ class Consulta extends Component {
       haq: null, //	health assessment questionnaire
       das28pcr: null, //	disease activity score 28 - proteína c reactiva
       das28vsg: null, //	disease activity score 28 - velocidad de sedimentación globular
-      sientepaci: null, //	escala del 0 (sin dolor) al 10 (máximo dolor)
+      sientepaci: "Sin Dolor", //	escala del 0 (sin dolor) al 10 (máximo dolor)
       plan: null, //	descripción del plan para el paciente
       fechacreada: 0, //	fecha de creación de la consulta
       deshabilitar: false,
@@ -486,21 +486,21 @@ class Consulta extends Component {
                     <Button
                       color="success"
                       onClick={() => this.onRadioBtnClick("Dolor severo")}
-                      active={this.state.rSelected === "Dolor severo"}
+                      active={this.state.rSelected}
                     >
                       Dolor severo
                     </Button>
                     <Button
                       color="info"
                       onClick={() => this.onRadioBtnClick("Dolor muy severo")}
-                      active={this.state.rSelected === "Dolor muy severo"}
+                      active={this.state.rSelected}
                     >
                       Dolor muy severo
                     </Button>
                     <Button
                       color="danger"
                       onClick={() => this.onRadioBtnClick("Máximo dolor")}
-                      active={this.state.rSelected === "Máximo dolor"}
+                      active={this.state.rSelected}
                     >
                       Máximo dolor
                     </Button>

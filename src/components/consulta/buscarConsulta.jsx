@@ -72,7 +72,9 @@ class BuscarConsulta extends Component {
         alert: false
       });
     }
-    console.log(url1 + this.state.fechaConsulta);
+    console.log(
+      url1 + this.state.fechaConsulta + codficha + this.props.codficha
+    );
   }
 
   render() {
@@ -99,9 +101,12 @@ class BuscarConsulta extends Component {
             <Button onClick={this.handleSearch} color="primary">
               Buscar
             </Button>
-          </Col>
-          <Col>
-            <Button onClick={this.handleAdd} color="primary">
+            {"          "}
+            <Button
+              style={{ float: "rigth" }}
+              onClick={this.handleAdd}
+              color="primary"
+            >
               <Link
                 to={`/consulta/${this.props.codficha}`}
                 style={{ color: "white" }}
