@@ -47,8 +47,11 @@ class BuscarPanolab extends Component {
     let listado = [];
     let respuesta;
 
+    const url_usar =
+      url1 + this.state.fechaPanolab + codficha + this.props.codficha;
+    console.log(url_usar);
     await axios
-      .get(url1 + this.state.fechaPanolab + codficha + this.props.codficha) //y asi queda concatenado todo, si no hay fecha igual trae solo lo de esa ficha, vamos a probar
+      .get(url_usar) //y asi queda concatenado todo, si no hay fecha igual trae solo lo de esa ficha, vamos a probar
       .then(function(response) {
         if (response.data[0] === undefined) {
           respuesta = null;
