@@ -34,12 +34,6 @@ class App extends Component {
             <Route path="/menu_ficha/:codficha" component={MenuFicha} />
             <Route path="/" component={BuscarFicha} />
           </Switch>
-          <div className="content">
-            <Switch>
-              <Route path="/panolab/:codficha" component={Panolab} />
-              <Route path="/panolab_view/:codpanolab" component={PanolabView} />
-            </Switch>
-          </div>
         </div>
       </div>
     );

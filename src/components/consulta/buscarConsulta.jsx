@@ -72,7 +72,9 @@ class BuscarConsulta extends Component {
         alert: false
       });
     }
-    console.log(url1 + this.state.fechaConsulta);
+    console.log(
+      url1 + this.state.fechaConsulta + codficha + this.props.codficha
+    );
   }
 
   render() {
