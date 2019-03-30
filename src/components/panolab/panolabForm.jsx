@@ -164,6 +164,7 @@ class Panolab extends Component {
                 <Col>
                   <FormGroup>
                     <Label for="hemoglobina">Hb</Label>
+
                     <Input
                       type="number"
                       onChange={this.handleChange}
@@ -172,6 +173,9 @@ class Panolab extends Component {
                       id="hemoglobina"
                     />
                   </FormGroup>
+                </Col>
+                <Col>
+                  <h20> g/dl</h20>
                 </Col>
                 <Col>
                   <FormGroup>

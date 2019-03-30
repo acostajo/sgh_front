@@ -28,7 +28,6 @@ class App extends Component {
             <Route path="/panolab_view/:codpanolab" component={PanolabView} />
             <Route path="/ficha" component={Ficha} />
             <Route path="/ficha_view/:codpaciente" component={FichaView} />
-
             <Route path="/ficha_edit/:codficha" component={FichaEdit} />
             <Route path="/ficha_buscar" component={BuscarFicha} />
             <Route path="/menu_ficha/:codficha" component={MenuFicha} />

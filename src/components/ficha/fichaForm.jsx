@@ -8,6 +8,8 @@ import {
   Container,
   Row,
   Fade,
+  Modal,
+  ModalBody,
   Col,
   Form,
   FormGroup,
@@ -16,6 +18,7 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import Joi from "joi-browser";
+import Fame from "./../fames/famesForm";
 const ColoredLine = ({ color }) => (
   <hr
     style={{
@@ -34,6 +37,7 @@ class Ficha extends Component {
       errores: {},
       visible: false,
       aviso: false,
+      toggleFame: false,
       //datos correspondientes al paciente
       datosFicha: {
         codusuario: null, //#código interno de usuario, para saber quién agrego la ficha
@@ -123,6 +127,7 @@ class Ficha extends Component {
     this.onDismissAviso = this.onDismissAviso.bind(this);
     this.validarCedula = this.validarCedula.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.toggleFame = this.toggleFame.bind(this);
   }
 
   async validarCedula(e) {
@@ -246,6 +251,14 @@ class Ficha extends Component {
         console.log(response);
       });
     this.setState({ visible: !this.state.visible });
+  }
+
+  //aca vamos a hacer la funcion del toggle, osea que va a mostrat y esconder
+
+  toggleFame() {
+    this.setState({
+      toggleFame: !this.state.toggleFame
+    });
   }
 
   render() {
@@ -965,6 +978,23 @@ class Ficha extends Component {
                       </Col>
                     </Row>
                   </FormGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Label for="fames">Fames</Label>
+                  <Input type="text" name="fames" id="fames" />
+                  <Button color="success" onClick={this.toggleFame}>
+                    +
+                  </Button>
+                  <Modal
+                    isOpen={this.state.toggleFame}
+                    toggle={this.toggleFame}
+                  >
+                    <ModalBody>
+                      <Fame />
+                    </ModalBody>
+                  </Modal>
                 </Col>
               </Row>
               <Row>
