@@ -26,7 +26,6 @@ class Example extends Component {
     this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
   }
 }
-
 class Consulta extends Component {
   constructor() {
     super();
