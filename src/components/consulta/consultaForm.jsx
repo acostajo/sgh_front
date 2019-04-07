@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import foto from "./jaz.jpg";
+import manito from "./manito.jpg";
 import {
   Card,
   Alert,
@@ -16,6 +16,8 @@ import {
   Input
 } from "reactstrap";
 import axios from "axios";
+import "bootstrap/dist/css/bootstrap.css";
+import "./estilos.css";
 
 class Example extends Component {
   constructor(props) {
@@ -458,68 +460,363 @@ class Consulta extends Component {
                 </Col>
               </Row>
               <Row>
-                <div>
-                  <h5>¿Como se siente el Paciente?</h5>
-                  <ButtonGroup>
-                    <Button
-                      color="secondary"
-                      onClick={() => this.onRadioBtnClick("Sin dolor")}
-                      active={this.state.rSelected === "Sin dolor"}
-                    >
-                      Sin dolor
-                    </Button>
-                    <Button
-                      color="primary"
-                      onClick={() => this.onRadioBtnClick("Dolor leve")}
-                      active={this.state.rSelected === "Dolor leve"}
-                    >
-                      Dolor leve
-                    </Button>
-                    <Button
-                      color="warning"
-                      onClick={() => this.onRadioBtnClick("Dolor moderado")}
-                      active={this.state.rSelected === "Dolor moderado"}
-                    >
-                      Dolor moderado
-                    </Button>
-                    <Button
-                      color="success"
-                      onClick={() => this.onRadioBtnClick("Dolor severo")}
-                      active={this.state.rSelected}
-                    >
-                      Dolor severo
-                    </Button>
-                    <Button
-                      color="info"
-                      onClick={() => this.onRadioBtnClick("Dolor muy severo")}
-                      active={this.state.rSelected}
-                    >
-                      Dolor muy severo
-                    </Button>
-                    <Button
-                      color="danger"
-                      onClick={() => this.onRadioBtnClick("Máximo dolor")}
-                      active={this.state.rSelected}
-                    >
-                      Máximo dolor
-                    </Button>
-                  </ButtonGroup>
-                </div>
-              </Row>
-              {/*<Row>
                 <Col>
                   <FormGroup>
-                    <Label for="sientepaci">Como se siente el Paciente</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.sientepaci}
-                      name="sientepaci"
-                      id="sientepaci"
-                    />
+                    <h5>¿Como se siente el Paciente?</h5>
+                    <ButtonGroup>
+                      <Button
+                        color="secondary"
+                        onClick={() => this.onRadioBtnClick("Sin dolor")}
+                        active={this.state.rSelected === "Sin dolor"}
+                      >
+                        Sin dolor
+                      </Button>
+                      <Button
+                        color="primary"
+                        onClick={() => this.onRadioBtnClick("Dolor leve")}
+                        active={this.state.rSelected === "Dolor leve"}
+                      >
+                        Dolor leve
+                      </Button>
+                      <Button
+                        color="warning"
+                        onClick={() => this.onRadioBtnClick("Dolor moderado")}
+                        active={this.state.rSelected === "Dolor moderado"}
+                      >
+                        Dolor moderado
+                      </Button>
+                      <Button
+                        color="success"
+                        onClick={() => this.onRadioBtnClick("Dolor severo")}
+                        active={this.state.rSelected}
+                      >
+                        Dolor severo
+                      </Button>
+                      <Button
+                        color="info"
+                        onClick={() => this.onRadioBtnClick("Dolor muy severo")}
+                        active={this.state.rSelected}
+                      >
+                        Dolor muy severo
+                      </Button>
+                      <Button
+                        color="danger"
+                        onClick={() => this.onRadioBtnClick("Máximo dolor")}
+                        active={this.state.rSelected}
+                      >
+                        Máximo dolor
+                      </Button>
+                    </ButtonGroup>
                   </FormGroup>
                 </Col>
-              </Row>*/}
+              </Row>
+              <Row>
+                <Col>
+                  <FormGroup>
+                    <h5>Datos para los Scores</h5>
+                    <Row>
+                      <Col>
+                        <h6>NAD</h6>
+                      </Col>
+                      <Col>
+                        <h6>NAT</h6>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <div className="contenedorPrincipal">
+                          <img src={manito} width="500" height="300" />
+                          <input
+                            type="checkbox"
+                            className="checkBox1"
+                            name="checkNAD1"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox2"
+                            name="checkNAD2"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox3"
+                            name="checkNAD3"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox4"
+                            name="checkNAD4"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox5"
+                            name="checkNAD5"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox6"
+                            name="checkNAD6"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox7"
+                            name="checkNAD7"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox8"
+                            name="checkNAD8"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox9"
+                            name="checkNAD9"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox10"
+                            name="checkNAD10"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox11"
+                            name="checkNAD11"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox12"
+                            name="checkNAD12"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox13"
+                            name="checkNAD13"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox14"
+                            name="checkNAD14"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox15"
+                            name="checkNAD15"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox16"
+                            name="checkNAD16"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox17"
+                            name="checkNAD17"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox18"
+                            name="checkNAD18"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox19"
+                            name="checkNAD19"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox20"
+                            name="checkNAD20"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox21"
+                            name="checkNAD21"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox22"
+                            name="checkNAD22"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox23"
+                            name="checkNAD23"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox24"
+                            name="checkNAD24"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox25"
+                            name="checkNAD25"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox26"
+                            name="checkNAD26"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox27"
+                            name="checkNAD27"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox28"
+                            name="checkNAD28"
+                          />
+                        </div>
+                      </Col>
+                      <Col>
+                        <div className="contenedorPrincipal">
+                          <img src={manito} width="500" height="300" />
+                          <input
+                            type="checkbox"
+                            className="checkBox1"
+                            name="checkNAT1"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox2"
+                            name="checkNAT2"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox3"
+                            name="checkNAT3"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox4"
+                            name="checkNAT4"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox5"
+                            name="checkNAT5"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox6"
+                            name="checkNAT6"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox7"
+                            name="checkNAT7"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox8"
+                            name="checkNAT8"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox9"
+                            name="checkNAT9"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox10"
+                            name="checkNAT10"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox11"
+                            name="checkNAT11"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox12"
+                            name="checkNAT12"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox13"
+                            name="checkNAT13"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox14"
+                            name="checkNAT14"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox15"
+                            name="checkNAT15"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox16"
+                            name="checkNAT16"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox17"
+                            name="checkNAT17"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox18"
+                            name="checkNAT18"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox19"
+                            name="checkNAD19"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox20"
+                            name="checkNAT20"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox21"
+                            name="checkNAT21"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox22"
+                            name="checkNAT22"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox23"
+                            name="checkNAT23"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox24"
+                            name="checkNAT24"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox25"
+                            name="checkNAT25"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox26"
+                            name="checkNAT26"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox27"
+                            name="checkNAT27"
+                          />
+                          <input
+                            type="checkbox"
+                            className="checkBox28"
+                            name="checkNAT28"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+              </Row>
               <Row>
                 <Col>
                   <FormGroup>

@@ -103,8 +103,7 @@ class BuscarPanolab extends Component {
             <Button onClick={this.handleSearch} color="primary">
               Buscar
             </Button>
-          </Col>
-          <Col>
+            {"   "}
             <Button onClick={this.handleAdd} color="primary">
               <Link
                 to={`/panolab/${this.props.codficha}`}
