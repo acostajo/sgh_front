@@ -16,8 +16,21 @@ import {
   Input
 } from "reactstrap";
 import axios from "axios";
+import InputRange from "react-input-range";
 import "bootstrap/dist/css/bootstrap.css";
 import "./estilos.css";
+import "react-input-range/lib/css/index.css";
+const ColoredLine = ({ color }) => (
+  <hr
+    style={{
+      color: color,
+      backgroundColor: color,
+      height: 150,
+      width: 2,
+      borderleft: 1
+    }}
+  />
+);
 
 class Example extends Component {
   constructor(props) {
@@ -51,26 +64,95 @@ class Consulta extends Component {
       freccardia: null, //	medida de la frecuencia respiratoria
       peso: null, //	peso
       talla: null, //	talla
-      nad: null, //	número de articulaciones dolorosas
-      nat: null, //	número de articulaciones tumefactas
+      nad: 0, //	número de articulaciones dolorosas
+      nat: 0, //	número de articulaciones tumefactas
       eva: null, //	escala visual analógica
-      vgp: null, //	valoración global del Paciente
-      vgm: null, //	valoración global del médico
-      cdai: null, //	clinical disease activity index
-      sdai: null, //	simple disease activity index
+      vgp1: null, //	valoración global del Paciente para CDAI Y SDAI
+      vgm1: null, //	valoración global del médico para CDAI Y SDAI
+      vgp2: null, //	valoración global del Paciente para DAS28PCR Y DAS28VSG
+      vgm2: null, //	valoración global del médicopara DAS28PCR Y DAS28VSG
+      crp: null,
+      vsg: null,
+      cdai: 0, //	clinical disease activity index
+      sdai: 0, //	simple disease activity index
       haq: null, //	health assessment questionnaire
-      das28pcr: null, //	disease activity score 28 - proteína c reactiva
-      das28vsg: null, //	disease activity score 28 - velocidad de sedimentación globular
+      das28pcr: 0, //	disease activity score 28 - proteína c reactiva
+      das28vsg: 0, //	disease activity score 28 - velocidad de sedimentación globular
       sientepaci: "Sin Dolor", //	escala del 0 (sin dolor) al 10 (máximo dolor)
       plan: null, //	descripción del plan para el paciente
       fechacreada: 0, //	fecha de creación de la consulta
       deshabilitar: false,
       deshabilitartaba: true,
-      fechanacipaciente: ""
+      fechanacipaciente: "",
+
+      //datos para los calculos de los scores
+      checksNAD: {
+        checkNAD1: false,
+        checkNAD2: false,
+        checkNAD3: false,
+        checkNAD4: false,
+        checkNAD5: false,
+        checkNAD6: false,
+        checkNAD7: false,
+        checkNAD8: false,
+        checkNAD9: false,
+        checkNAD10: false,
+        checkNAD11: false,
+        checkNAD12: false,
+        checkNAD13: false,
+        checkNAD14: false,
+        checkNAD15: false,
+        checkNAD16: false,
+        checkNAD17: false,
+        checkNAD18: false,
+        checkNAD19: false,
+        checkNAD20: false,
+        checkNAD21: false,
+        checkNAD22: false,
+        checkNAD23: false,
+        checkNAD24: false,
+        checkNAD25: false,
+        checkNAD26: false,
+        checkNAD27: false,
+        checkNAD28: false
+      },
+      checksNAT: {
+        checkNAT1: false,
+        checkNAT2: false,
+        checkNAT3: false,
+        checkNAT4: false,
+        checkNAT5: false,
+        checkNAT6: false,
+        checkNAT7: false,
+        checkNAT8: false,
+        checkNAT9: false,
+        checkNAT10: false,
+        checkNAT11: false,
+        checkNAT12: false,
+        checkNAT13: false,
+        checkNAT14: false,
+        checkNAT15: false,
+        checkNAT16: false,
+        checkNAT17: false,
+        checkNAT18: false,
+        checkNAT19: false,
+        checkNAT20: false,
+        checkNAT21: false,
+        checkNAT22: false,
+        checkNAT23: false,
+        checkNAT24: false,
+        checkNAT25: false,
+        checkNAT26: false,
+        checkNAT27: false,
+        checkNAT28: false
+      }
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
+    this.onCheckNAD = this.onCheckNAD.bind(this);
+    this.onCheckNAT = this.onCheckNAT.bind(this);
+    this.calcularScores = this.calcularScores.bind(this);
   }
   handleChange(e) {
     const target = e.target;
@@ -155,6 +237,82 @@ class Consulta extends Component {
 
   onRadioBtnClick(rSelected) {
     this.setState({ sientepaci: rSelected });
+  }
+
+  onCheckNAD(e) {
+    const target = e.target;
+    let fields = this.state.checksNAD;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    fields[name] = value;
+
+    this.setState({
+      datosFicha: fields
+    });
+    console.log(this.state.checksNAD);
+  }
+
+  onCheckNAT(e) {
+    const target = e.target;
+    let fields = this.state.checksNAT;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    fields[name] = value;
+
+    this.setState({
+      datosFicha: fields
+    });
+    console.log(this.state.checksNAT);
+  }
+
+  calcularScores() {
+    let countNAD = 0;
+    let countNAT = 0;
+    const checksNAD = Object.values(this.state.checksNAD);
+    const checksNAT = Object.values(this.state.checksNAT);
+    for (const prop in checksNAD) {
+      if (checksNAD[prop] === true) {
+        countNAD = countNAD + 1;
+      }
+    }
+    for (const prop in checksNAT) {
+      if (checksNAT[prop] === true) {
+        countNAT = countNAT + 1;
+      }
+    }
+
+    //formula para cdai = NAD28 + NAT28 + VGP + VGM
+    const CDAI = countNAT + countNAD + this.state.vgm1 + this.state.vgp1;
+
+    //formula para el SDAI: NAD28 + NAT28 + VGP + VGM + PCR (en mg/dl)
+    const SDAI =
+      countNAT + countNAD + this.state.vgm1 + this.state.vgp1 + this.state.crp;
+
+    //formula para el DAS28-PCR: 0,56 x √NAD28 + 0,28 x √NAT28 + 0,36 x ln(PCR +1) + 0,014 x VGP + 0,96
+    const DAS28_PCR =
+      0.56 * Math.sqrt(countNAD) +
+      0.28 * Math.sqrt(countNAT) +
+      0.36 * Math.log(this.state.crp + 1) +
+      0.14 * this.state.vgp2 +
+      0.96;
+
+    // formula para DAS28-VSG: 0,56 x √NAD28 + 0,28 x √NAT28 + 0,70 x ln(VSG) + 0,014 x VGP
+    const DAS28_VSG =
+      0.56 * Math.sqrt(countNAD) +
+      0.28 * Math.sqrt(countNAT) +
+      0.7 * Math.log(this.state.vsg) +
+      0.14 * this.state.vgp2;
+
+    this.setState({
+      nad: countNAD,
+      nat: countNAT,
+      cdai: CDAI,
+      sdai: SDAI,
+      das28pcr: DAS28_PCR.toFixed(2),
+      das28vsg: DAS28_VSG.toFixed(2)
+    });
   }
 
   render() {
@@ -510,313 +668,589 @@ class Consulta extends Component {
                   </FormGroup>
                 </Col>
               </Row>
-              <Row>
+              <Row style={{ marginBottom: 10 }}>
                 <Col>
                   <FormGroup>
                     <h5>Datos para los Scores</h5>
                     <Row>
                       <Col>
-                        <h6>NAD</h6>
-                      </Col>
-                      <Col>
-                        <h6>NAT</h6>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <div className="contenedorPrincipal">
-                          <img src={manito} width="500" height="300" />
-                          <input
-                            type="checkbox"
-                            className="checkBox1"
-                            name="checkNAD1"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox2"
-                            name="checkNAD2"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox3"
-                            name="checkNAD3"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox4"
-                            name="checkNAD4"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox5"
-                            name="checkNAD5"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox6"
-                            name="checkNAD6"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox7"
-                            name="checkNAD7"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox8"
-                            name="checkNAD8"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox9"
-                            name="checkNAD9"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox10"
-                            name="checkNAD10"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox11"
-                            name="checkNAD11"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox12"
-                            name="checkNAD12"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox13"
-                            name="checkNAD13"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox14"
-                            name="checkNAD14"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox15"
-                            name="checkNAD15"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox16"
-                            name="checkNAD16"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox17"
-                            name="checkNAD17"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox18"
-                            name="checkNAD18"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox19"
-                            name="checkNAD19"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox20"
-                            name="checkNAD20"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox21"
-                            name="checkNAD21"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox22"
-                            name="checkNAD22"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox23"
-                            name="checkNAD23"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox24"
-                            name="checkNAD24"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox25"
-                            name="checkNAD25"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox26"
-                            name="checkNAD26"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox27"
-                            name="checkNAD27"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox28"
-                            name="checkNAD28"
-                          />
-                        </div>
-                      </Col>
-                      <Col>
-                        <div className="contenedorPrincipal">
-                          <img src={manito} width="500" height="300" />
-                          <input
-                            type="checkbox"
-                            className="checkBox1"
-                            name="checkNAT1"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox2"
-                            name="checkNAT2"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox3"
-                            name="checkNAT3"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox4"
-                            name="checkNAT4"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox5"
-                            name="checkNAT5"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox6"
-                            name="checkNAT6"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox7"
-                            name="checkNAT7"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox8"
-                            name="checkNAT8"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox9"
-                            name="checkNAT9"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox10"
-                            name="checkNAT10"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox11"
-                            name="checkNAT11"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox12"
-                            name="checkNAT12"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox13"
-                            name="checkNAT13"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox14"
-                            name="checkNAT14"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox15"
-                            name="checkNAT15"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox16"
-                            name="checkNAT16"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox17"
-                            name="checkNAT17"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox18"
-                            name="checkNAT18"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox19"
-                            name="checkNAD19"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox20"
-                            name="checkNAT20"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox21"
-                            name="checkNAT21"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox22"
-                            name="checkNAT22"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox23"
-                            name="checkNAT23"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox24"
-                            name="checkNAT24"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox25"
-                            name="checkNAT25"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox26"
-                            name="checkNAT26"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox27"
-                            name="checkNAT27"
-                          />
-                          <input
-                            type="checkbox"
-                            className="checkBox28"
-                            name="checkNAT28"
-                          />
-                        </div>
+                        <Card
+                          style={{
+                            textAlign: "center",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            padding: 10
+                          }}
+                        >
+                          <Row style={{}}>
+                            <Col>
+                              <h6>NAD</h6>
+                            </Col>
+                            <Col>
+                              <h6>NAT</h6>
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col>
+                              <div className="contenedorPrincipal">
+                                <img src={manito} width="500" height="300" />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox1"
+                                  name="checkNAD1"
+                                  value={this.state.checksNAD.checkNAD1}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox2"
+                                  name="checkNAD2"
+                                  value={this.state.checksNAD.checkNAD2}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox3"
+                                  name="checkNAD3"
+                                  value={this.state.checksNAD.checkNAD3}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox4"
+                                  name="checkNAD4"
+                                  value={this.state.checksNAD.checkNAD4}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox5"
+                                  name="checkNAD5"
+                                  value={this.state.checksNAD.checkNAD5}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox6"
+                                  name="checkNAD6"
+                                  value={this.state.checksNAD.checkNAD6}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox7"
+                                  name="checkNAD7"
+                                  value={this.state.checksNAD.checkNAD7}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox8"
+                                  name="checkNAD8"
+                                  value={this.state.checksNAD.checkNAD8}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox9"
+                                  name="checkNAD9"
+                                  value={this.state.checksNAD.checkNAD9}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox10"
+                                  name="checkNAD10"
+                                  value={this.state.checksNAD.checkNAD10}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox11"
+                                  name="checkNAD11"
+                                  value={this.state.checksNAD.checkNAD11}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox12"
+                                  name="checkNAD12"
+                                  value={this.state.checksNAD.checkNAD12}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox13"
+                                  name="checkNAD13"
+                                  value={this.state.checksNAD.checkNAD13}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox14"
+                                  name="checkNAD14"
+                                  value={this.state.checksNAD.checkNAD14}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox15"
+                                  name="checkNAD15"
+                                  value={this.state.checksNAD.checkNAD15}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox16"
+                                  name="checkNAD16"
+                                  value={this.state.checksNAD.checkNA16}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox17"
+                                  name="checkNAD17"
+                                  value={this.state.checksNAD.checkNAD17}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox18"
+                                  name="checkNAD18"
+                                  value={this.state.checksNAD.checkNAD18}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox19"
+                                  name="checkNAD19"
+                                  value={this.state.checksNAD.checkNAD19}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox20"
+                                  name="checkNAD20"
+                                  value={this.state.checksNAD.checkNAD20}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox21"
+                                  name="checkNAD21"
+                                  value={this.state.checksNAD.checkNAD21}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox22"
+                                  name="checkNAD22"
+                                  value={this.state.checksNAD.checkNAD22}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox23"
+                                  name="checkNAD23"
+                                  value={this.state.checksNAD.checkNAD23}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox24"
+                                  name="checkNAD24"
+                                  value={this.state.checksNAD.checkNAD24}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox25"
+                                  name="checkNAD25"
+                                  value={this.state.checksNAD.checkNAD25}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox26"
+                                  name="checkNAD26"
+                                  value={this.state.checksNAD.checkNAD26}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox27"
+                                  name="checkNAD27"
+                                  value={this.state.checksNAD.checkNAD27}
+                                  onChange={this.onCheckNAD}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox28"
+                                  name="checkNAD28"
+                                  value={this.state.checksNAD.checkNAD28}
+                                  onChange={this.onCheckNAD}
+                                />
+                              </div>
+                            </Col>
+                            <Col>
+                              <div className="contenedorPrincipal">
+                                <img src={manito} width="500" height="300" />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox1"
+                                  name="checkNAT1"
+                                  value={this.state.checksNAT.checkNAT1}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox2"
+                                  name="checkNAT2"
+                                  value={this.state.checksNAT.checkNAT2}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox3"
+                                  name="checkNAT3"
+                                  value={this.state.checksNAT.checkNAT3}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox4"
+                                  name="checkNAT4"
+                                  value={this.state.checksNAT.checkNAT4}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox5"
+                                  name="checkNAT5"
+                                  value={this.state.checksNAT.checkNAT5}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox6"
+                                  name="checkNAT6"
+                                  value={this.state.checksNAT.checkNAT6}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox7"
+                                  name="checkNAT7"
+                                  value={this.state.checksNAT.checkNAT7}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox8"
+                                  name="checkNAT8"
+                                  value={this.state.checksNAT.checkNAT8}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox9"
+                                  name="checkNAT9"
+                                  value={this.state.checksNAT.checkNAT9}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox10"
+                                  name="checkNAT10"
+                                  value={this.state.checksNAT.checkNAT10}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox11"
+                                  name="checkNAT11"
+                                  value={this.state.checksNAT.checkNAT11}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox12"
+                                  name="checkNAT12"
+                                  value={this.state.checksNAT.checkNAT12}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox13"
+                                  name="checkNAT13"
+                                  value={this.state.checksNAT.checkNAT13}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox14"
+                                  name="checkNAT14"
+                                  value={this.state.checksNAT.checkNAT14}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox15"
+                                  name="checkNAT15"
+                                  value={this.state.checksNAT.checkNAT15}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox16"
+                                  name="checkNAT16"
+                                  value={this.state.checksNAT.checkNAT16}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox17"
+                                  name="checkNAT17"
+                                  value={this.state.checksNAT.checkNAT17}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox18"
+                                  name="checkNAT18"
+                                  value={this.state.checksNAT.checkNAT18}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox19"
+                                  name="checkNAD19"
+                                  value={this.state.checksNAT.checkNAT19}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox20"
+                                  name="checkNAT20"
+                                  value={this.state.checksNAT.checkNAT20}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox21"
+                                  name="checkNAT21"
+                                  value={this.state.checksNAT.checkNAT21}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox22"
+                                  name="checkNAT22"
+                                  value={this.state.checksNAT.checkNAT22}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox23"
+                                  name="checkNAT23"
+                                  value={this.state.checksNAT.checkNAT23}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox24"
+                                  name="checkNAT24"
+                                  value={this.state.checksNAT.checkNAT24}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox25"
+                                  name="checkNAT25"
+                                  value={this.state.checksNAT.checkNAT25}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox26"
+                                  name="checkNAT26"
+                                  value={this.state.checksNAT.checkNAT26}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox27"
+                                  name="checkNAT27"
+                                  value={this.state.checksNAT.checkNAT27}
+                                  onChange={this.onCheckNAT}
+                                />
+                                <input
+                                  type="checkbox"
+                                  className="checkBox28"
+                                  name="checkNAT28"
+                                  value={this.state.checksNAT.checkNAT28}
+                                  onChange={this.onCheckNAT}
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </Card>
                       </Col>
                     </Row>
                   </FormGroup>
                 </Col>
               </Row>
+              <Row style={{ marginBottom: 20 }}>
+                <Col>
+                  <Card style={{ padding: 20 }}>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label>CRP</Label>
+                          <InputRange
+                            maxValue={100}
+                            minValue={0}
+                            value={this.state.crp}
+                            onChange={value => this.setState({ crp: value })}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>VSG</Label>
+                          <InputRange
+                            maxValue={200}
+                            minValue={0}
+                            value={this.state.vsg}
+                            onChange={value => this.setState({ vsg: value })}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+              </Row>
+
+              <Row style={{ marginBottom: 20 }}>
+                <Col>
+                  <Card style={{ padding: 20 }}>
+                    <Row>
+                      <FormGroup>
+                        <Col>Variables para CDAI y SDAI</Col>
+                      </FormGroup>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label>VGP</Label>
+                          <InputRange
+                            maxValue={10}
+                            minValue={0}
+                            value={this.state.vgp1}
+                            onChange={value => this.setState({ vgp1: value })}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>VGM </Label>
+                          <InputRange
+                            maxValue={10}
+                            minValue={0}
+                            value={this.state.vgm1}
+                            onChange={value => this.setState({ vgm1: value })}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+
+                <Col>
+                  <Card style={{ padding: 20 }}>
+                    <Row>
+                      <FormGroup>
+                        <Col>Variables para DAS28-PCR y DAS28-VSG</Col>
+                      </FormGroup>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label>VGM</Label>
+                          <InputRange
+                            maxValue={100}
+                            minValue={0}
+                            value={this.state.vgm2}
+                            onChange={value => this.setState({ vgm2: value })}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>VGP</Label>
+                          <InputRange
+                            maxValue={100}
+                            minValue={0}
+                            value={this.state.vgp2}
+                            onChange={value => this.setState({ vgp2: value })}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Card style={{ padding: 20, textAlign: "center" }}>
+                    <h4>CDAI</h4>
+                    <h1
+                      style={{
+                        color: "blue"
+                      }}
+                    >
+                      {this.state.cdai}
+                    </h1>
+                  </Card>
+                </Col>
+                <Col>
+                  <Card style={{ padding: 20, textAlign: "center" }}>
+                    <h4>SDAI</h4>
+                    <h1
+                      style={{
+                        color: "green"
+                      }}
+                    >
+                      {this.state.sdai}
+                    </h1>
+                  </Card>
+                </Col>
+                <Col>
+                  <Card style={{ padding: 20, textAlign: "center" }}>
+                    <h4>DAS28-PCR</h4>
+                    <h1
+                      style={{
+                        color: "orange"
+                      }}
+                    >
+                      {this.state.das28pcr}
+                    </h1>
+                  </Card>
+                </Col>
+                <Col>
+                  <Card style={{ padding: 20, textAlign: "center" }}>
+                    <h4>DAS28-VSG</h4>
+                    <h1
+                      style={{
+                        color: "violet"
+                      }}
+                    >
+                      {this.state.das28vsg}
+                    </h1>
+                  </Card>
+                </Col>
+              </Row>
+
               <Row>
                 <Col>
                   <FormGroup>
@@ -837,6 +1271,10 @@ class Consulta extends Component {
 
         <Button onClick={this.handleAdd} color="primary">
           Agregar
+        </Button>
+        <Button color="secondary" onClick={this.calcularScores}>
+          {" "}
+          Calcular Scores
         </Button>
       </Container>
     );
