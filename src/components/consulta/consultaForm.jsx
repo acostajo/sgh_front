@@ -59,27 +59,27 @@ class Consulta extends Component {
       evolucion: "", //	descripción de la evolución
       limitacion: "", //	descripción de las limitaciones que posee el Paciente
       limitacionmotivo: "", //	descripción de las limitaciones que posee el Paciente
-      presionarte: null, //	medida de la presión arterial
-      frescresp: null, //	medida de la frecuencia cardíaca
-      freccardia: null, //	medida de la frecuencia respiratoria
-      peso: null, //	peso
-      talla: null, //	talla
+      presionarte: 0, //	medida de la presión arterial
+      frescresp: 0, //	medida de la frecuencia cardíaca
+      freccardia: 0, //	medida de la frecuencia respiratoria
+      peso: 0, //	peso
+      talla: 0.0, //	talla
       nad: 0, //	número de articulaciones dolorosas
       nat: 0, //	número de articulaciones tumefactas
-      eva: null, //	escala visual analógica
-      vgp1: null, //	valoración global del Paciente para CDAI Y SDAI
-      vgm1: null, //	valoración global del médico para CDAI Y SDAI
-      vgp2: null, //	valoración global del Paciente para DAS28PCR Y DAS28VSG
-      vgm2: null, //	valoración global del médicopara DAS28PCR Y DAS28VSG
-      crp: null,
-      vsg: null,
+      eva: 0, //	escala visual analógica
+      vgp1: 0, //	valoración global del Paciente para CDAI Y SDAI
+      vgm1: 0, //	valoración global del médico para CDAI Y SDAI
+      vgp2: 0, //	valoración global del Paciente para DAS28PCR Y DAS28VSG
+      vgm2: 0, //	valoración global del médicopara DAS28PCR Y DAS28VSG
+      crp: 0,
+      vsg: 0,
       cdai: 0, //	clinical disease activity index
       sdai: 0, //	simple disease activity index
-      haq: null, //	health assessment questionnaire
-      das28pcr: 0, //	disease activity score 28 - proteína c reactiva
-      das28vsg: 0, //	disease activity score 28 - velocidad de sedimentación globular
+      haq: 0, //	health assessment questionnaire
+      das28pcr: 0.0, //	disease activity score 28 - proteína c reactiva
+      das28vsg: 0.0, //	disease activity score 28 - velocidad de sedimentación globular
       sientepaci: "Sin Dolor", //	escala del 0 (sin dolor) al 10 (máximo dolor)
-      plan: null, //	descripción del plan para el paciente
+      plan: "", //	descripción del plan para el paciente
       fechacreada: 0, //	fecha de creación de la consulta
       deshabilitar: false,
       deshabilitartaba: true,
@@ -326,7 +326,7 @@ class Consulta extends Component {
           La Consulta fue cargada con exito!
         </Alert>
 
-        <Card>
+        <Card style={{ marginTop: 30 }}>
           <CardHeader>
             <h3>Datos</h3>
           </CardHeader>
@@ -496,30 +496,6 @@ class Consulta extends Component {
               <Row>
                 <Col>
                   <FormGroup>
-                    <Label for="nad">NAD</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.nad}
-                      name="nad"
-                      id="nad"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="nat">NAT</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.nat}
-                      name="nat"
-                      id="nat"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
                     <Label for="eva">EVA</Label>
                     <Input
                       type="number"
@@ -532,56 +508,6 @@ class Consulta extends Component {
                 </Col>
                 <Col>
                   <FormGroup>
-                    <Label for="vgp">VGP</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.vgp}
-                      name="vgp"
-                      id="vgp"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="vgm">VGM</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.vgm}
-                      name="vgm"
-                      id="vgm"
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label for="cdai">CDAI</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.cdai}
-                      name="cdai "
-                      id="cdai"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="sdai">SDAI</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.sdai}
-                      name="sdai"
-                      id="sdai"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
                     <Label for="haq">HAQ</Label>
                     <Input
                       type="number"
@@ -589,30 +515,6 @@ class Consulta extends Component {
                       value={this.state.haq}
                       name="haq"
                       id="haq"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="das28pcr">DAS28 (PCR)</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.das28pcr}
-                      name="das28pcr"
-                      id="das28pcr"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="das28vsg">DAS28 (VSG)</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.das28vsg}
-                      name="das28vsg"
-                      id="das28vsg"
                     />
                   </FormGroup>
                 </Col>
@@ -1200,7 +1102,7 @@ class Consulta extends Component {
                   </Card>
                 </Col>
               </Row>
-              <Row>
+              <Row style={{ marginBottom: 20 }}>
                 <Col>
                   <Card style={{ padding: 20, textAlign: "center" }}>
                     <h4>CDAI</h4>

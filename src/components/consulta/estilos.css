@@ -1,3 +1,13 @@
+body {
+  font-family: "Mukta", sans-serif;
+}
+.heading {
+  font-weight: 700;
+}
+.subheading {
+  font-weight: 300;
+}
+
 .contenedorPrincipal {
   display: inline-block;
   position: relative;
