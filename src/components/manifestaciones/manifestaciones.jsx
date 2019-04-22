@@ -10,12 +10,13 @@ import {
   Input
 } from "reactstrap";
 
-class EventoCardiovascular extends Component {
+class Manifestaciones extends Component {
   constructor() {
     super();
     this.state = {
-      eventocardiovascularForm: {
+      maniForm: {
         nombre: "",
+        descripcion: "",
         codusuario: 999
       }
     };
@@ -25,22 +26,22 @@ class EventoCardiovascular extends Component {
 
   handleChange(e) {
     const target = e.target;
-    let fields = this.state.eventocardiovascularForm;
+    let fields = this.state.maniForm;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
     fields[name] = value;
 
     this.setState({
-      eventocardiovascularForm: fields
+      maniForm: fields
     });
   }
 
   async handleAdd() {
-    const evento = this.state.eventocardiovascularForm;
-    await fetch("http://127.0.0.1:8000/api/eventocardio/", {
+    const manif = this.state.maniForm;
+    await fetch("http://127.0.0.1:8000/api/manif_extra_art/", {
       method: "POST", // or 'PUT'
-      body: JSON.stringify(evento), // data can be `string` or {object}!
+      body: JSON.stringify(manif), // data can be `string` or {object}!
       headers: {
         "Content-Type": "application/json"
       }
@@ -59,11 +60,20 @@ class EventoCardiovascular extends Component {
           <Col>
             <Form>
               <FormGroup>
-                <Label for="nombre">Nombre Evento Cardiovascular:</Label>
+                <Label for="nombre">Nombre Manifestacion:</Label>
                 <Input
                   name="nombre"
                   id="nombre"
-                  value={this.state.eventocardiovascularForm.nombre}
+                  value={this.state.maniForm.nombre}
+                  onChange={this.handleChange}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label for="nombre">Descripcion Manifestacion:</Label>
+                <Input
+                  name="descripcion"
+                  id="descripcion"
+                  value={this.state.maniForm.descripcion}
                   onChange={this.handleChange}
                 />
               </FormGroup>
@@ -78,4 +88,4 @@ class EventoCardiovascular extends Component {
   }
 }
 
-export default EventoCardiovascular;
+export default Manifestaciones;

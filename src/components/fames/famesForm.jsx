@@ -16,10 +16,28 @@ class Fame extends Component {
     this.state = {
       fameForm: {
         nombre: "",
+        descripcion: "",
         codusuario: 999
       }
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
+  }
+
+  async handleAdd() {
+    const fame = this.state.fameForm;
+    await fetch("http://127.0.0.1:8000/api/fames/", {
+      method: "POST", // or 'PUT'
+      body: JSON.stringify(fame), // data can be `string` or {object}!
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => res.json())
+      .catch(error => console.error("Error:", error))
+      .then(response => {
+        console.log(response);
+      });
   }
 
   handleChange(e) {
@@ -50,7 +68,18 @@ class Fame extends Component {
                   onChange={this.handleChange}
                 />
               </FormGroup>
-              <Button color="success">Agregar</Button>
+              <FormGroup>
+                <Label for="nombre">Descripcion Fame:</Label>
+                <Input
+                  name="descripcion"
+                  id="descripcion"
+                  value={this.state.fameForm.descripcion}
+                  onChange={this.handleChange}
+                />
+              </FormGroup>
+              <Button color="success" onClick={this.handleAdd}>
+                Agregar
+              </Button>
             </Form>
           </Col>
         </Row>

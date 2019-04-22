@@ -6,10 +6,9 @@ import {
   CardHeader,
   CardBody,
   Container,
-  Row,
-  Fade,
   Modal,
   ModalBody,
+  Row,
   Col,
   Form,
   FormGroup,
@@ -18,7 +17,16 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import Joi from "joi-browser";
+import { AutoComplete } from "primereact/autocomplete";
+import BootstrapTable from "react-bootstrap-table-next";
+import "primereact/resources/themes/nova-light/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import Fame from "./../fames/famesForm";
+import Comorbilidad from "./../comorbilidades/comorForm";
+import EventoCardiovascular from "./../eventocardiovascular/eventocardiovascularForm";
+import Manifestaciones from "./../manifestaciones/manifestaciones";
 const ColoredLine = ({ color }) => (
   <hr
     style={{
@@ -30,6 +38,7 @@ const ColoredLine = ({ color }) => (
     }}
   />
 );
+
 class Ficha extends Component {
   constructor() {
     super();
@@ -38,6 +47,9 @@ class Ficha extends Component {
       visible: false,
       aviso: false,
       toggleFame: false,
+      toggleComor: false,
+      toggleEvento: false,
+      toggleMani: false,
       //datos correspondientes al paciente
       datosFicha: {
         codusuario: null, //#código interno de usuario, para saber quién agrego la ficha
@@ -96,7 +108,77 @@ class Ficha extends Component {
         rxpiesfecha: null //#la fecha que tuvo las erecciones
       },
       deshabilitar: false,
-      deshabilitartaba: true
+      deshabilitartaba: true,
+      suggestions: [],
+      fameSelected: {},
+      fame: "",
+      famesList: [],
+      famesListTable: [],
+      columnsFames: [
+        {
+          dataField: "codfame",
+          hidden: true
+        },
+        {
+          dataField: "nombre",
+          text: "Nombre"
+        },
+        {
+          dataField: "descripcion",
+          text: "Descripcion"
+        }
+      ],
+      comorSelected: {},
+      fechaDxComor: "",
+      comorbilidad: "",
+      comorList: [],
+      comorListTable: [],
+      columnsComor: [
+        {
+          dataField: "codcomor",
+          hidden: true
+        },
+        {
+          dataField: "nombre",
+          text: "Nombre"
+        },
+        {
+          dataField: "fechadiagnostico",
+          text: "Fecha Diagnostico "
+        }
+      ],
+      eventocardioSelected: {},
+      eventocardio: "",
+      eventList: [],
+      eventListTable: [],
+      columnsEvent: [
+        {
+          dataField: "codevencardio",
+          hidden: true
+        },
+        {
+          dataField: "nombre",
+          text: "Nombre"
+        }
+      ],
+      maniSelected: {},
+      mani: "",
+      maniList: [],
+      maniListTable: [],
+      columnsMani: [
+        {
+          dataField: "codmanif",
+          hidden: true
+        },
+        {
+          dataField: "nombre",
+          text: "Nombre"
+        },
+        {
+          dataField: "descripcion",
+          text: "Descripcion"
+        }
+      ]
     };
     this.schema = {
       nombres: Joi.string()
@@ -123,11 +205,246 @@ class Ficha extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
+    this.handleAddComor = this.handleAddComor.bind(this);
     this.onDismissVisivle = this.onDismissVisivle.bind(this);
     this.onDismissAviso = this.onDismissAviso.bind(this);
     this.validarCedula = this.validarCedula.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleFame = this.toggleFame.bind(this);
+    this.toggleComor = this.toggleComor.bind(this);
+    this.toggleEvento = this.toggleEvento.bind(this);
+    this.toggleMani = this.toggleMani.bind(this);
+    this.filterFame = this.filterFame.bind(this);
+    this.filterComor = this.filterComor.bind(this);
+    this.filterEvento = this.filterEvento.bind(this);
+    this.filterMani = this.filterMani.bind(this);
+    this.onSelectFame = this.onSelectFame.bind(this);
+    this.onChangeFame = this.onChangeFame.bind(this);
+    this.onSelectComor = this.onSelectComor.bind(this);
+    this.onChangeComor = this.onChangeComor.bind(this);
+    this.onSelectEventoCardio = this.onSelectEventoCardio.bind(this);
+    this.onChangeEventoCardio = this.onChangeEventoCardio.bind(this);
+    this.onSelectMani = this.onSelectMani.bind(this);
+    this.onChangeMani = this.onChangeMani.bind(this);
+    this.addFameToList = this.addFameToList.bind(this);
+    this.addComorToList = this.addComorToList.bind(this);
+    this.addEventToList = this.addEventToList.bind(this);
+    this.addManiToList = this.addManiToList.bind(this);
+  }
+
+  componentDidMount() {
+    this.getFameList();
+    this.getComorList();
+    this.getEventList();
+    this.getManiList();
+  }
+
+  async getFameList() {
+    const urlFame = "http://127.0.0.1:8000/api/fames/";
+    let listaFame;
+    await axios
+      .get(urlFame)
+      .then(function(response) {
+        listaFame = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    this.setState({ famesList: listaFame });
+  }
+
+  async getComorList() {
+    const urlComor = "http://127.0.0.1:8000/api/enfermedad/";
+    let listaComor;
+    await axios
+      .get(urlComor)
+      .then(function(response) {
+        listaComor = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    this.setState({ comorList: listaComor });
+  }
+
+  async getEventList() {
+    const urlEvent = "http://127.0.0.1:8000/api/eventocardio/";
+    let listaEvent;
+    await axios
+      .get(urlEvent)
+      .then(function(response) {
+        listaEvent = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    this.setState({ eventList: listaEvent });
+  }
+
+  async getManiList() {
+    const urlMani = "http://127.0.0.1:8000/api/manif_extra_art/";
+    let listaMani;
+    await axios
+      .get(urlMani)
+      .then(function(response) {
+        listaMani = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    this.setState({ maniList: listaMani });
+  }
+
+  filterFame(event) {
+    var results = this.state.famesList.filter(fame => {
+      return fame.nombre.toLowerCase().startsWith(event.query.toLowerCase());
+    });
+
+    this.setState({ suggestions: results });
+  }
+
+  filterComor(event) {
+    var results = this.state.comorList.filter(comor => {
+      return comor.nombre.toLowerCase().startsWith(event.query.toLowerCase());
+    });
+
+    this.setState({ suggestions: results });
+  }
+
+  filterEvento(event) {
+    var results = this.state.eventList.filter(evento => {
+      return evento.nombre.toLowerCase().startsWith(event.query.toLowerCase());
+    });
+
+    this.setState({ suggestions: results });
+  }
+
+  filterMani(event) {
+    var results = this.state.maniList.filter(mani => {
+      return mani.nombre.toLowerCase().startsWith(event.query.toLowerCase());
+    });
+
+    this.setState({ suggestions: results });
+  }
+
+  onSelectFame(e) {
+    this.setState({ fameSelected: e.value }, function() {
+      console.log("console 1" + this.state.fameSelected);
+    });
+  }
+
+  onChangeFame(e) {
+    this.getFameList();
+    this.setState({ fame: e.value });
+  }
+
+  async onSelectComor(e) {
+    await this.setState({ comorSelected: e.value });
+    console.log("comorSelected" + this.state.comorSelected);
+  }
+
+  onChangeComor(e) {
+    this.getComorList();
+    this.setState({ comorbilidad: e.value });
+  }
+
+  async onSelectEventoCardio(e) {
+    await this.setState({ eventocardioSelected: e.value }, function() {
+      console.log("console 1" + this.state.eventocardioSelected);
+    });
+    console.log("console 2" + this.state.eventocardioSelected);
+  }
+
+  onChangeEventoCardio(e) {
+    this.getEventList();
+    this.setState({ eventocardio: e.value });
+  }
+
+  async onSelectMani(e) {
+    await this.setState({ maniSelected: e.value }, function() {
+      console.log("console 1" + this.state.maniSelected);
+    });
+    console.log("console 2" + this.state.maniSelected);
+  }
+
+  onChangeMani(e) {
+    this.getManiList();
+    this.setState({ mani: e.value });
+  }
+
+  addFameToList() {
+    console.log("fame a ser agregado" + this.state.fameSelected);
+    if (this.state.fameSelected !== {}) {
+      const fame = {
+        codfame: this.state.fameSelected.codfame,
+        nombre: this.state.fameSelected.nombre,
+        descripcion: this.state.fameSelected.descripcion
+      };
+      let fameList = this.state.famesListTable;
+      fameList.push(fame);
+      this.setState({ famesListTable: fameList });
+    } else {
+      return;
+    }
+  }
+
+  addComorToList() {
+    console.log(this.state.comorSelected);
+    if (this.state.comorSelected !== {}) {
+      const comor = {
+        codenfermedad: this.state.comorSelected.codenfermedad,
+        nombre: this.state.comorSelected.nombre,
+        fechadiagnostico: this.state.fechaDxComor
+      };
+      let comorList = this.state.comorListTable;
+      comorList.push(comor);
+      console.log(comorList);
+      this.setState({ comorListTable: comorList });
+    } else {
+      return;
+    }
+  }
+
+  addEventToList() {
+    console.log(this.state.eventocardioSelected);
+    if (this.state.eventocardioSelected !== {}) {
+      const evento = {
+        codevencardio: this.state.eventocardioSelected.codeventocardio,
+        nombre: this.state.eventocardioSelected.nombre
+      };
+      let eventList = this.state.eventListTable;
+      eventList.push(evento);
+      this.setState({ eventListTable: eventList });
+      console.log(
+        "evento a ser insertado en la lista " +
+          this.state.eventocardioSelected.codeventocardio
+      );
+    } else {
+      return;
+    }
+  }
+
+  addManiToList() {
+    console.log(this.state.maniSelected);
+    if (this.state.maniSelected !== {}) {
+      const mani = {
+        codmanif: this.state.maniSelected.codmanif,
+        nombre: this.state.maniSelected.nombre,
+        descripcion: this.state.maniSelected.descripcion
+      };
+      let maniList = this.state.maniListTable;
+      maniList.push(mani);
+      this.setState({ maniListTable: maniList });
+      console.log(
+        "evento a ser insertado en la lista " + this.state.maniSelected.codmanif
+      );
+    } else {
+      return;
+    }
   }
 
   async validarCedula(e) {
@@ -221,7 +538,6 @@ class Ficha extends Component {
         abortEarly: false
       }
     );
-    console.log(result.error);
     if (!result.error) return null;
 
     const errors = {};
@@ -236,8 +552,10 @@ class Ficha extends Component {
     if (errors) return;
     this.handleAdd();
   }
+
   async handleAdd() {
     const ficha = this.state.datosFicha;
+    let codficha;
     await fetch("http://127.0.0.1:8000/api/ficha/", {
       method: "POST", // or 'PUT'
       body: JSON.stringify(ficha), // data can be `string` or {object}!
@@ -248,9 +566,113 @@ class Ficha extends Component {
       .then(res => res.json())
       .catch(error => console.error("Error:", error))
       .then(response => {
+        codficha = response.codficha;
         console.log(response);
       });
+    this.handleAddComor(codficha);
+    this.handleAddEvento(codficha);
+    this.handleAddMani(codficha);
+
     this.setState({ visible: !this.state.visible });
+  }
+
+  async handleAddComor(codficha) {
+    const list = this.state.comorListTable;
+    for (let item = 0; item < list.length; item++) {
+      let comor = {
+        codficha: codficha,
+        codenfermedad: list[item].codenfermedad,
+        fechadiagnostico: list[item].fechadiagnostico
+      };
+
+      await fetch("http://127.0.0.1:8000/api/comorbilidad/", {
+        method: "POST", // or 'PUT'
+        body: JSON.stringify(comor), // data can be `string` or {object}!
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .then(res => res.json())
+        .catch(error => console.error("Error:", error))
+        .then(response => {
+          console.log(response);
+        });
+    }
+  }
+
+  async handleAddEvento(codficha) {
+    console.log(
+      "se imprime la lista de eventos a cargar" + this.state.eventListTable
+    );
+    const list = this.state.eventListTable;
+
+    for (let item = 0; item < list.length; item++) {
+      let evento = {
+        codficha: codficha,
+        codevencardio: list[item].codevencardio
+      };
+
+      await fetch("http://127.0.0.1:8000/api/eventocardio_ficha/", {
+        method: "POST", // or 'PUT'
+        body: JSON.stringify(evento), // data can be `string` or {object}!
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .then(res => res.json())
+        .catch(error => console.error("Error:", error))
+        .then(response => {
+          console.log(response);
+        });
+    }
+  }
+
+  async handleAddFame(codficha) {
+    const list = this.state.famesListTable;
+
+    for (let item = 0; item < list.length; item++) {
+      let comor = {
+        codficha: codficha,
+        codfame: list[item].codfame
+      };
+
+      await fetch("http://127.0.0.1:8000/api/fames/", {
+        method: "POST", // or 'PUT'
+        body: JSON.stringify(comor), // data can be `string` or {object}!
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .then(res => res.json())
+        .catch(error => console.error("Error:", error))
+        .then(response => {
+          console.log(response);
+        });
+    }
+  }
+
+  async handleAddMani(codficha) {
+    const list = this.state.maniListTable;
+
+    for (let item = 0; item < list.length; item++) {
+      let mani = {
+        codficha: codficha,
+        codmanif: list[item].codmanif
+      };
+
+      await fetch("http://127.0.0.1:8000/api/manif/", {
+        method: "POST", // or 'PUT'
+        body: JSON.stringify(mani), // data can be `string` or {object}!
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .then(res => res.json())
+        .catch(error => console.error("Error:", error))
+        .then(response => {
+          console.log(response);
+        });
+    }
   }
 
   //aca vamos a hacer la funcion del toggle, osea que va a mostrat y esconder
@@ -258,6 +680,24 @@ class Ficha extends Component {
   toggleFame() {
     this.setState({
       toggleFame: !this.state.toggleFame
+    });
+  }
+
+  toggleComor() {
+    this.setState({
+      toggleComor: !this.state.toggleComor
+    });
+  }
+
+  toggleEvento() {
+    this.setState({
+      toggleEvento: !this.state.toggleEvento
+    });
+  }
+
+  toggleMani() {
+    this.setState({
+      toggleMani: !this.state.toggleMani
     });
   }
 
@@ -662,9 +1102,178 @@ class Ficha extends Component {
                   </FormGroup>
                 </Col>
               </Row>
-              <Row>
+              <Row style={{ marginBottom: 20 }}>
                 <Col>
-                  <h5>APF-Comorbilidades </h5>
+                  <h5>Eventos Cardiovasculares</h5>
+                  <Card style={{ padding: 10 }}>
+                    <Row style={{ marginBottom: 10 }}>
+                      <Col>
+                        <AutoComplete
+                          value={this.state.eventocardio}
+                          suggestions={this.state.suggestions}
+                          completeMethod={this.filterEvento}
+                          field="nombre"
+                          size={35}
+                          placeholder="Evento Cardiovascular"
+                          minLength={1}
+                          onChange={this.onChangeEventoCardio}
+                          onSelect={this.onSelectEventoCardio}
+                        />
+
+                        <Button
+                          color="primary"
+                          onClick={this.addEventToList}
+                          style={{ marginLeft: 5 }}
+                        >
+                          Agregar
+                        </Button>
+                        <Button
+                          color="success"
+                          onClick={this.toggleEvento}
+                          style={{ marginLeft: 5 }}
+                        >
+                          Nuevo Evento
+                        </Button>
+                      </Col>
+                      <Modal
+                        isOpen={this.state.toggleEvento}
+                        toggle={this.toggleEvento}
+                      >
+                        <ModalBody>
+                          <EventoCardiovascular />
+                        </ModalBody>
+                      </Modal>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <BootstrapTable
+                          keyField="codevencardio"
+                          data={this.state.eventListTable}
+                          columns={this.state.columnsEvent}
+                        />
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+              </Row>
+              <Row style={{ marginBottom: 20 }}>
+                <Col>
+                  <h5>Manifestaciones Extra Articulares</h5>
+                  <Card style={{ padding: 10 }}>
+                    <Row style={{ marginBottom: 10 }}>
+                      <Col>
+                        <AutoComplete
+                          value={this.state.mani}
+                          suggestions={this.state.suggestions}
+                          completeMethod={this.filterMani}
+                          field="nombre"
+                          size={35}
+                          placeholder="Manifestación Extra Articular"
+                          minLength={1}
+                          onChange={this.onChangeMani}
+                          onSelect={this.onSelectMani}
+                        />
+
+                        <Button
+                          color="primary"
+                          onClick={this.addManiToList}
+                          style={{ marginLeft: 5 }}
+                        >
+                          Agregar
+                        </Button>
+                        <Button
+                          color="success"
+                          onClick={this.toggleMani}
+                          style={{ marginLeft: 5 }}
+                        >
+                          Nueva Manifestacion
+                        </Button>
+                      </Col>
+                      <Modal
+                        isOpen={this.state.toggleMani}
+                        toggle={this.toggleMani}
+                      >
+                        <ModalBody>
+                          <Manifestaciones />
+                        </ModalBody>
+                      </Modal>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <BootstrapTable
+                          keyField="codevencardio"
+                          data={this.state.maniListTable}
+                          columns={this.state.columnsMani}
+                        />
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+              </Row>
+              <Row style={{ marginBottom: 20 }}>
+                <Col>
+                  <h5>APF-Comorbilidades</h5>
+                  <Card style={{ padding: 10 }}>
+                    <Row style={{ marginBottom: 10 }}>
+                      <Col>
+                        <AutoComplete
+                          value={this.state.comorbilidad}
+                          suggestions={this.state.suggestions}
+                          completeMethod={this.filterComor}
+                          field="nombre"
+                          size={35}
+                          placeholder="Comorbilidad"
+                          minLength={1}
+                          onChange={this.onChangeComor}
+                          onSelect={this.onSelectComor}
+                        />
+                      </Col>
+                      <Col>
+                        <Input
+                          type="date"
+                          onChange={e => {
+                            this.setState({ fechaDxComor: e.target.value });
+                          }}
+                          value={this.state.fechaDxComor}
+                          name="fechaDxComor"
+                          id="fechaDxComor"
+                        />
+                      </Col>
+                      <Col>
+                        <Button
+                          color="primary"
+                          onClick={this.addComorToList}
+                          style={{ marginLeft: 5 }}
+                        >
+                          Agregar
+                        </Button>
+                        <Button
+                          color="success"
+                          onClick={this.toggleComor}
+                          style={{ marginLeft: 5 }}
+                        >
+                          Nueva Comorbilidad
+                        </Button>
+                      </Col>
+                      <Modal
+                        isOpen={this.state.toggleComor}
+                        toggle={this.toggleComor}
+                      >
+                        <ModalBody>
+                          <Comorbilidad />
+                        </ModalBody>
+                      </Modal>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <BootstrapTable
+                          keyField="codenfermedad"
+                          data={this.state.comorListTable}
+                          columns={this.state.columnsComor}
+                        />
+                      </Col>
+                    </Row>
+                  </Card>
                 </Col>
               </Row>
               <Row>
@@ -980,21 +1589,57 @@ class Ficha extends Component {
                   </FormGroup>
                 </Col>
               </Row>
-              <Row>
+              <Row style={{ marginBottom: 20 }}>
                 <Col>
-                  <Label for="fames">Fames</Label>
-                  <Input type="text" name="fames" id="fames" />
-                  <Button color="success" onClick={this.toggleFame}>
-                    +
-                  </Button>
-                  <Modal
-                    isOpen={this.state.toggleFame}
-                    toggle={this.toggleFame}
-                  >
-                    <ModalBody>
-                      <Fame />
-                    </ModalBody>
-                  </Modal>
+                  <h5>Fames</h5>
+                  <Card style={{ padding: 10 }}>
+                    <Row style={{ marginBottom: 10 }}>
+                      <Col>
+                        <AutoComplete
+                          value={this.state.fame}
+                          suggestions={this.state.suggestions}
+                          completeMethod={this.filterFame}
+                          field="nombre"
+                          size={40}
+                          placeholder="Fames"
+                          minLength={1}
+                          onChange={this.onChangeFame}
+                          onSelect={this.onSelectFame}
+                        />
+                        <Button
+                          color="primary"
+                          onClick={this.addFameToList}
+                          style={{ marginLeft: 5 }}
+                        >
+                          Agregar
+                        </Button>
+                        <Button
+                          color="success"
+                          onClick={this.toggleFame}
+                          style={{ marginLeft: 5 }}
+                        >
+                          Nuevo Fame
+                        </Button>
+                      </Col>
+                      <Modal
+                        isOpen={this.state.toggleFame}
+                        toggle={this.toggleFame}
+                      >
+                        <ModalBody>
+                          <Fame />
+                        </ModalBody>
+                      </Modal>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <BootstrapTable
+                          keyField="codfame"
+                          data={this.state.famesListTable}
+                          columns={this.state.columnsFames}
+                        />
+                      </Col>
+                    </Row>
+                  </Card>
                 </Col>
               </Row>
               <Row>

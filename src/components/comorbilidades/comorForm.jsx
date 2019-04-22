@@ -10,11 +10,11 @@ import {
   Input
 } from "reactstrap";
 
-class EventoCardiovascular extends Component {
+class Comorbilidad extends Component {
   constructor() {
     super();
     this.state = {
-      eventocardiovascularForm: {
+      comorForm: {
         nombre: "",
         codusuario: 999
       }
@@ -23,24 +23,11 @@ class EventoCardiovascular extends Component {
     this.handleAdd = this.handleAdd.bind(this);
   }
 
-  handleChange(e) {
-    const target = e.target;
-    let fields = this.state.eventocardiovascularForm;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-
-    fields[name] = value;
-
-    this.setState({
-      eventocardiovascularForm: fields
-    });
-  }
-
   async handleAdd() {
-    const evento = this.state.eventocardiovascularForm;
-    await fetch("http://127.0.0.1:8000/api/eventocardio/", {
+    const comorbilidad = this.state.comorForm;
+    await fetch("http://127.0.0.1:8000/api/enfermedad/", {
       method: "POST", // or 'PUT'
-      body: JSON.stringify(evento), // data can be `string` or {object}!
+      body: JSON.stringify(comorbilidad), // data can be `string` or {object}!
       headers: {
         "Content-Type": "application/json"
       }
@@ -52,6 +39,19 @@ class EventoCardiovascular extends Component {
       });
   }
 
+  handleChange(e) {
+    const target = e.target;
+    let fields = this.state.comorForm;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    fields[name] = value;
+
+    this.setState({
+      comorForm: fields
+    });
+  }
+
   render() {
     return (
       <Container>
@@ -59,11 +59,11 @@ class EventoCardiovascular extends Component {
           <Col>
             <Form>
               <FormGroup>
-                <Label for="nombre">Nombre Evento Cardiovascular:</Label>
+                <Label for="nombre">Nombre Comorbilidad:</Label>
                 <Input
                   name="nombre"
                   id="nombre"
-                  value={this.state.eventocardiovascularForm.nombre}
+                  value={this.state.comorForm.nombre}
                   onChange={this.handleChange}
                 />
               </FormGroup>
@@ -78,4 +78,4 @@ class EventoCardiovascular extends Component {
   }
 }
 
-export default EventoCardiovascular;
+export default Comorbilidad;
