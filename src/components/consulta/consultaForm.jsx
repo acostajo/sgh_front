@@ -7,6 +7,8 @@ import {
   CardHeader,
   CardBody,
   Container,
+  Modal,
+  ModalBody,
   Row,
   ButtonGroup,
   Col,
@@ -17,9 +19,16 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import InputRange from "react-input-range";
+import { AutoComplete } from "primereact/autocomplete";
+import BootstrapTable from "react-bootstrap-table-next";
+import "primereact/resources/themes/nova-light/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "./estilos.css";
 import "react-input-range/lib/css/index.css";
+import EfectoAdverso from "./../efectoadverso/efectoAdversoForm";
 const ColoredLine = ({ color }) => (
   <hr
     style={{
@@ -32,15 +41,6 @@ const ColoredLine = ({ color }) => (
   />
 );
 
-class Example extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { cSelected: [] };
-
-    this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-  }
-}
 class Consulta extends Component {
   constructor() {
     super();
@@ -48,6 +48,7 @@ class Consulta extends Component {
       datospaciente: {},
       visible: false,
       aviso: false,
+      toggleEfecto: false,
       //datos correspondientes a la consulta
       edad: 0, //edad del paciente
       codconsulta: 0, //	código interno único para la ficha consulta
@@ -84,7 +85,22 @@ class Consulta extends Component {
       deshabilitar: false,
       deshabilitartaba: true,
       fechanacipaciente: "",
-
+      suggestions: [],
+      efectoSelected: {},
+      efecto: "",
+      efectoList: [],
+      efectoListTable: [],
+      efectoListTableSelected: [],
+      columnsEfecto: [
+        {
+          dataField: "codefecad",
+          hidden: true
+        },
+        {
+          dataField: "nombre",
+          text: "Nombre"
+        }
+      ],
       //datos para los calculos de los scores
       checksNAD: {
         checkNAD1: false,
@@ -153,7 +169,109 @@ class Consulta extends Component {
     this.onCheckNAD = this.onCheckNAD.bind(this);
     this.onCheckNAT = this.onCheckNAT.bind(this);
     this.calcularScores = this.calcularScores.bind(this);
+    this.toggleEfecto = this.toggleEfecto.bind(this);
+    this.filterEfecto = this.filterEfecto.bind(this);
+    this.onSelectEfecto = this.onSelectEfecto.bind(this);
+    this.onChangeEfecto = this.onChangeEfecto.bind(this);
+    this.addEfectoToList = this.addEfectoToList.bind(this);
+    this.eliminarEfecto = this.eliminarEfecto.bind(this);
+    this.handleOnSelect = this.handleOnSelect.bind(this);
+    this.handleOnSelectAll = this.handleOnSelectAll.bind(this);
   }
+
+  handleOnSelectAll = (isSelect, rows) => {
+    const ids = rows.map(r => r.id);
+    if (isSelect) {
+      this.setState(() => ({
+        efectoListTableSelected: ids
+      }));
+    } else {
+      this.setState(() => ({
+        efectoListTableSelected: []
+      }));
+    }
+  };
+
+  handleOnSelect(row, isSelect) {
+    console.log(isSelect);
+    console.log(row);
+
+    if (isSelect) {
+      this.setState(() => ({
+        efectoListTableSelected: [...this.state.efectoListTableSelected, row.id]
+      }));
+      return true;
+    } else {
+      this.setState(() => ({
+        efectoListTableSelected: this.state.efectoListTableSelected.filter(
+          x => x !== row.id
+        )
+      }));
+      return true;
+    }
+  }
+
+  eliminarEfecto() {
+    console.log(this.state.efectoListTableSelected);
+    let list = this.state.efectoListTable;
+    list.splice(this.state.efectoListTableSelected, 1);
+    this.setState({ efectoListTable: list });
+    console.log(list);
+  }
+
+  componentDidMount() {
+    this.getEfectoList();
+  }
+
+  async getEfectoList() {
+    const urlEfecto = "http://127.0.0.1:8000/api/efecto_adverso/";
+    let listaEfecto;
+    await axios
+      .get(urlEfecto)
+      .then(function(response) {
+        listaEfecto = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    this.setState({ efectoList: listaEfecto });
+  }
+
+  filterEfecto(event) {
+    var results = this.state.efectoList.filter(efecto => {
+      return efecto.nombre.toLowerCase().startsWith(event.query.toLowerCase());
+    });
+
+    this.setState({ suggestions: results });
+  }
+
+  onSelectEfecto(e) {
+    this.setState({ efectoSelected: e.value }, function() {
+      console.log("console 1" + this.state.efectoSelected);
+    });
+  }
+
+  onChangeEfecto(e) {
+    this.getEfectoList();
+    this.setState({ efecto: e.value });
+  }
+
+  addEfectoToList() {
+    console.log("efecto a ser agregado" + this.state.efectoSelected);
+    if (this.state.efectoSelected !== {}) {
+      const efecto = {
+        codefecad: this.state.efectoSelected.codefecad,
+        nombre: this.state.efectoSelected.nombre
+      };
+      let efectoList = this.state.efectoListTable;
+      efectoList.push(efecto);
+      this.setState({ efectoListTable: efectoList });
+    } else {
+      return;
+    }
+  }
+
   handleChange(e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
@@ -195,6 +313,7 @@ class Consulta extends Component {
       fechacreada: this.state.fechacreada,
       fecha: this.state.datospaciente.fechanaci
     };
+    let codconsulta;
     await fetch("http://127.0.0.1:8000/api/consulta/", {
       method: "POST", // or 'PUT'
       body: JSON.stringify(consulta), // data can be `string` or {object}!
@@ -207,6 +326,36 @@ class Consulta extends Component {
       .then(response => {
         console.log("El paciente fue cargado con exito:", response);
       });
+    this.handleAddEfecto(codconsulta);
+  }
+
+  async handleAddEfecto(codconsulta) {
+    const list = this.state.comorListTable;
+    for (let item = 0; item < list.length; item++) {
+      let comor = {
+        codconsulta: codconsulta,
+        codefecad: list[item].codefecad
+      };
+
+      await fetch("http://127.0.0.1:8000/api/efecto_adverso_consulta/", {
+        method: "POST", // or 'PUT'
+        body: JSON.stringify(comor), // data can be `string` or {object}!
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .then(res => res.json())
+        .catch(error => console.error("Error:", error))
+        .then(response => {
+          console.log(response);
+        });
+    }
+  }
+
+  toggleEfecto() {
+    this.setState({
+      toggleEfecto: !this.state.toggleEfecto
+    });
   }
 
   async componentWillMount() {
@@ -424,6 +573,77 @@ class Consulta extends Component {
                       id="limitacionmotivo"
                     />
                   </FormGroup>
+                </Col>
+              </Row>
+              <Row style={{ marginBottom: 20 }}>
+                <Col>
+                  <h5>Efectos Adversos</h5>
+                  <Card style={{ padding: 10 }}>
+                    <Row style={{ marginBottom: 10 }}>
+                      <Col>
+                        <AutoComplete
+                          value={this.state.efecto}
+                          suggestions={this.state.suggestions}
+                          completeMethod={this.filterEfecto}
+                          field="nombre"
+                          size={35}
+                          placeholder="Efecto Adverso"
+                          minLength={1}
+                          onChange={this.onChangeEfecto}
+                          onSelect={this.onSelectEfecto}
+                        />
+
+                        <Button
+                          color="primary"
+                          onClick={this.addEfectoToList}
+                          style={{ marginLeft: 5 }}
+                        >
+                          Agregar
+                        </Button>
+                        <Button
+                          color="success"
+                          onClick={this.toggleEfecto}
+                          style={{ marginLeft: 5 }}
+                        >
+                          Nuevo Efecto
+                        </Button>
+                      </Col>
+                      <Modal
+                        isOpen={this.state.toggleEfecto}
+                        toggle={this.toggleEfecto}
+                      >
+                        <ModalBody>
+                          <EfectoAdverso />
+                        </ModalBody>
+                      </Modal>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <BootstrapTable
+                          keyField="codefecad"
+                          data={this.state.efectoListTable}
+                          columns={this.state.columnsEfecto}
+                          selectRow={{
+                            mode: "radio",
+                            clickToSelect: true,
+                            onSelect: (row, isSelect, rowIndex, e) => {
+                              console.log("row.id" + row.codefecad);
+                              console.log("isSelect" + isSelect);
+                              console.log("rowIndex" + rowIndex);
+                              this.setState({
+                                efectoListTableSelected: rowIndex
+                              });
+                            }
+                          }}
+                        />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Button onClick={this.eliminarEfecto}>Eliminar</Button>
+                      </Col>
+                    </Row>
+                  </Card>
                 </Col>
               </Row>
               <Row>

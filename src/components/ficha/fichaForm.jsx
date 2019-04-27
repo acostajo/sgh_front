@@ -114,6 +114,7 @@ class Ficha extends Component {
       fame: "",
       famesList: [],
       famesListTable: [],
+      famesListTableSelected: "",
       columnsFames: [
         {
           dataField: "codfame",
@@ -133,6 +134,7 @@ class Ficha extends Component {
       comorbilidad: "",
       comorList: [],
       comorListTable: [],
+      comorListTableSelected: "",
       columnsComor: [
         {
           dataField: "codcomor",
@@ -151,6 +153,7 @@ class Ficha extends Component {
       eventocardio: "",
       eventList: [],
       eventListTable: [],
+      eventListTableSelected: "",
       columnsEvent: [
         {
           dataField: "codevencardio",
@@ -165,6 +168,7 @@ class Ficha extends Component {
       mani: "",
       maniList: [],
       maniListTable: [],
+      maniListTableSelected: "",
       columnsMani: [
         {
           dataField: "codmanif",
@@ -230,6 +234,42 @@ class Ficha extends Component {
     this.addComorToList = this.addComorToList.bind(this);
     this.addEventToList = this.addEventToList.bind(this);
     this.addManiToList = this.addManiToList.bind(this);
+    this.eliminarFame = this.eliminarFame.bind(this);
+    this.eliminarMani = this.eliminarMani.bind(this);
+    this.eliminarComor = this.eliminarComor.bind(this);
+    this.eliminarEvento = this.eliminarEvento.bind(this);
+  }
+
+  eliminarFame() {
+    console.log(this.state.famesListTableSelected);
+    let list = this.state.famesListTable;
+    list.splice(this.state.famesListTableSelected, 1);
+    this.setState({ famesListTable: list });
+    console.log(list);
+  }
+
+  eliminarMani() {
+    console.log(this.state.maniListTableSelected);
+    let list = this.state.maniListTable;
+    list.splice(this.state.maniListTableSelected, 1);
+    this.setState({ maniListTable: list });
+    console.log(list);
+  }
+
+  eliminarComor() {
+    console.log(this.state.comorListTableSelected);
+    let list = this.state.comorListTable;
+    list.splice(this.state.comorListTableSelected, 1);
+    this.setState({ comorListTable: list });
+    console.log(list);
+  }
+
+  eliminarEvento() {
+    console.log(this.state.eventListTableSelected);
+    let list = this.state.eventListTable;
+    list.splice(this.state.eventListTableSelected, 1);
+    this.setState({ eventListTable: list });
+    console.log(list);
   }
 
   componentDidMount() {
@@ -1150,7 +1190,24 @@ class Ficha extends Component {
                           keyField="codevencardio"
                           data={this.state.eventListTable}
                           columns={this.state.columnsEvent}
+                          selectRow={{
+                            mode: "radio",
+                            clickToSelect: true,
+                            onSelect: (row, isSelect, rowIndex, e) => {
+                              console.log("row.id" + row.codevencardio);
+                              console.log("isSelect" + isSelect);
+                              console.log("rowIndex" + rowIndex);
+                              this.setState({
+                                eventListTableSelected: rowIndex
+                              });
+                            }
+                          }}
                         />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Button onClick={this.eliminarEvento}>Eliminar</Button>
                       </Col>
                     </Row>
                   </Card>
@@ -1201,10 +1258,27 @@ class Ficha extends Component {
                     <Row>
                       <Col>
                         <BootstrapTable
-                          keyField="codevencardio"
+                          keyField="codmanif"
                           data={this.state.maniListTable}
                           columns={this.state.columnsMani}
+                          selectRow={{
+                            mode: "radio",
+                            clickToSelect: true,
+                            onSelect: (row, isSelect, rowIndex, e) => {
+                              console.log("row.id" + row.codmanif);
+                              console.log("isSelect" + isSelect);
+                              console.log("rowIndex" + rowIndex);
+                              this.setState({
+                                maniListTableSelected: rowIndex
+                              });
+                            }
+                          }}
                         />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Button onClick={this.eliminarMani}>Eliminar</Button>
                       </Col>
                     </Row>
                   </Card>
@@ -1270,7 +1344,24 @@ class Ficha extends Component {
                           keyField="codenfermedad"
                           data={this.state.comorListTable}
                           columns={this.state.columnsComor}
+                          selectRow={{
+                            mode: "radio",
+                            clickToSelect: true,
+                            onSelect: (row, isSelect, rowIndex, e) => {
+                              console.log("row.id" + row.codenfermedad);
+                              console.log("isSelect" + isSelect);
+                              console.log("rowIndex" + rowIndex);
+                              this.setState({
+                                comorListTableSelected: rowIndex
+                              });
+                            }
+                          }}
                         />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Button onClick={this.eliminarComor}>Eliminar</Button>
                       </Col>
                     </Row>
                   </Card>
@@ -1578,12 +1669,18 @@ class Ficha extends Component {
                       <Col>
                         <Label for="ana_patron">Dilución/Patrón</Label>
                         <Input
-                          type="text"
+                          type="select"
                           onChange={this.handleChange}
                           value={this.state.datosFicha.ana_patron}
                           name="ana_patron"
                           id="ana_patron"
-                        />
+                        >
+                          <option>Nuclear Homogéneo</option>
+                          <option>Nuclear Moteado o Puntillado Fino</option>
+                          <option>Nuclear Moteado Grueso</option>
+                          <option>Nucleolar</option>
+                          <option>Centromérico</option>
+                        </Input>
                       </Col>
                     </Row>
                   </FormGroup>
@@ -1636,7 +1733,24 @@ class Ficha extends Component {
                           keyField="codfame"
                           data={this.state.famesListTable}
                           columns={this.state.columnsFames}
+                          selectRow={{
+                            mode: "radio",
+                            clickToSelect: true,
+                            onSelect: (row, isSelect, rowIndex, e) => {
+                              console.log("row.id" + row.codfame);
+                              console.log("isSelect" + isSelect);
+                              console.log("rowIndex" + rowIndex);
+                              this.setState({
+                                famesListTableSelected: rowIndex
+                              });
+                            }
+                          }}
                         />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Button onClick={this.eliminarFame}>Eliminar</Button>
                       </Col>
                     </Row>
                   </Card>
