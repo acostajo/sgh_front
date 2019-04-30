@@ -35,7 +35,7 @@ class App extends Component {
       <div>
         <NavBarMenu />
 
-        <div>
+        <div className="content" style={{ marginTop: 60 }}>
           <Switch>
             <Route path="/consulta/:codficha" component={Consulta} />
             <Route

@@ -19,7 +19,7 @@ class MenuPrincipal extends Component {
     return (
       //backgroundImage: 'url(' + imgUrl + ')'
       <div>
-        <FlexboxGrid align="center">
+        <FlexboxGrid align="center" style={{ marginTop: 200 }}>
           <FlexboxGrid.Item>
             <ButtonLink
               to="/ficha"
