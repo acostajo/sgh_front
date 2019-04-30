@@ -5,11 +5,6 @@ import {
   Container,
   Alert,
   Row,
-  Fade,
-  ListGroup,
-  ListGroupItem,
-  ListGroupItemHeading,
-  ListGroupItemText,
   Col,
   FormGroup,
   Label,
@@ -17,6 +12,7 @@ import {
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
+import { Panel, Fade } from "rsuite";
 
 class BuscarFicha extends Component {
   constructor() {
@@ -24,7 +20,7 @@ class BuscarFicha extends Component {
     this.state = {
       nrodocumento: "",
       nombre: "",
-      apellido: "", //no me di cuenta jajajaxD
+      apellido: "",
       datosficha: {},
       fadeIn: false,
       alert: false
@@ -145,43 +141,37 @@ class BuscarFicha extends Component {
         <Container>
           <Row>
             <Col>
-              <Fade in={this.state.fadeIn}>
-                <ListGroup>
-                  <ListGroupItem>
-                    <ListGroupItemHeading>
-                      <Link
-                        to={`/menu_ficha/${this.state.datosficha.codficha}`}
-                      >
-                        <h4>
-                          {this.state.datosficha.nombres}{" "}
-                          {this.state.datosficha.apellidos}{" "}
-                        </h4>
-                      </Link>
-                    </ListGroupItemHeading>
-                    <ListGroupItemText>
-                      <p>
-                        <strong>Sexo: </strong> {this.state.datosficha.sexo}
-                      </p>
-                      <p>
-                        <strong>Nacionalidad: </strong>
-                        {this.state.datosficha.nacionalidad}
-                      </p>
-                      <p>
-                        <strong>Estado Civil: </strong>
-                        {this.state.datosficha.estadocivil}
-                      </p>
-                      <p>
-                        <strong>Profesion: </strong>
-                        {this.state.datosficha.profesion}
-                      </p>
-                      <p>
-                        <strong>Diagnostico: </strong>
-                        {this.state.datosficha.diagnostico}
-                      </p>
-                    </ListGroupItemText>
-                  </ListGroupItem>
-                </ListGroup>
-              </Fade>
+              <Panel
+                header="Datos de La Persona"
+                bordered
+                style={{ backgroundColor: "#F9FCFB" }}
+              >
+                <Link to={`/menu_ficha/${this.state.datosficha.codficha}`}>
+                  <h4>
+                    {this.state.datosficha.nombres}{" "}
+                    {this.state.datosficha.apellidos}{" "}
+                  </h4>
+                </Link>
+                <p>
+                  <strong>Sexo: </strong> {this.state.datosficha.sexo}
+                </p>
+                <p>
+                  <strong>Nacionalidad: </strong>
+                  {this.state.datosficha.nacionalidad}
+                </p>
+                <p>
+                  <strong>Estado Civil: </strong>
+                  {this.state.datosficha.estadocivil}
+                </p>
+                <p>
+                  <strong>Profesion: </strong>
+                  {this.state.datosficha.profesion}
+                </p>
+                <p>
+                  <strong>Diagnostico: </strong>
+                  {this.state.datosficha.diagnostico}
+                </p>
+              </Panel>
             </Col>
           </Row>
           <Row />

@@ -25,6 +25,7 @@ import classnames from "classnames";
 import Panolab from "./../panolab/panolabForm";
 import BuscarPanolab from "./../panolab/buscarPanolab";
 import BuscarConsulta from "../consulta/buscarConsulta";
+import BuscarOrdenEstudio from "./../ordenestudio/buscarOrdenEstudio";
 
 class MenuFicha extends Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class MenuFicha extends Component {
   render() {
     return (
       <div>
-        <Nav tabs>
+        <Nav tabs style={{ marginBottom: 20 }}>
           <NavItem>
             <NavLink
               className={classnames({ active: this.state.activeTab === "1" })}
@@ -78,6 +79,16 @@ class MenuFicha extends Component {
               Panorámica de Laboratorio
             </NavLink>
           </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: this.state.activeTab === "4" })}
+              onClick={() => {
+                this.toggle("4");
+              }}
+            >
+              Orden de Estudio
+            </NavLink>
+          </NavItem>
         </Nav>
 
         <TabContent activeTab={this.state.activeTab}>
@@ -89,6 +100,9 @@ class MenuFicha extends Component {
           </TabPane>
           <TabPane tabId="3">
             <BuscarPanolab codficha={this.state.codficha} />
+          </TabPane>
+          <TabPane tabId="4">
+            <BuscarOrdenEstudio codficha={this.state.codficha} />
           </TabPane>
         </TabContent>
       </div>

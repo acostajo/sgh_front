@@ -1,20 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavLink,
-  NavItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
-} from "reactstrap";
+import { Dropdown, Nav, Navbar, Icon, Header } from "rsuite";
+import "rsuite/dist/styles/rsuite.min.css";
 
-class NavBar extends Component {
+class NavBarMenu extends Component {
   constructor(props) {
     super(props);
 
@@ -29,41 +18,39 @@ class NavBar extends Component {
     });
   }
   render() {
+    const NavLink = props => <Nav.Item componentClass={Link} {...props} />;
     return (
       <div>
-        <Navbar color="light" light expand="md">
-          <Link to="/">Home</Link>
-
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink>
-                  <Link to="/consulta">Consulta</Link>
+        <Header>
+          <Navbar
+            appearance="inverse"
+            style={{
+              top: 0,
+              position: "fixed",
+              zIndex: 100,
+              width: "100%",
+              backgroundColor: "#0B1A25"
+            }}
+          >
+            <Navbar.Body>
+              <Nav>
+                <NavLink icon={<Icon icon="home" />} to="/modulos">
+                  Inicio
                 </NavLink>
-              </NavItem>
-
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  Ficha
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem>
-                    <NavLink>
-                      <Link to="/ficha">Agregar Ficha</Link>
-                    </NavLink>
-                  </DropdownItem>
-                  <DropdownItem>
-                    <Link to="/ficha_buscar">Consultar Ficha</Link>
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </Nav>
-          </Collapse>
-        </Navbar>
+              </Nav>
+              <Nav pullRight>
+                <Nav.Item icon={<Icon icon="cog" />}>Configuracion</Nav.Item>
+                <Dropdown title="Usuario">
+                  <Dropdown.Item>Perfil</Dropdown.Item>
+                  <Dropdown.Item>Cerrar Sesión</Dropdown.Item>
+                </Dropdown>
+              </Nav>
+            </Navbar.Body>
+          </Navbar>
+        </Header>
       </div>
     );
   }
 }
 
-export default NavBar;
+export default NavBarMenu;

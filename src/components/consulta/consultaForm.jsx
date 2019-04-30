@@ -45,6 +45,11 @@ class Consulta extends Component {
   constructor() {
     super();
     this.state = {
+      ///rangos
+      CDAI_RANGO: "",
+      SDAI_RANGO: "",
+      DAS28_VSG_RANGO: "",
+      DAS28_PCR_RANGO: "",
       datospaciente: {},
       visible: false,
       aviso: false,
@@ -82,6 +87,7 @@ class Consulta extends Component {
       sientepaci: "Sin Dolor", //	escala del 0 (sin dolor) al 10 (máximo dolor)
       plan: "", //	descripción del plan para el paciente
       fechacreada: 0, //	fecha de creación de la consulta
+      cdairango: "",
       deshabilitar: false,
       deshabilitartaba: true,
       fechanacipaciente: "",
@@ -303,9 +309,10 @@ class Consulta extends Component {
       eva: this.state.eva,
       vgp: this.state.vgp,
       vgm: this.state.vgm,
+      crp: this.state.crp,
       cdai: this.state.cdai,
       sdai: this.state.sdai,
-      haq: this.state.haq,
+      haq: this.state.haq, //voy a ver
       das28pcr: this.state.das28pcr,
       das28vsg: this.state.das28vsg,
       sientepaci: this.state.sientepaci,
@@ -324,22 +331,23 @@ class Consulta extends Component {
       .then(res => res.json())
       .catch(error => console.error("Error:", error))
       .then(response => {
-        console.log("El paciente fue cargado con exito:", response);
+        codconsulta = response.codconsulta;
+        console.log("respuesta: ", response);
       });
     this.handleAddEfecto(codconsulta);
   }
 
   async handleAddEfecto(codconsulta) {
-    const list = this.state.comorListTable;
+    const list = this.state.efectoListTable; //este hay que cambiarle
     for (let item = 0; item < list.length; item++) {
-      let comor = {
+      let efecto = {
         codconsulta: codconsulta,
         codefecad: list[item].codefecad
       };
 
       await fetch("http://127.0.0.1:8000/api/efecto_adverso_consulta/", {
         method: "POST", // or 'PUT'
-        body: JSON.stringify(comor), // data can be `string` or {object}!
+        body: JSON.stringify(efecto), // data can be `string` or {object}!
         headers: {
           "Content-Type": "application/json"
         }
@@ -419,6 +427,10 @@ class Consulta extends Component {
   calcularScores() {
     let countNAD = 0;
     let countNAT = 0;
+    let SDAI_RANGO = "";
+    let CDAI_RANGO = "";
+    let DAS28_PCR_RANGO = "";
+    let DAS28_VSG_RANGO = "";
     const checksNAD = Object.values(this.state.checksNAD);
     const checksNAT = Object.values(this.state.checksNAT);
     for (const prop in checksNAD) {
@@ -434,10 +446,40 @@ class Consulta extends Component {
 
     //formula para cdai = NAD28 + NAT28 + VGP + VGM
     const CDAI = countNAT + countNAD + this.state.vgm1 + this.state.vgp1;
+    console.log(CDAI);
+
+    if (CDAI.toFixed(2) <= 2.8) {
+      CDAI_RANGO = "Remisión";
+      console.log(CDAI_RANGO); //entra bien aca en remision, check
+    }
+    if (CDAI.toFixed(2) > 2.8 && CDAI.toFixed(2) <= 10) {
+      CDAI_RANGO = "Baja Actividad";
+    }
+    if (CDAI.toFixed(2) > 10 && CDAI.toFixed(2) <= 22) {
+      //aca esta el problem, viste que pregunta si esta entre 10 y 22 y si no le cambia
+      CDAI_RANGO = "Actividad Moderada";
+    }
+    if (CDAI.toFixed(2) > 22) {
+      //asi deberia quedar verdad, osea mayores a 22 = alta
+      CDAI_RANGO = "Alta Actividad";
+    }
 
     //formula para el SDAI: NAD28 + NAT28 + VGP + VGM + PCR (en mg/dl)
     const SDAI =
       countNAT + countNAD + this.state.vgm1 + this.state.vgp1 + this.state.crp;
+
+    if (SDAI.toFixed(2) <= 3.3) {
+      SDAI_RANGO = "Remisión";
+    }
+    if (SDAI.toFixed(2) > 3.3 && SDAI.toFixed(2) <= 11) {
+      SDAI_RANGO = "Baja Actividad";
+    }
+    if (SDAI.toFixed(2) > 11 && SDAI.toFixed(2) <= 26) {
+      SDAI_RANGO = "Actividad Moderada";
+    }
+    if (SDAI.toFixed(2) > 26) {
+      SDAI_RANGO = "Alta Actividad";
+    }
 
     //formula para el DAS28-PCR: 0,56 x √NAD28 + 0,28 x √NAT28 + 0,36 x ln(PCR +1) + 0,014 x VGP + 0,96
     const DAS28_PCR =
@@ -447,6 +489,19 @@ class Consulta extends Component {
       0.14 * this.state.vgp2 +
       0.96;
 
+    if (DAS28_PCR.toFixed(2) <= 2.6) {
+      DAS28_PCR_RANGO = "Remisión";
+    }
+    if (DAS28_PCR.toFixed(2) > 2.6 && DAS28_PCR.toFixed(2) <= 3.2) {
+      DAS28_PCR_RANGO = "Baja Actividad";
+    }
+    if (DAS28_PCR.toFixed(2) > 3.2 && DAS28_PCR.toFixed(2) <= 5.1) {
+      DAS28_PCR_RANGO = "Actividad Moderada";
+    }
+    if (DAS28_PCR.toFixed(2) > 5.1) {
+      DAS28_PCR_RANGO = "Alta Actividad";
+    }
+
     // formula para DAS28-VSG: 0,56 x √NAD28 + 0,28 x √NAT28 + 0,70 x ln(VSG) + 0,014 x VGP
     const DAS28_VSG =
       0.56 * Math.sqrt(countNAD) +
@@ -454,14 +509,32 @@ class Consulta extends Component {
       0.7 * Math.log(this.state.vsg) +
       0.14 * this.state.vgp2;
 
+    if (DAS28_VSG.toFixed(2) <= 2.6) {
+      DAS28_VSG_RANGO = "Remisión";
+    }
+    if (DAS28_VSG.toFixed(2) > 2.6 && DAS28_VSG.toFixed(2) <= 3.2) {
+      DAS28_VSG_RANGO = "Baja Actividad";
+    }
+    if (DAS28_VSG.toFixed(2) > 3.2 && DAS28_VSG.toFixed(2) <= 5.1) {
+      DAS28_VSG_RANGO = "Actividad Moderada";
+    }
+    if (DAS28_VSG.toFixed(2) > 5.1) {
+      DAS28_VSG_RANGO = "Alta Actividad";
+    }
+
     this.setState({
       nad: countNAD,
       nat: countNAT,
-      cdai: CDAI,
-      sdai: SDAI,
+      cdai: CDAI.toFixed(2),
+      sdai: SDAI.toFixed(2),
       das28pcr: DAS28_PCR.toFixed(2),
-      das28vsg: DAS28_VSG.toFixed(2)
+      das28vsg: DAS28_VSG.toFixed(2),
+      CDAI_RANGO: CDAI_RANGO,
+      SDAI_RANGO: SDAI_RANGO,
+      DAS28_VSG_RANGO: DAS28_VSG_RANGO,
+      DAS28_PCR_RANGO: DAS28_PCR_RANGO
     });
+    console.log(CDAI_RANGO); //aca toma otro valor q esta mal, ok vamos a mirar, aca cambia
   }
 
   render() {
@@ -497,6 +570,7 @@ class Consulta extends Component {
                 <Col>
                   <FormGroup>
                     <Label for="fechaconsulta">Fecha de Consulta</Label>
+
                     <Input
                       type="date"
                       onChange={this.handleChange}
@@ -1333,6 +1407,13 @@ class Consulta extends Component {
                     >
                       {this.state.cdai}
                     </h1>
+                    <h3
+                      style={{
+                        color: "blue"
+                      }}
+                    >
+                      {this.state.CDAI_RANGO}
+                    </h3>
                   </Card>
                 </Col>
                 <Col>
@@ -1345,6 +1426,13 @@ class Consulta extends Component {
                     >
                       {this.state.sdai}
                     </h1>
+                    <h3
+                      style={{
+                        color: "green"
+                      }}
+                    >
+                      {this.state.SDAI_RANGO}
+                    </h3>
                   </Card>
                 </Col>
                 <Col>
@@ -1357,6 +1445,13 @@ class Consulta extends Component {
                     >
                       {this.state.das28pcr}
                     </h1>
+                    <h3
+                      style={{
+                        color: "orange"
+                      }}
+                    >
+                      {this.state.DAS28_PCR_RANGO}
+                    </h3>
                   </Card>
                 </Col>
                 <Col>
@@ -1369,6 +1464,13 @@ class Consulta extends Component {
                     >
                       {this.state.das28vsg}
                     </h1>
+                    <h3
+                      style={{
+                        color: "violet"
+                      }}
+                    >
+                      {this.state.DAS28_VSG_RANGO}
+                    </h3>
                   </Card>
                 </Col>
               </Row>

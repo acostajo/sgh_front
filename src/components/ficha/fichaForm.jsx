@@ -6,8 +6,6 @@ import {
   CardHeader,
   CardBody,
   Container,
-  Modal,
-  ModalBody,
   Row,
   Col,
   Form,
@@ -15,6 +13,7 @@ import {
   Label,
   Input
 } from "reactstrap";
+import { Modal } from "rsuite";
 import axios from "axios";
 import Joi from "joi-browser";
 import { AutoComplete } from "primereact/autocomplete";
@@ -112,6 +111,8 @@ class Ficha extends Component {
       suggestions: [],
       fameSelected: {},
       fame: "",
+      fameDesde: "",
+      fameHasta: "",
       famesList: [],
       famesListTable: [],
       famesListTableSelected: "",
@@ -127,6 +128,14 @@ class Ficha extends Component {
         {
           dataField: "descripcion",
           text: "Descripcion"
+        },
+        {
+          dataField: "fameDesde",
+          text: "Fecha Desde"
+        },
+        {
+          dataField: "fameHasta",
+          text: "Fecha Hasta"
         }
       ],
       comorSelected: {},
@@ -422,7 +431,9 @@ class Ficha extends Component {
       const fame = {
         codfame: this.state.fameSelected.codfame,
         nombre: this.state.fameSelected.nombre,
-        descripcion: this.state.fameSelected.descripcion
+        descripcion: this.state.fameSelected.descripcion,
+        fameDesde: this.state.fameDesde,
+        fameHasta: this.state.fameHasta
       };
       let fameList = this.state.famesListTable;
       fameList.push(fame);
@@ -612,6 +623,7 @@ class Ficha extends Component {
     this.handleAddComor(codficha);
     this.handleAddEvento(codficha);
     this.handleAddMani(codficha);
+    this.handleAddFame(codficha);
 
     this.setState({ visible: !this.state.visible });
   }
@@ -671,14 +683,16 @@ class Ficha extends Component {
     const list = this.state.famesListTable;
 
     for (let item = 0; item < list.length; item++) {
-      let comor = {
+      let fame = {
         codficha: codficha,
-        codfame: list[item].codfame
+        codfame: list[item].codfame,
+        fechadesde: list[item].fameDesde,
+        fechahasta: list[item].fameHasta
       };
 
-      await fetch("http://127.0.0.1:8000/api/fames/", {
+      await fetch("http://127.0.0.1:8000/api/famesficha/", {
         method: "POST", // or 'PUT'
-        body: JSON.stringify(comor), // data can be `string` or {object}!
+        body: JSON.stringify(fame), // data can be `string` or {object}!
         headers: {
           "Content-Type": "application/json"
         }
@@ -759,8 +773,8 @@ class Ficha extends Component {
           El Nro de documento ya esta asociada a otra ficha...
         </Alert>
         <Form>
-          <Card>
-            <CardHeader>
+          <Card style={{ backgroundColor: "#F9FCFB" }}>
+            <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
               <h3>Datos personales</h3>
             </CardHeader>
             <CardBody>
@@ -932,7 +946,6 @@ class Ficha extends Component {
                       onChange={this.handleChange}
                       value={this.state.datosFicha.sexo}
                       id="sexo"
-                      defaultValue="F"
                     >
                       <option>F</option>
                       <option>M</option>
@@ -1010,8 +1023,8 @@ class Ficha extends Component {
           </Card>
           <hr />
 
-          <Card>
-            <CardHeader>
+          <Card style={{ backgroundColor: "#F9FCFB" }}>
+            <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
               <h3>Datos de la Ficha HA</h3>
             </CardHeader>
             <CardBody>
@@ -1176,12 +1189,12 @@ class Ficha extends Component {
                         </Button>
                       </Col>
                       <Modal
-                        isOpen={this.state.toggleEvento}
-                        toggle={this.toggleEvento}
+                        show={this.state.toggleEvento}
+                        onHide={this.toggleEvento}
                       >
-                        <ModalBody>
+                        <Modal.Body>
                           <EventoCardiovascular />
-                        </ModalBody>
+                        </Modal.Body>
                       </Modal>
                     </Row>
                     <Row>
@@ -1247,12 +1260,12 @@ class Ficha extends Component {
                         </Button>
                       </Col>
                       <Modal
-                        isOpen={this.state.toggleMani}
-                        toggle={this.toggleMani}
+                        show={this.state.toggleMani}
+                        onHide={this.toggleMani}
                       >
-                        <ModalBody>
+                        <Modal.Body>
                           <Manifestaciones />
-                        </ModalBody>
+                        </Modal.Body>
                       </Modal>
                     </Row>
                     <Row>
@@ -1330,12 +1343,12 @@ class Ficha extends Component {
                         </Button>
                       </Col>
                       <Modal
-                        isOpen={this.state.toggleComor}
-                        toggle={this.toggleComor}
+                        show={this.state.toggleComor}
+                        onHide={this.toggleComor}
                       >
-                        <ModalBody>
+                        <Modal.Body>
                           <Comorbilidad />
-                        </ModalBody>
+                        </Modal.Body>
                       </Modal>
                     </Row>
                     <Row>
@@ -1692,39 +1705,68 @@ class Ficha extends Component {
                   <Card style={{ padding: 10 }}>
                     <Row style={{ marginBottom: 10 }}>
                       <Col>
+                        <Label>Fármaco</Label>
                         <AutoComplete
                           value={this.state.fame}
                           suggestions={this.state.suggestions}
                           completeMethod={this.filterFame}
                           field="nombre"
-                          size={40}
+                          size={25}
                           placeholder="Fames"
                           minLength={1}
                           onChange={this.onChangeFame}
                           onSelect={this.onSelectFame}
                         />
+                      </Col>
+                      <Col>
+                        <Label>Desde</Label>
+                        <Input
+                          type="date"
+                          onChange={e => {
+                            this.setState({ fameDesde: e.target.value });
+                          }}
+                          value={this.state.fameDesde}
+                          name="fameDesde"
+                          id="fameDesde"
+                          style={{ width: 180 }}
+                        />
+                      </Col>
+                      <Col>
+                        <Label>Hasta</Label>
+                        <Input
+                          type="date"
+                          style={{ width: 180 }}
+                          onChange={e => {
+                            this.setState({ fameHasta: e.target.value });
+                          }}
+                          value={this.state.fameHasta}
+                          name="fameHasta"
+                          id="fameHasta"
+                        />
+                      </Col>
+                      <Col>
                         <Button
                           color="primary"
                           onClick={this.addFameToList}
-                          style={{ marginLeft: 5 }}
+                          style={{ margin: 5 }}
                         >
                           Agregar
                         </Button>
                         <Button
                           color="success"
                           onClick={this.toggleFame}
-                          style={{ marginLeft: 5 }}
+                          style={{ margin: 5 }}
                         >
                           Nuevo Fame
                         </Button>
                       </Col>
                       <Modal
-                        isOpen={this.state.toggleFame}
-                        toggle={this.toggleFame}
+                        show={this.state.toggleFame}
+                        onHide={this.toggleFame}
                       >
-                        <ModalBody>
+                        <Modal.Body>
                           <Fame />
-                        </ModalBody>
+                        </Modal.Body>
                       </Modal>
                     </Row>
                     <Row>
