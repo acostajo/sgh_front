@@ -288,8 +288,8 @@ class OrdenEstudio extends Component {
         >
           La Orden de Estudio fue cargada con exito!
         </Alert>
-        <Card>
-          <CardHeader>
+        <Card style={{ backgroundColor: "#F9FCFB" }}>
+          <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
             <h3>Datos</h3>
           </CardHeader>
           <CardBody>
@@ -405,7 +405,11 @@ class OrdenEstudio extends Component {
           </CardBody>
         </Card>
 
-        <Button onClick={this.handleSubmit} color="primary">
+        <Button
+          onClick={this.handleSubmit}
+          color="primary"
+          style={{ marginTop: 20 }}
+        >
           Eviar a Laboratorio
         </Button>
       </Container>

@@ -2,14 +2,12 @@ import React, { Component } from "react";
 import manito from "./manito.jpg";
 import {
   Card,
-  Alert,
   Button,
   CardHeader,
   CardBody,
   Container,
-  Modal,
-  ModalBody,
   Row,
+  Alert,
   ButtonGroup,
   Col,
   Form,
@@ -17,6 +15,7 @@ import {
   Label,
   Input
 } from "reactstrap";
+import { Modal } from "rsuite";
 import axios from "axios";
 import InputRange from "react-input-range";
 import { AutoComplete } from "primereact/autocomplete";
@@ -548,8 +547,8 @@ class Consulta extends Component {
           La Consulta fue cargada con exito!
         </Alert>
 
-        <Card style={{ marginTop: 30 }}>
-          <CardHeader>
+        <Card style={{ backgroundColor: "#F9FCFB" }}>
+          <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
             <h3>Datos</h3>
           </CardHeader>
           <CardBody>
@@ -683,12 +682,12 @@ class Consulta extends Component {
                         </Button>
                       </Col>
                       <Modal
-                        isOpen={this.state.toggleEfecto}
-                        toggle={this.toggleEfecto}
+                        show={this.state.toggleEfecto}
+                        onHide={this.toggleEfecto}
                       >
-                        <ModalBody>
+                        <Modal.Body>
                           <EfectoAdverso />
-                        </ModalBody>
+                        </Modal.Body>
                       </Modal>
                     </Row>
                     <Row>
@@ -1493,10 +1492,18 @@ class Consulta extends Component {
           </CardBody>
         </Card>
 
-        <Button onClick={this.handleAdd} color="primary">
+        <Button
+          onClick={this.handleAdd}
+          color="primary"
+          style={{ marginTop: 20, marginRight: 20 }}
+        >
           Agregar
         </Button>
-        <Button color="secondary" onClick={this.calcularScores}>
+        <Button
+          color="secondary"
+          onClick={this.calcularScores}
+          style={{ marginTop: 20 }}
+        >
           {" "}
           Calcular Scores
         </Button>

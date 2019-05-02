@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import {
   Button,
   Container,
-  Alert,
   Row,
   Fade,
   ListGroup,
@@ -17,6 +16,7 @@ import {
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
+import { Alert } from "rsuite";
 
 class BuscarPanolab extends Component {
   constructor() {
@@ -63,15 +63,10 @@ class BuscarPanolab extends Component {
         console.log(error);
       });
     if (respuesta === null) {
-      this.setState({
-        alert: !this.state.alert,
-        fadeIn: !this.state.fadeIn
-      });
+      Alert.warning("No se encontra la Ficha Panorámica");
     } else {
       this.setState({
-        listaPanolab: listado,
-        fadeIn: !this.state.fadeIn,
-        alert: false
+        listaPanolab: listado
       });
     }
     console.log(url1 + this.state.fechaPanolab);
@@ -83,9 +78,6 @@ class BuscarPanolab extends Component {
     console.log(list);
     return (
       <Container>
-        <Alert color="danger" isOpen={this.state.alert} toggle={this.onDismiss}>
-          No se encontro la Panorámica de Laboratorio!
-        </Alert>
         <Row>
           <Col>
             <FormGroup>
@@ -122,7 +114,9 @@ class BuscarPanolab extends Component {
                 {list.map(item => (
                   <ListGroupItem>
                     <ListGroupItemHeading>
-                      <Link to={`/panolab_view/${item.codpanolab}`}>
+                      <Link
+                        to={`/panolab_view/${item.codpanolab}/${item.codficha}`}
+                      >
                         {" "}
                         <h4>{item.fechapanolab}</h4>
                       </Link>
