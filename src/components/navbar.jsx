@@ -27,6 +27,7 @@ class NavBarMenu extends Component {
             style={{
               top: 0,
               position: "fixed",
+              zIndex: 3,
 
               width: "100%",
               backgroundColor: "#0B1A25"

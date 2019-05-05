@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import {
   Button,
   Container,
-  Alert,
   Row,
   Col,
   FormGroup,
@@ -13,6 +12,7 @@ import {
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import { Panel, Fade } from "rsuite";
+import { Alert } from "rsuite";
 
 class BuscarFicha extends Component {
   constructor() {
@@ -75,6 +75,14 @@ class BuscarFicha extends Component {
         console.log(error);
       });
     if (respuesta === null) {
+      Alert.warning(" No se encontro el Paciente!");
+    } else {
+      this.setState({
+        datosficha: datosficha
+      });
+    }
+
+    /*if (respuesta === null) {
       this.setState({
         alert: !this.state.alert,
         fadeIn: !this.state.fadeIn
@@ -85,15 +93,12 @@ class BuscarFicha extends Component {
         fadeIn: !this.state.fadeIn,
         alert: false
       });
-    }
+    }*/
   }
 
   render() {
     return (
       <Container>
-        <Alert color="danger" isOpen={this.state.alert} toggle={this.onDismiss}>
-          no se encontro el paciente!
-        </Alert>
         <Row>
           <Col>
             <FormGroup>
@@ -142,7 +147,7 @@ class BuscarFicha extends Component {
           <Row>
             <Col>
               <Panel
-                header="Datos de La Persona"
+                header="Datos del Paciente"
                 bordered
                 style={{ backgroundColor: "#F9FCFB" }}
               >
@@ -164,11 +169,11 @@ class BuscarFicha extends Component {
                   {this.state.datosficha.estadocivil}
                 </p>
                 <p>
-                  <strong>Profesion: </strong>
+                  <strong>Profesión: </strong>
                   {this.state.datosficha.profesion}
                 </p>
                 <p>
-                  <strong>Diagnostico: </strong>
+                  <strong>Diagnóstico: </strong>
                   {this.state.datosficha.diagnostico}
                 </p>
               </Panel>

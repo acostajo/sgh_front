@@ -62,6 +62,7 @@ class BuscarPanolab extends Component {
       .catch(function(error) {
         console.log(error);
       });
+
     if (respuesta === null) {
       Alert.warning("No se encontra la Ficha Panorámica");
     } else {

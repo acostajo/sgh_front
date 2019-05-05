@@ -76,84 +76,79 @@ class PanolabView extends Component {
             </CardHeader>
             <CardBody style={{ marginBottom: 20 }}>
               <Form>
-                <Row
-                  style={{ marginBottom: 20, marginRight: 100, marginLeft: 25 }}
-                >
+                <Row style={{ marginBottom: 20, marginLeft: 20 }}>
                   <FormGroup>
                     <Label>
-                      <h4>
-                        <strong>Fecha de Panorámica de Laboratorio:</strong>
-                      </h4>
+                      <strong>Fecha de Panorámica de Laboratorio:</strong>
                     </Label>
-                    <h5>
-                      <p>{this.state.datosPanolab.fechapanolab}</p>
-                    </h5>
+
+                    <p>{this.state.datosPanolab.fechapanolab}</p>
                   </FormGroup>
 
-                  <Card
-                    style={{ padding: 20, marginRight: 60, marginLeft: 30 }}
-                  >
-                    <Row>
-                      <Col style={{ marginLeft: 0 }}>
-                        <FormGroup>
-                          <Label>
-                            <strong>Prótesis:</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.protesis}</p>
-                        </FormGroup>
-                      </Col>
-                      <Col>
-                        <FormGroup>
-                          <Label>
-                            <strong>Hb:</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.hemoglobina}</p>
-                        </FormGroup>
-                      </Col>
+                  <Col>
+                    <Card style={{ padding: 20 }}>
+                      <Row>
+                        <Col style={{ marginLeft: 0 }}>
+                          <FormGroup>
+                            <Label>
+                              <strong>Prótesis:</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.protesis}</p>
+                          </FormGroup>
+                        </Col>
+                        <Col>
+                          <FormGroup>
+                            <Label>
+                              <strong>Hb:</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.hemoglobina}</p>
+                          </FormGroup>
+                        </Col>
 
-                      <Col>
-                        <FormGroup>
-                          <Label>
-                            <strong>Hto:</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.hemotocrito}</p>
-                        </FormGroup>
-                      </Col>
+                        <Col>
+                          <FormGroup>
+                            <Label>
+                              <strong>Hto:</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.hemotocrito}</p>
+                          </FormGroup>
+                        </Col>
 
-                      <Col>
-                        <FormGroup>
-                          <Label>
-                            <strong>VCM:</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.vcm}</p>
-                        </FormGroup>
-                      </Col>
-                      <Col>
-                        <FormGroup>
-                          <Label>
-                            <strong>GB:</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.globlanco}</p>
-                        </FormGroup>
-                      </Col>
-                      <Col>
-                        <FormGroup>
-                          <Label>
-                            <strong>N/L:</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.nl}</p>
-                        </FormGroup>
-                      </Col>
-                      <Col>
-                        <FormGroup>
-                          <Label>
-                            <strong>Plaq:</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.plaqueta}</p>
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                  </Card>
+                        <Col>
+                          <FormGroup>
+                            <Label>
+                              <strong>VCM:</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.vcm}</p>
+                          </FormGroup>
+                        </Col>
+                        <Col>
+                          <FormGroup>
+                            <Label>
+                              <strong>GB:</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.globlanco}</p>
+                          </FormGroup>
+                        </Col>
+                        <Col>
+                          <FormGroup>
+                            <Label>
+                              <strong>N/L:</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.nl}</p>
+                          </FormGroup>
+                        </Col>
+                        <Col>
+                          <FormGroup>
+                            <Label>
+                              <strong>Plaq:</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.plaqueta}</p>
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                    </Card>
+                  </Col>
                 </Row>
                 <Row style={{ marginBottom: 20 }}>
                   <Card
@@ -184,7 +179,7 @@ class PanolabView extends Component {
                     </Row>
                   </Card>
 
-                  <Card style={{ padding: 20, marginRight: 25 }}>
+                  <Card style={{ padding: 20, marginRight: 10 }}>
                     <Row>
                       <Col>
                         <h5>GPT</h5>
@@ -210,102 +205,106 @@ class PanolabView extends Component {
                     </Row>
                   </Card>
 
-                  <Card style={{ padding: 20, marginRight: 25 }}>
-                    <Row>
-                      <Col>
-                        <FormGroup>
-                          <Label>
-                            <strong>Bilirrubina:</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.bilirrubina}</p>
-                        </FormGroup>
-                      </Col>
-                      <Col>
-                        <FormGroup>
-                          <Label>
-                            <strong>Urea:</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.uresa}</p>
-                        </FormGroup>
-                      </Col>
-                      <Col>
-                        <FormGroup>
-                          <Label>
-                            <strong>VSG:</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.vsg}</p>
-                        </FormGroup>
-                      </Col>
-                      <Col>
-                        <FormGroup>
-                          <Label>
-                            <strong>PCR:</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.pcr}</p>
-                        </FormGroup>
-                      </Col>
-                      <Col>
-                        <FormGroup>
-                          <Label>
-                            <strong>Glic:</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.glicemia}</p>
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <FormGroup>
-                          <Label>
-                            <strong>CT:</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.coleste}</p>
-                        </FormGroup>
-                      </Col>
-                      <Col>
-                        <FormGroup>
-                          <Label>
-                            <strong>LDL:</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.ldl}</p>
-                        </FormGroup>
-                      </Col>
-                      <Col>
-                        <FormGroup>
-                          <Label>
-                            <strong>HDL:</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.hdl}</p>
-                        </FormGroup>
-                      </Col>
-                      <Col>
-                        <FormGroup>
-                          <Label>
-                            <strong>VLDL:</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.vldl}</p>
-                        </FormGroup>
-                      </Col>
-                      <Col>
-                        <FormGroup>
-                          <Label>
-                            <strong>TG:</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.trigliceri}</p>
-                        </FormGroup>
-                      </Col>
+                  <Col>
+                    <Card style={{ padding: 20 }}>
+                      <Row>
+                        <Col>
+                          <FormGroup>
+                            <Label>
+                              <strong>Bilirrubina:</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.bilirrubina}</p>
+                          </FormGroup>
+                        </Col>
+                        <Col>
+                          <FormGroup>
+                            <Label>
+                              <strong>Urea:</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.uresa}</p>
+                          </FormGroup>
+                        </Col>
+                        <Col>
+                          <FormGroup>
+                            <Label>
+                              <strong>VSG:</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.vsg}</p>
+                          </FormGroup>
+                        </Col>
+                        <Col>
+                          <FormGroup>
+                            <Label>
+                              <strong>PCR:</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.pcr}</p>
+                          </FormGroup>
+                        </Col>
+                        <Col>
+                          <FormGroup>
+                            <Label>
+                              <strong>Glic:</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.glicemia}</p>
+                          </FormGroup>
+                        </Col>
+                        <Col>
+                          <FormGroup>
+                            <Label>
+                              <strong>CT:</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.coleste}</p>
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <FormGroup>
+                            <Label>
+                              <strong>LDL:</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.ldl}</p>
+                          </FormGroup>
+                        </Col>
+                        <Col>
+                          <FormGroup>
+                            <Label>
+                              <strong>HDL:</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.hdl}</p>
+                          </FormGroup>
+                        </Col>
+                        <Col>
+                          <FormGroup>
+                            <Label>
+                              <strong>VLDL:</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.vldl}</p>
+                          </FormGroup>
+                        </Col>
+                        <Col>
+                          <FormGroup>
+                            <Label>
+                              <strong>TG:</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.trigliceri}</p>
+                          </FormGroup>
+                        </Col>
+                        <Col>
+                          <FormGroup>
+                            <Label>
+                              <strong>Ac. Úrico</strong>
+                            </Label>
+                            <p>{this.state.datosPanolab.acidourico}</p>
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                    </Card>
+                  </Col>
+                </Row>
 
-                      <Col>
-                        <FormGroup>
-                          <Label>
-                            <strong>Ac. Úrico</strong>
-                          </Label>
-                          <p>{this.state.datosPanolab.acidourico}</p>
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                  </Card>
-                  <Card style={{ padding: 20 }}>
+                <Row style={{ marginBottom: 20 }}>
+                  <Card style={{ padding: 20, marginLeft: 25 }}>
                     <Row>
                       <Col>
                         <h5>FR</h5>
@@ -331,9 +330,6 @@ class PanolabView extends Component {
                       </Col>
                     </Row>
                   </Card>
-                </Row>
-
-                <Row style={{ marginBottom: 20 }}>
                   <Card
                     style={{ padding: 20, marginRight: 25, marginLeft: 25 }}
                   >
@@ -423,16 +419,18 @@ class PanolabView extends Component {
                     </Row>
                   </Card>
 
-                  <Card style={{ padding: 20 }}>
-                    <Col>
-                      <FormGroup>
-                        <Label>
-                          <strong>Prot 24:</strong>
-                        </Label>
-                        <p>{this.state.datosPanolab.prot24}</p>
-                      </FormGroup>
-                    </Col>
-                  </Card>
+                  <Col>
+                    <Card style={{ padding: 20 }}>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Prot 24:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.prot24}</p>
+                        </FormGroup>
+                      </Col>
+                    </Card>
+                  </Col>
                 </Row>
 
                 <Row>
