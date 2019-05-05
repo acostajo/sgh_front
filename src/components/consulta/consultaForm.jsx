@@ -7,7 +7,6 @@ import {
   CardBody,
   Container,
   Row,
-  Alert,
   ButtonGroup,
   Col,
   Form,
@@ -28,6 +27,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./estilos.css";
 import "react-input-range/lib/css/index.css";
 import EfectoAdverso from "./../efectoadverso/efectoAdversoForm";
+import { Alert } from "rsuite";
 const ColoredLine = ({ color }) => (
   <hr
     style={{
@@ -72,6 +72,7 @@ class Consulta extends Component {
       nad: 0, //	número de articulaciones dolorosas
       nat: 0, //	número de articulaciones tumefactas
       eva: 0, //	escala visual analógica
+      vgp: 0, //	valoración global del Paciente para CDAI Y SDAI
       vgp1: 0, //	valoración global del Paciente para CDAI Y SDAI
       vgm1: 0, //	valoración global del médico para CDAI Y SDAI
       vgp2: 0, //	valoración global del Paciente para DAS28PCR Y DAS28VSG
@@ -263,7 +264,7 @@ class Consulta extends Component {
   }
 
   addEfectoToList() {
-    console.log("efecto a ser agregado" + this.state.efectoSelected);
+    /* console.log("efecto a ser agregado" + this.state.efectoSelected);
     if (this.state.efectoSelected !== {}) {
       const efecto = {
         codefecad: this.state.efectoSelected.codefecad,
@@ -274,6 +275,27 @@ class Consulta extends Component {
       this.setState({ efectoListTable: efectoList });
     } else {
       return;
+    }*/
+
+    let esfectoList = this.state.efectoListTable;
+    if (this.state.efectoSelected === null) {
+      Alert.warning("No puede estar vacio", 5000);
+      console.log("vacio");
+      return;
+    } else {
+      for (let index = 0; index < esfectoList.length; index++) {
+        if (
+          esfectoList[index].codefecad === this.state.efectoSelected.codefecad
+        )
+          return;
+      }
+      const efecto = {
+        codefecad: this.state.efectoSelected.codefecad,
+        nombre: this.state.efectoSelected.nombre
+      };
+      esfectoList.push(efecto);
+      console.log("efecto a ser agregado" + this.state.efectoSelected.nombre);
+      this.setState({ efectoListTable: esfectoList });
     }
   }
 
@@ -307,13 +329,24 @@ class Consulta extends Component {
       nat: this.state.nat,
       eva: this.state.eva,
       vgp: this.state.vgp,
+      vgp1: this.state.vgp1,
+      vgp2: this.state.vgp2,
       vgm: this.state.vgm,
+      vgm1: this.state.vgm1,
+      vgm2: this.state.vgm2,
       crp: this.state.crp,
+      vsg: this.state.vsg,
       cdai: this.state.cdai,
       sdai: this.state.sdai,
       haq: this.state.haq, //voy a ver
       das28pcr: this.state.das28pcr,
       das28vsg: this.state.das28vsg,
+
+      CDAI_RANGO: this.state.CDAI_RANGO,
+      SDAI_RANGO: this.state.SDAI_RANGO,
+      DAS28_VSG_RANGO: this.state.DAS28_VSG_RANGO,
+      DAS28_PCR_RANGO: this.state.DAS28_PCR_RANGO,
+
       sientepaci: this.state.sientepaci,
       plan: this.state.plan,
       fechacreada: this.state.fechacreada,
@@ -329,10 +362,25 @@ class Consulta extends Component {
     })
       .then(res => res.json())
       .catch(error => console.error("Error:", error))
-      .then(response => {
+      /* .then(response => {
         codconsulta = response.codconsulta;
         console.log("respuesta: ", response);
+      });*/
+
+      .then(response => {
+        if (
+          response.codconsulta !== undefined &&
+          response.codconsulta !== null
+        ) {
+          codconsulta = response.codconsulta;
+          console.log(response);
+          Alert.success("La Consulta fue cargada con éxito!", 5000);
+          /* this.props.history.push(
+            "/consulta_view/" + this.props.match.params.codconsulta
+          );*/
+        }
       });
+
     this.handleAddEfecto(codconsulta);
   }
 
@@ -539,14 +587,6 @@ class Consulta extends Component {
   render() {
     return (
       <Container>
-        <Alert
-          color="info"
-          isOpen={this.state.visible}
-          toggle={this.onDismissVisivle}
-        >
-          La Consulta fue cargada con exito!
-        </Alert>
-
         <Card style={{ backgroundColor: "#F9FCFB" }}>
           <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
             <h3>Datos</h3>

@@ -15,6 +15,8 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import BootstrapTable from "react-bootstrap-table-next";
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 const ColoredLine = ({ color }) => (
   <hr
     style={{
@@ -32,7 +34,30 @@ class FichaView extends Component {
     super();
     this.state = {
       datosficha: {},
-      visible: false
+      visible: false,
+      famesListTable: [],
+      columnsFames: [
+        {
+          dataField: "codfame",
+          hidden: true
+        },
+        {
+          dataField: "nombre",
+          text: "Nombre"
+        },
+        {
+          dataField: "descripcion",
+          text: "Descripción"
+        },
+        {
+          dataField: "fameDesde",
+          text: "Fecha Desde"
+        },
+        {
+          dataField: "fameHasta",
+          text: "Fecha Hasta"
+        }
+      ]
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
@@ -64,22 +89,44 @@ class FichaView extends Component {
   async componentWillMount() {
     const cod = this.props.codficha;
     const url1 = "http://127.0.0.1:8000/api/ficha?codficha=";
+    const url2 = "http://127.0.0.1:8000/api/famesficha/?codficha=";
+    const url3 = "http://127.0.0.1:8000/api/fames/?codfame=";
     let datosficha = {};
-
+    let famesFicha = {};
+    let list = [];
     await axios
       .get(url1 + cod)
       .then(function(response) {
-        console.log(response.data[0]);
         datosficha = response.data[0];
       })
       .catch(function(error) {
         console.log(error);
       });
-
     this.setState({
       datosficha: datosficha
     });
-    console.log(this.state.datosficha);
+
+    await axios
+      .get(url2 + cod)
+      .then(function(response) {
+        famesFicha = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    for (let item = 0; item < famesFicha.length; item++) {
+      await axios
+        .get(url3 + famesFicha[item].codfame)
+        .then(function(response) {
+          list.push(response.data[0]);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+    console.log(list);
+    this.setState({ famesListTable: list });
   }
   render() {
     return (
@@ -336,121 +383,130 @@ class FichaView extends Component {
                 </Card>
               </Col>
             </Row>
+
             <Row style={{ marginBottom: 20 }}>
-              <Card style={{ padding: 20, marginRight: 20, marginLeft: 20 }}>
-                <Row style={{ marginBottom: 40, marginTop: 20 }}>
-                  <FormGroup check>
-                    <Input
-                      disabled
-                      type="checkbox"
-                      value={this.state.datosficha.sedentarismo}
-                    />
-                    <Label check>
-                      <strong>Sedentarismo</strong>
-                    </Label>
-                  </FormGroup>
-                </Row>
-
-                <Row>
-                  <FormGroup check>
-                    <Input
-                      disabled
-                      type="checkbox"
-                      value={this.state.datosficha.actifisica}
-                    />
-                    <Label check>
-                      <strong>Actividad Fisica</strong>
-                    </Label>
-                  </FormGroup>
-                </Row>
-              </Card>
-
-              <Card style={{ padding: 20 }}>
-                <Row>
-                  <Col style={{ marginTop: 20 }}>
-                    <FormGroup check>
-                      <Input
-                        disabled
-                        type="checkbox"
-                        value={this.state.datosficha.tabaquismo}
-                      />
-                      <Label check>
-                        <strong>Tabaquisimo:</strong>
-                      </Label>
-                    </FormGroup>
-                  </Col>
-                  <Col>
-                    <FormGroup>
-                      <Label>
-                        <strong>Fecha Inicio:</strong>
-                      </Label>
-                      <p>{this.state.datosficha.tabaqfecha}</p>
-                    </FormGroup>
-                  </Col>
-                  <Col>
-                    <FormGroup>
-                      <Label>
-                        <strong>N° paq/año:</strong>
-                      </Label>
-                      <p>{this.state.datosficha.tabnumero}</p>
-                    </FormGroup>
-                  </Col>
-                </Row>
+              <Card style={{ padding: 20, marginLeft: 20 }}>
                 <Row>
                   <Col>
                     <FormGroup check>
-                      <Input
+                      <input
                         disabled
+                        checked={this.state.datosficha.sedentarismo}
                         type="checkbox"
-                        value={this.state.datosficha.extabaq}
+                        value={this.state.datosficha.sedentarismo}
                       />
                       <Label check>
-                        <strong>Ex Tabaquista:</strong>
+                        <strong>Sedentarismo</strong>
+                      </Label>
+                    </FormGroup>
+                  </Col>
+
+                  <Col>
+                    <FormGroup check>
+                      <input
+                        disabled
+                        checked={this.state.datosficha.actifisica}
+                        type="checkbox"
+                        value={this.state.datosficha.actifisica}
+                      />
+                      <Label check>
+                        <strong>Actividad Física</strong>
                       </Label>
                     </FormGroup>
                   </Col>
                 </Row>
               </Card>
-            </Row>
-            <Row style={{ marginBottom: 20 }}>
-              <Card style={{ padding: 20, marginRight: 20, marginLeft: 20 }}>
-                <Row>
-                  <Col>
-                    <h5>Antecedentes Ginecológicos</h5>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <FormGroup>
-                      <Label>
-                        <strong>Menarca:</strong>
-                      </Label>
-                      <p>{this.state.datosficha.menarca}</p>
-                    </FormGroup>
-                  </Col>
-                  <hr marginLeft={50} />
-                  <Col>
-                    <FormGroup>
-                      <Label>
-                        <strong>Menopausia:</strong>
-                      </Label>
-                      <p>{this.state.datosficha.menopausia}</p>
-                    </FormGroup>
-                  </Col>
-                  <Col>
-                    <FormGroup>
-                      <Label>
-                        <strong>Edad de Inicio de Actividad Sexual:</strong>
-                      </Label>
-                      <p>{this.state.datosficha.edadvidasex}</p>
-                    </FormGroup>
-                  </Col>
 
-                  <Row style={{ marginBottom: 20 }}>
+              <Col>
+                <Card style={{ padding: 20 }}>
+                  <Row>
                     <Col>
                       <FormGroup check>
-                        <Input
+                        <input
                           disabled
+                          checked={this.state.datosficha.extabaq}
+                          type="checkbox"
+                          value={this.state.datosficha.extabaq}
+                        />
+                        <Label check>
+                          <strong>Ex Tabaquista:</strong>
+                        </Label>
+                      </FormGroup>
+                    </Col>
+                    <Col>
+                      <FormGroup check>
+                        <input
+                          disabled
+                          checked={this.state.datosficha.tabaquismo}
+                          type="checkbox"
+                          value={this.state.datosficha.tabaquismo}
+                        />
+                        <Label check>
+                          <strong>Tabaquisimo:</strong>
+                        </Label>
+                      </FormGroup>
+                    </Col>
+                    <Col>
+                      <FormGroup>
+                        <Label>
+                          <strong>Fecha Inicio:</strong>
+                        </Label>
+                        <p>{this.state.datosficha.tabaqfecha}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col>
+                      <FormGroup>
+                        <Label>
+                          <strong>N° paq/año:</strong>
+                        </Label>
+                        <p>{this.state.datosficha.tabnumero}</p>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+
+            <Row style={{ marginBottom: 20 }}>
+              <Col>
+                <Card style={{ padding: 20 }}>
+                  <Row>
+                    <Col>
+                      <h5>Antecedentes Ginecológicos</h5>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <FormGroup>
+                        <Label>
+                          <strong>Menarca:</strong>
+                        </Label>
+                        <p>{this.state.datosficha.menarca}</p>
+                      </FormGroup>
+                    </Col>
+                    <hr marginLeft={50} />
+                    <Col>
+                      <FormGroup>
+                        <Label>
+                          <strong>Menopausia:</strong>
+                        </Label>
+                        <p>{this.state.datosficha.menopausia}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col>
+                      <FormGroup>
+                        <Label>
+                          <strong>Edad de Inicio de Actividad Sexual:</strong>
+                        </Label>
+                        <p>{this.state.datosficha.edadvidasex}</p>
+                      </FormGroup>
+                    </Col>
+
+                    <Col>
+                      <FormGroup check>
+                        <input
+                          disabled
+                          checked={this.state.datosficha.hisjospost}
                           type="checkbox"
                           value={this.state.datosficha.hisjospost}
                         />
@@ -460,137 +516,125 @@ class FichaView extends Component {
                       </FormGroup>
                     </Col>
                   </Row>
-                </Row>
-                <Row>
-                  <Col>
-                    <FormGroup>
-                      <Label>
-                        <strong>Gestas:</strong>
-                      </Label>
-                      <p>{this.state.datosficha.gestas}</p>
-                    </FormGroup>
-                  </Col>
-                  <Col>
-                    <FormGroup>
-                      <Label>
-                        <strong>Parto:</strong>
-                      </Label>
-                      <p>{this.state.datosficha.partos}</p>
-                    </FormGroup>
-                  </Col>
-                  <Col>
-                    <FormGroup>
-                      <Label>
-                        <strong>Cesáreas:</strong>
-                      </Label>
-                      <p>{this.state.datosficha.cesareas}</p>
-                    </FormGroup>
-                  </Col>
-                  <Col>
-                    <FormGroup>
-                      <Label>
-                        <strong>Abortos:</strong>
-                      </Label>
-                      <p>{this.state.datosficha.abortos}</p>
-                    </FormGroup>
-                  </Col>
-                </Row>
-              </Card>
-            </Row>
-
-            <Row>
-              <Card style={{ padding: 20, marginLeft: 20, marginRight: 20 }}>
-                <Row>
-                  <Col>
-                    <FormGroup>
-                      <Row>
-                        <Col>
-                          <Label>
-                            <strong>FR(+):</strong>
-                          </Label>
-                          <p>{this.state.datosficha.factorreuma_pos}</p>
-                        </Col>
-                        <Col>
-                          <Label>
-                            <strong>FR(-):</strong>
-                          </Label>
-                          <p>{this.state.datosficha.factorreuma_neg}</p>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <Label>
-                            <strong>Nivel/VR:</strong>
-                          </Label>
-                          <p>{this.state.datosficha.factorreuma_nivel}</p>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                </Row>
-              </Card>
-
-              <Col>
-                <Card style={{ padding: 20, marginLeft: 20, marginRight: 20 }}>
                   <Row>
                     <Col>
                       <FormGroup>
-                        <Row>
-                          <Col>
-                            <Label>
-                              <strong>ACPA (+):</strong>
-                            </Label>
-                            <p>{this.state.datosficha.acp_pos}</p>
-                          </Col>
-                          <Col>
-                            <Label>
-                              <strong>ACPA (-):</strong>
-                            </Label>
-                            <p>{this.state.datosficha.acp_neg}</p>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col>
-                            <Label>
-                              <strong>Nivel/VR:</strong>
-                            </Label>
-                            <p>{this.state.datosficha.acpa_nivel}</p>
-                          </Col>
-                        </Row>
+                        <Label>
+                          <strong>Gestas:</strong>
+                        </Label>
+                        <p>{this.state.datosficha.gestas}</p>
                       </FormGroup>
+                    </Col>
+                    <Col>
+                      <FormGroup>
+                        <Label>
+                          <strong>Parto:</strong>
+                        </Label>
+                        <p>{this.state.datosficha.partos}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col>
+                      <FormGroup>
+                        <Label>
+                          <strong>Cesáreas:</strong>
+                        </Label>
+                        <p>{this.state.datosficha.cesareas}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col>
+                      <FormGroup>
+                        <Label>
+                          <strong>Abortos:</strong>
+                        </Label>
+                        <p>{this.state.datosficha.abortos}</p>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <Card style={{ padding: 20 }}>
+                  <Row>
+                    <Col>
+                      <FormGroup>
+                        <Label>
+                          <strong>FR(+):</strong>
+                        </Label>
+                        <p>{this.state.datosficha.factorreuma_pos}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col>
+                      <FormGroup>
+                        <Label>
+                          <strong>FR(-):</strong>
+                        </Label>
+                        <p>{this.state.datosficha.factorreuma_neg}</p>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <Label>
+                        <strong>Nivel/VR:</strong>
+                      </Label>
+                      <p>{this.state.datosficha.factorreuma_nivel}</p>
                     </Col>
                   </Row>
                 </Card>
               </Col>
 
               <Col>
-                <Card style={{ padding: 20 }}>
+                <Card style={{ padding: 20, marginLeft: 20, marginRight: 20 }}>
                   <Row>
                     <Col>
-                      <FormGroup>
-                        <Row>
-                          <Col>
-                            <Label>
-                              <strong>ANA (+):</strong>
-                            </Label>
-                            <p>{this.state.datosficha.ana_pos}</p>
-                          </Col>
-                          <Col>
-                            <Label>
-                              <strong>ANA (-):</strong>
-                            </Label>
-                            <p>{this.state.datosficha.ana_neg}</p>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col>
-                            <Label>
-                              <strong>Dilución/Patrón:</strong>
-                            </Label>
-                            <p>{this.state.datosficha.ana_patron}</p>
-                          </Col>
-                        </Row>
-                      </FormGroup>
+                      <Label>
+                        <strong>ACPA (+):</strong>
+                      </Label>
+                      <p>{this.state.datosficha.acpa_pos}</p>
+                    </Col>
+                    <Col>
+                      <Label>
+                        <strong>ACPA (-):</strong>
+                      </Label>
+                      <p>{this.state.datosficha.acpa_neg}</p>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <Label>
+                        <strong>Nivel/VR:</strong>
+                      </Label>
+                      <p>{this.state.datosficha.acpa_nivel}</p>
+                    </Col>
+                  </Row>
+                </Card>
+              </Col>
+
+              <Col>
+                <Card style={{ padding: 20, marginBottom: 20 }}>
+                  <Row>
+                    <Col>
+                      <Label>
+                        <strong>ANA (+):</strong>
+                      </Label>
+                      <p>{this.state.datosficha.ana_pos}</p>
+                    </Col>
+                    <Col>
+                      <Label>
+                        <strong>ANA (-):</strong>
+                      </Label>
+                      <p>{this.state.datosficha.ana_neg}</p>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <Label>
+                        <strong>Dilución/Patrón:</strong>
+                      </Label>
+                      <p>{this.state.datosficha.ana_patron}</p>
                     </Col>
                   </Row>
                 </Card>
@@ -601,19 +645,28 @@ class FichaView extends Component {
               <Col>
                 <h5>Fames</h5>
                 <Card style={{ padding: 10 }}>
-                  <Row style={{ marginBottom: 10 }} />
+                  <Row>
+                    <Col>
+                      <BootstrapTable
+                        keyField="codfame"
+                        data={this.state.famesListTable}
+                        columns={this.state.columnsFames}
+                      />
+                    </Col>
+                  </Row>
                 </Card>
               </Col>
             </Row>
 
             <Row style={{ marginBottom: 20 }}>
               <Col>
-                <Card style={{ padding: 20, marginRight: 20, marginLeft: 20 }}>
+                <Card style={{ padding: 20 }}>
                   <Row>
                     <Col>
                       <FormGroup check>
-                        <Input
+                        <input
                           disabled
+                          checked={this.state.datosficha.rxmanos}
                           type="checkbox"
                           value={this.state.datosficha.rxmanos}
                         />
@@ -634,12 +687,13 @@ class FichaView extends Component {
                 </Card>
               </Col>
               <Col>
-                <Card style={{ padding: 20, marginRight: 20, marginLeft: 20 }}>
+                <Card style={{ padding: 20 }}>
                   <Row>
                     <Col>
                       <FormGroup check>
-                        <Input
+                        <input
                           disabled
+                          checked={this.state.datosficha.rxpies}
                           type="checkbox"
                           value={this.state.datosficha.rxpies}
                         />
@@ -664,13 +718,19 @@ class FichaView extends Component {
             </Row>
           </CardBody>
         </Card>
-        <hr />
+
         <FormGroup>
           <Link to={`/ficha_edit/${this.state.datosficha.codficha}`}>
-            <Button color="success">Modificar</Button>
+            <Button color="success" style={{ marginTop: 20 }}>
+              Modificar
+            </Button>
           </Link>
           {"      "}
-          <Button onClick={this.handleDelete} color="danger">
+          <Button
+            onClick={this.handleDelete}
+            color="danger"
+            style={{ marginTop: 20 }}
+          >
             Eliminar
           </Button>
         </FormGroup>

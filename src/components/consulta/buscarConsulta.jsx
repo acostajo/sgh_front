@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import {
   Button,
   Container,
-  Alert,
   Row,
   Fade,
   ListGroup,
@@ -17,6 +16,7 @@ import {
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
+import { Alert } from "rsuite";
 
 class BuscarConsulta extends Component {
   constructor() {
@@ -60,16 +60,26 @@ class BuscarConsulta extends Component {
       .catch(function(error) {
         console.log(error);
       });
-    if (respuesta === null) {
+
+    /* if (respuesta === null) {
       this.setState({
         alert: !this.state.alert,
         fadeIn: !this.state.fadeIn
       });
+
     } else {
       this.setState({
         listaConsulta: listado,
         fadeIn: !this.state.fadeIn,
         alert: false
+      });
+*/
+
+    if (respuesta === null) {
+      Alert.warning("No se encontra la Consulta");
+    } else {
+      this.setState({
+        listaConsulta: listado
       });
     }
     console.log(
@@ -83,9 +93,6 @@ class BuscarConsulta extends Component {
     console.log(list);
     return (
       <Container>
-        <Alert color="danger" isOpen={this.state.alert} toggle={this.onDismiss}>
-          No se encontro la consulta!
-        </Alert>
         <Row>
           <Col>
             <FormGroup>
