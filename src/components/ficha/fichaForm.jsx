@@ -156,7 +156,7 @@ class Ficha extends Component {
         },
         {
           dataField: "fechadiagnostico",
-          text: "Fecha Diagnostico "
+          text: "Fecha Diagnóstico "
         }
       ],
       eventocardioSelected: {},
@@ -190,7 +190,7 @@ class Ficha extends Component {
         },
         {
           dataField: "descripcion",
-          text: "Descripcion"
+          text: "Descripción"
         }
       ]
     };
@@ -430,7 +430,28 @@ class Ficha extends Component {
   }
 
   addFameToList() {
-    console.log("fame a ser agregado" + this.state.fameSelected);
+    let fameList = this.state.famesListTable;
+    if (this.state.fameSelected === null) {
+      Alert.warning("No puedo estar vacio", 10000);
+      return;
+    } else {
+      for (let index = 0; index < fameList.length; index++) {
+        if (fameList[index].codfame === this.state.fameSelected.codfame) return;
+      }
+      const fame = {
+        codfame: this.state.fameSelected.codfame,
+        nombre: this.state.fameSelected.nombre,
+        descripcion: this.state.fameSelected.descripcion,
+        fameDesde: this.state.fameDesde,
+        fameHasta: this.state.fameHasta
+      };
+      fameList.push(fame);
+      console.log(this.state.fameSelected);
+      console.log("fame a ser agregado" + this.state.fameSelected.nombre);
+      this.setState({ famesListTable: fameList });
+    }
+
+    /*console.log("fame a ser agregado" + this.state.fameSelected);
     if (this.state.fameSelected !== {}) {
       const fame = {
         codfame: this.state.fameSelected.codfame,
@@ -444,47 +465,76 @@ class Ficha extends Component {
       this.setState({ famesListTable: fameList });
     } else {
       return;
-    }
+    }*/
   }
 
   addComorToList() {
-    console.log(this.state.comorSelected);
-    if (this.state.comorSelected !== {}) {
+    let comorList = this.state.comorListTable;
+    if (this.state.comorSelected === null) {
+      return;
+    } else {
+      for (let index = 0; index < comorList.length; index++) {
+        if (
+          comorList[index].codenfermedad ===
+          this.state.comorSelected.codenfermedad
+        )
+          return;
+      }
       const comor = {
         codenfermedad: this.state.comorSelected.codenfermedad,
         nombre: this.state.comorSelected.nombre,
         fechadiagnostico: this.state.fechaDxComor //*** si no es el mismo nombe de la ficha, no  paorque es de otro formulario luego
       };
-      let comorList = this.state.comorListTable;
       comorList.push(comor);
-      console.log(comorList);
+      console.log("fame a ser agregado" + this.state.comorSelected.nombre);
       this.setState({ comorListTable: comorList });
-    } else {
-      return;
     }
   }
 
   addEventToList() {
-    console.log(this.state.eventocardioSelected);
-    if (this.state.eventocardioSelected !== {}) {
+    let eventList = this.state.eventListTable;
+    if (this.state.eventocardioSelected === null) {
+      return;
+    } else {
+      for (let index = 0; index < eventList.length; index++) {
+        if (
+          eventList[index].codevencardio ===
+          this.state.eventocardioSelected.codevencardio
+        )
+          return;
+      }
       const evento = {
         codevencardio: this.state.eventocardioSelected.codeventocardio,
         nombre: this.state.eventocardioSelected.nombre
       };
-      let eventList = this.state.eventListTable;
       eventList.push(evento);
-      this.setState({ eventListTable: eventList });
       console.log(
-        "evento a ser insertado en la lista " +
-          this.state.eventocardioSelected.codeventocardio
+        "fame a ser agregado" + this.state.eventocardioSelected.nombre
       );
-    } else {
-      return;
+      this.setState({ eventListTable: eventList });
     }
   }
 
   addManiToList() {
-    console.log(this.state.maniSelected);
+    let maniList = this.state.maniListTable;
+    if (this.state.maniSelected === null) {
+      return;
+    } else {
+      for (let index = 0; index < maniList.length; index++) {
+        if (maniList[index].codmanif === this.state.maniSelected.codmanif)
+          return;
+      }
+      const mani = {
+        codmanif: this.state.maniSelected.codmanif,
+        nombre: this.state.maniSelected.nombre,
+        descripcion: this.state.maniSelected.descripcion
+      };
+      maniList.push(mani);
+      console.log("fame a ser agregado" + this.state.maniSelected.nombre);
+      this.setState({ maniListTable: maniList });
+    }
+
+    /*console.log(this.state.maniSelected);
     if (this.state.maniSelected !== {}) {
       const mani = {
         codmanif: this.state.maniSelected.codmanif,
@@ -499,7 +549,7 @@ class Ficha extends Component {
       );
     } else {
       return;
-    }
+    }*/
   }
 
   async validarCedula(e) {
@@ -651,6 +701,7 @@ class Ficha extends Component {
           Alert.success("La ficha fue cargada con éxito!", 10000);
         }
       });
+
     this.handleAddComor(codficha);
     this.handleAddEvento(codficha);
     this.handleAddMani(codficha);
