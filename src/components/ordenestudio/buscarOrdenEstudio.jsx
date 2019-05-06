@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import {
   Button,
   Container,
-  Alert,
   Row,
   Fade,
   ListGroup,
@@ -17,6 +16,7 @@ import {
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
+import { Alert } from "rsuite";
 
 class BuscarOrdenEstudio extends Component {
   constructor() {
@@ -63,17 +63,13 @@ class BuscarOrdenEstudio extends Component {
         console.log(error);
       });
     if (respuesta === null) {
-      this.setState({
-        alert: !this.state.alert,
-        fadeIn: !this.state.fadeIn
-      });
+      Alert.warning("No se encontra la Orden de Estudio");
     } else {
       this.setState({
-        listaOrdenEstudio: listado,
-        fadeIn: !this.state.fadeIn,
-        alert: false
+        listaOrdenEstudio: listado
       });
     }
+
     console.log(url1 + this.state.fechaOrdenEstudio);
   }
 
@@ -83,9 +79,6 @@ class BuscarOrdenEstudio extends Component {
     console.log(list);
     return (
       <Container>
-        <Alert color="danger" isOpen={this.state.alert} toggle={this.onDismiss}>
-          No se encontro la Orden de Estudio!
-        </Alert>
         <Row>
           <Col>
             <FormGroup>
