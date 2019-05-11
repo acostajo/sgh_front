@@ -14,7 +14,7 @@ import {
   Input,
   Fade
 } from "reactstrap";
-import { Modal } from "rsuite";
+import { Modal, Panel, Uploader, Icon } from "rsuite";
 import axios from "axios";
 import Estudio from "./../estudio/estudioForm";
 import Joi from "joi-browser";
@@ -53,6 +53,8 @@ class OrdenEstudio extends Component {
         fechaordenestudio: "", //fecha de la orden de estudio
         fechacreada: 0 //	fecha de creación de la orden de estudio
       },
+      aux: false,
+      archivo: {},
       deshabilitar: false,
       deshabilitartaba: true,
       suggestions: [],
@@ -92,6 +94,11 @@ class OrdenEstudio extends Component {
     this.eliminarEstudio = this.eliminarEstudio.bind(this);
     this.onDismissVisivle = this.onDismissVisivle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleDrop(fileList) {
+    this.setState({ archivo: fileList[0] });
+    console.log(this.state.archivo);
   }
 
   eliminarEstudio() {
@@ -206,7 +213,6 @@ class OrdenEstudio extends Component {
 
   handleSubmit() {
     const errors = this.validar();
-    console.log(errors);
     this.setState({ errores: errors || {} });
     if (errors) return;
     this.handleAdd();

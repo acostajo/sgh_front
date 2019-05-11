@@ -17,17 +17,11 @@ import NavBarMenu from "./components/navbar";
 import OrdenEstudio from "./components/ordenestudio/ordenestudioForm";
 import OrdenEstudioView from "./components/ordenestudio/ordenestudioView";
 import MenuPrincipal from "./components/principal";
-import {
-  Sidebar,
-  Sidenav,
-  Dropdown,
-  Nav,
-  Navbar,
-  Icon,
-  Container,
-  Header,
-  Content
-} from "rsuite";
+import ListaEstudios from "./components/laboratorio/estudios";
+import BuscarPaciente from "./components/laboratorio/buscarPaciente";
+import Turnos from "./components/laboratorio/turnos";
+import MenuLab from "./components/laboratorio/menuLab";
+import OrdenEstudioViewLab from "./components/laboratorio/ordenestudioViewLab";
 
 class App extends Component {
   render() {
@@ -37,6 +31,14 @@ class App extends Component {
 
         <div className="content" style={{ marginTop: 60 }}>
           <Switch>
+            <Route
+              path="/lista_estudios/:codficha"
+              exact
+              component={ListaEstudios}
+            />
+            <Route path="/turnos/" exact component={Turnos} />
+            <Route path="/menu_lab/" exact component={MenuLab} />
+            <Route path="/buscar_paciente/" exact component={BuscarPaciente} />
             <Route path="/consulta/:codficha" component={Consulta} />
             <Route
               path="/consulta_view/:codconsulta"
@@ -44,8 +46,12 @@ class App extends Component {
             />
             <Route path="/ordenestudio/:codficha" component={OrdenEstudio} />
             <Route
-              path="/ordenestudio_view/:codconsulta"
+              path="/ordenestudio_view/:codordenestudio"
               component={OrdenEstudioView}
+            />
+            <Route
+              path="/ordenestudio_view_lab/:codordenestudio"
+              component={OrdenEstudioViewLab}
             />
             <Route path="/panolab/:codficha" component={Panolab} />
             <Route path="/panolab_view/:codpanolab" component={PanolabView} />

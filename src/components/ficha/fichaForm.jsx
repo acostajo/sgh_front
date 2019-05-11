@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   Card,
-  Alert,
   Button,
   CardHeader,
   CardBody,
@@ -13,7 +12,7 @@ import {
   Label,
   Input
 } from "reactstrap";
-import { Modal } from "rsuite";
+import { Modal, Alert } from "rsuite";
 import axios from "axios";
 import Joi from "joi-browser";
 import { AutoComplete } from "primereact/autocomplete";
@@ -205,16 +204,19 @@ class Ficha extends Component {
         .label("NHC no puede estar vacío"),
       fechadiagnos: Joi.string()
         .required()
-        .label("Fecha Diagnostico no puede estar vacío"),
+        .label("Fecha Diagnóstico no puede estar vacío"),
       fechainclusion: Joi.string()
         .required()
-        .label("Fecha Inclusion no puede estar vacío"),
+        .label("Fecha Inclusión no puede estar vacío"),
       diagnostico: Joi.string()
         .required()
         .label("Diagnostico no puede estar vacío"),
       nrodocumento: Joi.number()
         .required()
-        .label("Nro de Documento no puede estar vacío")
+        .label("Nro de Documento no puede estar vacío"),
+      fechanaci: Joi.string()
+        .required()
+        .label("Fecha de Nacimiento no puede estar vacío")
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
@@ -449,7 +451,7 @@ class Ficha extends Component {
       const comor = {
         codenfermedad: this.state.comorSelected.codenfermedad,
         nombre: this.state.comorSelected.nombre,
-        fechadiagnostico: this.state.fechaDxComor
+        fechadiagnostico: this.state.fechaDxComor //*** si no es el mismo nombe de la ficha, no  paorque es de otro formulario luego
       };
       let comorList = this.state.comorListTable;
       comorList.push(comor);
@@ -500,38 +502,33 @@ class Ficha extends Component {
 
   async validarCedula(e) {
     const url1 = "http://127.0.0.1:8000/api/ficha?nrodocumento=";
-    const value = e.target.value;
-    const name = e.target.name;
-    let fields = this.state.datosFicha;
-    fields[name] = value;
-
-    this.setState({
-      datosFicha: fields
-    });
-
-    let aviso;
+    let error = false;
     await axios
-      .get(url1 + value)
+      .get(url1 + this.state.datosFicha.nrodocumento)
       .then(function(response) {
         console.log(response.data.length);
-        if ((response.data.length > 0) & (value !== "")) {
-          aviso = true;
+        if (response.data.length > 0) {
+          //aviso = true;
+          Alert.warning(
+            "El Nro de documento ya esta asociada a otra ficha...",
+            10000
+          );
+          error = !error;
         } else {
-          aviso = false;
+          //aviso = false;
         }
       })
       .catch(function(error) {
         console.log(error);
       });
-
-    this.setState({ aviso: aviso });
+    return error;
   }
 
   onDismissVisivle() {
     this.setState({ visible: !this.state.visible });
   }
   onDismissAviso() {
-    this.setState({ aviso: !this.state.visible });
+    //this.setState({ aviso: !this.state.visible });
   }
 
   handleChange(e) {
@@ -582,15 +579,18 @@ class Ficha extends Component {
         fechadiagnos: this.state.datosFicha.fechadiagnos,
         fechainclusion: this.state.datosFicha.fechainclusion,
         diagnostico: this.state.datosFicha.diagnostico,
-        nrodocumento: this.state.datosFicha.nrodocumento
+        nrodocumento: this.state.datosFicha.nrodocumento,
+        fechanaci: this.state.datosFicha.fechanaci
       },
       this.schema,
       {
         abortEarly: false
       }
     );
+
     if (!result.error) return null;
 
+    console.log(result);
     const errors = {};
     for (let item of result.error.details)
       errors[item.path[0]] = item.context.label;
@@ -600,6 +600,7 @@ class Ficha extends Component {
   handleSubmit() {
     const errors = this.validar();
     this.setState({ errores: errors || {} });
+    if (this.validarCedula()) return;
     if (errors) return;
     this.handleAdd();
   }
@@ -617,8 +618,11 @@ class Ficha extends Component {
       .then(res => res.json())
       .catch(error => console.error("Error:", error))
       .then(response => {
-        codficha = response.codficha;
-        console.log(response);
+        if (response.codficha !== undefined && response.codficha !== null) {
+          codficha = response.codficha;
+          console.log(response);
+          Alert.success("La ficha fue cargada con éxito!", 10000);
+        }
       });
     this.handleAddComor(codficha);
     this.handleAddEvento(codficha);
@@ -758,20 +762,6 @@ class Ficha extends Component {
   render() {
     return (
       <Container>
-        <Alert
-          color="info"
-          isOpen={this.state.visible}
-          toggle={this.onDismissVisivle}
-        >
-          La Ficha fue cargada con exito!
-        </Alert>
-        <Alert
-          color="danger"
-          isOpen={this.state.aviso}
-          toggle={this.onDismissAviso}
-        >
-          El Nro de documento ya esta asociada a otra ficha...
-        </Alert>
         <Form>
           <Card style={{ backgroundColor: "#F9FCFB" }}>
             <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
@@ -863,7 +853,7 @@ class Ficha extends Component {
                     <Label for="nrodocumento">Nro. Documento:</Label>
                     <Input
                       type="number"
-                      onChange={this.validarCedula}
+                      onChange={this.handleChange}
                       value={this.state.datosFicha.nrodocumento}
                       name="nrodocumento"
                       id="nrodocumento"
@@ -889,7 +879,7 @@ class Ficha extends Component {
                 </Col>
                 <Col>
                   <FormGroup>
-                    <Label for="fechanaci">FN</Label>
+                    <Label for="fechanaci">Fecha de Nacimiento</Label>
                     <Input
                       type="date"
                       onChange={this.handleChange}
@@ -897,6 +887,9 @@ class Ficha extends Component {
                       name="fechanaci"
                       id="fechanaci"
                     />
+                    <Label style={{ color: "red", fontSize: 12 }}>
+                      {this.state.errores.fechanaci}
+                    </Label>
                   </FormGroup>
                 </Col>
                 <Col>
