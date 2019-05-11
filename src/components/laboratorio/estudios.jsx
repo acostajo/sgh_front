@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import {
   Button,
   Container,
+  Alert,
   Row,
+  Fade,
   ListGroup,
   ListGroupItem,
   ListGroupItemHeading,
@@ -15,14 +17,13 @@ import {
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
-import { Alert } from "rsuite";
 
-class BuscarPanolab extends Component {
+class ListaEstudios extends Component {
   constructor() {
     super();
     this.state = {
-      fechaPanolab: "",
-      listaPanolab: [],
+      fechaOrdenEstudio: "",
+      listaOrdenEstudio: [],
       fadeIn: false,
       alert: false
     };
@@ -41,13 +42,16 @@ class BuscarPanolab extends Component {
   }
 
   async handleSearch() {
-    const url1 = "http://127.0.0.1:8000/api/panolab?fechapanolab=";
+    const url1 = "http://127.0.0.1:8000/api/ordenestudio?fechaordenestudio=";
     const codficha = "&codficha=";
     let listado = [];
     let respuesta;
 
     const url_usar =
-      url1 + this.state.fechaPanolab + codficha + this.props.codficha;
+      url1 +
+      this.state.fechaOrdenEstudio +
+      codficha +
+      this.props.match.params.codficha;
     console.log(url_usar);
     await axios
       .get(url_usar) //y asi queda concatenado todo, si no hay fecha igual trae solo lo de esa ficha, vamos a probar
@@ -61,35 +65,42 @@ class BuscarPanolab extends Component {
       .catch(function(error) {
         console.log(error);
       });
-
     if (respuesta === null) {
-      Alert.warning("No se encontra la Ficha Panorámica");
+      this.setState({
+        alert: !this.state.alert,
+        fadeIn: !this.state.fadeIn
+      });
     } else {
       this.setState({
-        listaPanolab: listado
+        listaOrdenEstudio: listado,
+        fadeIn: !this.state.fadeIn,
+        alert: false
       });
     }
-    console.log(url1 + this.state.fechaPanolab);
+    console.log(url1 + this.state.fechaOrdenEstudio);
   }
 
   render() {
     let list = [];
-    list = this.state.listaPanolab;
+    list = this.state.listaOrdenEstudio;
     console.log(list);
     return (
       <Container>
+        <Alert color="danger" isOpen={this.state.alert} toggle={this.onDismiss}>
+          No se encontro la Orden de Estudio!
+        </Alert>
         <Row>
           <Col>
             <FormGroup>
-              <Label for="fechaPanolab">
-                Buscar por Fecha Panorámica de Laboratorio
+              <Label for="fechaOrdenEstudio">
+                Buscar por Fecha Orden de Estudio
               </Label>
               <Input
                 type="date"
                 onChange={this.handleChange}
-                value={this.state.fechaPanolab}
-                name="fechaPanolab"
-                id="fechaPanolab"
+                value={this.state.fechaOrdenEstudio}
+                name="fechaOrdenEstudio"
+                id="fechaOrdenEstudio"
               />
             </FormGroup>
             <Button onClick={this.handleSearch} color="primary">
@@ -98,10 +109,10 @@ class BuscarPanolab extends Component {
             {"   "}
             <Button onClick={this.handleAdd} color="primary">
               <Link
-                to={`/panolab/${this.props.codficha}`}
+                to={`/ordenestudio/${this.props.codficha}`}
                 style={{ color: "white" }}
               >
-                Agregar Panorámica de Laboratorio
+                Agregar Orden de Estudio
               </Link>
             </Button>
           </Col>
@@ -115,15 +126,15 @@ class BuscarPanolab extends Component {
                   <ListGroupItem>
                     <ListGroupItemHeading>
                       <Link
-                        to={`/panolab_view/${item.codpanolab}/${item.codficha}`}
+                        to={`/ordenestudio_view_lab/${item.codordenestudio}`}
                       >
                         {" "}
-                        <h4>{item.fechapanolab}</h4>
+                        <h4>{item.fechaordenestudio}</h4>
                       </Link>
                     </ListGroupItemHeading>
                     <ListGroupItemText>
                       <p>
-                        <strong>Prótesis: </strong> {item.protesis}
+                        <strong>Estado: </strong> {item.estado}
                       </p>
                       <p>
                         <strong>Observación: </strong> {item.observacion}
@@ -140,4 +151,4 @@ class BuscarPanolab extends Component {
   }
 }
 
-export default BuscarPanolab;
+export default ListaEstudios;

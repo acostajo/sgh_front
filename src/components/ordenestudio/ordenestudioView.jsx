@@ -13,7 +13,6 @@ import {
   Label,
   Input
 } from "reactstrap";
-import { Link } from "react-router-dom";
 import axios from "axios";
 class OrdenEstudioView extends Component {
   constructor() {

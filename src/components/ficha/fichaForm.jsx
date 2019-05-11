@@ -554,26 +554,18 @@ class Ficha extends Component {
 
   async validarCedula(e) {
     const url1 = "http://127.0.0.1:8000/api/ficha?nrodocumento=";
-    const value = e.target.value;
-    const name = e.target.name;
-    let fields = this.state.datosFicha;
-    fields[name] = value;
-
-    this.setState({
-      datosFicha: fields
-    });
-
-    let aviso;
+    let error = false;
     await axios
-      .get(url1 + value)
+      .get(url1 + this.state.datosFicha.nrodocumento)
       .then(function(response) {
         console.log(response.data.length);
-        if ((response.data.length > 0) & (value !== "")) {
+        if (response.data.length > 0) {
           //aviso = true;
           Alert.warning(
             "El Nro de documento ya esta asociada a otra ficha...",
             10000
           );
+          error = !error;
         } else {
           //aviso = false;
         }
@@ -581,8 +573,7 @@ class Ficha extends Component {
       .catch(function(error) {
         console.log(error);
       });
-
-    this.setState({ aviso: aviso });
+    return error;
   }
 
   onDismissVisivle() {
@@ -666,6 +657,7 @@ class Ficha extends Component {
         abortEarly: false
       }
     );
+
     if (!result.error) return null;
 
     console.log(result);
@@ -678,6 +670,7 @@ class Ficha extends Component {
   handleSubmit() {
     const errors = this.validar();
     this.setState({ errores: errors || {} });
+    if (this.validarCedula()) return;
     if (errors) return;
     this.handleAdd();
   }
@@ -931,7 +924,7 @@ class Ficha extends Component {
                     <Label for="nrodocumento">Nro. Documento:</Label>
                     <Input
                       type="number"
-                      onChange={this.validarCedula}
+                      onChange={this.handleChange}
                       value={this.state.datosFicha.nrodocumento}
                       name="nrodocumento"
                       id="nrodocumento"
