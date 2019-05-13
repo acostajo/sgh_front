@@ -110,7 +110,7 @@ class Ficha extends Component {
       deshabilitarrxpies: true,
       deshabilitarrxmanos: true,
       suggestions: [],
-      fameSelected: {},
+      fameSelected: null,
       fame: "",
       fameDesde: "",
       fameHasta: "",
@@ -139,7 +139,7 @@ class Ficha extends Component {
           text: "Fecha Hasta"
         }
       ],
-      comorSelected: {},
+      comorSelected: null,
       fechaDxComor: "",
       comorbilidad: "",
       comorList: [],
@@ -147,7 +147,7 @@ class Ficha extends Component {
       comorListTableSelected: "",
       columnsComor: [
         {
-          dataField: "codcomor",
+          dataField: "codenfermedad",
           hidden: true
         },
         {
@@ -159,14 +159,14 @@ class Ficha extends Component {
           text: "Fecha Diagnóstico "
         }
       ],
-      eventocardioSelected: {},
+      eventocardioSelected: null,
       eventocardio: "",
       eventList: [],
       eventListTable: [],
       eventListTableSelected: "",
       columnsEvent: [
         {
-          dataField: "codevencardio",
+          dataField: "codeventocardio",
           hidden: true
         },
         {
@@ -174,7 +174,7 @@ class Ficha extends Component {
           text: "Nombre"
         }
       ],
-      maniSelected: {},
+      maniSelected: null,
       mani: "",
       maniList: [],
       maniListTable: [],
@@ -432,11 +432,13 @@ class Ficha extends Component {
   addFameToList() {
     let fameList = this.state.famesListTable;
     if (this.state.fameSelected === null) {
-      Alert.warning("No puedo estar vacio", 10000);
+      Alert.warning("El Fame no puedo estar vacio", 10000);
       return;
     } else {
       for (let index = 0; index < fameList.length; index++) {
-        if (fameList[index].codfame === this.state.fameSelected.codfame) return;
+        if (fameList[index].codfame === this.state.fameSelected.codfame)
+          Alert.warning("El Fame ya fue agregado", 3000);
+        return;
       }
       const fame = {
         codfame: this.state.fameSelected.codfame,
@@ -471,6 +473,7 @@ class Ficha extends Component {
   addComorToList() {
     let comorList = this.state.comorListTable;
     if (this.state.comorSelected === null) {
+      Alert.warning("El APF esta vacío", 5000);
       return;
     } else {
       for (let index = 0; index < comorList.length; index++) {
@@ -478,7 +481,8 @@ class Ficha extends Component {
           comorList[index].codenfermedad ===
           this.state.comorSelected.codenfermedad
         )
-          return;
+          Alert.warning("El APF ya fue agregado", 3000);
+        return;
       }
       const comor = {
         codenfermedad: this.state.comorSelected.codenfermedad,
@@ -492,19 +496,26 @@ class Ficha extends Component {
   }
 
   addEventToList() {
+    console.log(this.state.eventocardioSelected);
     let eventList = this.state.eventListTable;
     if (this.state.eventocardioSelected === null) {
+      //
+      Alert.warning("El Evento Cardiovasular esta vacío", 5000); //aca no esntra puse par aprobar nomas, pero esta bien osea tiene que ser {} nomas
+
       return;
     } else {
       for (let index = 0; index < eventList.length; index++) {
         if (
-          eventList[index].codevencardio ===
-          this.state.eventocardioSelected.codevencardio
-        )
+          eventList[index].codeventocardio ===
+          this.state.eventocardioSelected.codeventocardio
+        ) {
+          Alert.warning("El Evento Cardiovasular ya fue agregado", 3000);
+
           return;
+        }
       }
       const evento = {
-        codevencardio: this.state.eventocardioSelected.codeventocardio,
+        codeventocardio: this.state.eventocardioSelected.codeventocardio,
         nombre: this.state.eventocardioSelected.nombre
       };
       eventList.push(evento);
@@ -518,11 +529,13 @@ class Ficha extends Component {
   addManiToList() {
     let maniList = this.state.maniListTable;
     if (this.state.maniSelected === null) {
+      Alert.warning("La Manifestación Articular esta vacía", 5000);
       return;
     } else {
       for (let index = 0; index < maniList.length; index++) {
         if (maniList[index].codmanif === this.state.maniSelected.codmanif)
-          return;
+          Alert.warning("La Manifestación Articular ya fue agregada", 3000);
+        return;
       }
       const mani = {
         codmanif: this.state.maniSelected.codmanif,
@@ -558,12 +571,11 @@ class Ficha extends Component {
     await axios
       .get(url1 + this.state.datosFicha.nrodocumento)
       .then(function(response) {
-        console.log(response.data.length);
         if (response.data.length > 0) {
           //aviso = true;
           Alert.warning(
             "El Nro de documento ya esta asociada a otra ficha...",
-            10000
+            5000
           );
           error = !error;
         } else {
@@ -573,6 +585,7 @@ class Ficha extends Component {
       .catch(function(error) {
         console.log(error);
       });
+
     return error;
   }
 
@@ -667,11 +680,18 @@ class Ficha extends Component {
     return errors;
   };
 
-  handleSubmit() {
+  async handleSubmit() {
     const errors = this.validar();
+    const validarCedula = await this.validarCedula();
     this.setState({ errores: errors || {} });
-    if (this.validarCedula()) return;
-    if (errors) return;
+    if (validarCedula) {
+      console.log("no pasa la validacion de cedula   " + validarCedula);
+      return;
+    }
+    if (errors) {
+      console.log("no pasa la validacion de los campos");
+      return;
+    }
     this.handleAdd();
   }
 
@@ -736,7 +756,7 @@ class Ficha extends Component {
     for (let item = 0; item < list.length; item++) {
       let evento = {
         codficha: codficha,
-        codevencardio: list[item].codevencardio
+        codeventocardio: list[item].codeventocardio
       };
 
       await fetch("http://127.0.0.1:8000/api/eventocardio_ficha/", {
@@ -835,7 +855,7 @@ class Ficha extends Component {
       <Container>
         <Form>
           <Card style={{ backgroundColor: "#F9FCFB" }}>
-            <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
+            <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
               <h3>Datos personales</h3>
             </CardHeader>
             <CardBody>
@@ -1100,7 +1120,7 @@ class Ficha extends Component {
           <hr />
 
           <Card style={{ backgroundColor: "#F9FCFB" }}>
-            <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
+            <CardHeader style={{ backgroundColor: "#091833", color: "white" }}>
               <h3>Datos de la Ficha HA</h3>
             </CardHeader>
             <CardBody>
@@ -1232,7 +1252,7 @@ class Ficha extends Component {
                 </Col>
               </Row>
               <Row style={{ marginBottom: 20 }}>
-                <Col>
+                <Col xs="6">
                   <h5>Eventos Cardiovasculares</h5>
                   <Card style={{ padding: 10 }}>
                     <Row style={{ marginBottom: 10 }}>
@@ -1261,7 +1281,7 @@ class Ficha extends Component {
                           onClick={this.toggleEvento}
                           style={{ marginLeft: 5 }}
                         >
-                          Nuevo Evento
+                          Nuevo
                         </Button>
                       </Col>
                       <Modal
@@ -1276,14 +1296,14 @@ class Ficha extends Component {
                     <Row>
                       <Col>
                         <BootstrapTable
-                          keyField="codevencardio"
+                          keyField="codeventocardio"
                           data={this.state.eventListTable}
                           columns={this.state.columnsEvent}
                           selectRow={{
                             mode: "radio",
                             clickToSelect: true,
                             onSelect: (row, isSelect, rowIndex, e) => {
-                              console.log("row.id" + row.codevencardio);
+                              console.log("row.id" + row.codeventocardio);
                               console.log("isSelect" + isSelect);
                               console.log("rowIndex" + rowIndex);
                               this.setState({
@@ -1301,9 +1321,8 @@ class Ficha extends Component {
                     </Row>
                   </Card>
                 </Col>
-              </Row>
-              <Row style={{ marginBottom: 20 }}>
-                <Col>
+
+                <Col xs="6">
                   <h5>Manifestaciones Extra Articulares</h5>
                   <Card style={{ padding: 10 }}>
                     <Row style={{ marginBottom: 10 }}>
@@ -1332,7 +1351,7 @@ class Ficha extends Component {
                           onClick={this.toggleMani}
                           style={{ marginLeft: 5 }}
                         >
-                          Nueva Manifestacion
+                          Nuevo
                         </Button>
                       </Col>
                       <Modal
@@ -1415,7 +1434,7 @@ class Ficha extends Component {
                           onClick={this.toggleComor}
                           style={{ marginLeft: 5 }}
                         >
-                          Nueva Comorbilidad
+                          Nuevo
                         </Button>
                       </Col>
                       <Modal
@@ -1451,6 +1470,106 @@ class Ficha extends Component {
                     <Row>
                       <Col>
                         <Button onClick={this.eliminarComor}>Eliminar</Button>
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+              </Row>
+
+              <Row style={{ marginBottom: 20, marginTop: 20 }}>
+                <Col>
+                  <h5>Fames</h5>
+                  <Card style={{ padding: 10 }}>
+                    <Row style={{ marginBottom: 10 }}>
+                      <Col>
+                        <Label>Fármaco</Label>
+                        <AutoComplete
+                          value={this.state.fame}
+                          suggestions={this.state.suggestions}
+                          completeMethod={this.filterFame}
+                          field="nombre"
+                          size={25}
+                          placeholder="Fames"
+                          minLength={1}
+                          onChange={this.onChangeFame}
+                          onSelect={this.onSelectFame}
+                        />
+                      </Col>
+                      <Col>
+                        <Label>Desde</Label>
+                        <Input
+                          type="date"
+                          onChange={e => {
+                            this.setState({ fameDesde: e.target.value });
+                          }}
+                          value={this.state.fameDesde}
+                          name="fameDesde"
+                          id="fameDesde"
+                          style={{ width: 180 }}
+                        />
+                      </Col>
+                      <Col>
+                        <Label>Hasta</Label>
+                        <Input
+                          type="date"
+                          style={{ width: 180 }}
+                          onChange={e => {
+                            this.setState({ fameHasta: e.target.value });
+                          }}
+                          value={this.state.fameHasta}
+                          name="fameHasta"
+                          id="fameHasta"
+                        />
+                      </Col>
+                      <Col>
+                        <Button
+                          color="primary"
+                          onClick={this.addFameToList}
+                          style={{ margin: 5 }}
+                        >
+                          Agregar
+                        </Button>
+                        <Button
+                          color="success"
+                          onClick={this.toggleFame}
+                          style={{ margin: 5 }}
+                        >
+                          Nuevo
+                        </Button>
+                      </Col>
+                      <Modal
+                        show={this.state.toggleFame}
+                        onHide={this.toggleFame}
+                      >
+                        <Modal.Body>
+                          <Fame />
+                        </Modal.Body>
+                      </Modal>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <BootstrapTable
+                          keyField="codfame"
+                          data={this.state.famesListTable}
+                          columns={this.state.columnsFames}
+                          selectRow={{
+                            mode: "radio",
+                            clickToSelect: true,
+                            onSelect: (row, isSelect, rowIndex, e) => {
+                              console.log("row.id" + row.codfame);
+                              console.log("isSelect" + isSelect);
+                              console.log("rowIndex" + rowIndex);
+                              this.setState({
+                                famesListTableSelected: rowIndex
+                              });
+                            }
+                          }}
+                        />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Button onClick={this.eliminarFame}>Eliminar</Button>
                       </Col>
                     </Row>
                   </Card>
@@ -1807,106 +1926,6 @@ class Ficha extends Component {
                           <option>Nucleolar</option>
                           <option>Centromérico</option>
                         </Input>
-                      </Col>
-                    </Row>
-                  </Card>
-                </Col>
-              </Row>
-
-              <Row style={{ marginBottom: 20, marginTop: 20 }}>
-                <Col>
-                  <h5>Fames</h5>
-                  <Card style={{ padding: 10 }}>
-                    <Row style={{ marginBottom: 10 }}>
-                      <Col>
-                        <Label>Fármaco</Label>
-                        <AutoComplete
-                          value={this.state.fame}
-                          suggestions={this.state.suggestions}
-                          completeMethod={this.filterFame}
-                          field="nombre"
-                          size={25}
-                          placeholder="Fames"
-                          minLength={1}
-                          onChange={this.onChangeFame}
-                          onSelect={this.onSelectFame}
-                        />
-                      </Col>
-                      <Col>
-                        <Label>Desde</Label>
-                        <Input
-                          type="date"
-                          onChange={e => {
-                            this.setState({ fameDesde: e.target.value });
-                          }}
-                          value={this.state.fameDesde}
-                          name="fameDesde"
-                          id="fameDesde"
-                          style={{ width: 180 }}
-                        />
-                      </Col>
-                      <Col>
-                        <Label>Hasta</Label>
-                        <Input
-                          type="date"
-                          style={{ width: 180 }}
-                          onChange={e => {
-                            this.setState({ fameHasta: e.target.value });
-                          }}
-                          value={this.state.fameHasta}
-                          name="fameHasta"
-                          id="fameHasta"
-                        />
-                      </Col>
-                      <Col>
-                        <Button
-                          color="primary"
-                          onClick={this.addFameToList}
-                          style={{ margin: 5 }}
-                        >
-                          Agregar
-                        </Button>
-                        <Button
-                          color="success"
-                          onClick={this.toggleFame}
-                          style={{ margin: 5 }}
-                        >
-                          Nuevo Fame
-                        </Button>
-                      </Col>
-                      <Modal
-                        show={this.state.toggleFame}
-                        onHide={this.toggleFame}
-                      >
-                        <Modal.Body>
-                          <Fame />
-                        </Modal.Body>
-                      </Modal>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <BootstrapTable
-                          keyField="codfame"
-                          data={this.state.famesListTable}
-                          columns={this.state.columnsFames}
-                          selectRow={{
-                            mode: "radio",
-                            clickToSelect: true,
-                            onSelect: (row, isSelect, rowIndex, e) => {
-                              console.log("row.id" + row.codfame);
-                              console.log("isSelect" + isSelect);
-                              console.log("rowIndex" + rowIndex);
-                              this.setState({
-                                famesListTableSelected: rowIndex
-                              });
-                            }
-                          }}
-                        />
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <Button onClick={this.eliminarFame}>Eliminar</Button>
                       </Col>
                     </Row>
                   </Card>

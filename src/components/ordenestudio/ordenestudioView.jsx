@@ -14,12 +14,33 @@ import {
   Input
 } from "reactstrap";
 import axios from "axios";
+import BootstrapTable from "react-bootstrap-table-next";
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 class OrdenEstudioView extends Component {
   constructor() {
     super();
     this.state = {
       datosOrdenEstudio: {},
-      visible: false
+      visible: false,
+      estudioSelected: null,
+      estudio: "",
+      estudioList: [],
+      estudioListTable: [],
+      estudioListTableSelected: "",
+      columnsEstudio: [
+        {
+          dataField: "codestudio",
+          hidden: true
+        },
+        {
+          dataField: "nombre",
+          text: "Nombre"
+        },
+        {
+          dataField: "descripcion",
+          text: "Descripción"
+        }
+      ]
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
@@ -69,6 +90,46 @@ class OrdenEstudioView extends Component {
       datosOrdenEstudio: datosOrdenEstudio
     });
     console.log(this.state.datosOrdenEstudio); //trae bien, trae bien? el cod digo no el contenido
+
+    //tipo estudio
+    const url2 = "http://127.0.0.1:8000/api/ordenestudio/?codordenestudio=";
+    const url3 = "http://127.0.0.1:8000/api/estudio/?codestudio=";
+
+    let estudioOrden = {};
+    let liste = [];
+    let listEstudio = [];
+
+    await axios
+      .get(url2 + cod)
+      .then(function(response) {
+        estudioOrden = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    for (let item = 0; item < estudioOrden.length; item++) {
+      await axios
+        .get(url3 + estudioOrden[item].codestudio)
+        .then(function(response) {
+          liste.push(response.data[0]);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+
+    for (let item = 0; item < liste.length; item++) {
+      const obj = {
+        codestudio: liste[item].codestudio,
+        nombre: liste[item].nombre,
+        descripcion: liste[item].descripcion
+      };
+      listEstudio.push(obj);
+    }
+    console.log(listEstudio);
+
+    this.setState({ estudioListTable: listEstudio });
   }
   render() {
     return (
@@ -100,6 +161,23 @@ class OrdenEstudioView extends Component {
                   </FormGroup>
                 </Col>
               </Row>
+              <Row style={{ marginBottom: 20 }}>
+                <Col>
+                  <h5>Tipo Estudio</h5>
+                  <Card style={{ padding: 10 }}>
+                    <Row>
+                      <Col>
+                        <BootstrapTable
+                          keyField="codestudio"
+                          data={this.state.estudioListTable}
+                          columns={this.state.columnsEstudio}
+                        />
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+              </Row>
+
               <Row>
                 <Col>
                   <FormGroup>
@@ -113,9 +191,13 @@ class OrdenEstudioView extends Component {
             </Form>
           </CardBody>
         </Card>
-        <hr />
+
         <FormGroup>
-          <Button onClick={this.handleDelete} color="danger">
+          <Button
+            onClick={this.handleDelete}
+            color="danger"
+            style={{ marginTop: 20 }}
+          >
             Eliminar
           </Button>
         </FormGroup>

@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import BootstrapTable from "react-bootstrap-table-next";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
+import EventoCardiovascular from "./../eventocardiovascular/eventocardiovascularForm";
 const ColoredLine = ({ color }) => (
   <hr
     style={{
@@ -57,6 +58,47 @@ class FichaView extends Component {
           dataField: "fameHasta",
           text: "Fecha Hasta"
         }
+      ],
+      eventListTable: [],
+      columnsEvent: [
+        {
+          dataField: "codeventocardio",
+          hidden: true
+        },
+        {
+          dataField: "nombre",
+          text: "Nombre"
+        }
+      ],
+      maniListTable: [],
+      columnsMani: [
+        {
+          dataField: "codmanif",
+          hidden: true
+        },
+        {
+          dataField: "nombre",
+          text: "Nombre"
+        },
+        {
+          dataField: "descripcion",
+          text: "Descripción"
+        }
+      ],
+      comorListTable: [],
+      columnsComor: [
+        {
+          dataField: "codenfermedad",
+          hidden: true
+        },
+        {
+          dataField: "nombre",
+          text: "Nombre"
+        },
+        {
+          dataField: "fechadiagnostico",
+          text: "Fecha Diagnóstico "
+        }
       ]
     };
     this.handleDelete = this.handleDelete.bind(this);
@@ -91,9 +133,162 @@ class FichaView extends Component {
     const url1 = "http://127.0.0.1:8000/api/ficha?codficha=";
     const url2 = "http://127.0.0.1:8000/api/famesficha/?codficha=";
     const url3 = "http://127.0.0.1:8000/api/fames/?codfame=";
+    const url2e = "http://127.0.0.1:8000/api/eventocardio_ficha/?codficha=";
+    const url3e = "http://127.0.0.1:8000/api/eventocardio/?codeventocardio=";
+    const url2m = "http://127.0.0.1:8000/api/manif/?codficha=";
+    const url3m = "http://127.0.0.1:8000/api/manif_extra_art/?codmanif=";
+    const url2c = "http://127.0.0.1:8000/api/comorbilidad/?codficha=";
+    const url3c = "http://127.0.0.1:8000/api/enfermedad/?codenfermedad=";
     let datosficha = {};
     let famesFicha = {};
-    let list = [];
+    let listf = [];
+    let listFame = [];
+    let eventoFicha = {};
+    let liste = [];
+    let listEvento = [];
+    let maniFicha = {};
+    let listm = [];
+    let listManifestacion = [];
+    let comorFicha = {};
+    let listc = [];
+    let listComor = [];
+
+    //comorbilidad
+    await axios
+      .get(url1 + cod)
+      .then(function(response) {
+        datosficha = response.data[0];
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    this.setState({
+      datosficha: datosficha
+    });
+
+    await axios
+      .get(url2c + cod)
+      .then(function(response) {
+        comorFicha = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    for (let item = 0; item < comorFicha.length; item++) {
+      await axios
+        .get(url3c + comorFicha[item].codenfermedad)
+        .then(function(response) {
+          listc.push(response.data[0]);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+
+    for (let item = 0; item < listc.length; item++) {
+      const obj = {
+        codenfermedad: listc[item].codenfermedad,
+        nombre: listc[item].nombre,
+        descripcion: listc[item].descripcion,
+        fechadiagnostico: comorFicha[item].fechadiagnostico
+      };
+      listComor.push(obj);
+    }
+    console.log(listComor);
+
+    this.setState({ comorListTable: listComor });
+
+    //manifestaciones
+    await axios
+      .get(url1 + cod)
+      .then(function(response) {
+        datosficha = response.data[0];
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    this.setState({
+      datosficha: datosficha
+    });
+
+    await axios
+      .get(url2m + cod)
+      .then(function(response) {
+        maniFicha = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    for (let item = 0; item < maniFicha.length; item++) {
+      await axios
+        .get(url3m + maniFicha[item].codmanif)
+        .then(function(response) {
+          listm.push(response.data[0]);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+
+    for (let item = 0; item < listm.length; item++) {
+      const obj = {
+        codmanif: listm[item].codmanif,
+        nombre: listm[item].nombre,
+        descripcion: listm[item].descripcion
+      };
+      listManifestacion.push(obj);
+    }
+    console.log(listManifestacion);
+
+    this.setState({ maniListTable: listManifestacion });
+
+    // evento cardiovascular
+    await axios
+      .get(url1 + cod)
+      .then(function(response) {
+        datosficha = response.data[0];
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    this.setState({
+      datosficha: datosficha
+    });
+
+    await axios
+      .get(url2e + cod)
+      .then(function(response) {
+        eventoFicha = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    for (let item = 0; item < eventoFicha.length; item++) {
+      await axios
+        .get(url3e + eventoFicha[item].codeventocardio)
+        .then(function(response) {
+          liste.push(response.data[0]);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+
+    for (let item = 0; item < liste.length; item++) {
+      const obj = {
+        codeventocardio: liste[item].codeventocardio,
+        nombre: liste[item].nombre
+      };
+      listEvento.push(obj);
+    }
+    console.log(listEvento);
+
+    this.setState({ eventListTable: listEvento });
+
+    // fames
     await axios
       .get(url1 + cod)
       .then(function(response) {
@@ -119,15 +314,28 @@ class FichaView extends Component {
       await axios
         .get(url3 + famesFicha[item].codfame)
         .then(function(response) {
-          list.push(response.data[0]);
+          listf.push(response.data[0]);
         })
         .catch(function(error) {
           console.log(error);
         });
     }
-    console.log(list);
-    this.setState({ famesListTable: list });
+
+    for (let item = 0; item < listf.length; item++) {
+      const obj = {
+        codfame: listf[item].codfame,
+        nombre: listf[item].nombre,
+        descripcion: listf[item].descripcion,
+        fameDesde: famesFicha[item].fechadesde,
+        fameHasta: famesFicha[item].fechahasta
+      };
+      listFame.push(obj);
+    }
+    console.log(listFame);
+
+    this.setState({ famesListTable: listFame });
   }
+
   render() {
     return (
       <Container>
@@ -361,25 +569,65 @@ class FichaView extends Component {
             </Row>
             <Row style={{ marginBottom: 20 }}>
               <Col>
-                <h5>Eventos Cardiovasculares</h5>
+                <h5>Evento Cardiovascular</h5>
                 <Card style={{ padding: 10 }}>
-                  <Row style={{ marginBottom: 10 }} />
+                  <Row>
+                    <Col>
+                      <BootstrapTable
+                        keyField="codeventocardio"
+                        data={this.state.eventListTable}
+                        columns={this.state.columnsEvent}
+                      />
+                    </Col>
+                  </Row>
                 </Card>
               </Col>
-            </Row>
-            <Row style={{ marginBottom: 20 }}>
+
               <Col>
                 <h5>Manifestaciones Extra Articulares</h5>
                 <Card style={{ padding: 10 }}>
-                  <Row style={{ marginBottom: 10 }} />
+                  <Row>
+                    <Col>
+                      <BootstrapTable
+                        keyField="codmanif"
+                        data={this.state.maniListTable}
+                        columns={this.state.columnsMani}
+                      />
+                    </Col>
+                  </Row>
                 </Card>
               </Col>
             </Row>
+
             <Row style={{ marginBottom: 20 }}>
               <Col>
                 <h5>APF-Comorbilidades</h5>
                 <Card style={{ padding: 10 }}>
-                  <Row style={{ marginBottom: 10 }} />
+                  <Row>
+                    <Col>
+                      <BootstrapTable
+                        keyField="codenfermedad"
+                        data={this.state.comorListTable}
+                        columns={this.state.columnsComor}
+                      />
+                    </Col>
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+            <Row style={{ marginBottom: 20 }}>
+              <Col>
+                <h5>Fames</h5>
+                <Card style={{ padding: 10 }}>
+                  <Row>
+                    <Col>
+                      <BootstrapTable
+                        keyField="codfame"
+                        data={this.state.famesListTable}
+                        columns={this.state.columnsFames}
+                      />
+                    </Col>
+                  </Row>
                 </Card>
               </Col>
             </Row>
@@ -387,32 +635,42 @@ class FichaView extends Component {
             <Row style={{ marginBottom: 20 }}>
               <Card style={{ padding: 20, marginLeft: 20 }}>
                 <Row>
-                  <Col>
-                    <FormGroup check>
-                      <input
-                        disabled
-                        checked={this.state.datosficha.sedentarismo}
-                        type="checkbox"
-                        value={this.state.datosficha.sedentarismo}
-                      />
+                  <Col xs="6">
+                    <Row>
+                      <Col>
+                        <FormGroup check>
+                          <input
+                            disabled
+                            checked={this.state.datosficha.sedentarismo}
+                            type="checkbox"
+                            value={this.state.datosficha.sedentarismo}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
                       <Label check>
                         <strong>Sedentarismo</strong>
                       </Label>
-                    </FormGroup>
+                    </Row>
                   </Col>
 
-                  <Col>
-                    <FormGroup check>
-                      <input
-                        disabled
-                        checked={this.state.datosficha.actifisica}
-                        type="checkbox"
-                        value={this.state.datosficha.actifisica}
-                      />
-                      <Label check>
-                        <strong>Actividad Física</strong>
-                      </Label>
-                    </FormGroup>
+                  <Col xs="6">
+                    <Row>
+                      <Col>
+                        <FormGroup check>
+                          <input
+                            disabled
+                            checked={this.state.datosficha.actifisica}
+                            type="checkbox"
+                            value={this.state.datosficha.actifisica}
+                          />
+                          <Label check>
+                            <strong>Actividad Física</strong>
+                          </Label>
+                        </FormGroup>
+                      </Col>
+                    </Row>
                   </Col>
                 </Row>
               </Card>
@@ -635,23 +893,6 @@ class FichaView extends Component {
                         <strong>Dilución/Patrón:</strong>
                       </Label>
                       <p>{this.state.datosficha.ana_patron}</p>
-                    </Col>
-                  </Row>
-                </Card>
-              </Col>
-            </Row>
-
-            <Row style={{ marginBottom: 20 }}>
-              <Col>
-                <h5>Fames</h5>
-                <Card style={{ padding: 10 }}>
-                  <Row>
-                    <Col>
-                      <BootstrapTable
-                        keyField="codfame"
-                        data={this.state.famesListTable}
-                        columns={this.state.columnsFames}
-                      />
                     </Col>
                   </Row>
                 </Card>

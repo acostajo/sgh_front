@@ -7,6 +7,10 @@ import {
   Col,
   FormGroup,
   Label,
+  ListGroup,
+  ListGroupItem,
+  ListGroupItemHeading,
+  ListGroupItemText,
   Input
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
@@ -18,10 +22,11 @@ class BuscarFicha extends Component {
   constructor() {
     super();
     this.state = {
-      nrodocumento: "",
+      parametro: "", //aca no falta nrodocumento, no porque yao le pasa el 1 que le ponemos osea , moira nomas
       nombre: "",
       apellido: "",
-      datosficha: {},
+      tipoBusqueda: "Nro. Documento",
+      datosficha: [],
       fadeIn: false,
       alert: false
     };
@@ -34,152 +39,176 @@ class BuscarFicha extends Component {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
-    this.setState({
-      [name]: value
+    this.setState(
+      {
+        [name]: value
+      },
+      () => {
+        console.log("new state", this.state);
+      }
+    );
+    console.log(this.state.parametro);
+  }
+
+  filterMani(event) {
+    var results = this.state.maniList.filter(mani => {
+      return mani.nombre.toLowerCase().startsWith(event.query.toLowerCase());
     });
+
+    this.setState({ suggestions: results });
   }
 
   async handleSearch() {
-    const url_nroDoc = "http://127.0.0.1:8000/api/ficha?nrodocumento=";
-    const urlNomApe = "http://127.0.0.1:8000/api/ficha?nombres=";
-    const apellido = "&apellidos=";
-    const nroDoc = this.state.nrodocumento;
-    let datosficha = {};
-    let respuesta;
-    let url_usada;
+    const url = "http://127.0.0.1:8000/api/ficha/";
 
-    if (this.state.nrodocumento === "") {
-      //si esta vacio vamos a preguntar si nombre o apellido estan con algun valor
-      if (this.state.nombre !== "" || this.state.apellido !== "") {
-        //si ocurre que alguno de los dos esta osea con un valor, vamos a asignarle ambos, un nombre y un apellido, no importa cual este vacio, total igual trae
-        url_usada = urlNomApe + apellido + this.state.apellido; //aca le concatena todo si entiendo nomas qria decir :()
-      } else {
-        //aca tenemos que avisar que nigun campo este vacio
-      }
-    } else {
-      // si no esta vacio entonces usamos la primera url
-      url_usada = url_nroDoc + nroDoc;
+    const parametro = this.state.parametro;
+    var listado;
+    var fichas;
+
+    switch (this.state.tipoBusqueda) {
+      case "Nro. Documento":
+        await axios
+          .get(url)
+          .then(function(response) {
+            listado = response.data;
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+
+        fichas = listado.filter(item => {
+          return item.nrodocumento === parametro;
+        });
+        console.log(fichas);
+        this.setState({ datosficha: fichas });
+        break;
+
+      case "Nombre":
+        await axios
+          .get(url)
+          .then(function(response) {
+            listado = response.data;
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+        fichas = listado.filter(item => {
+          return item.nombres.toLowerCase().startsWith(parametro.toLowerCase());
+        });
+        console.log(fichas);
+        this.setState({ datosficha: fichas });
+        break;
+
+      case "Apellido":
+        await axios
+          .get(url)
+          .then(function(response) {
+            listado = response.data;
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+        fichas = listado.filter(item => {
+          return item.apellidos
+            .toLowerCase()
+            .startsWith(parametro.toLowerCase());
+        });
+        console.log(fichas);
+        this.setState({ datosficha: fichas });
+        break;
     }
 
-    await axios
-      .get(url_usada) //ahora necesitamos agregar los inputs
-      .then(function(response) {
-        console.log(response.data[0]);
-        if (response.data[0] === undefined) {
-          respuesta = null;
-        } else {
-          datosficha = response.data[0];
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-    if (respuesta === null) {
-      Alert.warning(" No se encontro el Paciente!");
-    } else {
-      this.setState({
-        datosficha: datosficha
-      });
-    }
+    console.log(this.state.tipoBusqueda);
 
-    /*if (respuesta === null) {
-      this.setState({
-        alert: !this.state.alert,
-        fadeIn: !this.state.fadeIn
-      });
-    } else {
-      this.setState({
-        datosficha: datosficha,
-        fadeIn: !this.state.fadeIn,
-        alert: false
-      });
-    }*/
+    //aca validamos que metodo de busqueda se esta usando
   }
 
   render() {
+    let list = this.state.datosficha;
+
     return (
       <Container>
-        <Row>
+        <Row style={{ marginBottom: 20 }}>
           <Col>
+            <h3>Búsqueda de Paciente</h3>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="4">
             <FormGroup>
-              <Label for="nrodocumento">Buscar por CI</Label>
               <Input
                 type="text"
                 onChange={this.handleChange}
-                value={this.state.nrodocumento}
-                name="nrodocumento"
-                id="nrodocumento"
+                value={this.state.parametro}
+                name="parametro"
+                id="parametro"
               />
             </FormGroup>
+          </Col>
+          <Col xs="2">
+            <FormGroup>
+              <Input
+                type="select"
+                onChange={this.handleChange}
+                value={this.state.tipoBusqueda}
+                name="tipoBusqueda"
+                id="tipoBusqueda"
+              >
+                <option>Nro. Documento</option>
+                <option>Nombre</option>
+                <option>Apellido</option>
+              </Input>
+            </FormGroup>
+          </Col>
+          <Col>
             <Button onClick={this.handleSearch} color="primary">
               Buscar
             </Button>
           </Col>
-          {/*<Col>
-            <FormGroup>
-              <Label for="nrodocumento">Buscar por Nombre y apellido</Label>
-              <Row>
-                <Col>
-                  <Input
-                    type="text"
-                    onChange={this.handleChange}
-                    value={this.state.nombre}
-                    name="nombre"
-                    id="nombre"
-                  />
-                </Col>
-                <Col>
-                  <Input
-                    type="text"
-                    onChange={this.handleChange}
-                    value={this.state.apellido}
-                    name="apellido"
-                    id="apellido"
-                  />
-                </Col>
-              </Row>
-            </FormGroup>
-            {/*sale feito, vmos a ponerle uno al lado del otro. yo pense q iba a ser en un so*/}
         </Row>
 
         <hr />
         <Container>
           <Row>
             <Col>
-              <Panel
-                header="Datos del Paciente"
-                bordered
-                style={{ backgroundColor: "#F9FCFB" }}
-              >
-                <Link to={`/menu_ficha/${this.state.datosficha.codficha}`}>
-                  <h4>
-                    {this.state.datosficha.nombres}{" "}
-                    {this.state.datosficha.apellidos}{" "}
-                  </h4>
-                </Link>
-                <p>
-                  <strong>Sexo: </strong> {this.state.datosficha.sexo}
-                </p>
-                <p>
-                  <strong>Nacionalidad: </strong>
-                  {this.state.datosficha.nacionalidad}
-                </p>
-                <p>
-                  <strong>Estado Civil: </strong>
-                  {this.state.datosficha.estadocivil}
-                </p>
-                <p>
-                  <strong>Profesión: </strong>
-                  {this.state.datosficha.profesion}
-                </p>
-                <p>
-                  <strong>Diagnóstico: </strong>
-                  {this.state.datosficha.diagnostico}
-                </p>
-              </Panel>
+              {list.map(item => (
+                <Row key={item.codficha}>
+                  <Col>
+                    <Panel
+                      header="Datos del Paciente"
+                      bordered
+                      style={{ backgroundColor: "#F9FCFB" }}
+                    >
+                      <Link to={`/menu_ficha/${item.codficha}`}>
+                        <h4>
+                          {item.nombres} {item.apellidos}{" "}
+                        </h4>
+                      </Link>
+                      <p>
+                        <strong>Sexo: </strong> {item.sexo}
+                      </p>
+                      <p>
+                        <strong>Nacionalidad: </strong>
+                        {item.nacionalidad}
+                      </p>
+                      <p>
+                        <strong>Estado Civil: </strong>
+                        {item.estadocivil}
+                      </p>
+                      <p>
+                        <strong>Profesión: </strong>
+                        {item.profesion}
+                      </p>
+                      <p>
+                        <strong>Diagnóstico: </strong>
+                        {item.diagnostico}
+                      </p>
+                    </Panel>
+                  </Col>
+                </Row>
+              ))}
             </Col>
           </Row>
-          <Row />
         </Container>
       </Container>
     );
