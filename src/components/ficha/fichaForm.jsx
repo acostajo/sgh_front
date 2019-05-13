@@ -571,12 +571,11 @@ class Ficha extends Component {
     await axios
       .get(url1 + this.state.datosFicha.nrodocumento)
       .then(function(response) {
-        console.log(response.data.length);
         if (response.data.length > 0) {
           //aviso = true;
           Alert.warning(
             "El Nro de documento ya esta asociada a otra ficha...",
-            10000
+            5000
           );
           error = !error;
         } else {
@@ -586,6 +585,7 @@ class Ficha extends Component {
       .catch(function(error) {
         console.log(error);
       });
+
     return error;
   }
 
@@ -680,11 +680,18 @@ class Ficha extends Component {
     return errors;
   };
 
-  handleSubmit() {
+  async handleSubmit() {
     const errors = this.validar();
+    const validarCedula = await this.validarCedula();
     this.setState({ errores: errors || {} });
-    if (this.validarCedula()) return;
-    if (errors) return;
+    if (validarCedula) {
+      console.log("no pasa la validacion de cedula   " + validarCedula);
+      return;
+    }
+    if (errors) {
+      console.log("no pasa la validacion de los campos");
+      return;
+    }
     this.handleAdd();
   }
 

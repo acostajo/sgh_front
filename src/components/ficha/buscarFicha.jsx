@@ -59,9 +59,8 @@ class BuscarFicha extends Component {
   }
 
   async handleSearch() {
-    const urlNroDoc = "http://127.0.0.1:8000/api/ficha?nrodocumento=";
-    const urlNombre = "http://127.0.0.1:8000/api/ficha?nombres=";
-    const urlApellido = "http://127.0.0.1:8000/api/ficha?apellidos=";
+    const url = "http://127.0.0.1:8000/api/ficha/";
+
     const parametro = this.state.parametro;
     var listado;
     var fichas;
@@ -69,7 +68,7 @@ class BuscarFicha extends Component {
     switch (this.state.tipoBusqueda) {
       case "Nro. Documento":
         await axios
-          .get(urlNroDoc)
+          .get(url)
           .then(function(response) {
             listado = response.data;
           })
@@ -78,34 +77,44 @@ class BuscarFicha extends Component {
           });
 
         fichas = listado.filter(item => {
-          return item.nrodocumento
-            .toLowerCase()
-            .startsWith(parametro.toLowerCase());
+          return item.nrodocumento === parametro;
         });
+        console.log(fichas);
+        this.setState({ datosficha: fichas });
         break;
 
       case "Nombre":
         await axios
-          .get(urlNombre)
+          .get(url)
           .then(function(response) {
             listado = response.data;
           })
           .catch(function(error) {
             console.log(error);
           });
-        console.log(listado);
+        fichas = listado.filter(item => {
+          return item.nombres.toLowerCase().startsWith(parametro.toLowerCase());
+        });
+        console.log(fichas);
+        this.setState({ datosficha: fichas });
         break;
 
       case "Apellido":
         await axios
-          .get(urlApellido)
+          .get(url)
           .then(function(response) {
             listado = response.data;
           })
           .catch(function(error) {
             console.log(error);
           });
-        console.log(listado);
+        fichas = listado.filter(item => {
+          return item.apellidos
+            .toLowerCase()
+            .startsWith(parametro.toLowerCase());
+        });
+        console.log(fichas);
+        this.setState({ datosficha: fichas });
         break;
     }
 
@@ -163,7 +172,7 @@ class BuscarFicha extends Component {
           <Row>
             <Col>
               {list.map(item => (
-                <Row>
+                <Row key={item.codficha}>
                   <Col>
                     <Panel
                       header="Datos del Paciente"
