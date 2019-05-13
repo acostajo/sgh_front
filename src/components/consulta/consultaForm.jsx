@@ -92,7 +92,7 @@ class Consulta extends Component {
       deshabilitartaba: true,
       fechanacipaciente: "",
       suggestions: [],
-      efectoSelected: {},
+      efectoSelected: null,
       efecto: "",
       efectoList: [],
       efectoListTable: [],
@@ -172,8 +172,8 @@ class Consulta extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
-    this.onCheckNAD = this.onCheckNAD.bind(this);
-    this.onCheckNAT = this.onCheckNAT.bind(this);
+    //this.onCheckNAD = this.onCheckNAD.bind(this);
+    // this.onCheckNAT = this.onCheckNAT.bind(this);
     this.calcularScores = this.calcularScores.bind(this);
     this.toggleEfecto = this.toggleEfecto.bind(this);
     this.filterEfecto = this.filterEfecto.bind(this);
@@ -279,7 +279,7 @@ class Consulta extends Component {
 
     let esfectoList = this.state.efectoListTable;
     if (this.state.efectoSelected === null) {
-      Alert.warning("No puede estar vacio", 5000);
+      Alert.warning("El Efecto Adverso esta vacío", 5000);
       console.log("vacio");
       return;
     } else {
@@ -287,7 +287,8 @@ class Consulta extends Component {
         if (
           esfectoList[index].codefecad === this.state.efectoSelected.codefecad
         )
-          return;
+          Alert.warning("El Efecto Adverso ya fue agregado", 3000);
+        return;
       }
       const efecto = {
         codefecad: this.state.efectoSelected.codefecad,
@@ -350,7 +351,65 @@ class Consulta extends Component {
       sientepaci: this.state.sientepaci,
       plan: this.state.plan,
       fechacreada: this.state.fechacreada,
-      fecha: this.state.datospaciente.fechanaci
+      fecha: this.state.datospaciente.fechanaci,
+
+      checkNAD1: this.state.checkNAD1,
+      checkNAD2: this.state.checkNAD2,
+      checkNAD3: this.state.checkNAD3,
+      checkNAD4: this.state.checkNAD4,
+      checkNAD5: this.state.checkNAD5,
+      checkNAD6: this.state.checkNAD6,
+      checkNAD7: this.state.checkNAD7,
+      checkNAD8: this.state.checkNAD8,
+      checkNAD9: this.state.checkNAD9,
+      checkNAD10: this.state.checkNAD10,
+      checkNAD11: this.state.checkNAD11,
+      checkNAD12: this.state.checkNAD12,
+      checkNAD13: this.state.checkNAD13,
+      checkNAD14: this.state.checkNAD14,
+      checkNAD15: this.state.checkNAD15,
+      checkNAD16: this.state.checkNAD16,
+      checkNAD17: this.state.checkNAD17,
+      checkNAD18: this.state.checkNAD18,
+      checkNAD19: this.state.checkNAD19,
+      checkNAD20: this.state.checkNAD20,
+      checkNAD21: this.state.checkNAD21,
+      checkNAD22: this.state.checkNAD22,
+      checkNAD23: this.state.checkNAD23,
+      checkNAD24: this.state.checkNAD24,
+      checkNAD25: this.state.checkNAD25,
+      checkNAD26: this.state.checkNAD26,
+      checkNAD27: this.state.checkNAD27,
+      checkNAD28: this.state.checkNAD28,
+
+      checkNAT1: this.state.checkNAT1,
+      checkNAT2: this.state.checkNAT2,
+      checkNAT3: this.state.checkNAT3,
+      checkNAT4: this.state.checkNAT4,
+      checkNAT5: this.state.checkNAT5,
+      checkNAT6: this.state.checkNAT6,
+      checkNAT7: this.state.checkNAT7,
+      checkNAT8: this.state.checkNAT8,
+      checkNAT9: this.state.checkNAT9,
+      checkNAT10: this.state.checkNAT10,
+      checkNAT11: this.state.checkNAT11,
+      checkNAT12: this.state.checkNAT12,
+      checkNAT13: this.state.checkNAT13,
+      checkNAT14: this.state.checkNAT14,
+      checkNAT15: this.state.checkNAT15,
+      checkNAT16: this.state.checkNAT16,
+      checkNAT17: this.state.checkNAT17,
+      checkNAT18: this.state.checkNAT18,
+      checkNAT19: this.state.checkNAT19,
+      checkNAT20: this.state.checkNAT20,
+      checkNAT21: this.state.checkNAT21,
+      checkNAT22: this.state.checkNAT22,
+      checkNAT23: this.state.checkNAT23,
+      checkNAT24: this.state.checkNAT24,
+      checkNAT25: this.state.checkNAT25,
+      checkNAT26: this.state.checkNAT26,
+      checkNAT27: this.state.checkNAT27,
+      checkNAT28: this.state.checkNAT28
     };
     let codconsulta;
     await fetch("http://127.0.0.1:8000/api/consulta/", {
@@ -443,19 +502,19 @@ class Consulta extends Component {
     this.setState({ sientepaci: rSelected });
   }
 
-  onCheckNAD(e) {
+  /*onCheckNAD(e) {
     const target = e.target;
-    let fields = this.state.checksNAD;
+    //let fields = this.state.checksNAD;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
-    fields[name] = value;
+   // fields[name] = value;
 
     this.setState({
       datosFicha: fields
     });
     console.log(this.state.checksNAD);
-  }
+  }*/
 
   onCheckNAT(e) {
     const target = e.target;
@@ -480,6 +539,7 @@ class Consulta extends Component {
     let DAS28_VSG_RANGO = "";
     const checksNAD = Object.values(this.state.checksNAD);
     const checksNAT = Object.values(this.state.checksNAT);
+
     for (const prop in checksNAD) {
       if (checksNAD[prop] === true) {
         countNAD = countNAD + 1;
@@ -588,7 +648,7 @@ class Consulta extends Component {
     return (
       <Container>
         <Card style={{ backgroundColor: "#F9FCFB" }}>
-          <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
+          <CardHeader style={{ backgroundColor: "#005582", color: "white" }}>
             <h3>Datos</h3>
           </CardHeader>
           <CardBody>
@@ -759,73 +819,75 @@ class Consulta extends Component {
                   </Card>
                 </Col>
               </Row>
-              <Row>
-                <Col>
-                  <h5>Examen Físico</h5>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label for="presionarte">PA</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.presionarte}
-                      name="presionarte"
-                      id="presionarte"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="frescresp">FC</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.frescresp}
-                      name="frescresp"
-                      id="frescresp"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="freccardia">FR</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.freccardia}
-                      name="freccardia"
-                      id="freccardia"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="peso">Peso</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.peso}
-                      name="peso"
-                      id="peso"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="talla">Talla</Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.talla}
-                      name="talla"
-                      id="talla"
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
+              <Card style={{ padding: 10, marginBottom: 20 }}>
+                <Row>
+                  <Col>
+                    <h5>Examen Físico</h5>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <FormGroup>
+                      <Label for="presionarte">PA</Label>
+                      <Input
+                        type="number"
+                        onChange={this.handleChange}
+                        value={this.state.presionarte}
+                        name="presionarte"
+                        id="presionarte"
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormGroup>
+                      <Label for="frescresp">FC</Label>
+                      <Input
+                        type="number"
+                        onChange={this.handleChange}
+                        value={this.state.frescresp}
+                        name="frescresp"
+                        id="frescresp"
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormGroup>
+                      <Label for="freccardia">FR</Label>
+                      <Input
+                        type="number"
+                        onChange={this.handleChange}
+                        value={this.state.freccardia}
+                        name="freccardia"
+                        id="freccardia"
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormGroup>
+                      <Label for="peso">Peso</Label>
+                      <Input
+                        type="number"
+                        onChange={this.handleChange}
+                        value={this.state.peso}
+                        name="peso"
+                        id="peso"
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormGroup>
+                      <Label for="talla">Talla</Label>
+                      <Input
+                        type="number"
+                        onChange={this.handleChange}
+                        value={this.state.talla}
+                        name="talla"
+                        id="talla"
+                      />
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </Card>
               <Row>
                 <Col>
                   <FormGroup>
@@ -934,196 +996,196 @@ class Consulta extends Component {
                                   className="checkBox1"
                                   name="checkNAD1"
                                   value={this.state.checksNAD.checkNAD1}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox2"
                                   name="checkNAD2"
                                   value={this.state.checksNAD.checkNAD2}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox3"
                                   name="checkNAD3"
                                   value={this.state.checksNAD.checkNAD3}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox4"
                                   name="checkNAD4"
                                   value={this.state.checksNAD.checkNAD4}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox5"
                                   name="checkNAD5"
                                   value={this.state.checksNAD.checkNAD5}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox6"
                                   name="checkNAD6"
                                   value={this.state.checksNAD.checkNAD6}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox7"
                                   name="checkNAD7"
                                   value={this.state.checksNAD.checkNAD7}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox8"
                                   name="checkNAD8"
                                   value={this.state.checksNAD.checkNAD8}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox9"
                                   name="checkNAD9"
                                   value={this.state.checksNAD.checkNAD9}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox10"
                                   name="checkNAD10"
                                   value={this.state.checksNAD.checkNAD10}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox11"
                                   name="checkNAD11"
                                   value={this.state.checksNAD.checkNAD11}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox12"
                                   name="checkNAD12"
                                   value={this.state.checksNAD.checkNAD12}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox13"
                                   name="checkNAD13"
                                   value={this.state.checksNAD.checkNAD13}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox14"
                                   name="checkNAD14"
                                   value={this.state.checksNAD.checkNAD14}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox15"
                                   name="checkNAD15"
                                   value={this.state.checksNAD.checkNAD15}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox16"
                                   name="checkNAD16"
                                   value={this.state.checksNAD.checkNA16}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox17"
                                   name="checkNAD17"
                                   value={this.state.checksNAD.checkNAD17}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox18"
                                   name="checkNAD18"
                                   value={this.state.checksNAD.checkNAD18}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox19"
                                   name="checkNAD19"
                                   value={this.state.checksNAD.checkNAD19}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox20"
                                   name="checkNAD20"
                                   value={this.state.checksNAD.checkNAD20}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox21"
                                   name="checkNAD21"
                                   value={this.state.checksNAD.checkNAD21}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox22"
                                   name="checkNAD22"
                                   value={this.state.checksNAD.checkNAD22}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox23"
                                   name="checkNAD23"
                                   value={this.state.checksNAD.checkNAD23}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox24"
                                   name="checkNAD24"
                                   value={this.state.checksNAD.checkNAD24}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox25"
                                   name="checkNAD25"
                                   value={this.state.checksNAD.checkNAD25}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox26"
                                   name="checkNAD26"
                                   value={this.state.checksNAD.checkNAD26}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox27"
                                   name="checkNAD27"
                                   value={this.state.checksNAD.checkNAD27}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox28"
                                   name="checkNAD28"
                                   value={this.state.checksNAD.checkNAD28}
-                                  onChange={this.onCheckNAD}
+                                  onChange={this.handleChange}
                                 />
                               </div>
                             </Col>
@@ -1135,196 +1197,196 @@ class Consulta extends Component {
                                   className="checkBox1"
                                   name="checkNAT1"
                                   value={this.state.checksNAT.checkNAT1}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox2"
                                   name="checkNAT2"
                                   value={this.state.checksNAT.checkNAT2}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox3"
                                   name="checkNAT3"
                                   value={this.state.checksNAT.checkNAT3}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox4"
                                   name="checkNAT4"
                                   value={this.state.checksNAT.checkNAT4}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox5"
                                   name="checkNAT5"
                                   value={this.state.checksNAT.checkNAT5}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox6"
                                   name="checkNAT6"
                                   value={this.state.checksNAT.checkNAT6}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox7"
                                   name="checkNAT7"
                                   value={this.state.checksNAT.checkNAT7}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox8"
                                   name="checkNAT8"
                                   value={this.state.checksNAT.checkNAT8}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox9"
                                   name="checkNAT9"
                                   value={this.state.checksNAT.checkNAT9}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox10"
                                   name="checkNAT10"
                                   value={this.state.checksNAT.checkNAT10}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox11"
                                   name="checkNAT11"
                                   value={this.state.checksNAT.checkNAT11}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox12"
                                   name="checkNAT12"
                                   value={this.state.checksNAT.checkNAT12}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox13"
                                   name="checkNAT13"
                                   value={this.state.checksNAT.checkNAT13}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox14"
                                   name="checkNAT14"
                                   value={this.state.checksNAT.checkNAT14}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox15"
                                   name="checkNAT15"
                                   value={this.state.checksNAT.checkNAT15}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox16"
                                   name="checkNAT16"
-                                  value={this.state.checksNAT.checkNAT16}
-                                  onChange={this.onCheckNAT}
+                                  value={this.state.checksNAT.checkNA16}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox17"
                                   name="checkNAT17"
                                   value={this.state.checksNAT.checkNAT17}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox18"
                                   name="checkNAT18"
                                   value={this.state.checksNAT.checkNAT18}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox19"
-                                  name="checkNAD19"
+                                  name="checkNAT19"
                                   value={this.state.checksNAT.checkNAT19}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox20"
                                   name="checkNAT20"
                                   value={this.state.checksNAT.checkNAT20}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox21"
                                   name="checkNAT21"
                                   value={this.state.checksNAT.checkNAT21}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox22"
                                   name="checkNAT22"
                                   value={this.state.checksNAT.checkNAT22}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox23"
                                   name="checkNAT23"
                                   value={this.state.checksNAT.checkNAT23}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox24"
                                   name="checkNAT24"
                                   value={this.state.checksNAT.checkNAT24}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox25"
                                   name="checkNAT25"
                                   value={this.state.checksNAT.checkNAT25}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox26"
                                   name="checkNAT26"
                                   value={this.state.checksNAT.checkNAT26}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox27"
                                   name="checkNAT27"
                                   value={this.state.checksNAT.checkNAT27}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                                 <input
                                   type="checkbox"
                                   className="checkBox28"
                                   name="checkNAT28"
                                   value={this.state.checksNAT.checkNAT28}
-                                  onChange={this.onCheckNAT}
+                                  onChange={this.handleChange}
                                 />
                               </div>
                             </Col>
