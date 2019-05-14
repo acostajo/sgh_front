@@ -106,14 +106,6 @@ class ListaEstudios extends Component {
               Buscar
             </Button>
             {"   "}
-            <Button onClick={this.handleAdd} color="primary">
-              <Link
-                to={`/ordenestudio/${this.props.codficha}`}
-                style={{ color: "white" }}
-              >
-                Agregar Orden de Estudio
-              </Link>
-            </Button>
           </Col>
         </Row>
         <hr />

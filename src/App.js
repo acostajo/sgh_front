@@ -23,6 +23,7 @@ class App extends Component {
   render() {
     return (
       <div>
+        <NavBarMenu />
         <div className="content" style={{ marginTop: 60 }}>
           <Switch>
             <Route

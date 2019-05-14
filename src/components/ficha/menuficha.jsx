@@ -36,7 +36,6 @@ class MenuFicha extends Component {
   render() {
     return (
       <div>
-        <NavBarMenu />
         <Nav tabs style={{ marginBottom: 20 }}>
           <NavItem>
             <NavLink

@@ -48,7 +48,7 @@ class BuscarOrdenEstudio extends Component {
 
     const url_usar =
       url1 + this.state.fechaOrdenEstudio + codficha + this.props.codficha;
-    console.log(url_usar);
+    console.log(this.props.codficha);
     await axios
       .get(url_usar) //y asi queda concatenado todo, si no hay fecha igual trae solo lo de esa ficha, vamos a probar
       .then(function(response) {
