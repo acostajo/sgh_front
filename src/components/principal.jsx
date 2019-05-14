@@ -24,7 +24,7 @@ class MenuPrincipal extends Component {
             <ButtonLink
               to="/ficha"
               style={{ height: 400, width: 400 }}
-              onclick={this.handleClick}
+              onClick={this.handleClick}
             >
               <Icon
                 icon="user-plus"

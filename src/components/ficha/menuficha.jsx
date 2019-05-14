@@ -8,21 +8,8 @@ import React, { Component } from "react";
 import FichaView from "../ficha/fichaView";
 // import FichaEdit from "./components/ficha/fichaEdit";
 // import Panolab from "./components/panolab/panolabForm";
-import {
-  TabContent,
-  TabPane,
-  Nav,
-  NavItem,
-  NavLink,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
-  Row,
-  Col
-} from "reactstrap";
+import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import classnames from "classnames";
-import Panolab from "./../panolab/panolabForm";
 import BuscarPanolab from "./../panolab/buscarPanolab";
 import BuscarConsulta from "../consulta/buscarConsulta";
 import BuscarOrdenEstudio from "./../ordenestudio/buscarOrdenEstudio";

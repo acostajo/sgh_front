@@ -11,10 +11,9 @@ import {
   Form,
   FormGroup,
   Label,
-  Input,
-  Fade
+  Input
 } from "reactstrap";
-import { Modal, Panel, Uploader, Icon } from "rsuite";
+import { Modal } from "rsuite";
 import axios from "axios";
 import Estudio from "./../estudio/estudioForm";
 import Joi from "joi-browser";
@@ -24,17 +23,6 @@ import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
-const ColoredLine = ({ color }) => (
-  <hr
-    style={{
-      color: color,
-      backgroundColor: color,
-      height: 150,
-      width: 2,
-      borderleft: 1
-    }}
-  />
-);
 
 class OrdenEstudio extends Component {
   constructor() {
@@ -206,9 +194,6 @@ class OrdenEstudio extends Component {
     this.setState({
       datosOrdenEstudio: fields
     });
-  }
-  onDismissVisivle() {
-    this.setState({ visible: !this.state.visible });
   }
 
   handleSubmit() {

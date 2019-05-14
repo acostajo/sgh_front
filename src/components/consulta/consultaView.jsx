@@ -10,10 +10,8 @@ import {
   Col,
   Form,
   FormGroup,
-  Label,
-  Input
+  Label
 } from "reactstrap";
-import { Link } from "react-router-dom";
 import axios from "axios";
 class ConsultaView extends Component {
   constructor() {

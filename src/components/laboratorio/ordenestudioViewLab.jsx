@@ -14,18 +14,28 @@ import {
   Input
 } from "reactstrap";
 import axios from "axios";
-import Flatpickr from "react-flatpickr";
-import { Modal, Panel, Uploader, Icon } from "rsuite";
+import { Uploader, Icon } from "rsuite";
 import "flatpickr/dist/themes/material_blue.css";
-import { FlexboxGrid } from "rsuite";
 import Calendar from "react-calendar";
 class OrdenEstudioViewLab extends Component {
   constructor() {
     super();
     this.state = {
       datosOrdenEstudio: {},
+      datosTurno: {
+        codturnodist: "",
+        codficha: "",
+        codordenestudio: "",
+        fechaTurno: "",
+        turno: ""
+      },
+      datosTurnoDist: {
+        codturnodist: "",
+        desturno: "",
+        horaturno: ""
+      },
       visible: false,
-      date: "",
+
       archivo: {},
       turno: ""
     };
@@ -33,13 +43,29 @@ class OrdenEstudioViewLab extends Component {
     this.onDismiss = this.onDismiss.bind(this);
     this.handleDrop = this.handleDrop.bind(this);
     this.upload = this.upload.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
+
   onDismiss() {
     this.setState({ visible: false });
   }
+
   handleDrop(fileList) {
     this.setState({ archivo: fileList[0] });
     console.log(this.state.archivo);
+  }
+
+  handleChange(e) {
+    const target = e.target;
+    let fields = this.state.datosFicha;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    fields[name] = value;
+
+    this.setState({
+      datosFicha: fields
+    });
   }
 
   async upload() {
@@ -88,11 +114,9 @@ class OrdenEstudioViewLab extends Component {
     const url1 = "http://127.0.0.1:8000/api/ordenestudio?codordenestudio=";
     let datosOrdenEstudio = {};
 
-    console.log(cod);
     await axios
       .get(url1 + cod)
       .then(function(response) {
-        console.log(response.data[0]);
         datosOrdenEstudio = response.data[0];
       })
       .catch(function(error) {
@@ -102,7 +126,6 @@ class OrdenEstudioViewLab extends Component {
     this.setState({
       datosOrdenEstudio: datosOrdenEstudio
     });
-    console.log(this.state.datosOrdenEstudio); //trae bien, trae bien? el cod digo no el contenido
   }
   render() {
     return (
@@ -135,8 +158,6 @@ class OrdenEstudioViewLab extends Component {
                         <p>{this.state.datosOrdenEstudio.estado}</p>
                       </FormGroup>
                     </Col>
-                  </Row>
-                  <Row>
                     <Col>
                       <FormGroup>
                         <Label>
@@ -144,7 +165,7 @@ class OrdenEstudioViewLab extends Component {
                         </Label>
                         <p>{this.state.datosOrdenEstudio.observacion}</p>
                       </FormGroup>
-                    </Col>{" "}
+                    </Col>
                   </Row>
                   <Row>
                     <Col>
@@ -168,20 +189,31 @@ class OrdenEstudioViewLab extends Component {
           <Col>
             <Card style={{ padding: 20 }}>
               <Row>
+                <Col style={{ paddingLeft: 90 }}>
+                  <Calendar
+                    onChange={e => {
+                      var datosTurno = {
+                        codturnodist: "",
+                        codficha: "",
+                        codordenestudio: "",
+                        fechaTurno: e.toISOString().substr(0, 10),
+                        turno: ""
+                      };
+                      this.setState({ datosTurno: datosTurno });
+                    }}
+                    name="fechaTurno"
+                  />
+                </Col>
+              </Row>
+              <Row style={{ marginTop: 20 }}>
                 <Col>
-                  <FormGroup>
-                    <Calendar
-                      onChange={this.handleChange}
-                      value={this.state.date}
-                      name="date"
-                    />
-                  </FormGroup>
+                  <h3>Fecha: {this.state.datosTurno.fechaTurno}</h3>
                 </Col>
               </Row>
               <Row>
                 <Col>
                   <FormGroup>
-                    <Label for="tipodocumento">Turno</Label>
+                    <Label for="turno">Turno</Label>
                     <Input
                       type="select"
                       onChange={this.handleChange}

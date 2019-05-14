@@ -29,17 +29,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./estilos.css";
 import "react-input-range/lib/css/index.css";
 import EfectoAdverso from "./../efectoadverso/efectoAdversoForm";
-const ColoredLine = ({ color }) => (
-  <hr
-    style={{
-      color: color,
-      backgroundColor: color,
-      height: 150,
-      width: 2,
-      borderleft: 1
-    }}
-  />
-);
 
 class Consulta extends Component {
   constructor() {
@@ -889,7 +878,12 @@ class Consulta extends Component {
                           <Row>
                             <Col>
                               <div className="contenedorPrincipal">
-                                <img src={manito} width="500" height="300" />
+                                <img
+                                  src={manito}
+                                  width="500"
+                                  height="300"
+                                  alt=""
+                                />
                                 <input
                                   type="checkbox"
                                   className="checkBox1"
@@ -1090,7 +1084,12 @@ class Consulta extends Component {
                             </Col>
                             <Col>
                               <div className="contenedorPrincipal">
-                                <img src={manito} width="500" height="300" />
+                                <img
+                                  src={manito}
+                                  width="500"
+                                  height="300"
+                                  alt=""
+                                />
                                 <input
                                   type="checkbox"
                                   className="checkBox1"

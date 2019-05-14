@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import NavBar from "./components/navbar";
-import Home from "./components/home";
 import { Route, Switch } from "react-router-dom";
 import Ficha from "./components/ficha/fichaForm";
 import Consulta from "./components/consulta/consultaForm";
@@ -11,8 +9,6 @@ import Panolab from "./components/panolab/panolabForm";
 import PanolabView from "./components/panolab/panolabView";
 import MenuFicha from "./components/ficha/menuficha";
 import ConsultaView from "./components/consulta/consultaView";
-import Modulos from "./components/modulos";
-import SideNavMenu from "./components/sidenab";
 import NavBarMenu from "./components/navbar";
 import OrdenEstudio from "./components/ordenestudio/ordenestudioForm";
 import OrdenEstudioView from "./components/ordenestudio/ordenestudioView";
@@ -46,11 +42,11 @@ class App extends Component {
             />
             <Route path="/ordenestudio/:codficha" component={OrdenEstudio} />
             <Route
-              path="/ordenestudio_view/:codordenestudio"
+              path="/ordenestudio_view/:codordenestudio/:codficha"
               component={OrdenEstudioView}
             />
             <Route
-              path="/ordenestudio_view_lab/:codordenestudio"
+              path="/ordenestudio_view_lab/:codordenestudio/:codficha"
               component={OrdenEstudioViewLab}
             />
             <Route path="/panolab/:codficha" component={Panolab} />

@@ -3,15 +3,10 @@ import {
   Card,
   Button,
   CardHeader,
-  CardBody,
   Container,
   Row,
-  Alert,
   Col,
-  Form,
-  FormGroup,
-  Label,
-  Input
+  Label
 } from "reactstrap";
 
 import { Calendar } from "react-calendar";
@@ -27,104 +22,8 @@ class Turnos extends Component {
       visible: false,
       date: "",
       turno: "",
-      data: [
-        {
-          cod: "1",
-          nombre: "Jazmin",
-          apellido: "Insfran",
-          turno: "Mañana",
-          numeroTurno: "Turno-1",
-          tipoEstudio: "Rayos x Rodilla"
-        },
-        {
-          cod: "2",
-          nombre: "Joel",
-          apellido: "Acosta",
-          turno: "Tarde",
-          numeroTurno: "Turno-5",
-          tipoEstudio: "Rayos x Codo"
-        },
-        {
-          cod: "3",
-          nombre: "Jazmin",
-          apellido: "Insfran",
-          turno: "Mañana",
-          numeroTurno: "Turno-1",
-          tipoEstudio: "Rayos x Rodilla"
-        },
-        {
-          cod: "4",
-          nombre: "Joel",
-          apellido: "Acosta",
-          turno: "Tarde",
-          numeroTurno: "Turno-5",
-          tipoEstudio: "Rayos x Codo"
-        },
-        {
-          cod: "5",
-          nombre: "Jazmin",
-          apellido: "Insfran",
-          turno: "Mañana",
-          numeroTurno: "Turno-1",
-          tipoEstudio: "Rayos x Rodilla"
-        },
-        {
-          cod: "6",
-          nombre: "Joel",
-          apellido: "Acosta",
-          turno: "Tarde",
-          numeroTurno: "Turno-5",
-          tipoEstudio: "Rayos x Codo"
-        },
-        {
-          cod: "7",
-          nombre: "Jazmin",
-          apellido: "Insfran",
-          turno: "Mañana",
-          numeroTurno: "Turno-1",
-          tipoEstudio: "Rayos x Rodilla"
-        },
-        {
-          cod: "8",
-          nombre: "Joel",
-          apellido: "Acosta",
-          turno: "Tarde",
-          numeroTurno: "Turno-5",
-          tipoEstudio: "Rayos x Codo"
-        },
-        {
-          cod: "9",
-          nombre: "Jazmin",
-          apellido: "Insfran",
-          turno: "Mañana",
-          numeroTurno: "Turno-1",
-          tipoEstudio: "Rayos x Rodilla"
-        },
-        {
-          cod: "10",
-          nombre: "Joel",
-          apellido: "Acosta",
-          turno: "Tarde",
-          numeroTurno: "Turno-5",
-          tipoEstudio: "Rayos x Codo"
-        },
-        {
-          cod: "11",
-          nombre: "Jazmin",
-          apellido: "Insfran",
-          turno: "Mañana",
-          numeroTurno: "Turno-1",
-          tipoEstudio: "Rayos x Rodilla"
-        },
-        {
-          cod: "12",
-          nombre: "Joel",
-          apellido: "Acosta",
-          turno: "Tarde",
-          numeroTurno: "Turno-5",
-          tipoEstudio: "Rayos x Codo"
-        }
-      ],
+      data: [],
+
       columns: [
         {
           dataField: "cod",

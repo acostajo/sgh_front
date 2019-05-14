@@ -46,7 +46,7 @@ class FichaEdit extends Component {
         // datos correspondientes a la ficha
 
         codpatron: 0, //#código interno único para anapatron, para saber que patron tiene asociada la ficha HA
-        codusuario: 0, // #código interno de usuario, para saber quién agrego la ficha
+
         nhc: 0, // #número de historial clínico, código externo de la ficha, por el cual se manejan los usuarios
         iniciosint: "", //#Fecha en el que el Paciente empezó a notar síntomas
         formainic: "", //#Descripción de los síntomas del paciente
@@ -134,7 +134,6 @@ class FichaEdit extends Component {
       datosFicha: fields
     });
 
-    let resp;
     let aviso;
     await axios
       .get(url1 + value)

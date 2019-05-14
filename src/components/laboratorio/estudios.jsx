@@ -5,7 +5,6 @@ import {
   Container,
   Alert,
   Row,
-  Fade,
   ListGroup,
   ListGroupItem,
   ListGroupItemHeading,
@@ -126,7 +125,9 @@ class ListaEstudios extends Component {
                   <ListGroupItem>
                     <ListGroupItemHeading>
                       <Link
-                        to={`/ordenestudio_view_lab/${item.codordenestudio}`}
+                        to={`/ordenestudio_view_lab/${item.codordenestudio}/${
+                          item.codficha
+                        }`}
                       >
                         {" "}
                         <h4>{item.fechaordenestudio}</h4>

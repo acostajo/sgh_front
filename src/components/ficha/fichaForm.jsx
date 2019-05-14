@@ -1028,7 +1028,6 @@ class Ficha extends Component {
                     <Input
                       type="date"
                       onChange={this.handleChange}
-                      value={this.state.datosFicha.iniciosint}
                       name="iniciosint"
                       id="iniciosint"
                     />
@@ -1040,7 +1039,6 @@ class Ficha extends Component {
                     <Input
                       type="select"
                       onChange={this.handleChange}
-                      value={this.state.datosFicha.formainic}
                       name="formainic"
                       id="formainic"
                       defaultValue="Mono"
@@ -1127,7 +1125,6 @@ class Ficha extends Component {
                     <Input
                       type="date"
                       onChange={this.handleChange}
-                      value={this.state.datosFicha.protefecha}
                       name="protefecha"
                       id="protefecha"
                     />
@@ -1470,7 +1467,7 @@ class Ficha extends Component {
                     />
                   </FormGroup>
                 </Col>
-                <hr marginLeft={50} />
+                <hr />
                 <Col>
                   <FormGroup>
                     <Label for="menopausia">Menopausia</Label>
