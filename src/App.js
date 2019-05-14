@@ -23,8 +23,6 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NavBarMenu />
-
         <div className="content" style={{ marginTop: 60 }}>
           <Switch>
             <Route
@@ -42,7 +40,7 @@ class App extends Component {
             />
             <Route path="/ordenestudio/:codficha" component={OrdenEstudio} />
             <Route
-              path="/ordenestudio_view/:codordenestudio/:codficha"
+              path="/ordenestudio_view/:codordenestudio"
               component={OrdenEstudioView}
             />
             <Route

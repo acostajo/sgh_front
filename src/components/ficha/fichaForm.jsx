@@ -58,18 +58,18 @@ class Ficha extends Component {
         sexo: "F", // #sexo del paciente
         fechainclusion: "", // #fecha de inclusión del paciente
         procedencia: "", //#procedencia del paciente
-        nacionalidad: "", // #nacionalidad del paciente
+        nacionalidad: "Paraguayo/a", // #nacionalidad del paciente
         escolaridad: "Escolar Media", // #escolaridad del paciente
         diagnostico: "", //#diagnóstico inicial del paciente
         fechadiagnos: "", // #fecha del diagnostico
         fechanaci: "", //#fecha de nacimiento del paciente
-        estadocivil: "", //#estado civil del paciente
+        estadocivil: "Soltero/a", //#estado civil del paciente
         profesion: "", // #profesión del paciente
         telefono: "", // #número de teléfono del paciente
         codpatron: null, //#código interno único para anapatron, para saber que patron tiene asociada la ficha HA
         nhc: "", // #número de historial clínico, código externo de la ficha, por el cual se manejan los usuarios
         iniciosint: null, //#Fecha en el que el Paciente empezó a notar síntomas
-        formainic: "", //#Descripción de los síntomas del paciente
+        formainic: "Mono", //#Descripción de los síntomas del paciente
         apf: "", // #Antecedentes Patológicos Familiares
         apfcv: "", // #Antecedentes patológicos familiares cardiovasculares
         appfractura: "", // #Antecedentes patológicos personales de fracturas
@@ -94,12 +94,12 @@ class Ficha extends Component {
         factorreuma_pos: "", //#factor reumatoide
         factorreuma_neg: "", //#factor reumatoide
         factorreuma_nivel: "", //#factor reumatoide
-        acp_pos: "", // #anticuerpos antipéptidos cíclicos citrulinados
-        acp_neg: "", // #anticuerpos antipéptidos cíclicos citrulinados
-        acp_nivel: "", // #anticuerpo antinuclear
+        acpa_pos: "", // #anticuerpos antipéptidos cíclicos citrulinados
+        acpa_neg: "", // #anticuerpos antipéptidos cíclicos citrulinados
+        acpa_nivel: "", // #anticuerpo antinuclear
         ana_pos: "", //ANA patron
         ana_neg: "", //ANA patron
-        ana_patron: "", //ANA patron
+        ana_patron: "Nuclear Homogéneo", //ANA patron
         rxmanos: false, //#erecciones sí o no
         rxmanosfecha: null, //#la fecha que tuvo las erecciones ----------> wtf erecciones hei
         rxpies: false, //#erecciones sí o no
@@ -107,8 +107,10 @@ class Ficha extends Component {
       },
       deshabilitar: false,
       deshabilitartaba: true,
+      deshabilitarrxpies: true,
+      deshabilitarrxmanos: true,
       suggestions: [],
-      fameSelected: {},
+      fameSelected: null,
       fame: "",
       fameDesde: "",
       fameHasta: "",
@@ -126,7 +128,7 @@ class Ficha extends Component {
         },
         {
           dataField: "descripcion",
-          text: "Descripcion"
+          text: "Descripción"
         },
         {
           dataField: "fameDesde",
@@ -137,7 +139,7 @@ class Ficha extends Component {
           text: "Fecha Hasta"
         }
       ],
-      comorSelected: {},
+      comorSelected: null,
       fechaDxComor: "",
       comorbilidad: "",
       comorList: [],
@@ -145,7 +147,7 @@ class Ficha extends Component {
       comorListTableSelected: "",
       columnsComor: [
         {
-          dataField: "codcomor",
+          dataField: "codenfermedad",
           hidden: true
         },
         {
@@ -154,17 +156,17 @@ class Ficha extends Component {
         },
         {
           dataField: "fechadiagnostico",
-          text: "Fecha Diagnostico "
+          text: "Fecha Diagnóstico "
         }
       ],
-      eventocardioSelected: {},
+      eventocardioSelected: null,
       eventocardio: "",
       eventList: [],
       eventListTable: [],
       eventListTableSelected: "",
       columnsEvent: [
         {
-          dataField: "codevencardio",
+          dataField: "codeventocardio",
           hidden: true
         },
         {
@@ -172,7 +174,7 @@ class Ficha extends Component {
           text: "Nombre"
         }
       ],
-      maniSelected: {},
+      maniSelected: null,
       mani: "",
       maniList: [],
       maniListTable: [],
@@ -188,7 +190,7 @@ class Ficha extends Component {
         },
         {
           dataField: "descripcion",
-          text: "Descripcion"
+          text: "Descripción"
         }
       ]
     };
@@ -428,7 +430,30 @@ class Ficha extends Component {
   }
 
   addFameToList() {
-    console.log("fame a ser agregado" + this.state.fameSelected);
+    let fameList = this.state.famesListTable;
+    if (this.state.fameSelected === null) {
+      Alert.warning("El Fame no puedo estar vacio", 10000);
+      return;
+    } else {
+      for (let index = 0; index < fameList.length; index++) {
+        if (fameList[index].codfame === this.state.fameSelected.codfame)
+          Alert.warning("El Fame ya fue agregado", 3000);
+        return;
+      }
+      const fame = {
+        codfame: this.state.fameSelected.codfame,
+        nombre: this.state.fameSelected.nombre,
+        descripcion: this.state.fameSelected.descripcion,
+        fameDesde: this.state.fameDesde,
+        fameHasta: this.state.fameHasta
+      };
+      fameList.push(fame);
+      console.log(this.state.fameSelected);
+      console.log("fame a ser agregado" + this.state.fameSelected.nombre);
+      this.setState({ famesListTable: fameList });
+    }
+
+    /*console.log("fame a ser agregado" + this.state.fameSelected);
     if (this.state.fameSelected !== {}) {
       const fame = {
         codfame: this.state.fameSelected.codfame,
@@ -442,47 +467,87 @@ class Ficha extends Component {
       this.setState({ famesListTable: fameList });
     } else {
       return;
-    }
+    }*/
   }
 
   addComorToList() {
-    console.log(this.state.comorSelected);
-    if (this.state.comorSelected !== {}) {
+    let comorList = this.state.comorListTable;
+    if (this.state.comorSelected === null) {
+      Alert.warning("El APF esta vacío", 5000);
+      return;
+    } else {
+      for (let index = 0; index < comorList.length; index++) {
+        if (
+          comorList[index].codenfermedad ===
+          this.state.comorSelected.codenfermedad
+        )
+          Alert.warning("El APF ya fue agregado", 3000);
+        return;
+      }
       const comor = {
         codenfermedad: this.state.comorSelected.codenfermedad,
         nombre: this.state.comorSelected.nombre,
         fechadiagnostico: this.state.fechaDxComor //*** si no es el mismo nombe de la ficha, no  paorque es de otro formulario luego
       };
-      let comorList = this.state.comorListTable;
       comorList.push(comor);
-      console.log(comorList);
+      console.log("fame a ser agregado" + this.state.comorSelected.nombre);
       this.setState({ comorListTable: comorList });
-    } else {
-      return;
     }
   }
 
   addEventToList() {
     console.log(this.state.eventocardioSelected);
-    if (this.state.eventocardioSelected !== {}) {
+    let eventList = this.state.eventListTable;
+    if (this.state.eventocardioSelected === null) {
+      //
+      Alert.warning("El Evento Cardiovasular esta vacío", 5000); //aca no esntra puse par aprobar nomas, pero esta bien osea tiene que ser {} nomas
+
+      return;
+    } else {
+      for (let index = 0; index < eventList.length; index++) {
+        if (
+          eventList[index].codeventocardio ===
+          this.state.eventocardioSelected.codeventocardio
+        ) {
+          Alert.warning("El Evento Cardiovasular ya fue agregado", 3000);
+
+          return;
+        }
+      }
       const evento = {
-        codevencardio: this.state.eventocardioSelected.codeventocardio,
+        codeventocardio: this.state.eventocardioSelected.codeventocardio,
         nombre: this.state.eventocardioSelected.nombre
       };
-      let eventList = this.state.eventListTable;
       eventList.push(evento);
-      this.setState({ eventListTable: eventList });
       console.log(
-        "evento a ser insertado en la lista " +
-          this.state.eventocardioSelected.codeventocardio
+        "fame a ser agregado" + this.state.eventocardioSelected.nombre
       );
-    } else {
-      return;
+      this.setState({ eventListTable: eventList });
     }
   }
 
   addManiToList() {
-    console.log(this.state.maniSelected);
+    let maniList = this.state.maniListTable;
+    if (this.state.maniSelected === null) {
+      Alert.warning("La Manifestación Articular esta vacía", 5000);
+      return;
+    } else {
+      for (let index = 0; index < maniList.length; index++) {
+        if (maniList[index].codmanif === this.state.maniSelected.codmanif)
+          Alert.warning("La Manifestación Articular ya fue agregada", 3000);
+        return;
+      }
+      const mani = {
+        codmanif: this.state.maniSelected.codmanif,
+        nombre: this.state.maniSelected.nombre,
+        descripcion: this.state.maniSelected.descripcion
+      };
+      maniList.push(mani);
+      console.log("fame a ser agregado" + this.state.maniSelected.nombre);
+      this.setState({ maniListTable: maniList });
+    }
+
+    /*console.log(this.state.maniSelected);
     if (this.state.maniSelected !== {}) {
       const mani = {
         codmanif: this.state.maniSelected.codmanif,
@@ -497,7 +562,7 @@ class Ficha extends Component {
       );
     } else {
       return;
-    }
+    }*/
   }
 
   async validarCedula(e) {
@@ -506,12 +571,11 @@ class Ficha extends Component {
     await axios
       .get(url1 + this.state.datosFicha.nrodocumento)
       .then(function(response) {
-        console.log(response.data.length);
         if (response.data.length > 0) {
           //aviso = true;
           Alert.warning(
             "El Nro de documento ya esta asociada a otra ficha...",
-            10000
+            5000
           );
           error = !error;
         } else {
@@ -521,6 +585,7 @@ class Ficha extends Component {
       .catch(function(error) {
         console.log(error);
       });
+
     return error;
   }
 
@@ -568,6 +633,24 @@ class Ficha extends Component {
         tabnumero: ""
       });
     }
+
+    if ((name === "rxpies") & (value === true)) {
+      this.setState({ deshabilitarrxpies: !this.state.deshabilitarrxpies });
+    } else if ((name === "rxpies") & (value === false)) {
+      this.setState({
+        deshabilitarrxpies: !this.state.deshabilitarrxpies,
+        rxpiesfecha: ""
+      });
+    }
+
+    if ((name === "rxmanos") & (value === true)) {
+      this.setState({ deshabilitarrxmanos: !this.state.deshabilitarrxmanos });
+    } else if ((name === "rxmanos") & (value === false)) {
+      this.setState({
+        deshabilitarrxmanos: !this.state.deshabilitarrxmanos,
+        rxmanosfecha: ""
+      });
+    }
   }
 
   validar = () => {
@@ -597,11 +680,18 @@ class Ficha extends Component {
     return errors;
   };
 
-  handleSubmit() {
+  async handleSubmit() {
     const errors = this.validar();
+    const validarCedula = await this.validarCedula();
     this.setState({ errores: errors || {} });
-    if (this.validarCedula()) return;
-    if (errors) return;
+    if (validarCedula) {
+      console.log("no pasa la validacion de cedula   " + validarCedula);
+      return;
+    }
+    if (errors) {
+      console.log("no pasa la validacion de los campos");
+      return;
+    }
     this.handleAdd();
   }
 
@@ -624,6 +714,7 @@ class Ficha extends Component {
           Alert.success("La ficha fue cargada con éxito!", 10000);
         }
       });
+
     this.handleAddComor(codficha);
     this.handleAddEvento(codficha);
     this.handleAddMani(codficha);
@@ -665,7 +756,7 @@ class Ficha extends Component {
     for (let item = 0; item < list.length; item++) {
       let evento = {
         codficha: codficha,
-        codevencardio: list[item].codevencardio
+        codeventocardio: list[item].codeventocardio
       };
 
       await fetch("http://127.0.0.1:8000/api/eventocardio_ficha/", {
@@ -764,14 +855,14 @@ class Ficha extends Component {
       <Container>
         <Form>
           <Card style={{ backgroundColor: "#F9FCFB" }}>
-            <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
+            <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
               <h3>Datos personales</h3>
             </CardHeader>
             <CardBody>
               <Row>
                 <Col>
                   <FormGroup>
-                    <Label for="nombres">Nombre</Label>
+                    <Label for="nombres">Nombres</Label>
                     <Input
                       type="text"
                       onChange={this.handleChange}
@@ -894,7 +985,7 @@ class Ficha extends Component {
                 </Col>
                 <Col>
                   <FormGroup>
-                    <Label for="telefono">Teléf</Label>
+                    <Label for="telefono">Teléfono</Label>
                     <Input
                       type="number"
                       onChange={this.handleChange}
@@ -910,24 +1001,36 @@ class Ficha extends Component {
                   <FormGroup>
                     <Label for="nacionalidad">Nacionalidad</Label>
                     <Input
-                      type="text"
+                      type="select"
                       onChange={this.handleChange}
                       value={this.state.datosFicha.nacionalidad}
                       name="nacionalidad"
                       id="nacionalidad"
-                    />
+                    >
+                      <option>Paraguaya/o</option>
+                      <option>Argentina/o</option>
+                      <option>Brasilero/a</option>
+                      <option>Otro</option>
+                    </Input>
                   </FormGroup>
                 </Col>
                 <Col>
                   <FormGroup>
-                    <Label for="estadocivil">E. Civil</Label>
+                    <Label for="estadocivil">Estado Civil</Label>
                     <Input
-                      type="text"
+                      type="select"
                       onChange={this.handleChange}
                       value={this.state.datosFicha.estadocivil}
                       name="estadocivil"
                       id="estadocivil"
-                    />
+                    >
+                      <option>Soltero/a</option>
+                      <option>Casado/a</option>
+                      <option>Viudo/a</option>
+                      <option>Unido/a</option>
+                      <option>Separado/a</option>
+                      <option>Divorciado/a</option>
+                    </Input>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -1017,7 +1120,7 @@ class Ficha extends Component {
           <hr />
 
           <Card style={{ backgroundColor: "#F9FCFB" }}>
-            <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
+            <CardHeader style={{ backgroundColor: "#091833", color: "white" }}>
               <h3>Datos de la Ficha HA</h3>
             </CardHeader>
             <CardBody>
@@ -1028,6 +1131,7 @@ class Ficha extends Component {
                     <Input
                       type="date"
                       onChange={this.handleChange}
+                      value={this.state.datosFicha.iniciosint}
                       name="iniciosint"
                       id="iniciosint"
                     />
@@ -1039,6 +1143,7 @@ class Ficha extends Component {
                     <Input
                       type="select"
                       onChange={this.handleChange}
+                      value={this.state.datosFicha.formainic}
                       name="formainic"
                       id="formainic"
                       defaultValue="Mono"
@@ -1125,6 +1230,7 @@ class Ficha extends Component {
                     <Input
                       type="date"
                       onChange={this.handleChange}
+                      value={this.state.datosFicha.protefecha}
                       name="protefecha"
                       id="protefecha"
                     />
@@ -1146,7 +1252,7 @@ class Ficha extends Component {
                 </Col>
               </Row>
               <Row style={{ marginBottom: 20 }}>
-                <Col>
+                <Col xs="6">
                   <h5>Eventos Cardiovasculares</h5>
                   <Card style={{ padding: 10 }}>
                     <Row style={{ marginBottom: 10 }}>
@@ -1175,7 +1281,7 @@ class Ficha extends Component {
                           onClick={this.toggleEvento}
                           style={{ marginLeft: 5 }}
                         >
-                          Nuevo Evento
+                          Nuevo
                         </Button>
                       </Col>
                       <Modal
@@ -1190,14 +1296,14 @@ class Ficha extends Component {
                     <Row>
                       <Col>
                         <BootstrapTable
-                          keyField="codevencardio"
+                          keyField="codeventocardio"
                           data={this.state.eventListTable}
                           columns={this.state.columnsEvent}
                           selectRow={{
                             mode: "radio",
                             clickToSelect: true,
                             onSelect: (row, isSelect, rowIndex, e) => {
-                              console.log("row.id" + row.codevencardio);
+                              console.log("row.id" + row.codeventocardio);
                               console.log("isSelect" + isSelect);
                               console.log("rowIndex" + rowIndex);
                               this.setState({
@@ -1215,9 +1321,8 @@ class Ficha extends Component {
                     </Row>
                   </Card>
                 </Col>
-              </Row>
-              <Row style={{ marginBottom: 20 }}>
-                <Col>
+
+                <Col xs="6">
                   <h5>Manifestaciones Extra Articulares</h5>
                   <Card style={{ padding: 10 }}>
                     <Row style={{ marginBottom: 10 }}>
@@ -1246,7 +1351,7 @@ class Ficha extends Component {
                           onClick={this.toggleMani}
                           style={{ marginLeft: 5 }}
                         >
-                          Nueva Manifestacion
+                          Nuevo
                         </Button>
                       </Col>
                       <Modal
@@ -1329,7 +1434,7 @@ class Ficha extends Component {
                           onClick={this.toggleComor}
                           style={{ marginLeft: 5 }}
                         >
-                          Nueva Comorbilidad
+                          Nuevo
                         </Button>
                       </Col>
                       <Modal
@@ -1370,326 +1475,8 @@ class Ficha extends Component {
                   </Card>
                 </Col>
               </Row>
-              <Row>
-                <Col>
-                  <FormGroup check>
-                    <Input
-                      type="checkbox"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.sedentarismo}
-                      name="sedentarismo"
-                      id="sedentarismo"
-                    />
-                    <Label check>Sedentarismo</Label>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup check>
-                    <Input
-                      type="checkbox"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.actifisica}
-                      name="actifisica"
-                      id="actifisica"
-                    />
-                    <Label check>Actividad Fisica</Label>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup check>
-                    <Input
-                      type="checkbox"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.tabaquismo}
-                      name="tabaquismo"
-                      id="tabaquismo"
-                    />
-                    <Label check>Tabaquismo</Label>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="tabaqfecha">Fecha Inicio</Label>
-                    <Input
-                      disabled={this.state.deshabilitartaba}
-                      type="date"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.tabaqfecha}
-                      name="tabaqfecha"
-                      id="tabaqfecha"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="tabnumero">N° paq/año</Label>
-                    <Input
-                      disabled={this.state.deshabilitartaba}
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.tabnumero}
-                      name="tabnumero"
-                      id="tabnumero"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup check>
-                    <Input
-                      type="checkbox"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.extabaq}
-                      name="extabaq"
-                      id="extabaq"
-                    />
-                    <Label check>Ex Tabaquista</Label>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <h5>Antecedentes Ginecológicos</h5>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label for="menarca">Menarca</Label>
-                    <Input
-                      disabled={this.state.deshabilitar}
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.menarca}
-                      name="menarca"
-                      id="menarca"
-                    />
-                  </FormGroup>
-                </Col>
-                <hr />
-                <Col>
-                  <FormGroup>
-                    <Label for="menopausia">Menopausia</Label>
-                    <Input
-                      disabled={this.state.deshabilitar}
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.menopausia}
-                      name="menopausia"
-                      id="menopausia"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="edadvidasex">
-                      Edad de Inicio de Vida Sexual
-                    </Label>
-                    <Input
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.edadvidasex}
-                      name="edadvidasex"
-                      id="edadvidasex"
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label for="gestas">Gestas</Label>
-                    <Input
-                      disabled={this.state.deshabilitar}
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.gestas}
-                      name="gestas"
-                      id="gestas"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="partos">Parto</Label>
-                    <Input
-                      disabled={this.state.deshabilitar}
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.partos}
-                      name="partos"
-                      id="partos"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="cesareas">Cesárea</Label>
-                    <Input
-                      disabled={this.state.deshabilitar}
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.cesareas}
-                      name="cesareas"
-                      id="cesareas"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label for="abortos">Abortos</Label>
-                    <Input
-                      disabled={this.state.deshabilitar}
-                      type="number"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.abortos}
-                      name="abortos"
-                      id="abortos"
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row style={{ marginBottom: 20 }}>
-                <Col>
-                  <FormGroup check>
-                    <Input
-                      disabled={this.state.deshabilitar}
-                      type="checkbox"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.hisjospost}
-                      name="hisjospost"
-                      id="hisjospost"
-                    />
-                    <Label check>Hijos después del diagnóstico de AR</Label>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Row>
-                      <Col>
-                        <Label for="factorreuma_pos">FR (+)</Label>
-                        <Input
-                          type="text"
-                          onChange={this.handleChange}
-                          value={this.state.datosFicha.factorreuma_pos}
-                          name="factorreuma_pos"
-                          id="factorreuma_pos"
-                        />
-                      </Col>
-                      <Col>
-                        <Label for="factorreuma_neg">FR (-)</Label>
-                        <Input
-                          type="text"
-                          onChange={this.handleChange}
-                          value={this.state.datosFicha.factorreuma_neg}
-                          name="factorreuma_neg"
-                          id="factorreuma_neg"
-                        />
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <Label for="factorreuma_nivel">nivel/VR</Label>
-                        <Input
-                          type="text"
-                          onChange={this.handleChange}
-                          value={this.state.datosFicha.factorreuma_nivel}
-                          name="factorreuma_nivel"
-                          id="factorreuma_nivel"
-                        />
-                      </Col>
-                    </Row>
-                  </FormGroup>
-                </Col>
-                <ColoredLine color="grey" />
-                <Col>
-                  <FormGroup>
-                    <Row>
-                      <Col>
-                        <Label for="acpa_pos">ACPA (+)</Label>
-                        <Input
-                          type="text"
-                          onChange={this.handleChange}
-                          value={this.state.datosFicha.acpa_pos}
-                          name="acpa_pos"
-                          id="acpa_pos"
-                        />
-                      </Col>
-                      <Col>
-                        <Label for="acpa_neg">ACPA (-)</Label>
-                        <Input
-                          type="text"
-                          onChange={this.handleChange}
-                          value={this.state.datosFicha.acpa_neg}
-                          name="acpa_neg"
-                          id="acpa_neg"
-                        />
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <Label for="acpa_nivel">nivel/VR</Label>
-                        <Input
-                          type="text"
-                          onChange={this.handleChange}
-                          value={this.state.datosFicha.acpa_nivel}
-                          name="acpa_nivel"
-                          id="acpa_nivel"
-                        />
-                      </Col>
-                    </Row>
-                  </FormGroup>
-                </Col>
-                <ColoredLine color="grey" />
-                <Col>
-                  <FormGroup>
-                    <Row>
-                      <Col>
-                        <Label for="ana_pos">ANA (+)</Label>
-                        <Input
-                          type="text"
-                          onChange={this.handleChange}
-                          value={this.state.datosFicha.ana_pos}
-                          name="ana_pos"
-                          id="ana_pos"
-                        />
-                      </Col>
-                      <Col>
-                        <Label for="ana_neg">ANA (-)</Label>
-                        <Input
-                          type="text"
-                          onChange={this.handleChange}
-                          value={this.state.datosFicha.ana_neg}
-                          name="ana_neg"
-                          id="ana_neg"
-                        />
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <Label for="ana_patron">Dilución/Patrón</Label>
-                        <Input
-                          type="select"
-                          onChange={this.handleChange}
-                          value={this.state.datosFicha.ana_patron}
-                          name="ana_patron"
-                          id="ana_patron"
-                        >
-                          <option>Nuclear Homogéneo</option>
-                          <option>Nuclear Moteado o Puntillado Fino</option>
-                          <option>Nuclear Moteado Grueso</option>
-                          <option>Nucleolar</option>
-                          <option>Centromérico</option>
-                        </Input>
-                      </Col>
-                    </Row>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row style={{ marginBottom: 20 }}>
+
+              <Row style={{ marginBottom: 20, marginTop: 20 }}>
                 <Col>
                   <h5>Fames</h5>
                   <Card style={{ padding: 10 }}>
@@ -1747,7 +1534,7 @@ class Ficha extends Component {
                           onClick={this.toggleFame}
                           style={{ margin: 5 }}
                         >
-                          Nuevo Fame
+                          Nuevo
                         </Button>
                       </Col>
                       <Modal
@@ -1788,61 +1575,438 @@ class Ficha extends Component {
                   </Card>
                 </Col>
               </Row>
-              <Row>
+              <Row style={{ marginBottom: 20 }}>
+                <Card style={{ padding: 20, marginLeft: 20 }}>
+                  <Row>
+                    <Col>
+                      <FormGroup check>
+                        <Input
+                          type="checkbox"
+                          onChange={this.handleChange}
+                          value={this.state.datosFicha.sedentarismo}
+                          name="sedentarismo"
+                          id="sedentarismo"
+                        />
+                        <Label check>Sedentarismo</Label>
+                      </FormGroup>
+                    </Col>
+
+                    <Col>
+                      <FormGroup check>
+                        <Input
+                          type="checkbox"
+                          onChange={this.handleChange}
+                          value={this.state.datosFicha.actifisica}
+                          name="actifisica"
+                          id="actifisica"
+                        />
+                        <Label check>Actividad Física</Label>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                </Card>
+
                 <Col>
-                  <FormGroup check>
-                    <Input
-                      type="checkbox"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.rxmanos}
-                      name="rxmanos"
-                      id="rxmanos"
-                    />
-                    <Label check>RX Manos </Label>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup check>
-                    <Input
-                      type="checkbox"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.rxpies}
-                      name="rxpies"
-                      id="rxpies"
-                    />
-                    <Label check>RX Pies </Label>
-                  </FormGroup>
+                  <Card style={{ padding: 20 }}>
+                    <Row>
+                      <Col>
+                        <FormGroup check>
+                          <Input
+                            type="checkbox"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.extabaq}
+                            name="extabaq"
+                            id="extabaq"
+                          />
+                          <Label check>Ex Tabaquista</Label>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup check>
+                          <Input
+                            type="checkbox"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.tabaquismo}
+                            name="tabaquismo"
+                            id="tabaquismo"
+                          />
+                          <Label check>Tabaquismo</Label>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label for="tabaqfecha">Fecha Inicio</Label>
+                          <Input
+                            disabled={this.state.deshabilitartaba}
+                            type="date"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.tabaqfecha}
+                            name="tabaqfecha"
+                            id="tabaqfecha"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label for="tabnumero">N° paq/año</Label>
+                          <Input
+                            disabled={this.state.deshabilitartaba}
+                            type="number"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.tabnumero}
+                            name="tabnumero"
+                            id="tabnumero"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </Card>
                 </Col>
               </Row>
+              <Row style={{ marginBottom: 20 }}>
+                <Col>
+                  <Card style={{ padding: 20 }}>
+                    <Row>
+                      <Col>
+                        <h5>Antecedentes Ginecológicos</h5>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label for="menarca">Menarca</Label>
+                          <Input
+                            disabled={this.state.deshabilitar}
+                            type="number"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.menarca}
+                            name="menarca"
+                            id="menarca"
+                          />
+                        </FormGroup>
+                      </Col>
+
+                      <Col>
+                        <FormGroup>
+                          <Label for="menopausia">Menopausia</Label>
+                          <Input
+                            disabled={this.state.deshabilitar}
+                            type="number"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.menopausia}
+                            name="menopausia"
+                            id="menopausia"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label for="edadvidasex">
+                            Edad de Inicio de Vida Sexual
+                          </Label>
+                          <Input
+                            type="number"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.edadvidasex}
+                            name="edadvidasex"
+                            id="edadvidasex"
+                          />
+                        </FormGroup>
+                      </Col>
+
+                      <Col>
+                        <FormGroup check>
+                          <Input
+                            disabled={this.state.deshabilitar}
+                            type="checkbox"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.hisjospost}
+                            name="hisjospost"
+                            id="hisjospost"
+                          />
+                          <Label check>
+                            Hijos después del diagnóstico de AR
+                          </Label>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label for="gestas">Gestas</Label>
+                          <Input
+                            disabled={this.state.deshabilitar}
+                            type="number"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.gestas}
+                            name="gestas"
+                            id="gestas"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label for="partos">Parto</Label>
+                          <Input
+                            disabled={this.state.deshabilitar}
+                            type="number"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.partos}
+                            name="partos"
+                            id="partos"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label for="cesareas">Cesárea</Label>
+                          <Input
+                            disabled={this.state.deshabilitar}
+                            type="number"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.cesareas}
+                            name="cesareas"
+                            id="cesareas"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label for="abortos">Abortos</Label>
+                          <Input
+                            disabled={this.state.deshabilitar}
+                            type="number"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.abortos}
+                            name="abortos"
+                            id="abortos"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+              </Row>
+
               <Row>
                 <Col>
-                  <FormGroup>
-                    <Label for="rxmanosfecha">Fecha de RX Manos</Label>
-                    <Input
-                      type="date"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.rxmanosfecha}
-                      name="rxmanosfecha"
-                      id="rxmanosfecha"
-                    />
-                  </FormGroup>
+                  <Card style={{ padding: 20 }}>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label for="factorreuma_pos">FR (+)</Label>
+                          <Input
+                            type="text"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.factorreuma_pos}
+                            name="factorreuma_pos"
+                            id="factorreuma_pos"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label for="factorreuma_neg">FR (-)</Label>
+                          <Input
+                            type="text"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.factorreuma_neg}
+                            name="factorreuma_neg"
+                            id="factorreuma_neg"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Label for="factorreuma_nivel">Nivel/VR</Label>
+                        <Input
+                          type="text"
+                          onChange={this.handleChange}
+                          value={this.state.datosFicha.factorreuma_nivel}
+                          name="factorreuma_nivel"
+                          id="factorreuma_nivel"
+                        />
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+
+                <Col>
+                  <Card
+                    style={{
+                      padding: 20,
+                      marginLeft: 20,
+                      marginRight: 20
+                    }}
+                  >
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label for="acpa_pos">ACPA (+)</Label>
+                          <Input
+                            type="text"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.acpa_pos}
+                            name="acpa_pos"
+                            id="acpa_pos"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label for="acpa_neg">ACPA (-)</Label>
+                          <Input
+                            type="text"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.acpa_neg}
+                            name="acpa_neg"
+                            id="acpa_neg"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Label for="acpa_nivel">Nivel/VR</Label>
+                        <Input
+                          type="text"
+                          onChange={this.handleChange}
+                          value={this.state.datosFicha.acpa_nivel}
+                          name="acpa_nivel"
+                          id="acpa_nivel"
+                        />
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+
+                <Col>
+                  <Card style={{ padding: 20, marginBottom: 20 }}>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label for="ana_pos">ANA (+)</Label>
+                          <Input
+                            type="text"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.ana_pos}
+                            name="ana_pos"
+                            id="ana_pos"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label for="ana_neg">ANA (-)</Label>
+                          <Input
+                            type="text"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.ana_neg}
+                            name="ana_neg"
+                            id="ana_neg"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Label for="ana_patron">Dilución/Patrón</Label>
+                        <Input
+                          type="select"
+                          onChange={this.handleChange}
+                          value={this.state.datosFicha.ana_patron}
+                          name="ana_patron"
+                          id="ana_patron"
+                        >
+                          <option>Nuclear Homogéneo</option>
+                          <option>Nuclear Moteado o Puntillado Fino</option>
+                          <option>Nuclear Moteado Grueso</option>
+                          <option>Nucleolar</option>
+                          <option>Centromérico</option>
+                        </Input>
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+              </Row>
+
+              <Row style={{ marginBottom: 20 }}>
+                <Col>
+                  <Card style={{ padding: 20 }}>
+                    <Row>
+                      <Col>
+                        <FormGroup check>
+                          <Input
+                            type="checkbox"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.rxmanos}
+                            name="rxmanos"
+                            id="rxmanos"
+                          />
+                          <Label check>RX Manos </Label>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <Row>
+                          <FormGroup>
+                            <Label for="rxmanosfecha">Fecha de RX Manos</Label>
+                            <Input
+                              disabled={this.state.deshabilitarrxmanos}
+                              type="date"
+                              onChange={this.handleChange}
+                              value={this.state.datosFicha.rxmanosfecha}
+                              name="rxmanosfecha"
+                              id="rxmanosfecha"
+                            />
+                          </FormGroup>
+                        </Row>
+                      </Col>
+                    </Row>
+                  </Card>
                 </Col>
                 <Col>
-                  <FormGroup>
-                    <Label for="rxpiesfecha">Fecha de RX Pies</Label>
-                    <Input
-                      type="date"
-                      onChange={this.handleChange}
-                      value={this.state.datosFicha.rxpiesfecha}
-                      name="rxpiesfecha"
-                      id="rxpiesfecha"
-                    />
-                  </FormGroup>
+                  <Card style={{ padding: 20 }}>
+                    <Row>
+                      <Col>
+                        <FormGroup check>
+                          <Input
+                            type="checkbox"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.rxpies}
+                            name="rxpies"
+                            id="rxpies"
+                          />
+                          <Label check>RX Pies </Label>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <Row>
+                          <FormGroup>
+                            <Label for="rxpiesfecha">Fecha de RX Pies</Label>
+                            <Input
+                              disabled={this.state.deshabilitarrxpies}
+                              type="date"
+                              onChange={this.handleChange}
+                              value={this.state.datosFicha.rxpiesfecha}
+                              name="rxpiesfecha"
+                              id="rxpiesfecha"
+                            />
+                          </FormGroup>
+                        </Row>
+                      </Col>
+                    </Row>
+                  </Card>
                 </Col>
               </Row>
             </CardBody>
           </Card>
-          <Button onClick={this.handleSubmit} color="primary">
+          <Button
+            onClick={this.handleSubmit}
+            color="primary"
+            style={{ marginTop: 20 }}
+          >
             Crear
           </Button>
         </Form>

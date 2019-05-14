@@ -13,6 +13,7 @@ import classnames from "classnames";
 import BuscarPanolab from "./../panolab/buscarPanolab";
 import BuscarConsulta from "../consulta/buscarConsulta";
 import BuscarOrdenEstudio from "./../ordenestudio/buscarOrdenEstudio";
+import NavBarMenu from "./../navbar";
 
 class MenuFicha extends Component {
   constructor(props) {
@@ -35,6 +36,7 @@ class MenuFicha extends Component {
   render() {
     return (
       <div>
+        <NavBarMenu />
         <Nav tabs style={{ marginBottom: 20 }}>
           <NavItem>
             <NavLink
