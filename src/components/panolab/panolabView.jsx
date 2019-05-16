@@ -71,7 +71,7 @@ class PanolabView extends Component {
       <Container>
         <Form>
           <Card style={{ backgroundColor: "#F9FCFB" }}>
-            <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
+            <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
               <h3>Datos Panorámica de Laboratorio</h3>
             </CardHeader>
             <CardBody style={{ marginBottom: 20 }}>

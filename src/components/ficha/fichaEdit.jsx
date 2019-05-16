@@ -53,7 +53,7 @@ class FichaEdit extends Component {
       deshabilitarrxpies: true,
       deshabilitarrxmanos: true,
 
-      eventocardioSelected: {},
+      eventocardioSelected: "",
       eventocardio: "",
       eventList: [],
       eventListTable: [],
@@ -70,7 +70,7 @@ class FichaEdit extends Component {
           text: "Nombre"
         }
       ],
-      maniSelected: {},
+      maniSelected: "",
       mani: "",
       maniList: [],
       maniListTable: [],
@@ -91,7 +91,7 @@ class FichaEdit extends Component {
           text: "Descripción"
         }
       ],
-      comorSelected: {},
+      comorSelected: "",
       fechaDxComor: "",
       comorbilidad: "",
       comorList: [],
@@ -113,7 +113,7 @@ class FichaEdit extends Component {
           text: "Fecha Diagnóstico "
         }
       ],
-      fameSelected: {},
+      fameSelected: "",
       fame: "",
       fameDesde: "",
       fameHasta: "",
@@ -371,8 +371,8 @@ class FichaEdit extends Component {
     this.setState({ mani: e.value });
   }
 
-  onSelectFame(e) {
-    this.setState({ fameSelected: e.value }, function() {
+  async onSelectFame(e) {
+    await this.setState({ fameSelected: e.value }, function() {
       console.log("console 1" + this.state.fameSelected);
     });
   }
@@ -398,7 +398,11 @@ class FichaEdit extends Component {
     let eventList = this.state.eventListTable;
     let eventListNew = this.state.eventListTableNew;
     if (this.state.eventocardioSelected === null) {
-      return;
+      {
+        Alert.warning("El Evento Cardiovasular esta vacío", 5000); //aca no esntra puse par aprobar nomas, pero esta bien osea tiene que ser {} nomas
+
+        return;
+      }
     } else {
       for (let index = 0; index < eventList.length; index++) {
         console.log(eventList);
@@ -407,23 +411,26 @@ class FichaEdit extends Component {
           this.state.eventocardioSelected.codeventocardio
         ) {
           console.log(eventList);
-          Alert.warning("El Evento Cardiovasular ya fue agregado", 3000);
-          return;
+          {
+            Alert.warning("El Evento Cardiovasular ya fue agregado", 3000);
+            return;
+          }
         }
       }
-      const evento = {
+      const eventocardio = {
         codeventocardio: this.state.eventocardioSelected.codeventocardio,
         nombre: this.state.eventocardioSelected.nombre
       };
-      eventList.push(evento);
-      eventListNew.push(evento);
+      eventList.push(eventocardio);
+      eventListNew.push(eventocardio);
 
       console.log(
         "fame a ser agregado" + this.state.eventocardioSelected.nombre
       );
       this.setState({
         eventListTable: eventList,
-        eventListTableNew: eventListNew
+        eventListTableNew: eventListNew,
+        eventocardio: ""
       });
     }
   }
@@ -432,27 +439,32 @@ class FichaEdit extends Component {
     let comorList = this.state.comorListTable;
     let comorListNew = this.state.comorListTableNew;
     if (this.state.comorSelected === null) {
-      return;
+      {
+        Alert.warning("El APF esta vacío", 5000);
+        return;
+      }
     } else {
       for (let index = 0; index < comorList.length; index++) {
         if (
           comorList[index].codenfermedad ===
           this.state.comorSelected.codenfermedad
-        )
+        ) {
           Alert.warning("El APF ya fue agregado", 3000);
-        return;
+          return;
+        }
       }
-      const comor = {
+      const comorbilidad = {
         codenfermedad: this.state.comorSelected.codenfermedad,
         nombre: this.state.comorSelected.nombre,
-        fechadiagnostico: this.state.fechaDxComor //*** si no es el mismo nombe de la ficha, no  paorque es de otro formulario luego
+        fechadiagnostico: this.state.comorSelected.fechaDxComor //*** si no es el mismo nombe de la ficha, no  paorque es de otro formulario luego
       };
-      comorList.push(comor);
-      comorListNew.push(comor);
+      comorList.push(comorbilidad);
+      comorListNew.push(comorbilidad);
       console.log("fame a ser agregado" + this.state.comorSelected.nombre);
       this.setState({
         comorListTable: comorList,
-        comorListTableNew: comorListNew
+        comorListTableNew: comorListNew,
+        comorbilidad: ""
       });
     }
   }
@@ -461,13 +473,16 @@ class FichaEdit extends Component {
     let fameList = this.state.famesListTable;
     let fameListNew = this.state.famesListTableNew;
     if (this.state.fameSelected === null) {
-      Alert.warning("No puedo estar vacio", 10000);
-      return;
+      {
+        Alert.warning("No puedo estar vacio", 10000);
+        return;
+      }
     } else {
       for (let index = 0; index < fameList.length; index++) {
-        if (fameList[index].codfame === this.state.fameSelected.codfame)
+        if (fameList[index].codfame === this.state.fameSelected.codfame) {
           Alert.warning("El Fame ya fue agregado", 3000);
-        return;
+          return;
+        }
       }
       const fame = {
         codfame: this.state.fameSelected.codfame,
@@ -482,7 +497,8 @@ class FichaEdit extends Component {
       console.log("fame a ser agregado" + this.state.fameSelected.nombre);
       this.setState({
         famesListTable: fameList,
-        famesListTableNew: fameListNew
+        famesListTableNew: fameListNew,
+        fame: ""
       });
     }
   }
@@ -491,12 +507,16 @@ class FichaEdit extends Component {
     let maniList = this.state.maniListTable;
     let maniListNew = this.state.maniListTableNew;
     if (this.state.maniSelected === null) {
-      return;
+      {
+        Alert.warning("La Manifestación Articular esta vacía", 5000);
+        return;
+      }
     } else {
       for (let index = 0; index < maniList.length; index++) {
-        if (maniList[index].codmanif === this.state.maniSelected.codmanif)
+        if (maniList[index].codmanif === this.state.maniSelected.codmanif) {
           Alert.warning("El Manifestacion Articular ya fue agregada", 3000);
-        return;
+          return;
+        }
       }
       const mani = {
         codmanif: this.state.maniSelected.codmanif,
@@ -506,7 +526,11 @@ class FichaEdit extends Component {
       maniList.push(mani);
       maniListNew.push(mani);
 
-      this.setState({ maniListTable: maniList, maniListTableNew: maniListNew });
+      this.setState({
+        maniListTable: maniList,
+        maniListTableNew: maniListNew,
+        mani: ""
+      });
     }
   }
 
@@ -690,8 +714,8 @@ class FichaEdit extends Component {
         codfame: listf[item].codfame,
         nombre: listf[item].nombre,
         descripcion: listf[item].descripcion,
-        fameDesde: famesFicha[item].fechadesde,
-        fameHasta: famesFicha[item].fechahasta
+        fameDesde: famesFicha[item].fameDesde,
+        fameHasta: famesFicha[item].fechaHasta
       };
       listFame.push(obj);
     }
@@ -1193,7 +1217,7 @@ class FichaEdit extends Component {
       <Container>
         <Card style={{ backgroundColor: "#F9FCFB" }}>
           <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
-            <h3>Datos personales</h3>
+            <h3>Datos Personales</h3>
           </CardHeader>
           <CardBody>
             <Row>

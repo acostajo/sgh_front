@@ -135,7 +135,11 @@ class BuscarConsulta extends Component {
                         {" "}
                         <h4>{item.fechaconsulta}</h4>
                 </Link>*/}
-                      <Link to={`/consulta_view/${item.codconsulta}`}>
+                      <Link
+                        to={`/consulta_view/${item.codconsulta}/${
+                          item.codficha
+                        }`}
+                      >
                         <h4>{item.fechaconsulta}</h4>
                       </Link>
                     </ListGroupItemHeading>

@@ -252,8 +252,8 @@ class Consulta extends Component {
     this.setState({ suggestions: results });
   }
 
-  onSelectEfecto(e) {
-    this.setState({ efectoSelected: e.value }, function() {
+  async onSelectEfecto(e) {
+    await this.setState({ efectoSelected: e.value }, function() {
       console.log("console 1" + this.state.efectoSelected);
     });
   }
@@ -279,16 +279,19 @@ class Consulta extends Component {
 
     let esfectoList = this.state.efectoListTable;
     if (this.state.efectoSelected === null) {
-      Alert.warning("El Efecto Adverso esta vacío", 5000);
-      console.log("vacio");
-      return;
+      {
+        Alert.warning("El Efecto Adverso esta vacío", 5000);
+        console.log("vacio");
+        return;
+      }
     } else {
       for (let index = 0; index < esfectoList.length; index++) {
         if (
           esfectoList[index].codefecad === this.state.efectoSelected.codefecad
-        )
+        ) {
           Alert.warning("El Efecto Adverso ya fue agregado", 3000);
-        return;
+          return;
+        }
       }
       const efecto = {
         codefecad: this.state.efectoSelected.codefecad,
@@ -296,7 +299,11 @@ class Consulta extends Component {
       };
       esfectoList.push(efecto);
       console.log("efecto a ser agregado" + this.state.efectoSelected.nombre);
-      this.setState({ efectoListTable: esfectoList });
+      this.setState({
+        efectoListTable: esfectoList,
+        efectoSelected: null,
+        efecto: ""
+      });
     }
   }
 
@@ -648,7 +655,7 @@ class Consulta extends Component {
     return (
       <Container>
         <Card style={{ backgroundColor: "#F9FCFB" }}>
-          <CardHeader style={{ backgroundColor: "#005582", color: "white" }}>
+          <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
             <h3>Datos</h3>
           </CardHeader>
           <CardBody>
