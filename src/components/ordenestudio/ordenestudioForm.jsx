@@ -36,10 +36,10 @@ class OrdenEstudio extends Component {
         //datos correspondientes a la orden de estudio
         codusuario: null, //	código interno de usuario, para saber quién agrego la ficha panorámica de laboratorio, q esta bien el null aca
         codficha: 0, // capaz y no le gustaba que se le pase aca
+        codestudio: null,
         observacion: "", //	información adicional que se puede incluir
         estado: "Pendiente", //	Pendiente, Listo, Inactivo
-        fechaordenestudio: "", //fecha de la orden de estudio
-        fechacreada: 0 //	fecha de creación de la orden de estudio
+        fechaordenestudio: "" //fecha de la orden de estudio
       },
       aux: false,
       archivo: {},
@@ -204,46 +204,25 @@ class OrdenEstudio extends Component {
   }
 
   async handleAdd() {
+    var url = "http://127.0.0.1:8000/api/ordenestudio/";
     let ordenestudio = this.state.datosOrdenEstudio;
-    ordenestudio["codficha"] = parseInt(this.props.match.params.codficha);
+    ordenestudio.codestudio = this.state.estudioListTable[0].codestudio;
+    ordenestudio.codficha = this.props.match.params.codficha;
 
-    await fetch("http://127.0.0.1:8000/api/ordenestudio/", {
-      method: "POST", // or 'PUT'
-      body: JSON.stringify(ordenestudio), // data can be `string` or {object}!
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(res => res.json())
-      .catch(error => console.error("Error:", error))
-      .then(response => {
-        console.log(response);
+    console.log(ordenestudio);
+
+    await axios
+      .post(url, ordenestudio)
+      .then(function(response) {
+        console.log(response.data);
+      })
+      .catch(function(error) {
+        console.log(error);
       });
-    this.setState({ visible: !this.state.visible });
   }
 
   async handleAddEstudio(codficha) {
     const list = this.state.estudioListTable;
-
-    for (let item = 0; item < list.length; item++) {
-      let comor = {
-        codficha: codficha,
-        codestudio: list[item].codestudio
-      };
-
-      await fetch("http://127.0.0.1:8000/api/estudio/", {
-        method: "POST", // or 'PUT'
-        body: JSON.stringify(comor), // data can be `string` or {object}!
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-        .then(res => res.json())
-        .catch(error => console.error("Error:", error))
-        .then(response => {
-          console.log(response);
-        });
-    }
   }
 
   async componentWillMount() {

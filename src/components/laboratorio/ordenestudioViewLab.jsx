@@ -143,7 +143,6 @@ class OrdenEstudioViewLab extends Component {
         }
       }
     }
-
     this.setState({ turno: value, datosTurnoDistSelect: listTurnos });
   }
 
@@ -152,10 +151,7 @@ class OrdenEstudioViewLab extends Component {
       codturnodist: value.codturnodist,
       codficha: this.props.match.params.codficha,
       codordenestudio: this.props.match.params.codordenestudio,
-      turno: value.turno,
-      fechaTurno: this.state.fechaTurno,
-      numeroTruno: value.desturno,
-      horarioTurno: value.horaturno,
+      fechaturno: this.state.fechaTurno,
       estado: "Agendado"
     };
     this.setState({ turnoAgregar: turno });
@@ -163,6 +159,7 @@ class OrdenEstudioViewLab extends Component {
   }
 
   async handleAddTurno() {
+    console.log(this.state.turnoAgregar);
     const url = "http://127.0.0.1:8000/api/turno/";
     const url2 =
       "http://127.0.0.1:8000/api/ordenestudio/" +
@@ -227,7 +224,7 @@ class OrdenEstudioViewLab extends Component {
       datosTurnoDist: datosTurnoDist,
       datosTurno: datosTurno
     });
-    console.log(this.state.datosOrdenEstudio);
+    console.log(this.state.datosTurno);
   }
   render() {
     const data = [

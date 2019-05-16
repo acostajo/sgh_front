@@ -57,6 +57,23 @@ class MenuLab extends Component {
               </Col>
             </ButtonLink>
           </FlexboxGrid.Item>
+          <Divider vertical style={{ height: 400 }} />
+          <FlexboxGrid.Item>
+            <ButtonLink to="/turnos" style={{ height: 400, width: 400 }}>
+              <Icon
+                icon="calendar"
+                style={{
+                  fontSize: 190,
+                  color: "#597015",
+                  marginBottom: 10,
+                  paddingTop: 80
+                }}
+              />
+              <Col>
+                <h3>Pendientes: 12</h3>
+              </Col>
+            </ButtonLink>
+          </FlexboxGrid.Item>
         </FlexboxGrid>
       </div>
     );
