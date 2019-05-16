@@ -6,7 +6,6 @@ import {
   CardBody,
   Container,
   Row,
-  Alert,
   Col,
   Form,
   FormGroup,
@@ -14,21 +13,14 @@ import {
   Input
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
+import { Alert } from "rsuite";
 import BootstrapTable from "react-bootstrap-table-next";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import EventoCardiovascular from "./../eventocardiovascular/eventocardiovascularForm";
-const ColoredLine = ({ color }) => (
-  <hr
-    style={{
-      color: color,
-      backgroundColor: color,
-      height: 70,
-      width: 2,
-      borderleft: 1
-    }}
-  />
-);
+import { createHashHistory } from "history";
+const history = createHashHistory();
 
 class FichaView extends Component {
   constructor() {
@@ -111,21 +103,13 @@ class FichaView extends Component {
   async handleDelete() {
     const cod = this.props.codficha; //direccto accedes, yaa, y eso nomas es, que te falta ahora?
     const url1 = "http://127.0.0.1:8000/api/ficha/";
-    await fetch(url1 + cod + "/", { method: "DELETE" }) //este es el method para borar y se le pasa el cod nomas
-      .then(function(response) {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return new Error("No se recibio la respuesta esperada ...");
-        }
-      })
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({ visible: !this.state.visible }); // aca despues de mandarle al server para elminar le setea en true
-      });
+    const response = await axios.delete(url1 + cod);
+    console.log(response.status);
+    if (response.status === 204) {
+      Alert.success("La Ficha ha sido eliminada con éxito", 3000); //con este avisas
+
+      this.props.history.push("/modulos");
+    }
   }
 
   async componentWillMount() {
@@ -289,17 +273,6 @@ class FichaView extends Component {
     this.setState({ eventListTable: listEvento });
 
     // fames
-    await axios
-      .get(url1 + cod)
-      .then(function(response) {
-        datosficha = response.data[0];
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-    this.setState({
-      datosficha: datosficha
-    });
 
     await axios
       .get(url2 + cod)
@@ -326,8 +299,8 @@ class FichaView extends Component {
         codfame: listf[item].codfame,
         nombre: listf[item].nombre,
         descripcion: listf[item].descripcion,
-        fameDesde: famesFicha[item].fechadesde,
-        fameHasta: famesFicha[item].fechahasta
+        fameDesde: famesFicha[item].fameDesde,
+        fameHasta: famesFicha[item].fameHasta
       };
       listFame.push(obj);
     }
@@ -339,12 +312,9 @@ class FichaView extends Component {
   render() {
     return (
       <Container>
-        <Alert color="info" isOpen={this.state.visible} toggle={this.onDismiss}>
-          La Ficha fue eliminada con con exito!
-        </Alert>
         <Card style={{ backgroundColor: "#F9FCFB" }}>
-          <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
-            <h3>Datos personales</h3>
+          <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
+            <h3>Datos Personales</h3>
           </CardHeader>
           <CardBody>
             <Form>
@@ -457,6 +427,10 @@ class FichaView extends Component {
                     <p>{this.state.datosficha.profesion}</p>
                   </FormGroup>
                 </Col>
+                <Col />
+                <Col />
+              </Row>
+              <Row>
                 <Col>
                   <FormGroup>
                     <Label>
@@ -479,7 +453,7 @@ class FichaView extends Component {
         </Card>
         <hr />
         <Card style={{ backgroundColor: "#F9FCFB" }}>
-          <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
+          <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
             <h3>Datos de la Ficha HA</h3>
           </CardHeader>
           <CardBody>
@@ -980,4 +954,5 @@ class FichaView extends Component {
   }
 }
 
-export default FichaView;
+//export default FichaView;
+export default withRouter(FichaView);

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Dropdown, Nav, Navbar, Icon, Header } from "rsuite";
 import "rsuite/dist/styles/rsuite.min.css";
 
-class NavBarMenu extends Component {
+class NavBarMenuLab extends Component {
   constructor(props) {
     super(props);
 

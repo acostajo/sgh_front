@@ -56,27 +56,15 @@ class ConsultaView extends Component {
 
   async handleDelete() {
     const cod = this.props.match.params.codconsulta; //direccto accedes, yaa, y eso nomas es, que te falta ahora?
-    const url1 = "http://127.0.0.1:8000/api/consulta/";
-
-    await fetch(url1 + cod + "/", { method: "DELETE" }) //este es el method para borar y se le pasa el cod nomas
-      .then(function(response) {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return new Error("No se recibio la respuesta esperada ...");
-        }
-      })
-      .then(function(response) {
-        Alert.success("La Consulta ha sido eliminada con éxito"); //con este avisas
-        this.props.history.push(
-          "/menu_ficha/" + this.props.match.params.codficha // esta parte no manda a ficha
-        );
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({ visible: !this.state.visible }); // aca despues de mandarle al server para elminar le setea en true
-      });
+    const url1 = "http://127.0.0.1:8000/api/consulta/" + cod + "/";
+    const response = await axios.delete(url1);
+    console.log(this.props.match.params.codficha);
+    if (response.status === 204) {
+      Alert.success("La Consulta ha sido eliminada con éxito"); //con este avisas
+      this.props.history.push(
+        "/menu_ficha/" + this.props.match.params.codficha // y con este mandas al menu de la fi
+      );
+    }
   }
 
   async componentWillMount() {

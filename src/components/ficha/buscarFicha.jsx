@@ -7,6 +7,7 @@ import {
   Col,
   FormGroup,
   Label,
+  Card,
   ListGroup,
   ListGroupItem,
   ListGroupItemHeading,
@@ -71,16 +72,29 @@ class BuscarFicha extends Component {
           .get(url)
           .then(function(response) {
             listado = response.data;
+            console.log(listado);
           })
           .catch(function(error) {
             console.log(error);
           });
 
         fichas = listado.filter(item => {
-          return item.nrodocumento === parametro;
+          //return item.nrodocumento === parametro;
+          return item.nrodocumento
+            .toLowerCase()
+            .startsWith(parametro.toLowerCase());
         });
+
+        if (fichas.length === 0) {
+          Alert.warning(
+            "No se encontró el Paciente con ese Nro. Documento",
+            5000
+          );
+        } else {
+          //aviso = false;
+        }
         console.log(fichas);
-        this.setState({ datosficha: fichas });
+        this.setState({ datosficha: fichas, parametro: "" });
         break;
 
       case "Nombre":
@@ -95,8 +109,15 @@ class BuscarFicha extends Component {
         fichas = listado.filter(item => {
           return item.nombres.toLowerCase().startsWith(parametro.toLowerCase());
         });
+
+        if (fichas.length === 0) {
+          Alert.warning("No se encontró el Paciente con ese Nombre", 5000);
+        } else {
+          //aviso = false;
+        }
+
         console.log(fichas);
-        this.setState({ datosficha: fichas });
+        this.setState({ datosficha: fichas, parametro: "" });
         break;
 
       case "Apellido":
@@ -113,8 +134,14 @@ class BuscarFicha extends Component {
             .toLowerCase()
             .startsWith(parametro.toLowerCase());
         });
+
+        if (fichas.length === 0) {
+          Alert.warning("No se encontró el Paciente con ese Apellido", 5000);
+        } else {
+          //aviso = false;
+        }
         console.log(fichas);
-        this.setState({ datosficha: fichas });
+        this.setState({ datosficha: fichas, parametro: "" });
         break;
     }
 
@@ -145,7 +172,7 @@ class BuscarFicha extends Component {
               />
             </FormGroup>
           </Col>
-          <Col xs="2">
+          <Col xs="2.5">
             <FormGroup>
               <Input
                 type="select"
@@ -174,36 +201,48 @@ class BuscarFicha extends Component {
               {list.map(item => (
                 <Row key={item.codficha}>
                   <Col>
-                    <Panel
-                      header="Datos del Paciente"
-                      bordered
-                      style={{ backgroundColor: "#F9FCFB" }}
-                    >
-                      <Link to={`/menu_ficha/${item.codficha}`}>
-                        <h4>
-                          {item.nombres} {item.apellidos}{" "}
-                        </h4>
-                      </Link>
-                      <p>
-                        <strong>Sexo: </strong> {item.sexo}
-                      </p>
-                      <p>
-                        <strong>Nacionalidad: </strong>
-                        {item.nacionalidad}
-                      </p>
-                      <p>
-                        <strong>Estado Civil: </strong>
-                        {item.estadocivil}
-                      </p>
-                      <p>
-                        <strong>Profesión: </strong>
-                        {item.profesion}
-                      </p>
-                      <p>
-                        <strong>Diagnóstico: </strong>
-                        {item.diagnostico}
-                      </p>
-                    </Panel>
+                    <Card style={{ backgroundColor: "#F9FCFB" }}>
+                      <Panel style={{ backgroundColor: "#F9FCFB" }}>
+                        <Col>
+                          <Link to={`/menu_ficha/${item.codficha}`}>
+                            <h3>
+                              {item.nombres} {item.apellidos}{" "}
+                            </h3>
+                          </Link>
+                        </Col>
+                        <Row>
+                          <Col>
+                            <FormGroup>
+                              <strong>Nro. Documento: </strong>{" "}
+                              {item.nrodocumento}
+                            </FormGroup>
+                          </Col>
+                          <Col>
+                            <FormGroup>
+                              <strong>Fecha de Inclusión: </strong>{" "}
+                              {item.fechainclusion}
+                            </FormGroup>
+                          </Col>
+                          <Col>
+                            <FormGroup>
+                              <strong>Forma Inicio: </strong> {item.formainic}
+                            </FormGroup>
+                          </Col>
+                          <Col>
+                            <FormGroup>
+                              <strong>Fecha Diagnóstico: </strong>
+                              {item.fechadiagnos}
+                            </FormGroup>
+                          </Col>
+                          <Col>
+                            <FormGroup>
+                              <strong>Diagnóstico: </strong>
+                              {item.diagnostico}
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                      </Panel>
+                    </Card>
                   </Col>
                 </Row>
               ))}

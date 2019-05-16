@@ -41,7 +41,7 @@ class App extends Component {
             <Route path="/buscar_paciente/" exact component={BuscarPaciente} />
             <Route path="/consulta/:codficha" component={Consulta} />
             <Route
-              path="/consulta_view/:codconsulta"
+              path="/consulta_view/:codconsulta/:codficha"
               component={ConsultaView}
             />
             <Route path="/ordenestudio/:codficha" component={OrdenEstudio} />
