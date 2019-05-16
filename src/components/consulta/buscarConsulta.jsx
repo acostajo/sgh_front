@@ -4,7 +4,6 @@ import {
   Button,
   Container,
   Row,
-  Fade,
   ListGroup,
   ListGroupItem,
   ListGroupItemHeading,
@@ -171,16 +170,3 @@ class BuscarConsulta extends Component {
 }
 
 export default BuscarConsulta;
-
-{
-  /* <ListGroupItemHeading>
-                      <Link
-                        to={`/ficha_view/${this.state.datosficha.codficha}`}
-                      >
-                        <h4>
-                          {this.state.datosficha.nombres}{" "}
-                          {this.state.datosficha.apellidos}{" "}
-                        </h4>
-                      </Link>
-                    </ListGroupItemHeading> */
-}

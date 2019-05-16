@@ -10,8 +10,7 @@ import {
   Form,
   FormGroup,
   Label,
-  Input,
-  Fade
+  Input
 } from "reactstrap";
 import { Alert } from "rsuite";
 import axios from "axios";

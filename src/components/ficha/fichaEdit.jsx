@@ -553,7 +553,6 @@ class FichaEdit extends Component {
       datosFicha: fields
     });
 
-    let resp;
     let aviso;
     await axios
       .get(url1 + value)

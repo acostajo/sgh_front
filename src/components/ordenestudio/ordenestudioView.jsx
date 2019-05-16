@@ -10,8 +10,7 @@ import {
   Col,
   Form,
   FormGroup,
-  Label,
-  Input
+  Label
 } from "reactstrap";
 import axios from "axios";
 import BootstrapTable from "react-bootstrap-table-next";
