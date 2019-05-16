@@ -5,7 +5,6 @@ import {
   Container,
   Alert,
   Row,
-  Fade,
   ListGroup,
   ListGroupItem,
   ListGroupItemHeading,
@@ -107,14 +106,6 @@ class ListaEstudios extends Component {
               Buscar
             </Button>
             {"   "}
-            <Button onClick={this.handleAdd} color="primary">
-              <Link
-                to={`/ordenestudio/${this.props.codficha}`}
-                style={{ color: "white" }}
-              >
-                Agregar Orden de Estudio
-              </Link>
-            </Button>
           </Col>
         </Row>
         <hr />
@@ -126,7 +117,9 @@ class ListaEstudios extends Component {
                   <ListGroupItem>
                     <ListGroupItemHeading>
                       <Link
-                        to={`/ordenestudio_view_lab/${item.codordenestudio}`}
+                        to={`/ordenestudio_view_lab/${item.codordenestudio}/${
+                          item.codficha
+                        }`}
                       >
                         {" "}
                         <h4>{item.fechaordenestudio}</h4>

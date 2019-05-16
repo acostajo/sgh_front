@@ -1,36 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import {
-  Sidebar,
-  Sidenav,
-  Dropdown,
-  Nav,
-  NavLink,
-  Navbar,
-  Icon,
-  Container,
-  Header,
-  Content
-} from "rsuite";
-import { Tooltip, Whisper } from "rsuite";
-import "rsuite/dist/styles/rsuite.min.css";
-import FichaView from "./ficha/fichaView";
-const headerStyles = {
-  padding: 18,
-  fontSize: 16,
-  height: 56,
-  background: "#34c3ff",
-  color: " #fff",
-  whiteSpace: "nowrap",
-  overflow: "hidden"
-};
+import { Sidebar, Sidenav, Nav, Icon } from "rsuite";
 
-const iconStyles = {
-  width: 56,
-  height: 56,
-  lineHeight: "56px",
-  textAlign: "center"
-};
+import "rsuite/dist/styles/rsuite.min.css";
 
 class SideNavMenu extends Component {
   constructor(props) {

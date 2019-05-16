@@ -3,6 +3,7 @@ import { FlexboxGrid, Button, Divider, Icon, Col } from "rsuite";
 import { Link } from "react-router-dom";
 
 //import "rsuite/dist/styles/rsuite.css";
+import NavBarMenu from "./navbar";
 
 class MenuPrincipal extends Component {
   constructor(props) {
@@ -19,12 +20,13 @@ class MenuPrincipal extends Component {
     return (
       //backgroundImage: 'url(' + imgUrl + ')'
       <div>
+        <NavBarMenu />
         <FlexboxGrid align="center" style={{ marginTop: 200 }}>
           <FlexboxGrid.Item>
             <ButtonLink
               to="/ficha"
               style={{ height: 400, width: 400 }}
-              onclick={this.handleClick}
+              onClick={this.handleClick}
             >
               <Icon
                 icon="user-plus"

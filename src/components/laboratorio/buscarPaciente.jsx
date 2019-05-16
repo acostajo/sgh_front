@@ -12,7 +12,7 @@ import {
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
-import { Panel, Fade } from "rsuite";
+import { Panel } from "rsuite";
 
 class BuscarPaciente extends Component {
   constructor() {

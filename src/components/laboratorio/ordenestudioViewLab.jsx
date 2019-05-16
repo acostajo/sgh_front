@@ -14,32 +14,56 @@ import {
   Input
 } from "reactstrap";
 import axios from "axios";
-import Flatpickr from "react-flatpickr";
-import { Modal, Panel, Uploader, Icon } from "rsuite";
+import { Uploader, Icon, SelectPicker } from "rsuite";
 import "flatpickr/dist/themes/material_blue.css";
-import { FlexboxGrid } from "rsuite";
 import Calendar from "react-calendar";
+import { FormInput } from "semantic-ui-react";
 class OrdenEstudioViewLab extends Component {
   constructor() {
     super();
     this.state = {
       datosOrdenEstudio: {},
-      visible: false,
-      date: "",
+      datosTurno: [],
+      datosTurnoDist: [],
+      datosTurnoDistSelect: [],
+      turnoAgregar: {},
       archivo: {},
-      turno: ""
+      turno: "",
+      fechaTurno: "",
+      numeroTruno: "",
+      horarioTurno: ""
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
     this.handleDrop = this.handleDrop.bind(this);
     this.upload = this.upload.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.validarTurno = this.validarTurno.bind(this);
+    this.onSelectTurno = this.onSelectTurno.bind(this);
+    this.onSelectNumTurno = this.onSelectNumTurno.bind(this);
+    this.handleAddTurno = this.handleAddTurno.bind(this);
   }
+
   onDismiss() {
     this.setState({ visible: false });
   }
+
   handleDrop(fileList) {
     this.setState({ archivo: fileList[0] });
     console.log(this.state.archivo);
+  }
+
+  handleChange(e) {
+    const target = e.target;
+    let fields = this.state;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    fields[name] = value;
+
+    this.setState({
+      datosFicha: fields
+    });
   }
 
   async upload() {
@@ -82,29 +106,137 @@ class OrdenEstudioViewLab extends Component {
       });
   }
 
+  validarTurno() {
+    var turnos = this.state.datosTurno;
+    var list = turnos.filter(item => {
+      return item.fechaturno === this.state.fechaTurno;
+    });
+
+    if (list.length !== 0) {
+      console.log("validar que no sea el mismo turno");
+    }
+  }
+
+  onSelectTurno(value, item, event) {
+    var list = this.state.datosTurnoDist;
+    var list2 = this.state.datosTurno.filter(item => {
+      return item.fechaturno === this.state.fechaTurno;
+    });
+    var listTurnos = [];
+
+    var turnos = list.filter(item => {
+      return item.turno === value;
+    });
+
+    for (let i = 0; i < turnos.length; i++) {
+      const obj = {
+        label: turnos[i].desturno,
+        value: turnos[i]
+      };
+      if (list2.length === 0) {
+        listTurnos.push(obj);
+      } else {
+        for (let j = 0; j < list2.length; j++) {
+          if (obj.value.codturnodist !== list2[j].codturnodist) {
+            listTurnos.push(obj);
+          }
+        }
+      }
+    }
+    this.setState({ turno: value, datosTurnoDistSelect: listTurnos });
+  }
+
+  onSelectNumTurno(value, item, event) {
+    const turno = {
+      codturnodist: value.codturnodist,
+      codficha: this.props.match.params.codficha,
+      codordenestudio: this.props.match.params.codordenestudio,
+      fechaturno: this.state.fechaTurno,
+      estado: "Agendado"
+    };
+    this.setState({ turnoAgregar: turno });
+    console.log(turno);
+  }
+
+  async handleAddTurno() {
+    console.log(this.state.turnoAgregar);
+    const url = "http://127.0.0.1:8000/api/turno/";
+    const url2 =
+      "http://127.0.0.1:8000/api/ordenestudio/" +
+      this.props.match.params.codordenestudio +
+      "/";
+    await axios
+      .post(url, this.state.turnoAgregar)
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    await axios
+      .put(url2, { estado: "Agendado" })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
   async componentWillMount() {
     const cod = this.props.match.params.codordenestudio;
-
     const url1 = "http://127.0.0.1:8000/api/ordenestudio?codordenestudio=";
+    const url2 = "http://127.0.0.1:8000/api/turno_dist";
+    const url3 = "http://127.0.0.1:8000/api/turno";
     let datosOrdenEstudio = {};
-
-    console.log(cod);
+    let datosTurnoDist = [];
+    let datosTurno = [];
+    //datos de la orden de estudio
     await axios
       .get(url1 + cod)
       .then(function(response) {
-        console.log(response.data[0]);
         datosOrdenEstudio = response.data[0];
       })
       .catch(function(error) {
         console.log(error);
       });
-
+    //datos de la distribucion de turnos
+    await axios
+      .get(url2)
+      .then(function(response) {
+        datosTurnoDist = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    //datos de los turnos existentes
+    await axios
+      .get(url3)
+      .then(function(response) {
+        datosTurno = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    //se asignan los states
     this.setState({
-      datosOrdenEstudio: datosOrdenEstudio
+      datosOrdenEstudio: datosOrdenEstudio,
+      datosTurnoDist: datosTurnoDist,
+      datosTurno: datosTurno
     });
-    console.log(this.state.datosOrdenEstudio); //trae bien, trae bien? el cod digo no el contenido
+    console.log(this.state.datosTurno);
   }
   render() {
+    const data = [
+      {
+        label: "Mañana",
+        value: "Mañana"
+      },
+      {
+        label: "Tarde",
+        value: "Tarde"
+      }
+    ];
     return (
       <Container>
         <Alert color="info" isOpen={this.state.visible} toggle={this.onDismiss}>
@@ -135,8 +267,6 @@ class OrdenEstudioViewLab extends Component {
                         <p>{this.state.datosOrdenEstudio.estado}</p>
                       </FormGroup>
                     </Col>
-                  </Row>
-                  <Row>
                     <Col>
                       <FormGroup>
                         <Label>
@@ -144,94 +274,92 @@ class OrdenEstudioViewLab extends Component {
                         </Label>
                         <p>{this.state.datosOrdenEstudio.observacion}</p>
                       </FormGroup>
-                    </Col>{" "}
-                  </Row>
-                  <Row>
-                    <Col>
-                      <Card style={{ padding: 20, marginBottom: 10 }}>
-                        <h5>Agregar Archivo</h5>
-                        <Uploader
-                          autoUpload={false}
-                          action="http://127.0.0.1:8000/archivo/upload/"
-                          onChange={this.handleDrop}
-                        >
-                          <Icon icon="file" style={{ fontSize: 40 }} />
-                        </Uploader>
-                      </Card>
-                      <Button onClick={this.upload}> Subir</Button>
                     </Col>
                   </Row>
+                  {this.state.datosOrdenEstudio.estado === "Agendado" ? (
+                    <Row>
+                      <Col>
+                        <Card style={{ padding: 20, marginBottom: 10 }}>
+                          <h5>Agregar Archivo</h5>
+                          <Uploader
+                            autoUpload={false}
+                            action="http://127.0.0.1:8000/archivo/upload/"
+                            onChange={this.handleDrop}
+                          >
+                            <Icon icon="file" style={{ fontSize: 40 }} />
+                          </Uploader>
+                        </Card>
+                        <Button onClick={this.upload}> Subir</Button>
+                      </Col>
+                    </Row>
+                  ) : null}
                 </Form>
               </CardBody>
             </Card>
           </Col>
-          <Col>
-            <Card style={{ padding: 20 }}>
-              <Row>
-                <Col>
-                  <FormGroup>
+          {this.state.datosOrdenEstudio.estado === "Pendiente" ? (
+            <Col>
+              <Card style={{ padding: 20 }}>
+                <Row>
+                  <Col style={{ paddingLeft: 90 }}>
                     <Calendar
-                      onChange={this.handleChange}
-                      value={this.state.date}
-                      name="date"
+                      onChange={e => {
+                        var fechaTurno = e.toISOString().substr(0, 10);
+                        this.setState({ fechaTurno: fechaTurno });
+                      }}
+                      name="fechaTurno"
                     />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label for="tipodocumento">Turno</Label>
-                    <Input
-                      type="select"
-                      onChange={this.handleChange}
-                      value={this.state.turno}
-                      name="turno"
-                      id="turno"
-                    >
-                      <option>Mañana</option>
-                      <option>Tarde</option>
-                    </Input>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label for="tipodocumento">Numero de Turno</Label>
-                    <Input
-                      type="text"
-                      onChange={this.handleChange}
-                      value={this.state.turno}
-                      name="turno"
-                      id="turno"
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label for="tipodocumento">Horario</Label>
-                    <Input
-                      type="text"
-                      onChange={this.handleChange}
-                      value={this.state.turno}
-                      name="turno"
-                      id="turno"
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Button>Agendar</Button>
-                  </FormGroup>
-                </Col>
-              </Row>
-            </Card>
-          </Col>
+                  </Col>
+                </Row>
+                <Row style={{ marginTop: 20 }}>
+                  <Col>
+                    <h3>Fecha: {this.state.fechaTurno}</h3>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <FormGroup>
+                      <Label>Turno </Label>
+                      <FormInput>
+                        <SelectPicker
+                          data={data}
+                          style={{ width: 224 }}
+                          searchable={false}
+                          defaultValue={data[0]}
+                          placeholder="Seleccionar"
+                          onSelect={this.onSelectTurno}
+                        />
+                      </FormInput>
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <FormGroup>
+                      <Label>Numero de Turno</Label>
+                      <FormInput>
+                        <SelectPicker
+                          data={this.state.datosTurnoDistSelect}
+                          style={{ width: 224 }}
+                          onSelect={this.onSelectNumTurno}
+                          placeholder="Seleccionar"
+                          searchable={false}
+                          defaultValue={this.state.datosTurnoDistSelect[0]}
+                        />
+                      </FormInput>
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <FormGroup>
+                      <Button onClick={this.handleAddTurno}>Agendar</Button>
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+          ) : null}
         </Row>
       </Container>
     );
