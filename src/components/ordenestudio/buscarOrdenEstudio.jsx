@@ -48,7 +48,10 @@ class BuscarOrdenEstudio extends Component {
     let respuesta;
 
     const url_usar =
-      url1 + this.state.fechaOrdenEstudio + codficha + this.props.codficha;
+      url1 +
+      this.state.fechaOrdenEstudio +
+      codficha +
+      this.props.match.params.codficha;
     console.log(url_usar);
     await axios
       .get(url_usar) //y asi queda concatenado todo, si no hay fecha igual trae solo lo de esa ficha, vamos a probar
@@ -78,13 +81,16 @@ class BuscarOrdenEstudio extends Component {
     list = this.state.listaOrdenEstudio;
     console.log(list);
     return (
-      <Container>
+      <Container style={{ marginTop: 20, marginLeft: 100 }}>
         <Row>
           <Col>
+            <h3>Búsqueda por Fecha Orden de Estudio</h3>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="5">
             <FormGroup>
-              <Label for="fechaOrdenEstudio">
-                Buscar por Fecha Orden de Estudio
-              </Label>
+              <Label for="fechaOrdenEstudio" />
               <Input
                 type="date"
                 onChange={this.handleChange}
@@ -93,10 +99,13 @@ class BuscarOrdenEstudio extends Component {
                 id="fechaOrdenEstudio"
               />
             </FormGroup>
+          </Col>
+          <Col xs="2.5" style={{ marginTop: 20 }}>
             <Button onClick={this.handleSearch} color="primary">
               Buscar
             </Button>
-            {"   "}
+          </Col>
+          <Col style={{ marginTop: 20 }}>
             <Button onClick={this.handleAdd} color="primary">
               <Link
                 to={`/ordenestudio/${this.props.codficha}`}
@@ -107,6 +116,7 @@ class BuscarOrdenEstudio extends Component {
             </Button>
           </Col>
         </Row>
+
         <hr />
         <Container>
           <Row>

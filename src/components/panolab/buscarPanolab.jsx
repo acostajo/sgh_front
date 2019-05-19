@@ -43,11 +43,15 @@ class BuscarPanolab extends Component {
   async handleSearch() {
     const url1 = "http://127.0.0.1:8000/api/panolab?fechapanolab=";
     const codficha = "&codficha=";
+
     let listado = [];
     let respuesta;
 
     const url_usar =
-      url1 + this.state.fechaPanolab + codficha + this.props.codficha;
+      url1 +
+      this.state.fechaPanolab +
+      codficha +
+      this.props.match.params.codficha;
     console.log(url_usar);
     await axios
       .get(url_usar) //y asi queda concatenado todo, si no hay fecha igual trae solo lo de esa ficha, vamos a probar
@@ -77,13 +81,17 @@ class BuscarPanolab extends Component {
     list = this.state.listaPanolab;
     console.log(list);
     return (
-      <Container>
+      <Container style={{ marginTop: 20, marginLeft: 100 }}>
         <Row>
           <Col>
+            <h3>Búsqueda por Fecha Panorámica de Laboratorio</h3>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col xs="5">
             <FormGroup>
-              <Label for="fechaPanolab">
-                Buscar por Fecha Panorámica de Laboratorio
-              </Label>
+              <Label for="fechaPanolab" />
               <Input
                 type="date"
                 onChange={this.handleChange}
@@ -92,10 +100,13 @@ class BuscarPanolab extends Component {
                 id="fechaPanolab"
               />
             </FormGroup>
+          </Col>
+          <Col xs="2.5" style={{ marginTop: 20 }}>
             <Button onClick={this.handleSearch} color="primary">
               Buscar
             </Button>
-            {"   "}
+          </Col>
+          <Col style={{ marginTop: 20 }}>
             <Button onClick={this.handleAdd} color="primary">
               <Link
                 to={`/panolab/${this.props.codficha}`}
@@ -106,14 +117,19 @@ class BuscarPanolab extends Component {
             </Button>
           </Col>
         </Row>
+
         <hr />
         <Container>
           <Row>
             <Col>
               <ListGroup>
                 {list.map(item => (
-                  <ListGroupItem>
-                    <ListGroupItemHeading>
+                  <ListGroupItem
+                    style={{ backgroundColor: "#F9FCFB", marginBottom: 20 }}
+                  >
+                    <ListGroupItemHeading
+                      style={{ backgroundColor: "#F9FCFB" }}
+                    >
                       <Link
                         to={`/panolab_view/${item.codpanolab}/${item.codficha}`}
                       >
@@ -122,12 +138,14 @@ class BuscarPanolab extends Component {
                       </Link>
                     </ListGroupItemHeading>
                     <ListGroupItemText>
-                      <p>
-                        <strong>Prótesis: </strong> {item.protesis}
-                      </p>
-                      <p>
-                        <strong>Observación: </strong> {item.observacion}
-                      </p>
+                      <Row>
+                        <Col>
+                          <strong>Prótesis: </strong> {item.protesis}
+                        </Col>
+                        <Col>
+                          <strong>Observación: </strong> {item.observacion}
+                        </Col>
+                      </Row>
                     </ListGroupItemText>
                   </ListGroupItem>
                 ))}

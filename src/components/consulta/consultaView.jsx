@@ -25,6 +25,7 @@ import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "./estilos.css";
 import "react-input-range/lib/css/index.css";
+
 class ConsultaView extends Component {
   constructor() {
     super();

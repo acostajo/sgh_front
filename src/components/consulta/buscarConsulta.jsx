@@ -10,6 +10,9 @@ import {
   ListGroupItemHeading,
   ListGroupItemText,
   Col,
+  Card,
+  CardHeader,
+  CardBody,
   FormGroup,
   Label,
   Input
@@ -17,6 +20,9 @@ import {
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import { Alert } from "rsuite";
+import { Panel } from "rsuite";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import Consulta from "../consulta/consultaForm";
 
 class BuscarConsulta extends Component {
   constructor() {
@@ -47,9 +53,15 @@ class BuscarConsulta extends Component {
     const codficha = "&codficha=";
     let listado = [];
     let respuesta;
+    console.log(this.props.match.params.codficha); //y en esta parte del handle search de los demas nomas tenes que tocarle,
 
     await axios
-      .get(url1 + this.state.fechaConsulta + codficha + this.props.codficha) //y asi queda concatenado todo, si no hay fecha igual trae solo lo de esa ficha, vamos a probar
+      .get(
+        url1 +
+          this.state.fechaConsulta +
+          codficha +
+          this.props.match.params.codficha
+      ) //y asi queda concatenado todo, si no hay fecha igual trae solo lo de esa ficha, vamos a probar
       .then(function(response) {
         if (response.data[0] === undefined) {
           respuesta = null;
@@ -92,76 +104,91 @@ class BuscarConsulta extends Component {
     list = this.state.listaConsulta;
     console.log(list);
     return (
-      <Container>
+      <Container style={{ marginTop: 20, marginLeft: 100 }}>
         <Row>
           <Col>
-            <FormGroup>
-              <Label for="fechaConsulta">Buscar por Fecha Consulta</Label>
-              <Input
-                type="date"
-                onChange={this.handleChange}
-                value={this.state.fechaConsulta}
-                name="fechaConsulta"
-                id="fechaConsulta"
-              />
-            </FormGroup>
-            <Button onClick={this.handleSearch} color="primary">
-              Buscar
-            </Button>
-            {"          "}
-            <Button
-              style={{ float: "rigth" }}
-              onClick={this.handleAdd}
-              color="primary"
-            >
-              <Link
-                to={`/consulta/${this.props.codficha}`}
-                style={{ color: "white" }}
-              >
-                Agregar Consulta
-              </Link>
-            </Button>
+            <h3>Búsqueda por Fecha Consulta</h3>
           </Col>
         </Row>
+
+        <div class="col-50 align-self-center" style={{ display: "flex" }}>
+          <Row>
+            <Col xs="5">
+              <FormGroup>
+                <Label for="fechaConsulta" />
+                <Input
+                  type="date"
+                  onChange={this.handleChange}
+                  value={this.state.fechaConsulta}
+                  name="fechaConsulta"
+                  id="fechaConsulta"
+                />
+              </FormGroup>
+            </Col>
+
+            <Col xs="2" style={{ marginTop: 20 }}>
+              <Button onClick={this.handleSearch} color="primary">
+                Buscar
+              </Button>
+            </Col>
+            <Col style={{ marginTop: 20 }}>
+              <Button
+                style={{ float: "rigth" }}
+                onClick={this.handleAdd}
+                color="primary"
+              >
+                <Link
+                  to={`/consulta/${this.props.codficha}`}
+                  style={{ color: "white" }}
+                >
+                  Agregar Consulta
+                </Link>
+              </Button>
+            </Col>
+          </Row>
+        </div>
+
         <hr />
-        <Container>
+        <Container style={{ marginTop: 20 }}>
           <Row>
             <Col>
-              <ListGroup>
-                {list.map(item => (
-                  <ListGroupItem>
-                    <ListGroupItemHeading>
-                      {/*<Link to={`/consulta_view/${item.codconsulta}`}>
+              {list.map(item => (
+                <ListGroupItem
+                  style={{ backgroundColor: "#F9FCFB", marginBottom: 20 }}
+                >
+                  <ListGroupItemHeading style={{ backgroundColor: "#F9FCFB" }}>
+                    {/*<Link to={`/consulta_view/${item.codconsulta}`}>
                         {" "}
                         <h4>{item.fechaconsulta}</h4>
                 </Link>*/}
-                      <Link
-                        to={`/consulta_view/${item.codconsulta}/${
-                          item.codficha
-                        }`}
-                      >
-                        <h4>{item.fechaconsulta}</h4>
-                      </Link>
-                    </ListGroupItemHeading>
-                    <ListGroupItemText>
-                      <p>
-                        <strong>Diagnostico: </strong> {item.diagnostico}
-                      </p>
-                      <p>
-                        <strong>Limitacion: </strong> {item.limitacion}
-                      </p>
-                      <p>
-                        <strong>Motivo Limitacion: </strong>{" "}
+                    <Link
+                      to={`/consulta_view/${item.codconsulta}/${item.codficha}`}
+                    >
+                      <h4>{item.fechaconsulta}</h4>
+                    </Link>
+                  </ListGroupItemHeading>
+                  <ListGroupItemText>
+                    <Row>
+                      <Col>
+                        <strong>Diagnóstico: </strong> {item.diagnostico}
+                      </Col>
+                      <Col>
+                        <strong>Limitación: </strong> {item.limitacion}
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <strong>Motivo Limitación: </strong>{" "}
                         {item.limitacionmotivo}
-                      </p>
-                      <p>
+                      </Col>
+                      <Col>
                         <strong>Tratamiento Actual: </strong>{" "}
                         {item.tratamientoactual}
-                      </p>
-                    </ListGroupItemText>
-                  </ListGroupItem>
-                ))}
-              </ListGroup>
+                      </Col>
+                    </Row>
+                  </ListGroupItemText>
+                </ListGroupItem>
+              ))}
             </Col>
           </Row>
         </Container>
