@@ -101,7 +101,8 @@ class FichaView extends Component {
   }
 
   async handleDelete() {
-    const cod = this.props.codficha; //direccto accedes, yaa, y eso nomas es, que te falta ahora?
+    //const cod = this.props.codficha; //direccto accedes, yaa, y eso nomas es, que te falta ahora?
+    const cod = this.props.match.params.codficha;
     const url1 = "http://127.0.0.1:8000/api/ficha/";
     const response = await axios.delete(url1 + cod);
     console.log(response.status);
@@ -113,7 +114,9 @@ class FichaView extends Component {
   }
 
   async componentWillMount() {
-    const cod = this.props.codficha;
+    //const cod = this.props.codficha;
+    console.log(this.props.match.params.codficha);
+    const cod = this.props.match.params.codficha;
     const url1 = "http://127.0.0.1:8000/api/ficha?codficha=";
     const url2 = "http://127.0.0.1:8000/api/famesficha/?codficha=";
     const url3 = "http://127.0.0.1:8000/api/fames/?codfame=";
@@ -311,147 +314,7 @@ class FichaView extends Component {
 
   render() {
     return (
-      <Container>
-        <Card style={{ backgroundColor: "#F9FCFB" }}>
-          <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
-            <h3>Datos Personales</h3>
-          </CardHeader>
-          <CardBody>
-            <Form>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Nombres:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.nombres}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Apellidos:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.apellidos}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Fecha de Inclusión:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.fechainclusion}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Tipo Documento:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.tipodocumento}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Nro. Documento:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.nrodocumento}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Procedencia:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.procedencia}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>FN:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.fechanaci}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Telef:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.telefono}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Nacionalidad:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.nacionalidad}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>E. Civil:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.estadocivil}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Sexo:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.sexo}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Escolaridad:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.escolaridad}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Profesión:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.profesion}</p>
-                  </FormGroup>
-                </Col>
-                <Col />
-                <Col />
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Dx:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.diagnostico}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Fecha de Dx:</strong>
-                    </Label>
-                    <p>{this.state.datosficha.fechadiagnos}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-            </Form>
-          </CardBody>
-        </Card>
-        <hr />
+      <Container style={{ marginTop: 20 }}>
         <Card style={{ backgroundColor: "#F9FCFB" }}>
           <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
             <h3>Datos de la Ficha HA</h3>
