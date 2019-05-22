@@ -798,7 +798,11 @@ class FichaView extends Component {
         </Card>
 
         <FormGroup>
-          <Link to={`/ficha_edit/${this.state.datosficha.codficha}`}>
+          <Link
+            to={`/menu_ficha/${this.state.datosficha.codficha}/ficha_edit/${
+              this.state.datosficha.codficha
+            }`}
+          >
             <Button color="success" style={{ marginTop: 20 }}>
               Modificar
             </Button>

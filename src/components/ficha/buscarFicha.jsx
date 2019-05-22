@@ -205,7 +205,11 @@ class BuscarFicha extends Component {
                     <Card style={{ backgroundColor: "#F9FCFB" }}>
                       <Panel style={{ backgroundColor: "#F9FCFB" }}>
                         <Col>
-                          <Link to={`/menu_ficha/${item.codficha}`}>
+                          <Link
+                            to={`/menu_ficha/${item.codficha}/ficha_view/${
+                              item.codficha
+                            }`}
+                          >
                             <h3>
                               {item.nombres} {item.apellidos}{" "}
                             </h3>

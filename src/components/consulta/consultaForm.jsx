@@ -28,6 +28,7 @@ import "./estilos.css";
 import "react-input-range/lib/css/index.css";
 import EfectoAdverso from "./../efectoadverso/efectoAdversoForm";
 import { Alert } from "rsuite";
+import SweetAlert from "react-bootstrap-sweetalert";
 const ColoredLine = ({ color }) => (
   <hr
     style={{
@@ -44,6 +45,9 @@ class Consulta extends Component {
   constructor() {
     super();
     this.state = {
+      codConsultaReturn: "", //necesitamos guardar el codconsulta que retorna
+      //alert
+      alertCreado: false,
       ///rangos
       CDAI_RANGO: "",
       SDAI_RANGO: "",
@@ -183,6 +187,20 @@ class Consulta extends Component {
     this.eliminarEfecto = this.eliminarEfecto.bind(this);
     this.handleOnSelect = this.handleOnSelect.bind(this);
     this.handleOnSelectAll = this.handleOnSelectAll.bind(this);
+    this.alertConfirm = this.alertConfirm.bind(this);
+  }
+  alertConfirm() {
+    this.setState({ alertCreado: false });
+    this.props.history.push(
+      "/menu_ficha/" +
+        parseInt(this.props.match.params.codficha) +
+        "/buscar_consulta/" +
+        parseInt(this.props.match.params.codficha) +
+        "/consulta_view/" +
+        this.state.codConsultaReturn +
+        "/" +
+        parseInt(this.props.match.params.codficha)
+    );
   }
 
   handleOnSelectAll = (isSelect, rows) => {
@@ -438,15 +456,16 @@ class Consulta extends Component {
           response.codconsulta !== undefined &&
           response.codconsulta !== null
         ) {
-          codconsulta = response.codconsulta;
-          console.log(response);
-          Alert.success("La Consulta fue cargada con éxito!", 5000);
+          codconsulta = response.codconsulta; //aca le agarramos cuando te responde ya
+          console.log(response); //viste q hay se pasa el codconsulta q viene de aca digamos
+          this.setState({ alertCreado: true, codConsultaReturn: codconsulta }); //aca vas aponerle en vez de este un this.setState({alertCreado: true}), ese alertCreado va ser tu state y la funcion que va tener aca
           /* this.props.history.push(
-            "/consulta_view/" + this.props.match.params.codconsulta
-          );*/
+            "/consulta_view/" + this.props.match.params.codconsulta // si lo mismo es, si pero tenemos que poner tooodo el path como esta aca
+          );*/ // esto pero tipo se va a la pag sin mostrar ese mensje, ya que al darle ok se vaya a la view o algo asi? si, ok vamos aver como
         }
       });
 
+    console.log(this.state.alertCreado);
     this.handleAddEfecto(codconsulta);
   }
 
@@ -653,10 +672,10 @@ class Consulta extends Component {
 
   render() {
     return (
-      <Container>
+      <Container style={{ marginTop: 20 }}>
         <Card style={{ backgroundColor: "#F9FCFB" }}>
           <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
-            <h3>Datos</h3>
+            <h3>Datos de Consulta</h3>
           </CardHeader>
           <CardBody>
             <Form>
@@ -1608,6 +1627,13 @@ class Consulta extends Component {
         >
           Agregar
         </Button>
+        <SweetAlert
+          success
+          onConfirm={this.alertConfirm}
+          show={this.state.alertCreado}
+        >
+          Consulta agregada con éxito!
+        </SweetAlert>
         <Button
           color="secondary"
           onClick={this.calcularScores}

@@ -25,6 +25,7 @@ import Fame from "./../fames/famesForm";
 import Comorbilidad from "./../comorbilidades/comorForm";
 import EventoCardiovascular from "./../eventocardiovascular/eventocardiovascularForm";
 import Manifestaciones from "./../manifestaciones/manifestaciones";
+import SweetAlert from "react-bootstrap-sweetalert";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -42,6 +43,9 @@ class Ficha extends Component {
   constructor() {
     super();
     this.state = {
+      codFichaReturn: "", //necesitamos guardar el codconsulta que retorna
+      //alert
+      alertCreado: false,
       errores: {},
       visible: false,
       aviso: false,
@@ -252,6 +256,18 @@ class Ficha extends Component {
     this.eliminarMani = this.eliminarMani.bind(this);
     this.eliminarComor = this.eliminarComor.bind(this);
     this.eliminarEvento = this.eliminarEvento.bind(this);
+    this.alertConfirm = this.alertConfirm.bind(this);
+  }
+
+  alertConfirm() {
+    this.setState({ alertCreado: false });
+    console.log(this.state.codFichaReturn);
+    this.props.history.push(
+      "/menu_ficha/" +
+        this.state.codFichaReturn +
+        "/ficha_view/" +
+        this.state.codFichaReturn
+    );
   }
 
   eliminarFame() {
@@ -480,10 +496,14 @@ class Ficha extends Component {
       const comorbilidad = {
         codenfermedad: this.state.comorSelected.codenfermedad,
         nombre: this.state.comorSelected.nombre,
-        fechadiagnostico: this.state.comorSelected.fechaDxComor //*** si no es el mismo nombe de la ficha, no  paorque es de otro formulario luego
+        fechadiagnostico: this.state.fechaDxComor //*** si no es el mismo nombe de la ficha, no  paorque es de otro formulario luego
       };
       comorList.push(comorbilidad);
-      console.log("fame a ser agregado" + this.state.comorSelected.nombre);
+      console.log(
+        "comorbilidad a ser agregado" +
+          this.state.comorSelected.nombre +
+          this.state.fechaDxComor
+      );
       this.setState({
         comorListTable: comorList,
         comorSelected: null,
@@ -560,25 +580,30 @@ class Ficha extends Component {
   async validarCedula(e) {
     const url1 = "http://127.0.0.1:8000/api/ficha?nrodocumento=";
     let error = false;
-    await axios
-      .get(url1 + this.state.datosFicha.nrodocumento)
-      .then(function(response) {
-        if (response.data.length > 0) {
-          //aviso = true;
-          Alert.warning(
-            "El Nro de documento ya esta asociada a otra ficha...",
-            5000
-          );
-          error = !error;
-        } else {
-          //aviso = false;
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    if (this.state.datosFicha.nrodocumento === "") {
+      Alert.warning("El Nro de documento no puede estar vacío...", 5000);
+      return !error;
+    } else {
+      await axios
+        .get(url1 + this.state.datosFicha.nrodocumento)
+        .then(function(response) {
+          if (response.data.length > 0) {
+            //aviso = true;
+            Alert.warning(
+              "El Nro de documento ya esta asociada a otra ficha...",
+              5000
+            );
 
-    return error;
+            error = !error;
+          } else {
+            //aviso = false;
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+      return error;
+    }
   }
 
   onDismissVisivle() {
@@ -703,7 +728,8 @@ class Ficha extends Component {
         if (response.codficha !== undefined && response.codficha !== null) {
           codficha = response.codficha;
           console.log(response);
-          Alert.success("La ficha fue cargada con éxito!", 10000);
+          this.setState({ alertCreado: true, codFichaReturn: codficha });
+          // Alert.success("La ficha fue cargada con éxito!", 10000);
         }
       });
 
@@ -2001,6 +2027,13 @@ class Ficha extends Component {
           >
             Crear
           </Button>
+          <SweetAlert
+            success
+            onConfirm={this.alertConfirm}
+            show={this.state.alertCreado}
+          >
+            Ficha HA agregada con éxito!
+          </SweetAlert>
         </Form>
       </Container>
     );

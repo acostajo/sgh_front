@@ -71,7 +71,7 @@ class OrdenEstudioView extends Component {
 
   async componentWillMount() {
     const cod = this.props.match.params.codordenestudio;
-
+    console.log(this.props.match.params.codordenestudio);
     const url1 = "http://127.0.0.1:8000/api/ordenestudio?codordenestudio=";
     let datosOrdenEstudio = {};
 

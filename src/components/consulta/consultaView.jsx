@@ -25,6 +25,9 @@ import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "./estilos.css";
 import "react-input-range/lib/css/index.css";
+import { render } from "react-dom";
+
+import SweetAlert from "react-bootstrap-sweetalert";
 
 class ConsultaView extends Component {
   constructor() {
@@ -32,6 +35,9 @@ class ConsultaView extends Component {
     this.state = {
       datosConsulta: {},
       visible: false,
+      showDeclarative: false,
+      confirmDelete: false,
+      confirmCancel: false,
       efectoSelected: {},
       efecto: "",
       efectoList: [],
@@ -50,6 +56,9 @@ class ConsultaView extends Component {
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
+    this.onCancelDelete = this.onCancelDelete.bind(this);
+    this.alertDelete = this.alertDelete.bind(this);
+    this.alertCancel = this.alertCancel.bind(this);
   }
   onDismiss() {
     this.setState({ visible: false });
@@ -61,9 +70,12 @@ class ConsultaView extends Component {
     const response = await axios.delete(url1);
     console.log(this.props.match.params.codficha);
     if (response.status === 204) {
-      Alert.success("La Consulta ha sido eliminada con éxito"); //con este avisas
+      Alert.success("La Consulta ha sido eliminada con éxito"); //con este avisascmenta nomas, ok
       this.props.history.push(
-        "/menu_ficha/" + this.props.match.params.codficha // y con este mandas al menu de la fi
+        "/menu_ficha/" +
+          this.props.match.params.codficha +
+          "/ficha_view/" +
+          this.props.match.params.codficha // y con este mandas al menu de la fi
       );
     }
   }
@@ -130,11 +142,28 @@ class ConsultaView extends Component {
     this.setState({ efectoListTable: listEfecto });
   }
 
+  onCancelDelete = function() {
+    this.setState({
+      confirmCancel: !this.state.confirmCancel
+    });
+  };
+
+  alertDelete() {
+    this.setState({ confirmDelete: !this.state.confirmDelete });
+  }
+
+  alertCancel = function() {
+    this.setState({
+      confirmCancel: !this.state.confirmCancel,
+      confirmDelete: !this.state.confirmDelete
+    });
+  };
+
   render() {
     return (
-      <Container>
+      <Container style={{ marginTop: 20 }}>
         <Card style={{ backgroundColor: "#F9FCFB" }}>
-          <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
+          <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
             <h3>Datos Consulta</h3>
           </CardHeader>
 
@@ -961,11 +990,33 @@ class ConsultaView extends Component {
 
         <FormGroup>
           <Button
-            onClick={this.handleDelete}
+            onClick={this.alertDelete}
             color="danger"
             style={{ marginTop: 20 }}
           >
             Eliminar
+            <SweetAlert
+              warning
+              showCancel
+              allowEscape
+              show={this.state.confirmDelete}
+              confirmBtnText="Sí, Eliminar Consulta"
+              confirmBtnBsStyle="danger"
+              cancelBtnBsStyle="default"
+              title="Are you sure?"
+              onConfirm={this.handleDelete}
+              onCancel={this.onCancelDelete}
+            >
+              ¿Estas seguro de Eliminar la Consulta?
+            </SweetAlert>
+            <SweetAlert
+              danger
+              title="Cancelado"
+              show={this.state.confirmCancel}
+              onConfirm={this.alertCancel}
+            >
+              Su consulta esta a salvo...
+            </SweetAlert>
           </Button>
         </FormGroup>
       </Container>

@@ -45,7 +45,7 @@ class PanolabView extends Component {
 
   async componentWillMount() {
     const cod = this.props.match.params.codpanolab;
-
+    console.log("Esto se imprimer porque carga la view");
     const url1 = "http://127.0.0.1:8000/api/panolab?codpanolab=";
     let datosPanolab = {};
 
