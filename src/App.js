@@ -47,11 +47,6 @@ class App extends Component {
               component={OrdenEstudioViewLab}
             />
 
-            <Route
-              path="/panolab_view/:codpanolab/:codficha"
-              component={PanolabView}
-            />
-            <Route path="/panolab/:codficha" component={Panolab} />
             <Route path="/ficha_edit/:codficha" component={FichaEdit} />
             <Route path="/ficha_buscar" component={BuscarFicha} />
             <Route path="/menu_ficha/:codficha" component={MenuFicha} />
@@ -61,7 +56,7 @@ class App extends Component {
             <Route path="/consulta/:codficha" component={Consulta} />
             <Route
               path="/consulta_view/:codconsulta/:codficha"
-              component={ConsultaView}
+              component={ConsultaView} //pero esta tambien consulta no es ese el problema
             />
           </Switch>
         </div>

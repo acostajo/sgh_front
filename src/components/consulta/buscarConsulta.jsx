@@ -96,12 +96,14 @@ class BuscarConsulta extends Component {
     console.log(
       url1 + this.state.fechaConsulta + codficha + this.props.codficha
     );
+    console.log(this.state.codconsulta);
   }
 
   render() {
     let list = [];
     list = this.state.listaConsulta;
     console.log(list);
+    console.log(this.props.match.params.codficha);
     return (
       <Container style={{ marginTop: 20, marginLeft: 100 }}>
         <Row>
@@ -137,7 +139,11 @@ class BuscarConsulta extends Component {
                 color="primary"
               >
                 <Link
-                  to={`/consulta/${this.props.codficha}`}
+                  to={`/menu_ficha/${
+                    this.props.match.params.codficha
+                  }/buscar_consulta/${
+                    this.props.match.params.codficha
+                  }/consulta/${this.props.match.params.codficha}`}
                   style={{ color: "white" }}
                 >
                   Agregar Consulta
@@ -161,7 +167,9 @@ class BuscarConsulta extends Component {
                         <h4>{item.fechaconsulta}</h4>
                 </Link>*/}
                     <Link
-                      to={`/consulta_view/${item.codconsulta}/${item.codficha}`}
+                      to={`/menu_ficha/${item.codficha}/buscar_consulta/${
+                        item.codficha
+                      }/consulta_view/${item.codconsulta}/${item.codficha}`}
                     >
                       <h4>{item.fechaconsulta}</h4>
                     </Link>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+
 import {
   Button,
   Container,
@@ -15,7 +15,15 @@ import {
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
+import {
+  Route,
+  Switch,
+  BrowserRouter as Router,
+  Link,
+  withRouter
+} from "react-router-dom";
 import { Alert } from "rsuite";
+import PanolabView from "./panolabView";
 
 class BuscarPanolab extends Component {
   constructor() {
@@ -74,12 +82,15 @@ class BuscarPanolab extends Component {
       });
     }
     console.log(url1 + this.state.fechaPanolab);
+    console.log(this.props.match.params.codficha);
+    console.log(this.props.match.params.codpanolab);
   }
 
   render() {
     let list = [];
     list = this.state.listaPanolab;
     console.log(list);
+
     return (
       <Container style={{ marginTop: 20, marginLeft: 100 }}>
         <Row>
@@ -109,7 +120,11 @@ class BuscarPanolab extends Component {
           <Col style={{ marginTop: 20 }}>
             <Button onClick={this.handleAdd} color="primary">
               <Link
-                to={`/panolab/${this.props.codficha}`}
+                to={`/menu_ficha/${
+                  this.props.match.params.codficha
+                }/buscar_panolab/${this.props.match.params.codficha}/panolab/${
+                  this.props.match.params.codficha //aca tiene que ser codpanolab, no ficha es. ese es para agregar nomas y todavia no vas a tener el codpanolab ,cierto
+                }`}
                 style={{ color: "white" }}
               >
                 Agregar Panorámica de Laboratorio
@@ -131,7 +146,16 @@ class BuscarPanolab extends Component {
                       style={{ backgroundColor: "#F9FCFB" }}
                     >
                       <Link
-                        to={`/panolab_view/${item.codpanolab}/${item.codficha}`}
+                        to={`/menu_ficha/${item.codficha}/buscar_panolab/${
+                          item.codficha
+                        }/panolab_view/${item.codpanolab}/${item.codficha}`}
+                        onClick={() => {
+                          console.log(
+                            `/menu_ficha/${item.codficha}/buscar_panolab/${
+                              item.codficha
+                            }/panolab_view/${item.codpanolab}/${item.codficha}`
+                          );
+                        }}
                       >
                         {" "}
                         <h4>{item.fechapanolab}</h4>

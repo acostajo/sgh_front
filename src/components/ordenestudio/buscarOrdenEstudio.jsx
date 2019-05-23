@@ -73,6 +73,8 @@ class BuscarOrdenEstudio extends Component {
     }
 
     console.log(url1 + this.state.fechaOrdenEstudio);
+
+    console.log(this.props.match.params.codficha);
   }
 
   render() {
@@ -107,7 +109,11 @@ class BuscarOrdenEstudio extends Component {
           <Col style={{ marginTop: 20 }}>
             <Button onClick={this.handleAdd} color="primary">
               <Link
-                to={`/ordenestudio/${this.props.codficha}`}
+                to={`/menu_ficha/${
+                  this.props.match.params.codficha
+                }/buscar_ordenestudio/${
+                  this.props.match.params.codficha
+                }/ordenestudio/${this.props.match.params.codficha}`}
                 style={{ color: "white" }}
               >
                 Agregar Orden de Estudio
@@ -122,20 +128,30 @@ class BuscarOrdenEstudio extends Component {
             <Col>
               <ListGroup>
                 {list.map(item => (
-                  <ListGroupItem>
-                    <ListGroupItemHeading>
-                      <Link to={`/ordenestudio_view/${item.codordenestudio}`}>
+                  <ListGroupItem
+                    style={{ backgroundColor: "#F9FCFB", marginBottom: 20 }}
+                  >
+                    <ListGroupItemHeading
+                      style={{ backgroundColor: "#F9FCFB" }}
+                    >
+                      <Link
+                        to={`/menu_ficha/${item.codficha}/buscar_ordenestudio/${
+                          item.codficha
+                        }/ordenestudio_view/${item.codordenestudio}`}
+                      >
                         {" "}
                         <h4>{item.fechaordenestudio}</h4>
                       </Link>
                     </ListGroupItemHeading>
                     <ListGroupItemText>
-                      <p>
-                        <strong>Estado: </strong> {item.estado}
-                      </p>
-                      <p>
-                        <strong>Observación: </strong> {item.observacion}
-                      </p>
+                      <Row>
+                        <Col>
+                          <strong>Estado: </strong> {item.estado}
+                        </Col>
+                        <Col>
+                          <strong>Tipo Estudio: </strong> {item.estudio}
+                        </Col>
+                      </Row>
                     </ListGroupItemText>
                   </ListGroupItem>
                 ))}

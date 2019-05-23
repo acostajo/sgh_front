@@ -15,6 +15,7 @@ import {
 import { Alert } from "rsuite";
 import axios from "axios";
 import Joi from "joi-browser";
+import SweetAlert from "react-bootstrap-sweetalert";
 const ColoredLine = ({ color }) => (
   <hr
     style={{
@@ -31,6 +32,9 @@ class Panolab extends Component {
   constructor() {
     super();
     this.state = {
+      codPanolabReturn: "",
+      //alert
+      alertCreado: false,
       errores: {},
       visible: false,
       datosPanolab: {
@@ -85,6 +89,20 @@ class Panolab extends Component {
     this.handleAdd = this.handleAdd.bind(this);
     this.onDismissVisivle = this.onDismissVisivle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.alertConfirm = this.alertConfirm.bind(this);
+  }
+  alertConfirm() {
+    this.setState({ alertCreado: false });
+    this.props.history.push(
+      "/menu_ficha/" +
+        parseInt(this.props.match.params.codficha) +
+        "/buscar_panolab/" +
+        parseInt(this.props.match.params.codficha) +
+        "/panolab_view/" +
+        this.state.codPanolabReturn +
+        "/" +
+        parseInt(this.props.match.params.codficha)
+    );
   }
 
   handleChange(e) {
@@ -132,8 +150,8 @@ class Panolab extends Component {
 
   async handleAdd() {
     let panolab = this.state.datosPanolab;
-    let codficha;
-    panolab["codficha"] = parseInt(this.props.match.params.codficha);
+    let codpanolab;
+    panolab["codficha"] = parseInt(this.props.match.params.codficha); //vamos a dejarle nomas jaja si vamos aprovar si func
 
     await fetch("http://127.0.0.1:8000/api/panolab/", {
       method: "POST", // or 'PUT'
@@ -149,12 +167,12 @@ class Panolab extends Component {
       // });
       .then(response => {
         if (response.codficha !== undefined && response.codficha !== null) {
-          codficha = response.codficha;
+          codpanolab = response.codpanolab;
           console.log(response);
-          Alert.success("La Ficha Panorámica fue cargada con éxito!", 5000);
-          this.props.history.push(
-            "/menu_ficha/" + this.props.match.params.codficha
-          );
+          this.setState({
+            alertCreado: true,
+            codPanolabReturn: codpanolab
+          });
         }
       });
     this.setState({ visible: !this.state.visible });
@@ -179,7 +197,7 @@ class Panolab extends Component {
 
   render() {
     return (
-      <Container>
+      <Container style={{ marginTop: 20 }}>
         <Form>
           <Card style={{ backgroundColor: "#F9FCFB" }}>
             <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
@@ -714,6 +732,13 @@ class Panolab extends Component {
           >
             Agregar
           </Button>
+          <SweetAlert
+            success
+            onConfirm={this.alertConfirm}
+            show={this.state.alertCreado}
+          >
+            Panoráminca de Laboratorio agregada con éxito!
+          </SweetAlert>
         </Form>
       </Container>
     );

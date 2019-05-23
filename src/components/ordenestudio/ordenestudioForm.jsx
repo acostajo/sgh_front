@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   Card,
-  Alert,
   Button,
   CardHeader,
   CardBody,
@@ -23,11 +22,26 @@ import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
+import SweetAlert from "react-bootstrap-sweetalert";
+import { Alert } from "rsuite";
+const ColoredLine = ({ color }) => (
+  <hr
+    style={{
+      color: color,
+      backgroundColor: color,
+      height: 150,
+      width: 2,
+      borderleft: 1
+    }}
+  />
+);
 
 class OrdenEstudio extends Component {
   constructor() {
     super();
     this.state = {
+      //alert
+      alertCreado: false,
       errores: {},
       aviso: false,
       toggleEstudio: false,
@@ -82,6 +96,10 @@ class OrdenEstudio extends Component {
     this.eliminarEstudio = this.eliminarEstudio.bind(this);
     this.onDismissVisivle = this.onDismissVisivle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.alertConfirm = this.alertConfirm.bind(this);
+  }
+  alertConfirm() {
+    this.setState({ alertCreado: false });
   }
 
   handleDrop(fileList) {
@@ -138,14 +156,20 @@ class OrdenEstudio extends Component {
   addEstudioToList() {
     let estudioList = this.state.estudioListTable;
     if (this.state.estudioSelected === null) {
-      return;
+      {
+        Alert.warning("El Tipo Estudio esta vacío", 5000);
+        console.log("vacio");
+        return;
+      }
     } else {
       for (let index = 0; index < estudioList.length; index++) {
         if (
           estudioList[index].codestudio ===
           this.state.estudioSelected.codestudio
-        )
+        ) {
+          Alert.warning("El Tipo Estudio ya fue agregado", 3000);
           return;
+        }
       }
       const estudio = {
         codestudio: this.state.estudioSelected.codestudio,
@@ -250,16 +274,9 @@ class OrdenEstudio extends Component {
 
   render() {
     return (
-      <Container>
-        <Alert
-          color="info"
-          isOpen={this.state.visible}
-          toggle={this.onDismissVisivle}
-        >
-          La Orden de Estudio fue cargada con exito!
-        </Alert>
+      <Container style={{ marginTop: 20 }}>
         <Card style={{ backgroundColor: "#F9FCFB" }}>
-          <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
+          <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
             <h3>Datos</h3>
           </CardHeader>
           <CardBody>

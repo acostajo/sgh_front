@@ -21,6 +21,7 @@ import Fame from "./../fames/famesForm";
 import Comorbilidad from "./../comorbilidades/comorForm";
 import EventoCardiovascular from "./../eventocardiovascular/eventocardiovascularForm";
 import Manifestaciones from "./../manifestaciones/manifestaciones";
+import SweetAlert from "react-bootstrap-sweetalert";
 const ColoredLine = ({ color }) => (
   <hr
     style={{
@@ -38,6 +39,10 @@ class FichaEdit extends Component {
     super();
     this.state = {
       errores: {},
+      codFichaReturn: "", //necesitamos guardar el codconsulta que retorna
+      //alert
+      alertCreado: false,
+      ///
       toggleFame: false,
       toggleComor: false,
       toggleEvento: false,
@@ -207,6 +212,18 @@ class FichaEdit extends Component {
     this.handleDeleteMani = this.handleDeleteMani.bind(this);
     this.handleDeleteFame = this.handleDeleteFame.bind(this);
     this.handleDeleteComor = this.handleDeleteComor.bind(this);
+    this.alertConfirm = this.alertConfirm.bind(this);
+  }
+
+  alertConfirm() {
+    this.setState({ alertCreado: false });
+    console.log(this.state.codFichaReturn);
+    this.props.history.push(
+      "/menu_ficha/" +
+        this.state.codFichaReturn +
+        "/ficha_view/" +
+        this.state.codFichaReturn
+    );
   }
 
   eliminarEvento() {
@@ -919,7 +936,16 @@ class FichaEdit extends Component {
         if (response.codficha !== undefined && response.codficha !== null) {
           codficha = response.codficha;
           console.log(response);
-          Alert.success("La ficha fue cargada con éxito!", 10000);
+          // Alert.success("La ficha fue cargada con éxito!", 10000);
+          /*if (this.setState.alertCreado === true) {
+            this.props.history.push(
+              "/menu_ficha/" +
+                this.props.match.params.codficha +
+                "/ficha_view/" +
+                this.props.match.params.codficha // y con este mandas al menu de la fi
+            );
+          }*/
+          this.setState({ alertCreado: true, codFichaReturn: codficha });
         }
       });
 
@@ -1213,9 +1239,9 @@ class FichaEdit extends Component {
 
   render() {
     return (
-      <Container>
+      <Container style={{ marginTop: 20 }}>
         <Card style={{ backgroundColor: "#F9FCFB" }}>
-          <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
+          <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
             <h3>Datos Personales</h3>
           </CardHeader>
           <CardBody>
@@ -1468,7 +1494,7 @@ class FichaEdit extends Component {
         <hr />
 
         <Card style={{ backgroundColor: "#F9FCFB" }}>
-          <CardHeader style={{ backgroundColor: "#0B1A25", color: "white" }}>
+          <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
             <h3>Datos de la Ficha HA</h3>
           </CardHeader>
           <CardBody>
@@ -2368,6 +2394,13 @@ class FichaEdit extends Component {
         >
           Guardar Cambios
         </Button>
+        <SweetAlert
+          success
+          onConfirm={this.alertConfirm}
+          show={this.state.alertCreado}
+        >
+          Ficha HA modificada con éxito!
+        </SweetAlert>
       </Container>
     );
   }

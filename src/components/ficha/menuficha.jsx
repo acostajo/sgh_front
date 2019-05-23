@@ -8,12 +8,13 @@ import React, { Component } from "react";
 import FichaView from "../ficha/fichaView";
 // import FichaEdit from "./components/ficha/fichaEdit";
 // import Panolab from "./components/panolab/panolabForm";
+import { Nav, Icon } from "rsuite";
 import {
   TabContent,
   TabPane,
-  Nav,
+  /*Nav,
   NavItem,
-  NavLink,
+  NavLink,*/
   CardTitle,
   CardText,
   Button,
@@ -36,27 +37,32 @@ import {
   withRouter
 } from "react-router-dom";
 import axios from "axios";
-import Panolab from "./../panolab/panolabForm";
 import BuscarPanolab from "./../panolab/buscarPanolab";
 import BuscarConsulta from "../consulta/buscarConsulta";
 import BuscarOrdenEstudio from "./../ordenestudio/buscarOrdenEstudio";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import blank_pic from "./blank_pic.png";
 import Consulta from "../consulta/consultaForm";
 import ConsultaView from "../consulta/consultaView";
+import Panolab from "../panolab/panolabForm";
+import PanolabView from "../panolab/panolabView";
+
+import OrdenEstudio from "../ordenestudio/ordenestudioForm";
+import OrdenEstudioView from "../ordenestudio/ordenestudioView";
+import FichaEdit from "../ficha/fichaEdit";
+
 //import { Col } from "rsuite";
 
 class MenuFicha extends Component {
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: "1",
+      tabactive: "ficha",
       codficha: this.props.match.params.codficha,
       datosFicha: {}
     };
+    this.onSelectActive = this.onSelectActive.bind(this);
   }
 
   async componentWillMount() {
@@ -80,15 +86,12 @@ class MenuFicha extends Component {
     });
   }
 
-  toggle(tab) {
-    console.log(this.state.codficha);
-    if (this.state.activeTab !== tab) {
-      this.setState({
-        activeTab: tab
-      });
-    }
+  onSelectActive(e) {
+    console.log(e);
+    this.setState({ tabactive: e });
   }
   render() {
+    const NavLink = props => <Nav.Item componentClass={Link} {...props} />;
     return (
       <div>
         <Row>
@@ -231,62 +234,96 @@ class MenuFicha extends Component {
 
           <div>
             <Container />
-            <Nav tabs>
-              <NavItem active>
+            <Nav
+              appearance="tabs"
+              activeKey={this.state.tabactive}
+              onSelect={this.onSelectActive}
+            >
+              <Nav.Item eventKey="ficha">
                 <NavLink
-                  tag={Link}
                   to={`/menu_ficha/${
                     this.state.datosFicha.codficha
                   }/ficha_view/${this.state.datosFicha.codficha}`}
+                  icon={<Icon icon="facebook-square" />}
                 >
                   Datos Ficha
                 </NavLink>
-              </NavItem>
-              <NavItem>
+              </Nav.Item>
+              <Nav.Item eventKey="consulta">
                 <NavLink
-                  tag={Link}
                   to={`/menu_ficha/${
                     this.state.datosFicha.codficha
                   }/buscar_consulta/${this.state.datosFicha.codficha}`}
+                  icon={<Icon icon="facebook-square" />}
                 >
                   Consulta
                 </NavLink>
-              </NavItem>
-              <NavItem>
+              </Nav.Item>
+              <Nav.Item eventKey="panolab">
                 <NavLink
-                  tag={Link}
                   to={`/menu_ficha/${
                     this.state.datosFicha.codficha
                   }/buscar_panolab/${this.state.datosFicha.codficha}`}
+                  icon={<Icon icon="facebook-square" />}
                 >
                   Panorámica de Laboratorio
                 </NavLink>
-              </NavItem>
-              <NavItem>
+              </Nav.Item>
+              <Nav.Item eventKey="orden">
                 <NavLink
-                  tag={Link}
                   to={`/menu_ficha/${
                     this.state.datosFicha.codficha
                   }/buscar_ordenestudio/${this.state.datosFicha.codficha}`}
+                  icon={<Icon icon="facebook-square" />}
                 >
                   Orden de Estudio
                 </NavLink>
-              </NavItem>
+              </Nav.Item>
             </Nav>
 
             <div className="content">
               <Switch>
                 <Route
+                  path="/menu_ficha/:codficha/ficha_edit/:codficha"
+                  component={FichaEdit}
+                />
+                <Route
                   path="/menu_ficha/:codficha/ficha_view/:codficha"
                   component={FichaView}
+                />
+
+                <Route
+                  path="/menu_ficha/:codficha/buscar_consulta/:codficha/consulta_view/:codconsulta/:codficha"
+                  component={ConsultaView}
+                />
+                <Route
+                  path="/menu_ficha/:codficha/buscar_consulta/:codficha/consulta/:codficha"
+                  component={Consulta}
                 />
                 <Route
                   path="/menu_ficha/:codficha/buscar_consulta/:codficha"
                   component={BuscarConsulta}
                 />
                 <Route
+                  path="/menu_ficha/:codficha/buscar_panolab/:codficha/panolab_view/:codpanolab/:codficha"
+                  component={PanolabView}
+                />
+                <Route
+                  path="/menu_ficha/:codficha/buscar_panolab/:codficha/panolab/:codficha"
+                  component={Panolab}
+                />
+                <Route
                   path="/menu_ficha/:codficha/buscar_panolab/:codficha"
                   component={BuscarPanolab}
+                />
+                <Route
+                  path="/menu_ficha/:codficha/buscar_ordenestudio/:codficha/ordenestudio_view/:codordenestudio"
+                  component={OrdenEstudioView}
+                />
+
+                <Route
+                  path="/menu_ficha/:codficha/buscar_ordenestudio/:codficha/ordenestudio/:codficha"
+                  component={OrdenEstudio}
                 />
                 <Route
                   path="/menu_ficha/:codficha/buscar_ordenestudio/:codficha"
