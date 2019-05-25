@@ -33,6 +33,7 @@
     "reactstrap": "^7.1.0",
     "rsuite": "^3.8.3",
     "semantic-ui-react": "^0.86.0",
+    "webfontloader": "^1.6.28",
     "yarn": "^1.15.2"
   },
   "scripts": {

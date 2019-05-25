@@ -34,7 +34,8 @@ import {
   Switch,
   BrowserRouter as Router,
   Link,
-  withRouter
+  withRouter,
+  NavLink
 } from "react-router-dom";
 import axios from "axios";
 import BuscarPanolab from "./../panolab/buscarPanolab";
@@ -60,7 +61,21 @@ class MenuFicha extends Component {
     this.state = {
       tabactive: "ficha",
       codficha: this.props.match.params.codficha,
-      datosFicha: {}
+      datosFicha: {},
+      normalStyle: {
+        color: "grey",
+        textDecoration: "none",
+        "&:hover": {
+          textDecoration: "none"
+        }
+      },
+      activeStyle: {
+        textDecoration: "none",
+        color: "#133E9C",
+        "&:hover": {
+          textDecoration: "none"
+        }
+      }
     };
     this.onSelectActive = this.onSelectActive.bind(this);
   }
@@ -91,12 +106,12 @@ class MenuFicha extends Component {
     this.setState({ tabactive: e });
   }
   render() {
-    const NavLink = props => <Nav.Item componentClass={Link} {...props} />;
+    //const NavLink = props => <Nav.Item componentClass={Link} {...props} />;
     return (
-      <div>
+      <div style={{ fontFamily: "Arial, sans-serif" }}>
         <Row>
           <div>
-            <Container style={{ marginLeft: 100, marginTop: 20 }}>
+            <Container style={{ marginTop: 20 }}>
               <div
                 class="card"
                 style={{
@@ -245,6 +260,8 @@ class MenuFicha extends Component {
                     this.state.datosFicha.codficha
                   }/ficha_view/${this.state.datosFicha.codficha}`}
                   icon={<Icon icon="facebook-square" />}
+                  activeStyle={this.state.activeStyle}
+                  style={this.state.normalStyle}
                 >
                   Datos Ficha
                 </NavLink>
@@ -255,6 +272,8 @@ class MenuFicha extends Component {
                     this.state.datosFicha.codficha
                   }/buscar_consulta/${this.state.datosFicha.codficha}`}
                   icon={<Icon icon="facebook-square" />}
+                  activeStyle={this.state.activeStyle}
+                  style={this.state.normalStyle}
                 >
                   Consulta
                 </NavLink>
@@ -265,6 +284,8 @@ class MenuFicha extends Component {
                     this.state.datosFicha.codficha
                   }/buscar_panolab/${this.state.datosFicha.codficha}`}
                   icon={<Icon icon="facebook-square" />}
+                  activeStyle={this.state.activeStyle}
+                  style={this.state.normalStyle}
                 >
                   Panorámica de Laboratorio
                 </NavLink>
@@ -275,6 +296,8 @@ class MenuFicha extends Component {
                     this.state.datosFicha.codficha
                   }/buscar_ordenestudio/${this.state.datosFicha.codficha}`}
                   icon={<Icon icon="facebook-square" />}
+                  activeStyle={this.state.activeStyle}
+                  style={this.state.normalStyle}
                 >
                   Orden de Estudio
                 </NavLink>

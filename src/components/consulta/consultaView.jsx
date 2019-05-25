@@ -142,7 +142,8 @@ class ConsultaView extends Component {
 
   onCancelDelete = function() {
     this.setState({
-      confirmCancel: !this.state.confirmCancel
+      confirmCancel: !this.state.confirmCancel,
+      confirmDelete: !this.state.confirmDelete
     });
   };
 
@@ -152,8 +153,7 @@ class ConsultaView extends Component {
 
   alertCancel = function() {
     this.setState({
-      confirmCancel: !this.state.confirmCancel,
-      confirmDelete: !this.state.confirmDelete
+      confirmCancel: !this.state.confirmCancel
     });
   };
 
@@ -1006,14 +1006,6 @@ class ConsultaView extends Component {
               onCancel={this.onCancelDelete}
             >
               ¿Estas seguro de Eliminar la Consulta?
-            </SweetAlert>
-            <SweetAlert
-              danger
-              title="Cancelado"
-              show={this.state.confirmCancel}
-              onConfirm={this.alertCancel}
-            >
-              Su consulta esta a salvo...
             </SweetAlert>
           </Button>
         </FormGroup>

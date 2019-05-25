@@ -18,7 +18,7 @@ import {
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
-import { Alert } from "rsuite";
+import { Alert, Icon } from "rsuite";
 import { Panel } from "rsuite";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import Consulta from "../consulta/consultaForm";
@@ -35,6 +35,7 @@ class BuscarConsulta extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.formatDate = this.formatDate.bind(this);
   }
 
   handleChange(e) {
@@ -99,9 +100,32 @@ class BuscarConsulta extends Component {
     console.log(this.state.codconsulta);
   }
 
+  formatDate(date) {
+    var monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
+
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+
+    return day + " " + monthNames[monthIndex] + " " + year;
+  }
   render() {
     let list = [];
     list = this.state.listaConsulta;
+
     console.log(list);
     console.log(this.props.match.params.codficha);
     return (
@@ -158,43 +182,72 @@ class BuscarConsulta extends Component {
           <Row>
             <Col>
               {list.map(item => (
-                <ListGroupItem
-                  style={{ backgroundColor: "#F9FCFB", marginBottom: 20 }}
+                <div
+                  style={{
+                    borderLeft: "6px solid",
+                    marginBottom: 15,
+                    padding: 10,
+                    borderLeftColor: "#00b33c",
+                    borderRadius: "5px",
+                    borderTop: "0.5px solid",
+                    borderRight: "0.5px solid",
+                    borderBottom: "0.5px solid",
+                    borderTopColor: "#b3b3b3",
+                    borderRightColor: "#b3b3b3",
+                    borderBottomColor: "#b3b3b3"
+                  }}
                 >
-                  <ListGroupItemHeading style={{ backgroundColor: "#F9FCFB" }}>
-                    {/*<Link to={`/consulta_view/${item.codconsulta}`}>
-                        {" "}
-                        <h4>{item.fechaconsulta}</h4>
-                </Link>*/}
-                    <Link
-                      to={`/menu_ficha/${item.codficha}/buscar_consulta/${
-                        item.codficha
-                      }/consulta_view/${item.codconsulta}/${item.codficha}`}
+                  <Link
+                    style={{
+                      color: "#00b33c",
+                      textDecoration: "none",
+                      "&:hover": {
+                        textDecoration: "none"
+                      }
+                    }}
+                    to={`/menu_ficha/${item.codficha}/buscar_consulta/${
+                      item.codficha
+                    }/consulta_view/${item.codconsulta}/${item.codficha}`}
+                  >
+                    <h4>
+                      <strong>Fecha Consulta: </strong>{" "}
+                      {this.formatDate(new Date(item.fechaconsulta))}
+                      <Icon
+                        icon="angle-double-right"
+                        size="2x"
+                        style={{ float: "right" }}
+                      />
+                    </h4>
+                    <div
+                      style={{
+                        color: "#666666"
+                      }}
                     >
-                      <h4>{item.fechaconsulta}</h4>
-                    </Link>
-                  </ListGroupItemHeading>
-                  <ListGroupItemText>
-                    <Row>
-                      <Col>
-                        <strong>Diagnóstico: </strong> {item.diagnostico}
-                      </Col>
-                      <Col>
-                        <strong>Limitación: </strong> {item.limitacion}
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <strong>Motivo Limitación: </strong>{" "}
-                        {item.limitacionmotivo}
-                      </Col>
-                      <Col>
-                        <strong>Tratamiento Actual: </strong>{" "}
-                        {item.tratamientoactual}
-                      </Col>
-                    </Row>
-                  </ListGroupItemText>
-                </ListGroupItem>
+                      <Row>
+                        <Col>
+                          <strong>Diagnóstico: </strong> {item.diagnostico}
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <strong>Limitación: </strong> {item.limitacion}
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <strong>Motivo Limitación: </strong>{" "}
+                          {item.limitacionmotivo}
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <strong>Tratamiento Actual: </strong>{" "}
+                          {item.tratamientoactual}
+                        </Col>
+                      </Row>
+                    </div>
+                  </Link>
+                </div>
               ))}
             </Col>
           </Row>
