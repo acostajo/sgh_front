@@ -6,22 +6,29 @@ import {
   CardBody,
   Container,
   Row,
-  Alert,
   Col,
   Form,
   FormGroup,
   Label
 } from "reactstrap";
 import axios from "axios";
+import { Alert } from "rsuite";
+import SweetAlert from "react-bootstrap-sweetalert";
 class PanolabView extends Component {
   constructor() {
     super();
     this.state = {
       datosPanolab: {},
-      visible: false
+      visible: false,
+      showDeclarative: false,
+      confirmDelete: false,
+      confirmCancel: false
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
+    this.onCancelDelete = this.onCancelDelete.bind(this);
+    this.alertDelete = this.alertDelete.bind(this);
+    this.alertCancel = this.alertCancel.bind(this);
   }
   onDismiss() {
     this.setState({ visible: false });
@@ -29,22 +36,18 @@ class PanolabView extends Component {
 
   async handleDelete() {
     const cod = this.props.match.params.codpanolab; //direccto accedes, yaa, y eso nomas es, que te falta ahora?
-    const url1 = "http://127.0.0.1:8000/api/panolab/";
-    await fetch(url1 + cod + "/", { method: "DELETE" }) //este es el method para borar y se le pasa el cod nomas
-      .then(function(response) {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return new Error("No se recibio la respuesta esperada ...");
-        }
-      })
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({ visible: !this.state.visible }); // aca despues de mandarle al server para elminar le setea en true
-      });
+    const url1 = "http://127.0.0.1:8000/api/panolab/" + cod + "/";
+    const response = await axios.delete(url1);
+
+    if (response.status === 204) {
+      Alert.success("La Panorámica de Laboratorio ha sido eliminada con éxito"); //con este avisascmenta nomas, ok
+      this.props.history.push(
+        "/menu_ficha/" +
+          this.props.match.params.codficha +
+          "/ficha_view/" +
+          this.props.match.params.codficha // y con este mandas al menu de la fi
+      );
+    }
   }
 
   async componentWillMount() {
@@ -69,14 +72,27 @@ class PanolabView extends Component {
     });
     console.log(this.state.datosPanolab); //trae bien, trae bien? el cod digo no el contenido
   }
+  onCancelDelete = function() {
+    this.setState({
+      confirmCancel: !this.state.confirmCancel,
+      confirmDelete: !this.state.confirmDelete
+    });
+  };
+
+  alertDelete() {
+    this.setState({ confirmDelete: !this.state.confirmDelete });
+  }
+
+  alertCancel = function() {
+    this.setState({
+      confirmCancel: !this.state.confirmCancel
+    });
+  };
   render() {
     return (
-      <Container>
-        <Alert color="info" isOpen={this.state.visible} toggle={this.onDismiss}>
-          La Panorámica de Laboratorio fue eliminada con con exito!
-        </Alert>
-        <Card>
-          <CardHeader>
+      <Container style={{ marginTop: 20 }}>
+        <Card style={{ backgroundColor: "#F9FCFB" }}>
+          <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
             <h3>Datos</h3>
           </CardHeader>
           <CardBody>
@@ -418,8 +434,27 @@ class PanolabView extends Component {
         </Card>
         <hr />
         <FormGroup>
-          <Button onClick={this.handleDelete} color="danger">
+          <Button
+            onClick={this.alertDelete}
+            color="danger"
+            style={{ marginTop: 20 }}
+          >
             Eliminar
+            <SweetAlert
+              warning
+              showCancel
+              allowEscape
+              show={this.state.confirmDelete}
+              confirmBtnText="Sí, Eliminar Panorámica"
+              cancelBtnText="Cancelar"
+              confirmBtnBsStyle="danger"
+              cancelBtnBsStyle="default"
+              title="Are you sure?"
+              onConfirm={this.handleDelete}
+              onCancel={this.onCancelDelete}
+            >
+              ¿Estas seguro de Eliminar la Panorámica de Laboratorio?
+            </SweetAlert>
           </Button>
         </FormGroup>
       </Container>

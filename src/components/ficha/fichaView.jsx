@@ -20,6 +20,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import EventoCardiovascular from "./../eventocardiovascular/eventocardiovascularForm";
 import { createHashHistory } from "history";
+import SweetAlert from "react-bootstrap-sweetalert";
 const history = createHashHistory();
 
 class FichaView extends Component {
@@ -28,6 +29,9 @@ class FichaView extends Component {
     this.state = {
       datosficha: {},
       visible: false,
+      showDeclarative: false,
+      confirmDelete: false,
+      confirmCancel: false,
       famesListTable: [],
       columnsFames: [
         {
@@ -95,6 +99,9 @@ class FichaView extends Component {
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
+    this.onCancelDelete = this.onCancelDelete.bind(this);
+    this.alertDelete = this.alertDelete.bind(this);
+    this.alertCancel = this.alertCancel.bind(this);
   }
   onDismiss() {
     this.setState({ visible: false });
@@ -107,7 +114,7 @@ class FichaView extends Component {
     const response = await axios.delete(url1 + cod);
     console.log(response.status);
     if (response.status === 204) {
-      Alert.success("La Ficha ha sido eliminada con éxito", 3000); //con este avisas
+      Alert.success("La Ficha ha sido eliminada con éxito"); //con este avisas
 
       this.props.history.push("/modulos");
     }
@@ -311,7 +318,22 @@ class FichaView extends Component {
 
     this.setState({ famesListTable: listFame });
   }
+  onCancelDelete = function() {
+    this.setState({
+      confirmCancel: !this.state.confirmCancel,
+      confirmDelete: !this.state.confirmDelete
+    });
+  };
 
+  alertDelete() {
+    this.setState({ confirmDelete: !this.state.confirmDelete });
+  }
+
+  alertCancel = function() {
+    this.setState({
+      confirmCancel: !this.state.confirmCancel
+    });
+  };
   render() {
     return (
       <Container style={{ marginTop: 20 }}>
@@ -809,11 +831,26 @@ class FichaView extends Component {
           </Link>
           {"      "}
           <Button
-            onClick={this.handleDelete}
+            onClick={this.alertDelete}
             color="danger"
             style={{ marginTop: 20 }}
           >
             Eliminar
+            <SweetAlert
+              warning
+              showCancel
+              allowEscape
+              show={this.state.confirmDelete}
+              confirmBtnText="Sí, Eliminar Orden de Estudio"
+              cancelBtnText="Cancelar"
+              confirmBtnBsStyle="danger"
+              cancelBtnBsStyle="default"
+              title="Are you sure?"
+              onConfirm={this.handleDelete}
+              onCancel={this.onCancelDelete}
+            >
+              ¿Estas seguro de Eliminar la Orden de Estudio?
+            </SweetAlert>
           </Button>
         </FormGroup>
       </Container>

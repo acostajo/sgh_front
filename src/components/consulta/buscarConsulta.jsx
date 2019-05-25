@@ -4,16 +4,10 @@ import {
   Button,
   Container,
   Row,
-  ListGroup,
-  ListGroupItem,
-  ListGroupItemHeading,
-  ListGroupItemText,
+  InputGroup,
+  InputGroupAddon,
   Col,
-  Card,
-  CardHeader,
-  CardBody,
-  FormGroup,
-  Label,
+  Form,
   Input
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
@@ -129,18 +123,11 @@ class BuscarConsulta extends Component {
     console.log(list);
     console.log(this.props.match.params.codficha);
     return (
-      <Container style={{ marginTop: 20, marginLeft: 100 }}>
+      <Container style={{ marginTop: 20 }}>
         <Row>
           <Col>
-            <h3>Búsqueda por Fecha Consulta</h3>
-          </Col>
-        </Row>
-
-        <div class="col-50 align-self-center" style={{ display: "flex" }}>
-          <Row>
-            <Col xs="5">
-              <FormGroup>
-                <Label for="fechaConsulta" />
+            <Form inline>
+              <InputGroup>
                 <Input
                   type="date"
                   onChange={this.handleChange}
@@ -148,110 +135,110 @@ class BuscarConsulta extends Component {
                   name="fechaConsulta"
                   id="fechaConsulta"
                 />
-              </FormGroup>
-            </Col>
-
-            <Col xs="2" style={{ marginTop: 20 }}>
-              <Button onClick={this.handleSearch} color="primary">
-                Buscar
-              </Button>
-            </Col>
-            <Col style={{ marginTop: 20 }}>
-              <Button
-                style={{ float: "rigth" }}
-                onClick={this.handleAdd}
-                color="primary"
+                <InputGroupAddon addonType="append">
+                  <Button
+                    onClick={this.handleSearch}
+                    style={{ marginRight: 10, backgroundColor: "#3c763d" }}
+                  >
+                    Buscar
+                  </Button>
+                </InputGroupAddon>
+              </InputGroup>
+              <Link
+                to={`/menu_ficha/${
+                  this.props.match.params.codficha
+                }/buscar_consulta/${
+                  this.props.match.params.codficha
+                }/consulta/${this.props.match.params.codficha}`}
+                style={{ color: "white" }}
               >
-                <Link
-                  to={`/menu_ficha/${
-                    this.props.match.params.codficha
-                  }/buscar_consulta/${
-                    this.props.match.params.codficha
-                  }/consulta/${this.props.match.params.codficha}`}
-                  style={{ color: "white" }}
+                <Button
+                  style={{ float: "rigth" }}
+                  onClick={this.handleAdd}
+                  style={{ backgroundColor: "#3c763d" }}
                 >
                   Agregar Consulta
-                </Link>
-              </Button>
-            </Col>
-          </Row>
-        </div>
+                </Button>
+              </Link>
+            </Form>
+          </Col>
+        </Row>
 
         <hr />
-        <Container style={{ marginTop: 20 }}>
-          <Row>
-            <Col>
-              {list.map(item => (
-                <div
+
+        <Row style={{ marginTop: 20 }}>
+          <Col lg="7" md="7" sm="7">
+            {list.map(item => (
+              <div
+                style={{
+                  borderLeft: "5px solid",
+                  marginBottom: 15,
+                  padding: 10,
+                  borderLeftColor: "#3c763d",
+                  borderRadius: "5px",
+                  borderTop: "0.5px solid",
+                  borderRight: "0.5px solid",
+                  borderBottom: "0.5px solid",
+                  borderTopColor: "#eee",
+                  borderRightColor: "#eee",
+                  borderBottomColor: "#eee"
+                  // color: "#eee"
+                }}
+              >
+                <Link
                   style={{
-                    borderLeft: "6px solid",
-                    marginBottom: 15,
-                    padding: 10,
-                    borderLeftColor: "#00b33c",
-                    borderRadius: "5px",
-                    borderTop: "0.5px solid",
-                    borderRight: "0.5px solid",
-                    borderBottom: "0.5px solid",
-                    borderTopColor: "#b3b3b3",
-                    borderRightColor: "#b3b3b3",
-                    borderBottomColor: "#b3b3b3"
+                    color: "#3c763d",
+                    textDecoration: "none",
+                    "&:hover": {
+                      textDecoration: "none"
+                    }
                   }}
+                  to={`/menu_ficha/${item.codficha}/buscar_consulta/${
+                    item.codficha
+                  }/consulta_view/${item.codconsulta}/${item.codficha}`}
                 >
-                  <Link
+                  <h4>
+                    <strong>Fecha Consulta: </strong>{" "}
+                    {this.formatDate(new Date(item.fechaconsulta))}
+                    <Icon
+                      icon="angle-double-right"
+                      size="2x"
+                      style={{ float: "right" }}
+                    />
+                  </h4>
+                  <div
                     style={{
-                      color: "#00b33c",
-                      textDecoration: "none",
-                      "&:hover": {
-                        textDecoration: "none"
-                      }
+                      color: "#666666"
                     }}
-                    to={`/menu_ficha/${item.codficha}/buscar_consulta/${
-                      item.codficha
-                    }/consulta_view/${item.codconsulta}/${item.codficha}`}
                   >
-                    <h4>
-                      <strong>Fecha Consulta: </strong>{" "}
-                      {this.formatDate(new Date(item.fechaconsulta))}
-                      <Icon
-                        icon="angle-double-right"
-                        size="2x"
-                        style={{ float: "right" }}
-                      />
-                    </h4>
-                    <div
-                      style={{
-                        color: "#666666"
-                      }}
-                    >
-                      <Row>
-                        <Col>
-                          <strong>Diagnóstico: </strong> {item.diagnostico}
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <strong>Limitación: </strong> {item.limitacion}
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <strong>Motivo Limitación: </strong>{" "}
-                          {item.limitacionmotivo}
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <strong>Tratamiento Actual: </strong>{" "}
-                          {item.tratamientoactual}
-                        </Col>
-                      </Row>
-                    </div>
-                  </Link>
-                </div>
-              ))}
-            </Col>
-          </Row>
-        </Container>
+                    <Row>
+                      <Col>
+                        <strong>Diagnóstico: </strong> {item.diagnostico}
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <strong>Limitación: </strong> {item.limitacion}
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <strong>Motivo Limitación: </strong>{" "}
+                        {item.limitacionmotivo}
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <strong>Tratamiento Actual: </strong>{" "}
+                        {item.tratamientoactual}
+                      </Col>
+                    </Row>
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </Col>
+        </Row>
       </Container>
     );
   }

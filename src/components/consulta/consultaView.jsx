@@ -999,6 +999,7 @@ class ConsultaView extends Component {
               allowEscape
               show={this.state.confirmDelete}
               confirmBtnText="Sí, Eliminar Consulta"
+              cancelBtnText="Cancelar"
               confirmBtnBsStyle="danger"
               cancelBtnBsStyle="default"
               title="Are you sure?"

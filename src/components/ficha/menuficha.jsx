@@ -9,34 +9,16 @@ import FichaView from "../ficha/fichaView";
 // import FichaEdit from "./components/ficha/fichaEdit";
 // import Panolab from "./components/panolab/panolabForm";
 import { Nav, Icon } from "rsuite";
-import {
-  TabContent,
-  TabPane,
-  /*Nav,
-  NavItem,
-  NavLink,*/
-  CardTitle,
-  CardText,
-  Button,
-  CardHeader,
-  Card,
-  CardBody,
-  Container,
-  Row,
-  Form,
-  FormGroup,
-  Label,
-  Col
-} from "reactstrap";
+import { Card, CardBody, Row, Col, ListGroup, ListGroupItem } from "reactstrap";
 import classnames from "classnames";
 import {
   Route,
   Switch,
   BrowserRouter as Router,
-  Link,
   withRouter,
   NavLink
 } from "react-router-dom";
+import { FlexboxGrid } from "rsuite";
 import axios from "axios";
 import BuscarPanolab from "./../panolab/buscarPanolab";
 import BuscarConsulta from "../consulta/buscarConsulta";
@@ -62,16 +44,35 @@ class MenuFicha extends Component {
       tabactive: "ficha",
       codficha: this.props.match.params.codficha,
       datosFicha: {},
-      normalStyle: {
-        color: "grey",
+
+      activeStyleFicha: {
         textDecoration: "none",
+
+        color: "#133E7C",
         "&:hover": {
           textDecoration: "none"
         }
       },
-      activeStyle: {
+      activeStyleConsulta: {
         textDecoration: "none",
-        color: "#133E9C",
+
+        color: "#3c763d",
+        "&:hover": {
+          textDecoration: "none"
+        }
+      },
+      activeStylePanolab: {
+        textDecoration: "none",
+
+        color: "#563d7c",
+        "&:hover": {
+          textDecoration: "none"
+        }
+      },
+      activeStyleOrden: {
+        textDecoration: "none",
+
+        color: "#337ab7",
         "&:hover": {
           textDecoration: "none"
         }
@@ -106,257 +107,201 @@ class MenuFicha extends Component {
     this.setState({ tabactive: e });
   }
   render() {
-    //const NavLink = props => <Nav.Item componentClass={Link} {...props} />;
+    const NavLi = props => <Nav.Item componentClass={NavLink} {...props} />;
     return (
-      <div style={{ fontFamily: "Arial, sans-serif" }}>
-        <Row>
-          <div>
-            <Container style={{ marginTop: 20 }}>
-              <div
-                class="card"
-                style={{
-                  borderBlockColor: "#091833",
-                  backgroundColor: "#F9FCFB",
-                  width: "20rem"
-                }}
-              >
-                <div class="row no-gutters">
-                  <div class="card">
-                    <img src={blank_pic} class="card-img-top" alt="..." />
-                  </div>
-                  <div class="col-md-100">
-                    <div class="card-body">
-                      <h4 class="card-title" style={{ color: "#133E7C" }}>
-                        {this.state.datosFicha.nombres}{" "}
-                        {this.state.datosFicha.apellidos}{" "}
-                      </h4>
-                      <p class="card-text">
-                        <Row>
-                          <Col>
-                            <Label>
-                              <strong>Tipo Docu: </strong>
-                              {this.state.datosFicha.tipodocumento}
-                            </Label>
-                          </Col>
-                          <Col>
-                            <Label>
-                              <strong>Nro. Docu: </strong>
-                              {this.state.datosFicha.nrodocumento}
-                            </Label>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <Col>
-                            <Label>
-                              <strong>Fecha de Incl: </strong>
-                              {this.state.datosFicha.fechainclusion}
-                            </Label>
-                          </Col>
+      <FlexboxGrid style={{ fontFamily: "Arial, sans-serif" }} justify="center">
+        <FlexboxGrid.Item colspan={4}>
+          <Card
+            style={{
+              alignItems: "center"
+            }}
+          >
+            <img
+              src={blank_pic}
+              alt="..."
+              style={{
+                borderRadius: "50%",
+                width: "60%",
+                marginTop: 10
+              }}
+            />
+            <CardBody>
+              <h4 style={{ color: "#133E7C" }}>
+                <strong>
+                  {this.state.datosFicha.nombres}{" "}
+                  {this.state.datosFicha.apellidos}{" "}
+                </strong>
+              </h4>
+              <hr />
 
-                          <Col>
-                            <Label>
-                              <strong>Fecha de Dx: </strong>
-                              {this.state.datosFicha.fechadiagnos}
-                            </Label>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <Col>
-                            <Label>
-                              <strong>Dx: </strong>
-                              {this.state.datosFicha.diagnostico}
-                            </Label>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <Col>
-                            <Label>
-                              <strong>Procedencia: </strong>
-                              {this.state.datosFicha.procedencia}
-                            </Label>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <Col>
-                            <Label>
-                              <strong>FN: </strong>
-                              {this.state.datosFicha.fechanaci}
-                            </Label>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <Col>
-                            <Label>
-                              <strong>Sexo: </strong>
-                              {this.state.datosFicha.sexo}
-                            </Label>
-                          </Col>
-                          <Col>
-                            <Label>
-                              <strong>Telef: </strong>
-                              {this.state.datosFicha.telefono}
-                            </Label>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <Col>
-                            <Label>
-                              <strong>Nacionalidad: </strong>
-                              {this.state.datosFicha.nacionalidad}
-                            </Label>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <Col>
-                            <Label>
-                              <strong>E. Civil: </strong>
-                              {this.state.datosFicha.estadocivil}
-                            </Label>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <Col>
-                            <Label>
-                              <strong>Profesión: </strong>
-                              {this.state.datosFicha.profesion}
-                            </Label>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <Col>
-                            <Label>
-                              <strong>Escolaridad: </strong>
-                              {this.state.datosFicha.escolaridad}
-                            </Label>
-                          </Col>
-                        </Row>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Container>
-          </div>
-
-          <div>
-            <Container />
-            <Nav
-              appearance="tabs"
-              activeKey={this.state.tabactive}
-              onSelect={this.onSelectActive}
+              <ListGroup style={{ fontSize: 13, color: "#666666" }}>
+                <ListGroupItem>
+                  <strong>Tipo Doc: </strong>
+                  {this.state.datosFicha.tipodocumento}{" "}
+                  <strong>Nro. Doc: </strong>
+                  {this.state.datosFicha.nrodocumento}
+                </ListGroupItem>
+                <ListGroupItem>
+                  <strong>Fecha de Inclución: </strong>
+                  {this.state.datosFicha.fechainclusion}
+                </ListGroupItem>
+                <ListGroupItem>
+                  <strong>Fecha de Diagnóstico: </strong>
+                  {this.state.datosFicha.fechadiagnos}
+                </ListGroupItem>
+                <ListGroupItem>
+                  <strong>Diagnóstico: </strong>
+                  {this.state.datosFicha.diagnostico}
+                </ListGroupItem>
+                <ListGroupItem>
+                  <strong>Procedencia: </strong>
+                  {this.state.datosFicha.procedencia}
+                </ListGroupItem>
+                <ListGroupItem>
+                  <strong>Fecha de Nacimiento: </strong>
+                  {this.state.datosFicha.fechanaci}
+                </ListGroupItem>
+                <ListGroupItem>
+                  <strong>Sexo: </strong>
+                  {this.state.datosFicha.sexo}
+                </ListGroupItem>
+                <ListGroupItem>
+                  <strong>Telef: </strong>
+                  {this.state.datosFicha.telefono}
+                </ListGroupItem>
+                <ListGroupItem>
+                  <strong>Nacionalidad: </strong>
+                  {this.state.datosFicha.nacionalidad}
+                </ListGroupItem>
+                <ListGroupItem>
+                  <strong>E. Civil: </strong>
+                  {this.state.datosFicha.estadocivil}
+                </ListGroupItem>
+                <ListGroupItem>
+                  <strong>Profesión: </strong>
+                  {this.state.datosFicha.profesion}
+                </ListGroupItem>
+                <ListGroupItem>
+                  <strong>Escolaridad: </strong>
+                  {this.state.datosFicha.escolaridad}
+                </ListGroupItem>
+              </ListGroup>
+            </CardBody>
+          </Card>
+        </FlexboxGrid.Item>
+        <FlexboxGrid.Item colspan={18}>
+          <Nav
+            appearance="tabs"
+            activeKey={this.state.tabactive}
+            onSelect={this.onSelectActive}
+            style={{ marginLeft: 10 }}
+          >
+            <NavLi
+              eventKey="resumen"
+              to={`/menu_ficha/${this.state.datosFicha.codficha}/ficha_view/${
+                this.state.datosFicha.codficha
+              }`}
+              activeStyle={this.state.activeStyleFicha}
+              icon={<Icon icon="dashboard" />}
             >
-              <Nav.Item eventKey="ficha">
-                <NavLink
-                  to={`/menu_ficha/${
-                    this.state.datosFicha.codficha
-                  }/ficha_view/${this.state.datosFicha.codficha}`}
-                  icon={<Icon icon="facebook-square" />}
-                  activeStyle={this.state.activeStyle}
-                  style={this.state.normalStyle}
-                >
-                  Datos Ficha
-                </NavLink>
-              </Nav.Item>
-              <Nav.Item eventKey="consulta">
-                <NavLink
-                  to={`/menu_ficha/${
-                    this.state.datosFicha.codficha
-                  }/buscar_consulta/${this.state.datosFicha.codficha}`}
-                  icon={<Icon icon="facebook-square" />}
-                  activeStyle={this.state.activeStyle}
-                  style={this.state.normalStyle}
-                >
-                  Consulta
-                </NavLink>
-              </Nav.Item>
-              <Nav.Item eventKey="panolab">
-                <NavLink
-                  to={`/menu_ficha/${
-                    this.state.datosFicha.codficha
-                  }/buscar_panolab/${this.state.datosFicha.codficha}`}
-                  icon={<Icon icon="facebook-square" />}
-                  activeStyle={this.state.activeStyle}
-                  style={this.state.normalStyle}
-                >
-                  Panorámica de Laboratorio
-                </NavLink>
-              </Nav.Item>
-              <Nav.Item eventKey="orden">
-                <NavLink
-                  to={`/menu_ficha/${
-                    this.state.datosFicha.codficha
-                  }/buscar_ordenestudio/${this.state.datosFicha.codficha}`}
-                  icon={<Icon icon="facebook-square" />}
-                  activeStyle={this.state.activeStyle}
-                  style={this.state.normalStyle}
-                >
-                  Orden de Estudio
-                </NavLink>
-              </Nav.Item>
-            </Nav>
+              Resumen
+            </NavLi>
 
-            <div className="content">
-              <Switch>
-                <Route
-                  path="/menu_ficha/:codficha/ficha_edit/:codficha"
-                  component={FichaEdit}
-                />
-                <Route
-                  path="/menu_ficha/:codficha/ficha_view/:codficha"
-                  component={FichaView}
-                />
+            <NavLi
+              eventKey="ficha"
+              to={`/menu_ficha/${this.state.datosFicha.codficha}/ficha_view/${
+                this.state.datosFicha.codficha
+              }`}
+              activeStyle={this.state.activeStyleFicha}
+              icon={<Icon icon="list-alt" />}
+            >
+              Datos Ficha
+            </NavLi>
 
-                <Route
-                  path="/menu_ficha/:codficha/buscar_consulta/:codficha/consulta_view/:codconsulta/:codficha"
-                  component={ConsultaView}
-                />
-                <Route
-                  path="/menu_ficha/:codficha/buscar_consulta/:codficha/consulta/:codficha"
-                  component={Consulta}
-                />
-                <Route
-                  path="/menu_ficha/:codficha/buscar_consulta/:codficha"
-                  component={BuscarConsulta}
-                />
-                <Route
-                  path="/menu_ficha/:codficha/buscar_panolab/:codficha/panolab_view/:codpanolab/:codficha"
-                  component={PanolabView}
-                />
-                <Route
-                  path="/menu_ficha/:codficha/buscar_panolab/:codficha/panolab/:codficha"
-                  component={Panolab}
-                />
-                <Route
-                  path="/menu_ficha/:codficha/buscar_panolab/:codficha"
-                  component={BuscarPanolab}
-                />
-                <Route
-                  path="/menu_ficha/:codficha/buscar_ordenestudio/:codficha/ordenestudio_view/:codordenestudio"
-                  component={OrdenEstudioView}
-                />
+            <NavLi
+              eventKey="consulta"
+              to={`/menu_ficha/${
+                this.state.datosFicha.codficha
+              }/buscar_consulta/${this.state.datosFicha.codficha}`}
+              activeStyle={this.state.activeStyleConsulta}
+              icon={<Icon icon="stethoscope" />}
+            >
+              Consulta
+            </NavLi>
 
-                <Route
-                  path="/menu_ficha/:codficha/buscar_ordenestudio/:codficha/ordenestudio/:codficha"
-                  component={OrdenEstudio}
-                />
-                <Route
-                  path="/menu_ficha/:codficha/buscar_ordenestudio/:codficha"
-                  component={BuscarOrdenEstudio}
-                />
-              </Switch>
-            </div>
-          </div>
-        </Row>
-      </div>
+            <NavLi
+              eventKey="panolab"
+              to={`/menu_ficha/${
+                this.state.datosFicha.codficha
+              }/buscar_panolab/${this.state.datosFicha.codficha}`}
+              activeStyle={this.state.activeStylePanolab}
+              icon={<Icon icon="flask" />}
+            >
+              Panorámica de Laboratorio
+            </NavLi>
+
+            <NavLi
+              eventKey="orden"
+              to={`/menu_ficha/${
+                this.state.datosFicha.codficha
+              }/buscar_ordenestudio/${this.state.datosFicha.codficha}`}
+              activeStyle={this.state.activeStyleOrden}
+              icon={<Icon icon="file-text-o" />}
+            >
+              Orden de Estudio
+            </NavLi>
+          </Nav>
+
+          <Switch>
+            <Route
+              path="/menu_ficha/:codficha/ficha_edit/:codficha"
+              component={FichaEdit}
+            />
+            <Route
+              path="/menu_ficha/:codficha/ficha_view/:codficha"
+              component={FichaView}
+            />
+
+            <Route
+              path="/menu_ficha/:codficha/buscar_consulta/:codficha/consulta_view/:codconsulta/:codficha"
+              component={ConsultaView}
+            />
+            <Route
+              path="/menu_ficha/:codficha/buscar_consulta/:codficha/consulta/:codficha"
+              component={Consulta}
+            />
+            <Route
+              path="/menu_ficha/:codficha/buscar_consulta/:codficha"
+              component={BuscarConsulta}
+            />
+            <Route
+              path="/menu_ficha/:codficha/buscar_panolab/:codficha/panolab_view/:codpanolab/:codficha"
+              component={PanolabView}
+            />
+            <Route
+              path="/menu_ficha/:codficha/buscar_panolab/:codficha/panolab/:codficha"
+              component={Panolab}
+            />
+            <Route
+              path="/menu_ficha/:codficha/buscar_panolab/:codficha"
+              component={BuscarPanolab}
+            />
+            <Route
+              path="/menu_ficha/:codficha/buscar_ordenestudio/:codficha/ordenestudio_view/:codordenestudio"
+              component={OrdenEstudioView}
+            />
+
+            <Route
+              path="/menu_ficha/:codficha/buscar_ordenestudio/:codficha/ordenestudio/:codficha"
+              component={OrdenEstudio}
+            />
+            <Route
+              path="/menu_ficha/:codficha/buscar_ordenestudio/:codficha"
+              component={BuscarOrdenEstudio}
+            />
+          </Switch>
+        </FlexboxGrid.Item>
+      </FlexboxGrid>
     );
   }
 }
