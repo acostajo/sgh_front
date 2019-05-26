@@ -29,6 +29,7 @@ class PanolabView extends Component {
     this.onCancelDelete = this.onCancelDelete.bind(this);
     this.alertDelete = this.alertDelete.bind(this);
     this.alertCancel = this.alertCancel.bind(this);
+    this.formatDate = this.formatDate.bind(this);
   }
   onDismiss() {
     this.setState({ visible: false });
@@ -88,6 +89,28 @@ class PanolabView extends Component {
       confirmCancel: !this.state.confirmCancel
     });
   };
+  formatDate(date) {
+    var monthNames = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "April",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Augusto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ];
+
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+
+    return day + " " + monthNames[monthIndex] + " " + year;
+  }
   render() {
     return (
       <Container style={{ marginTop: 20 }}>
@@ -120,6 +143,18 @@ class PanolabView extends Component {
                       <strong>Hto:</strong>
                     </Label>
                     <p>{this.state.datosPanolab.hemotocrito}</p>
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label>
+                      <strong>Fecha:</strong>
+                    </Label>
+                    <p>
+                      {this.formatDate(
+                        new Date(this.state.datosPanolab.fechapanolab)
+                      )}
+                    </p>
                   </FormGroup>
                 </Col>
               </Row>
@@ -159,274 +194,317 @@ class PanolabView extends Component {
                   </FormGroup>
                 </Col>
               </Row>
-              <Row>
+              <Row style={{ marginBottom: 20 }}>
                 <Col>
-                  <h5>GOT</h5>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Desde:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.gotdesde}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Hasta:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.gothasta}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <h5>GPT</h5>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Desde:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.gptdesde}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Hasta:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.gpthasta}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>bilirrubina:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.bilirrubina}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>BT:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.bilirrubina}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Urea:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.uresa}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>VSG:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.vsg}</p>
-                  </FormGroup>
+                  <Card style={{ padding: 20 }}>
+                    <Row>
+                      <Col>
+                        <h5>GOT</h5>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Desde:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.gotdesde}</p>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Hasta:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.gothasta}</p>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </Card>
                 </Col>
 
                 <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>PCR:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.pcr}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Glic:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.glicemia}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>CT:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.coleste}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>LDL:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.ldl}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>HDL:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.hdl}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>VLDL:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.vldl}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>TG:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.trigliceri}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Ac. Úrico</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.acidourico}</p>
-                  </FormGroup>
+                  <Card style={{ padding: 20 }}>
+                    <Row>
+                      <Col>
+                        <h5>GPT</h5>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Desde:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.gptdesde}</p>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Hasta:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.gpthasta}</p>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </Card>
                 </Col>
               </Row>
 
-              <Row>
+              <Row style={{ marginBottom: 20 }}>
                 <Col>
-                  <h5>FR</h5>
+                  <Card style={{ padding: 20 }}>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>BT:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.bilirrubina}</p>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Urea:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.uresa}</p>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>VSG:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.vsg}</p>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>PCR:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.pcr}</p>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Glic:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.glicemia}</p>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>CT:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.coleste}</p>
+                        </FormGroup>
+                      </Col>
+
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>LDL:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.ldl}</p>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>VLDL:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.vldl}</p>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>TG:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.trigliceri}</p>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Ac. Úrico</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.acidourico}</p>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </Card>
                 </Col>
               </Row>
 
-              <Row>
+              <Row style={{ marginBottom: 20 }}>
                 <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Desde:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.frdesde}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Hasta:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.frhasta}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <h5>Anti CCP</h5>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Negativo:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.anticcpneg}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Positivo:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.anticcppost}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Titulo:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.anticcpposd}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <h5>ANA</h5>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Negativo:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.ananeg}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Positivo:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.anaposit}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <h5>AntiDNA</h5>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Negativo:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.antidnaneg}</p>
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Positivo:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.antidnapos}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Prot 24:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.prot24}</p>
-                  </FormGroup>
+                  <Card style={{ padding: 20 }}>
+                    <Row>
+                      <Col>
+                        <h5>FR</h5>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Desde:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.frdesde}</p>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Hasta:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.frhasta}</p>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </Card>
                 </Col>
 
                 <Col>
-                  <FormGroup>
-                    <Label>
-                      <strong>Observación:</strong>
-                    </Label>
-                    <p>{this.state.datosPanolab.observacion}</p>
-                  </FormGroup>
+                  <Card style={{ padding: 20 }}>
+                    <Row>
+                      <Col>
+                        <h5>Anti CCP</h5>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Negativo:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.anticcpneg}</p>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Positivo:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.anticcppost}</p>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Titulo:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.anticcpposd}</p>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+              </Row>
+
+              <Row style={{ marginBottom: 20 }}>
+                <Col>
+                  <Card style={{ padding: 20 }}>
+                    <Row>
+                      <Col>
+                        <h5>ANA</h5>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Negativo:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.ananeg}</p>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Positivo:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.anaposit}</p>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+
+                <Col>
+                  <Card style={{ padding: 20 }}>
+                    <Row>
+                      <Col>
+                        <h5>AntiDNA</h5>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Negativo:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.anticcpneg}</p>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Negativo:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.antidnaneg}</p>
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Positivo:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.antidnapos}</p>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+              </Row>
+
+              <Row style={{ marginBottom: 20 }}>
+                <Col>
+                  <Card style={{ padding: 20 }}>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Prot 24:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.prot24}</p>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+
+                <Col>
+                  <Card style={{ padding: 20 }}>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label>
+                            <strong>Observación:</strong>
+                          </Label>
+                          <p>{this.state.datosPanolab.observacion}</p>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </Card>
                 </Col>
               </Row>
             </Form>

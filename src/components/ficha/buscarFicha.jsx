@@ -15,10 +15,29 @@ import {
   Input
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
-
+import blank_pic from "./blank_pic.png";
 import axios from "axios";
 import { Panel, Fade } from "rsuite";
-import { Alert } from "rsuite";
+import { Alert, Icon } from "rsuite";
+import { makeStyles } from "@material-ui/core/styles";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import Divider from "@material-ui/core/Divider";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import Typography from "@material-ui/core/Typography";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    width: "100%",
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper
+  },
+  inline: {
+    display: "inline"
+  }
+}));
 
 class BuscarFicha extends Component {
   constructor() {
@@ -34,6 +53,7 @@ class BuscarFicha extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.formatDate = this.formatDate.bind(this);
   }
 
   handleChange(e) {
@@ -150,7 +170,32 @@ class BuscarFicha extends Component {
 
     //aca validamos que metodo de busqueda se esta usando
   }
+  AlignItemsList() {
+    const classes = useStyles();
+  }
 
+  formatDate(date) {
+    var monthNames = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "April",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Augusto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ];
+
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+
+    return day + " " + monthNames[monthIndex] + " " + year;
+  }
   render() {
     let list = this.state.datosficha;
 
@@ -189,7 +234,10 @@ class BuscarFicha extends Component {
             </FormGroup>
           </Col>
           <Col>
-            <Button onClick={this.handleSearch} color="primary">
+            <Button
+              onClick={this.handleSearch}
+              style={{ marginRight: 10, backgroundColor: "#007bff" }}
+            >
               Buscar
             </Button>
           </Col>
@@ -197,62 +245,124 @@ class BuscarFicha extends Component {
 
         <hr />
         <Container>
-          <Row>
-            <Col>
-              {list.map(item => (
-                <Row key={item.codficha}>
-                  <Col>
-                    <Card style={{ backgroundColor: "#F9FCFB" }}>
-                      <Panel style={{ backgroundColor: "#F9FCFB" }}>
-                        <Col>
-                          <Link
-                            to={`/menu_ficha/${item.codficha}/ficha_view/${
-                              item.codficha
-                            }`}
-                          >
-                            <h3>
-                              {item.nombres} {item.apellidos}{" "}
-                            </h3>
-                          </Link>
-                        </Col>
-                        <Row>
+          {list.map(item => (
+            <div
+              style={{
+                borderLeft: "5px solid",
+                marginBottom: 15,
+                padding: 10,
+                borderLeftColor: "#007bff",
+                borderRadius: "5px",
+                borderTop: "0.5px solid",
+                borderRight: "0.5px solid",
+                borderBottom: "0.5px solid",
+                borderTopColor: "#eee",
+                borderRightColor: "#eee",
+                borderBottomColor: "#eee"
+                // color: "#eee"
+              }}
+            >
+              <Row key={item.codficha}>
+                <List
+                  style={{
+                    width: "100%",
+                    maxWidth: 500
+                  }}
+                >
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar src={blank_pic} alt="..." />
+                    </ListItemAvatar>
+
+                    <ListItemText
+                      primary={
+                        <Link
+                          style={{
+                            color: "#007bff",
+                            textDecoration: "none",
+                            "&:hover": {
+                              textDecoration: "none"
+                            }
+                          }}
+                          to={`/menu_ficha/${item.codficha}/ficha_view/${
+                            item.codficha
+                          }`}
+                        >
+                          <h4>
+                            {item.nombres} {item.apellidos}{" "}
+                          </h4>
+                          <Icon
+                            icon="angle-double-right"
+                            size="2x"
+                            style={{ float: "right" }}
+                          />
+                        </Link>
+                      }
+                      secondary={
+                        <React.Fragment>
                           <Col>
-                            <FormGroup>
-                              <strong>Nro. Documento: </strong>{" "}
-                              {item.nrodocumento}
-                            </FormGroup>
+                            <Typography
+                              component="span"
+                              variant="body2"
+                              style={{ display: "inline" }}
+                              color="textPrimary"
+                            >
+                              Nro. Documento:
+                            </Typography>
+                            {item.nrodocumento}
                           </Col>
                           <Col>
-                            <FormGroup>
-                              <strong>Fecha de Inclusión: </strong>{" "}
-                              {item.fechainclusion}
-                            </FormGroup>
+                            <Typography
+                              component="span"
+                              variant="body2"
+                              style={{ display: "inline" }}
+                              color="textPrimary"
+                            >
+                              Fecha de Inclusión:
+                            </Typography>
+                            {this.formatDate(new Date(item.fechainclusion))}
                           </Col>
                           <Col>
-                            <FormGroup>
-                              <strong>Forma Inicio: </strong> {item.formainic}
-                            </FormGroup>
+                            <Typography
+                              component="span"
+                              variant="body2"
+                              style={{ display: "inline" }}
+                              color="textPrimary"
+                            >
+                              Forma Inicio:
+                            </Typography>
+                            {item.formainic}
                           </Col>
                           <Col>
-                            <FormGroup>
-                              <strong>Fecha Diagnóstico: </strong>
-                              {item.fechadiagnos}
-                            </FormGroup>
+                            <Typography
+                              component="span"
+                              variant="body2"
+                              style={{ display: "inline" }}
+                              color="textPrimary"
+                            >
+                              Fecha Diagnóstico:
+                            </Typography>
+                            {this.formatDate(new Date(item.fechadiagnos))}
                           </Col>
                           <Col>
-                            <FormGroup>
-                              <strong>Diagnóstico: </strong>
-                              {item.diagnostico}
-                            </FormGroup>
+                            <Typography
+                              component="span"
+                              variant="body2"
+                              style={{ display: "inline" }}
+                              color="textPrimary"
+                            >
+                              Diagnóstico:
+                            </Typography>
+                            {item.diagnostico}
                           </Col>
-                        </Row>
-                      </Panel>
-                    </Card>
-                  </Col>
-                </Row>
-              ))}
-            </Col>
-          </Row>
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                </List>
+              </Row>
+            </div>
+          ))}
         </Container>
       </Container>
     );

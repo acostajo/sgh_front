@@ -96,18 +96,18 @@ class BuscarConsulta extends Component {
 
   formatDate(date) {
     var monthNames = [
-      "January",
-      "February",
-      "March",
+      "Enero",
+      "Febrero",
+      "Marzo",
       "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Augusto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
     ];
 
     var day = date.getDate();

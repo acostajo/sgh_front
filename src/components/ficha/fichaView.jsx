@@ -102,6 +102,7 @@ class FichaView extends Component {
     this.onCancelDelete = this.onCancelDelete.bind(this);
     this.alertDelete = this.alertDelete.bind(this);
     this.alertCancel = this.alertCancel.bind(this);
+    this.formatDate = this.formatDate.bind(this);
   }
   onDismiss() {
     this.setState({ visible: false });
@@ -334,6 +335,29 @@ class FichaView extends Component {
       confirmCancel: !this.state.confirmCancel
     });
   };
+
+  formatDate(date) {
+    var monthNames = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "April",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Augusto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ];
+
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+
+    return day + " " + monthNames[monthIndex] + " " + year;
+  }
   render() {
     return (
       <Container style={{ marginTop: 20 }}>
@@ -348,7 +372,11 @@ class FichaView extends Component {
                   <Label>
                     <strong>Fecha Inicio de los Síntomas:</strong>
                   </Label>
-                  <p>{this.state.datosficha.iniciosint}</p>
+                  <p>
+                    {this.formatDate(
+                      new Date(this.state.datosficha.iniciosint)
+                    )}
+                  </p>
                 </FormGroup>
               </Col>
               <Col>

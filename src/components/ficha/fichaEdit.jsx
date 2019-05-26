@@ -213,6 +213,7 @@ class FichaEdit extends Component {
     this.handleDeleteFame = this.handleDeleteFame.bind(this);
     this.handleDeleteComor = this.handleDeleteComor.bind(this);
     this.alertConfirm = this.alertConfirm.bind(this);
+    this.formatDate = this.formatDate.bind(this);
   }
 
   alertConfirm() {
@@ -1237,6 +1238,28 @@ class FichaEdit extends Component {
     });
   }
 
+  formatDate(date) {
+    var monthNames = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "April",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Augusto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ];
+
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+
+    return day + " " + monthNames[monthIndex] + " " + year;
+  }
   render() {
     return (
       <Container style={{ marginTop: 20 }}>

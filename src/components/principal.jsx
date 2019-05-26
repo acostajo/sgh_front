@@ -3,10 +3,8 @@ import {
   Container,
   Row,
   Card,
-  Col,
   ListGroupItem,
   ListGroup,
-  Button,
   FormGroup,
   Progress,
   Label,
@@ -15,20 +13,27 @@ import {
 //import "rsuite/dist/styles/rsuite.css";
 import NavBarMenu from "./navbar";
 import BuscarFicha from "./ficha/buscarFicha";
-import { Modal } from "rsuite";
+import Ficha from "./ficha/fichaForm";
+import { Modal, Icon } from "rsuite";
 import { Bar } from "react-chartjs-2";
-
+import { FlexboxGrid, Button, Divider, Col } from "rsuite";
+import { Link } from "react-router-dom";
+import { Table, IconButton, CustomWhisper } from "rsuite";
+import axios from "axios";
+const { Column, HeaderCell, Cell } = Table;
 class MenuPrincipal extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       toggleListaPaciente: false,
+      toggleAgregarPaciente: false,
+
       dataBar: {
-        labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"],
+        labels: ["Enero", "Febrero", "Marzo", "Abril"],
         datasets: [
           {
-            label: "% of Votes",
+            label: "Cantidad de Consultas en el Año",
             data: [12, 19, 3, 5, 2, 3],
             backgroundColor: [
               "rgba(255, 134,159,0.4)",
@@ -80,18 +85,87 @@ class MenuPrincipal extends Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.toggleListaPaciente = this.toggleListaPaciente.bind(this);
+    this.toggleAgregarPaciente = this.toggleAgregarPaciente.bind(this);
+    this.filterAgenda = this.filterAgenda.bind(this);
+    this.handleAsistio = this.handleAsistio.bind(this);
+    this.handleNoAsistio = this.handleNoAsistio.bind(this);
   }
+
+  filterAgenda(event) {
+    //var resultado = this.state.datosAgenda.filter(agenda);
+  }
+
   toggleListaPaciente() {
     this.setState({
       toggleListaPaciente: !this.state.toggleListaPaciente
     });
   }
+  toggleAgregarPaciente() {
+    this.setState({
+      toggleAgregarPaciente: !this.state.toggleAgregarPaciente
+    });
+  }
 
   handleClick() {}
 
+  async componentWillMount() {
+    const url1 = "http://127.0.0.1:8000/api/agenda";
+    let datosagenda = {};
+
+    await axios
+      .get(url1)
+      .then(function(response) {
+        console.log(response.data);
+        datosagenda = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    this.setState({
+      datosAgenda: datosagenda
+    });
+
+    console.log(this.state.datosAgenda);
+  }
+  calcularTotales() {
+    let countTotalPac = 0;
+    let countAtendidos = 0;
+
+    const checksNAD = Object.values(this.state.checksNAD);
+    const checksNAT = Object.values(this.state.checksNAT);
+
+    for (const prop in checksNAD) {
+      if (
+        checksNAD[prop] === 0 ||
+        checksNAD[prop] === 1 ||
+        checksNAD[prop] === 2
+      ) {
+        countTotalPac = countTotalPac + 1;
+      }
+    }
+    for (const prop in checksNAT) {
+      if (checksNAT[prop] === 2) {
+        countAtendidos = countAtendidos + 1;
+      }
+    }
+  }
+
+  handleAsistio(rowData) {
+    console.log(rowData.codagenda);
+  } //queres q te llame?, si
+
+  handleNoAsistio(rowData, data) {
+    //aca le quiero cambiar el estado
+
+    console.log(rowData.codagenda);
+  }
+
   render() {
+    const ButtonLink = props => <Button componentClass={Link} {...props} />;
+
     return (
-      <div>
+      <div style={{ marginTop: 40 }}>
         <NavBarMenu />
 
         <Modal
@@ -102,93 +176,164 @@ class MenuPrincipal extends Component {
             <BuscarFicha />
           </Modal.Body>
         </Modal>
+        <Modal
+          show={this.state.toggleAgregarPaciente}
+          onHide={this.toggleAgregarPaciente}
+          style={{ width: "90%" }}
+        >
+          <Modal.Body>
+            <Ficha />
+          </Modal.Body>
+        </Modal>
         <Container>
           <Row>
-            <Col xs="5" style={{ paddingBottom: 10 }}>
+            <Col xs="12" style={{ paddingBottom: 10 }}>
               <div
-                className="border border-secondary rounded"
-                style={{ padding: 20 }}
+                style={{
+                  padding: 20,
+                  borderLeft: "5px solid",
+                  marginBottom: 15,
+                  padding: 10,
+                  borderLeftColor: "#8dcdff", //"rgba(90, 154, 255, 0.6)",
+                  borderRadius: "5px",
+                  borderTop: "0.5px solid",
+                  borderRight: "0.5px solid",
+                  borderBottom: "0.5px solid",
+                  borderTopColor: "#eee",
+                  borderRightColor: "#eee",
+                  borderBottomColor: "#eee"
+                  // color: "#eee"
+                }}
               >
                 <FormGroup className="text-center">
                   <h3>Pacientes Agendados</h3>
 
                   <Button color="primary">Actualizar Agenda</Button>
                 </FormGroup>
-                <hr className=" border-secondary rounded" />
-                <ListGroup>
-                  <ListGroupItem tag="a" href="#" action>
-                    <strong style={{ marginLeft: 5 }}>Nombre: </strong> Jazmin
-                    <strong style={{ marginLeft: 5 }}>Apellido: </strong>
-                    Insfran
-                    <strong style={{ marginLeft: 5 }}>Orden: </strong> 1
-                  </ListGroupItem>
-                  <ListGroupItem tag="a" href="#" action>
-                    <strong style={{ marginLeft: 5 }}>Nombre: </strong> Jazmin
-                    <strong style={{ marginLeft: 5 }}>Apellido: </strong>
-                    Insfran
-                    <strong style={{ marginLeft: 5 }}>Orden: </strong> 1
-                  </ListGroupItem>
-                  <ListGroupItem tag="a" href="#" action>
-                    <strong style={{ marginLeft: 5 }}>Nombre: </strong> Jazmin
-                    <strong style={{ marginLeft: 5 }}>Apellido: </strong>
-                    Insfran
-                    <strong style={{ marginLeft: 5 }}>Orden: </strong> 1
-                  </ListGroupItem>
-                  <ListGroupItem tag="a" href="#" action>
-                    <strong style={{ marginLeft: 5 }}>Nombre: </strong> Jazmin
-                    <strong style={{ marginLeft: 5 }}>Apellido: </strong>
-                    Insfran
-                    <strong style={{ marginLeft: 5 }}>Orden: </strong> 1
-                  </ListGroupItem>
-                </ListGroup>
+                <div>
+                  <Table
+                    virtualized
+                    height={400}
+                    data={this.state.datosAgenda}
+                    onRowClick={data => {
+                      console.log(data);
+                    }}
+                  >
+                    <Column width={97} fixed>
+                      <HeaderCell>Asistio?</HeaderCell>
+
+                      <Cell>
+                        {rowData => {
+                          function handleAsistio() {
+                            alert(rowData.codagenda);
+                          }
+                          function handleNoAsistio() {
+                            alert(rowData.codagenda);
+                          }
+                          return (
+                            <span>
+                              <Button onClick={handleAsistio}> si </Button> |
+                              <Button onClick={handleNoAsistio}> no </Button>
+                            </span>
+                          );
+                        }}
+                      </Cell>
+                    </Column>
+
+                    <Column width={70} align="center" fixed>
+                      <HeaderCell>Orden</HeaderCell>
+                      <Cell dataKey="orden" />
+                    </Column>
+
+                    <Column width={180} fixed>
+                      <HeaderCell>Nombres</HeaderCell>
+                      <Cell dataKey="nombres" />
+                    </Column>
+
+                    <Column width={180}>
+                      <HeaderCell>Apellidos</HeaderCell>
+                      <Cell
+                        dataKey="apellidos"
+                        onClick={rowData => console.log(rowData.target.dataKey)}
+                      />
+                    </Column>
+                  </Table>
+                </div>
               </div>
             </Col>
-            <Col xs="7">
-              <div
-                className="border border-secondary rounded"
-                style={{ padding: 10 }}
-              >
-                <Row>
-                  <Col className="text-center">
-                    <FormGroup>
-                      <Button
-                        onClick={this.toggleListaPaciente}
-                        color="success"
-                        style={{ margin: 5 }}
-                      >
-                        Buscar Paciente
-                      </Button>
-                      <Button color="success" style={{ margin: 5 }}>
-                        Paciente Nuevo
-                      </Button>
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <hr className=" border-secondary rounded" />
-                <Row>
-                  <Col className="text-center">
-                    <FormGroup>
-                      <h4>Pacientes Atendidos</h4>
-                    </FormGroup>
-                    <Progress value="25" />
-                    <div className="text-center">50%</div>
-                    <Label style={{ margin: 5 }}>Total Pacientes: </Label>
-                    <Badge pill>40</Badge>
-                    <Label style={{ margin: 5 }}>Pacientes Atendidos: </Label>
-                    <Badge pill>20</Badge>
-                  </Col>
-                </Row>
-                <hr className=" border-secondary rounded" />
-                <Row>
-                  <Col>
-                    <div style={{ height: "500" }}>
-                      <Bar
-                        data={this.state.dataBar}
-                        options={this.state.barChartOptions}
-                      />
-                    </div>
-                  </Col>
-                </Row>
+            <Col xs="12">
+              <div className="text-center">
+                <Button
+                  style={{ height: 200, width: 250 }}
+                  onClick={this.toggleListaPaciente}
+                >
+                  <Icon
+                    icon="search"
+                    style={{
+                      fontSize: 50,
+                      color: "#007bff"
+                    }}
+                  />
+
+                  <h4
+                    style={{
+                      color: "#111",
+                      marginBottom: 10,
+                      fontweigh: 200
+                    }}
+                  >
+                    Buscar Paciente
+                  </h4>
+                </Button>
+
+                <Divider vertical style={{ height: 200 }} />
+
+                <Button
+                  style={{ height: 200, width: 250 }}
+                  onClick={this.toggleAgregarPaciente}
+                >
+                  <Icon
+                    icon="user-plus"
+                    style={{
+                      fontSize: 50,
+                      color: "#133E7C"
+                    }}
+                  />
+                  <h4
+                    style={{
+                      color: "#111",
+                      marginBottom: 10,
+                      fontweigh: 200
+                    }}
+                  >
+                    Agregar Paciente
+                  </h4>
+                </Button>
+
+                <Divider horizontal style={{ width: 555 }} />
+
+                <Col className="text-center">
+                  <FormGroup>
+                    <h4>Pacientes Atendidos</h4>
+                  </FormGroup>
+                  <Progress value="25" />
+                  <div className="text-center">50%</div>
+                  <Label style={{ margin: 5 }}>Total Pacientes: </Label>
+                  <Badge pill>40</Badge>
+                  <Label style={{ margin: 5 }}>Pacientes Atendidos: </Label>
+                  <Badge pill>20</Badge>
+                </Col>
+
+                <Divider horizontal style={{ width: 555 }} />
+
+                <Col>
+                  <div style={{ height: "500" }}>
+                    <Bar
+                      data={this.state.dataBar}
+                      options={this.state.barChartOptions}
+                    />
+                  </div>
+                </Col>
               </div>
             </Col>
           </Row>

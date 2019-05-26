@@ -132,6 +132,7 @@ class OrdenEstudio extends Component {
       });
 
     this.setState({ estudioList: listaEstudio });
+    console.log(listaEstudio);
   }
 
   filterEstudio(event) {
