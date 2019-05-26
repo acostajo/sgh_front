@@ -23,57 +23,14 @@ class Resumen extends Component {
       datosOrden: [],
       dataTimeLine: [],
       dataTimeLineAux: [],
-      meses: 3,
-      configCdai: {},
-      data: [
-        {
-          name: "Page A",
-          uv: 4000,
-          pv: 2400,
-          amt: 2400
-        },
-        {
-          name: "Page B",
-          uv: 3000,
-          pv: 1398,
-          amt: 2210
-        },
-        {
-          name: "Page C",
-          uv: 2000,
-          pv: 9800,
-          amt: 2290
-        },
-        {
-          name: "Page D",
-          uv: 2780,
-          pv: 3908,
-          amt: 2000
-        },
-        {
-          name: "Page E",
-          uv: 1890,
-          pv: 4800,
-          amt: 2181
-        },
-        {
-          name: "Page F",
-          uv: 2390,
-          pv: 3800,
-          amt: 2500
-        },
-        {
-          name: "Page G",
-          uv: 3490,
-          pv: 4300,
-          amt: 2100
-        }
-      ]
+      dataCdaiSdai: [],
+      dataDas28: []
     };
     this.compare = this.compare.bind(this);
+    this.getConsultas = this.getConsultas.bind(this);
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     //const cod = this.props.match.params.codconsulta;
     const cod = this.props.match.params.codficha;
     const url1 = "http://127.0.0.1:8000/api/ficha?codficha=";
@@ -94,10 +51,7 @@ class Resumen extends Component {
     this.getConsultas();
     this.getPanolabs();
     this.getOrdenes();
-    this.getCdaiData();
   }
-
-  getCdaiData() {}
 
   async getConsultas() {
     const cod = this.props.match.params.codficha;
@@ -105,6 +59,8 @@ class Resumen extends Component {
     let datosConsulta = [];
     let dataTimeLine = this.state.dataTimeLine;
     let aux = this.state.dataTimeLineAux;
+    let data1 = this.state.dataCdaiSdai;
+    let data2 = this.state.dataDas28;
 
     await axios
       .get(url1 + cod)
@@ -115,7 +71,7 @@ class Resumen extends Component {
         console.log(error);
       });
 
-    for (let i = 0; i < datosConsulta.length; i++) {
+    for (let i = 0; i < 4; i++) {
       const date = new Date(datosConsulta[i].fechaconsulta);
       const element = {
         tipo: "Consulta",
@@ -128,24 +84,28 @@ class Resumen extends Component {
       };
       dataTimeLine.push(element);
       aux.push(element);
+      const grafico1 = {
+        fecha: date.toLocaleDateString(),
+        cdai: datosConsulta[i].cdai,
+        sdai: datosConsulta[i].sdai
+      };
+      data1.push(grafico1);
+
+      const grafico2 = {
+        fecha: date.toLocaleDateString(),
+        das28vsg: datosConsulta[i].das28vsg,
+        das28pcr: datosConsulta[i].das28pcr
+      };
+      data2.push(grafico2);
     }
+    console.log(data2);
     this.setState({
       dataTimeLine: dataTimeLine,
       dataTimeLineAux: aux,
-      datosConsulta: datosConsulta
+      datosConsulta: datosConsulta,
+      dataCdaiSdai: data1,
+      dataDas28: data2
     });
-
-    let labels = [];
-    let data = [];
-
-    for (let i = 0; i < datosConsulta.length; i++) {
-      var date = new Date(datosConsulta[i].fechaconsulta);
-
-      labels.push(date.toLocaleDateString());
-      data.push(datosConsulta[i].cdai);
-    }
-    console.log(labels);
-    console.log(data);
   }
 
   async getPanolabs() {
@@ -226,6 +186,8 @@ class Resumen extends Component {
 
   render() {
     const order = this.state.dataTimeLine.sort(this.compare);
+    const data = this.state.dataCdaiSdai;
+    console.log(data);
 
     return (
       <Row style={{ margin: 10 }}>
@@ -276,6 +238,8 @@ class Resumen extends Component {
                   case "Todos":
                     this.setState({ dataTimeLine: aux });
                     break;
+                  default:
+                    break;
                 }
               }}
             >
@@ -302,58 +266,46 @@ class Resumen extends Component {
         <Col lg="8" md="8" sm="8">
           <div className="border rounded">
             <Row>
-              <Col>
-                <LineChart
-                  width={400}
-                  height={300}
-                  data={this.state.data}
-                  margin={{
-                    top: 5,
-                    right: 30,
-                    left: 20,
-                    bottom: 5
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-
-                  <Line
-                    type="monotone"
-                    dataKey="pv"
-                    stroke="#8884d8"
-                    activeDot={{ r: 8 }}
-                  />
-                  <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-                </LineChart>
-              </Col>
-              <Col>
-                <LineChart
-                  width={400}
-                  height={300}
-                  data={this.state.data}
-                  margin={{
-                    top: 5,
-                    right: 30,
-                    left: 20,
-                    bottom: 5
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-
-                  <Line
-                    type="monotone"
-                    dataKey="pv"
-                    stroke="#8884d8"
-                    activeDot={{ r: 8 }}
-                  />
-                  <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-                </LineChart>
-              </Col>
+              <LineChart
+                width={600}
+                height={300}
+                data={this.state.datosConsulta}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="fechaconsulta" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="cdai"
+                  stroke="blue"
+                  activeDot={{ r: 8 }}
+                />
+                <Line type="monotone" dataKey="sdai" stroke="green" />
+              </LineChart>
+            </Row>
+            <Row>
+              <LineChart
+                width={600}
+                height={300}
+                data={this.state.datosConsulta}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="fechaconsulta" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="das28pcr"
+                  stroke="orange"
+                  activeDot={{ r: 8 }}
+                />
+                <Line type="monotone" dataKey="das28vsg" stroke="violet" />
+              </LineChart>
             </Row>
           </div>
         </Col>
