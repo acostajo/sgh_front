@@ -26,8 +26,12 @@ class MenuPrincipal extends Component {
     super(props);
 
     this.state = {
+      codSelected: 0,
       toggleListaPaciente: false,
       toggleAgregarPaciente: false,
+      totalPacientes: "",
+      pacientesAtendidos: "",
+      pacientesNoAtendidos: "",
 
       dataBar: {
         labels: ["Enero", "Febrero", "Marzo", "Abril"],
@@ -109,9 +113,31 @@ class MenuPrincipal extends Component {
   handleClick() {}
 
   async componentWillMount() {
+    await this.getDatosAgenda();
+    await this.calcularTotales();
+  }
+  async getDatosAgenda() {
     const url1 = "http://127.0.0.1:8000/api/agenda";
-    let datosagenda = {};
+    let datosagenda = [];
 
+    await axios //osea es traer esto vd? asi mismi pero ahi no le vas a hacer el
+      .get(url1)
+      .then(function(response) {
+        datosagenda = response.data.filter(item => {
+          return item.estado === 0;
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    this.setState({
+      datosAgenda: datosagenda
+    });
+  }
+  async calcularTotales() {
+    const url1 = "http://127.0.0.1:8000/api/agenda";
+    let datosagenda = [];
     await axios
       .get(url1)
       .then(function(response) {
@@ -121,48 +147,61 @@ class MenuPrincipal extends Component {
       .catch(function(error) {
         console.log(error);
       });
+    const countTotalPac = datosagenda.length;
+    const countAtendidos = datosagenda.filter(item => {
+      return item.estado === 1;
+    }).length;
+    const countNoAtendidos = datosagenda.filter(item => {
+      return item.estado === 2;
+    }).length;
 
     this.setState({
-      datosAgenda: datosagenda
+      totalPacientes: countTotalPac,
+      pacientesAtendidos: countAtendidos,
+      pacientesNoAtendidos: countNoAtendidos
     });
-
-    console.log(this.state.datosAgenda);
-  }
-  calcularTotales() {
-    let countTotalPac = 0;
-    let countAtendidos = 0;
-
-    const checksNAD = Object.values(this.state.checksNAD);
-    const checksNAT = Object.values(this.state.checksNAT);
-
-    for (const prop in checksNAD) {
-      if (
-        checksNAD[prop] === 0 ||
-        checksNAD[prop] === 1 ||
-        checksNAD[prop] === 2
-      ) {
-        countTotalPac = countTotalPac + 1;
-      }
-    }
-    for (const prop in checksNAT) {
-      if (checksNAT[prop] === 2) {
-        countAtendidos = countAtendidos + 1;
-      }
-    }
   }
 
-  handleAsistio(rowData) {
-    console.log(rowData.codagenda);
-  } //queres q te llame?, si
+  async handleAsistio(rowData) {
+    const url = "http://127.0.0.1:8000/api/agenda/" + rowData.codagenda + "/";
+    var datoAgenda = this.state.datosAgenda.filter(item => {
+      return item.codagenda === rowData.codagenda;
+    })[0];
+    datoAgenda.estado = 1; //cambia a asistio
+    await axios
+      .put(url, datoAgenda)
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    await this.getDatosAgenda();
+    await this.calcularTotales();
+  }
 
-  handleNoAsistio(rowData, data) {
-    //aca le quiero cambiar el estado
-
-    console.log(rowData.codagenda);
+  async handleNoAsistio(rowData, data) {
+    const url = "http://127.0.0.1:8000/api/agenda/" + rowData.codagenda + "/";
+    var datoAgenda = this.state.datosAgenda.filter(item => {
+      return item.codagenda === rowData.codagenda;
+    })[0];
+    datoAgenda.estado = 2; //cambia a no asistio
+    await axios
+      .put(url, datoAgenda)
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    await this.getDatosAgenda();
+    await this.calcularTotales();
   }
 
   render() {
     const ButtonLink = props => <Button componentClass={Link} {...props} />;
+    const handleNoAsistio = this.handleNoAsistio;
+    const handleAsistio = this.handleAsistio;
 
     return (
       <div style={{ marginTop: 40 }}>
@@ -208,32 +247,41 @@ class MenuPrincipal extends Component {
                 <FormGroup className="text-center">
                   <h3>Pacientes Agendados</h3>
 
-                  <Button color="primary">Actualizar Agenda</Button>
+                  <Button
+                    onClick={() => {
+                      console.log(this.state.codSelected);
+                    }}
+                    color="primary"
+                  >
+                    Actualizar Agenda
+                  </Button>
                 </FormGroup>
                 <div>
-                  <Table
-                    virtualized
-                    height={400}
-                    data={this.state.datosAgenda}
-                    onRowClick={data => {
-                      console.log(data);
-                    }}
-                  >
+                  <Table virtualized height={400} data={this.state.datosAgenda}>
                     <Column width={97} fixed>
                       <HeaderCell>Asistio?</HeaderCell>
 
                       <Cell>
                         {rowData => {
-                          function handleAsistio() {
-                            alert(rowData.codagenda);
-                          }
-                          function handleNoAsistio() {
-                            alert(rowData.codagenda);
-                          }
+                          const handleAsistio = () => {
+                            this.handleAsistio(rowData);
+                          };
+                          const handleNoAsistio = () => {
+                            this.handleNoAsistio(rowData);
+                          };
                           return (
                             <span>
-                              <Button onClick={handleAsistio}> si </Button> |
-                              <Button onClick={handleNoAsistio}> no </Button>
+                              <IconButton
+                                appearance="subtle"
+                                onClick={handleAsistio}
+                                icon={<Icon icon="edit2" />}
+                              />
+                              |
+                              <IconButton
+                                appearance="subtle"
+                                onClick={handleNoAsistio}
+                                icon={<Icon icon="edit2" />}
+                              />
                             </span>
                           );
                         }}
@@ -316,12 +364,26 @@ class MenuPrincipal extends Component {
                   <FormGroup>
                     <h4>Pacientes Atendidos</h4>
                   </FormGroup>
-                  <Progress value="25" />
-                  <div className="text-center">50%</div>
+                  <Progress
+                    value={
+                      parseFloat(
+                        this.state.pacientesAtendidos /
+                          this.state.totalPacientes
+                      ) * 100
+                    }
+                  />
+                  <div className="text-center">
+                    {parseFloat(
+                      this.state.pacientesAtendidos / this.state.totalPacientes
+                    ) * 100}
+                    %
+                  </div>
                   <Label style={{ margin: 5 }}>Total Pacientes: </Label>
-                  <Badge pill>40</Badge>
+                  <Badge pill>{this.state.totalPacientes}</Badge>
                   <Label style={{ margin: 5 }}>Pacientes Atendidos: </Label>
-                  <Badge pill>20</Badge>
+                  <Badge pill>{this.state.pacientesAtendidos}</Badge>
+                  <Label style={{ margin: 5 }}>Pacientes No Atendidos: </Label>
+                  <Badge pill>{this.state.pacientesNoAtendidos}</Badge>
                 </Col>
 
                 <Divider horizontal style={{ width: 555 }} />
