@@ -35,6 +35,7 @@ import OrdenEstudioView from "../ordenestudio/ordenestudioView";
 import FichaEdit from "../ficha/fichaEdit";
 
 //import { Col } from "rsuite";
+import Resumen from "./../resumen/resumen";
 
 class MenuFicha extends Component {
   constructor(props) {
@@ -90,7 +91,6 @@ class MenuFicha extends Component {
     await axios
       .get(url1 + cod)
       .then(function(response) {
-        console.log(response.data[0]);
         datosFicha = response.data[0];
       })
       .catch(function(error) {
@@ -198,7 +198,7 @@ class MenuFicha extends Component {
           >
             <NavLi
               eventKey="resumen"
-              to={`/menu_ficha/${this.state.datosFicha.codficha}/ficha_view/${
+              to={`/menu_ficha/${this.state.datosFicha.codficha}/resumen/${
                 this.state.datosFicha.codficha
               }`}
               activeStyle={this.state.activeStyleFicha}
@@ -253,6 +253,10 @@ class MenuFicha extends Component {
           </Nav>
 
           <Switch>
+            <Route
+              path="/menu_ficha/:codficha/resumen/:codficha"
+              component={Resumen}
+            />
             <Route
               path="/menu_ficha/:codficha/ficha_edit/:codficha"
               component={FichaEdit}
