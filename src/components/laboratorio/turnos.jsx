@@ -15,6 +15,7 @@ import {
 } from "reactstrap";
 import { FormInput } from "semantic-ui-react";
 import { Modal, SelectPicker } from "rsuite";
+import Select from "react-select";
 import { Calendar } from "react-calendar";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
@@ -275,15 +276,19 @@ class Turnos extends Component {
       console.log(this.state.dataTurno);
     });
   }
+
   onSelectTurno(value, item, event) {
+    console.log(value.value);
     var list = this.state.datosTurnosDist;
+
     var list2 = this.state.datosTurnos.filter(item => {
       return item.fechaturno === this.state.fechaTurno;
     });
+    console.log(list2);
     var listTurnos = [];
 
     var turnos = list.filter(item => {
-      return item.turno === value;
+      return item.turno === value.value;
     });
 
     for (let i = 0; i < turnos.length; i++) {
@@ -301,22 +306,26 @@ class Turnos extends Component {
         }
       }
     }
-    this.setState({ turno: value, datosTurnoDistSelect: listTurnos });
+    this.setState({
+      turno: value.value,
+      datosTurnoDistSelect: listTurnos
+    });
   }
 
   onSelectNumTurno(value, item, event) {
     var turnoaux = this.state.datosTurnos.filter(item => {
       return item.codturno === this.state.turnoSelected;
     })[0];
+
     const turno = {
       codficha: turnoaux.codficha,
       codordenestudio: turnoaux.codordenestudio,
       estado: turnoaux.codordenestudio,
-      codturnodist: value.codturnodist,
+      codturnodist: value.value.codturnodist,
       fechaturno: this.state.fechaTurno
     };
-    this.setState({ turnoAgregar: turno });
     console.log(turno);
+    this.setState({ turnoAgregar: turno });
   }
 
   toggleEvento() {
@@ -408,13 +417,11 @@ class Turnos extends Component {
                           <FormGroup>
                             <Label>Turno </Label>
                             <FormInput>
-                              <SelectPicker
-                                data={data}
-                                style={{ width: 224 }}
-                                searchable={false}
-                                defaultValue={data[0]}
-                                placeholder="Seleccionar"
-                                onSelect={this.onSelectTurno}
+                              <Select
+                                value={this.state.turnoName}
+                                onChange={this.onSelectTurno}
+                                options={data}
+                                isSearchable={false}
                               />
                             </FormInput>
                           </FormGroup>
@@ -425,15 +432,11 @@ class Turnos extends Component {
                           <FormGroup>
                             <Label>Numero de Turno</Label>
                             <FormInput>
-                              <SelectPicker
-                                data={this.state.datosTurnoDistSelect}
-                                style={{ width: 224 }}
-                                onSelect={this.onSelectNumTurno}
-                                placeholder="Seleccionar"
-                                searchable={false}
-                                defaultValue={
-                                  this.state.datosTurnoDistSelect[0]
-                                }
+                              <Select
+                                value={this.state.turnoNumName}
+                                onChange={this.onSelectNumTurno}
+                                options={this.state.datosTurnoDistSelect}
+                                isSearchable={false}
                               />
                             </FormInput>
                           </FormGroup>

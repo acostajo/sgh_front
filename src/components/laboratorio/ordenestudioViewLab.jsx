@@ -13,6 +13,7 @@ import {
   Label,
   Input
 } from "reactstrap";
+import Select from "react-select";
 import axios from "axios";
 import { Uploader, Icon, SelectPicker } from "rsuite";
 import "flatpickr/dist/themes/material_blue.css";
@@ -125,7 +126,7 @@ class OrdenEstudioViewLab extends Component {
     var listTurnos = [];
 
     var turnos = list.filter(item => {
-      return item.turno === value;
+      return item.turno === value.value;
     });
 
     for (let i = 0; i < turnos.length; i++) {
@@ -143,12 +144,12 @@ class OrdenEstudioViewLab extends Component {
         }
       }
     }
-    this.setState({ turno: value, datosTurnoDistSelect: listTurnos });
+    this.setState({ turno: value.value, datosTurnoDistSelect: listTurnos });
   }
 
   onSelectNumTurno(value, item, event) {
     const turno = {
-      codturnodist: value.codturnodist,
+      codturnodist: value.value.codturnodist,
       codficha: this.props.match.params.codficha,
       codordenestudio: this.props.match.params.codordenestudio,
       fechaturno: this.state.fechaTurno,
@@ -321,13 +322,11 @@ class OrdenEstudioViewLab extends Component {
                     <FormGroup>
                       <Label>Turno </Label>
                       <FormInput>
-                        <SelectPicker
-                          data={data}
-                          style={{ width: 224 }}
-                          searchable={false}
-                          defaultValue={data[0]}
-                          placeholder="Seleccionar"
-                          onSelect={this.onSelectTurno}
+                        <Select
+                          value={this.state.turnoName}
+                          onChange={this.onSelectTurno}
+                          options={data}
+                          isSearchable={false}
                         />
                       </FormInput>
                     </FormGroup>
@@ -338,13 +337,11 @@ class OrdenEstudioViewLab extends Component {
                     <FormGroup>
                       <Label>Numero de Turno</Label>
                       <FormInput>
-                        <SelectPicker
-                          data={this.state.datosTurnoDistSelect}
-                          style={{ width: 224 }}
-                          onSelect={this.onSelectNumTurno}
-                          placeholder="Seleccionar"
-                          searchable={false}
-                          defaultValue={this.state.datosTurnoDistSelect[0]}
+                        <Select
+                          value={this.state.turnoNumName}
+                          onChange={this.onSelectNumTurno}
+                          options={this.state.datosTurnoDistSelect}
+                          isSearchable={false}
                         />
                       </FormInput>
                     </FormGroup>
