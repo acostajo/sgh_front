@@ -22,51 +22,154 @@ class MenuLab extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      datosOrdenPendiente: [],
+      datosOrdenAgendado: [],
+      datosEstudio: [],
+      datosPaciente: [],
+      datosAgendarTurno: [],
+      datosPendienteResultado: []
+    };
 
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick() {}
   async componentWillMount() {
-    await this.getDatosAgenda();
+    await this.getDatosOrden();
+    await this.getDatosEstudio();
+    await this.getDatosPaciente();
+    this.generarListaAgendar();
   }
-  async getDatosAgenda() {
-    const url1 = "http://127.0.0.1:8000/api/agenda";
-    let datosagenda = [];
+
+  async getDatosPaciente() {
+    const url1 = "http://127.0.0.1:8000/api/ficha";
+    let datosPaciente = [];
 
     await axios //osea es traer esto vd? asi mismi pero ahi no le vas a hacer el
       .get(url1)
       .then(function(response) {
-        datosagenda = response.data.filter(item => {
-          return item.estado === 0;
-        });
+        datosPaciente = response.data;
       })
       .catch(function(error) {
         console.log(error);
       });
 
     this.setState({
-      datosAgenda: datosagenda
+      datosPaciente: datosPaciente
+    });
+    console.log(datosPaciente);
+  }
+
+  async getDatosEstudio() {
+    const url1 = "http://127.0.0.1:8000/api/estudio";
+    let datosEstudio = [];
+
+    await axios //osea es traer esto vd? asi mismi pero ahi no le vas a hacer el
+      .get(url1)
+      .then(function(response) {
+        datosEstudio = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    this.setState({
+      datosEstudio: datosEstudio
+    });
+    console.log(datosEstudio);
+  }
+
+  async getDatosOrden() {
+    const url1 = "http://127.0.0.1:8000/api/ordenestudio";
+    let datosOrden = [];
+
+    await axios //osea es traer esto vd? asi mismi pero ahi no le vas a hacer el
+      .get(url1)
+      .then(function(response) {
+        datosOrden = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    this.setState({
+      datosOrdenPendiente: datosOrden.filter(item => {
+        return item.estado === "Pendiente";
+      }),
+      datosOrdenAgendado: datosOrden.filter(item => {
+        return item.estado === "Agendado";
+      })
+    });
+    console.log(datosOrden);
+  }
+
+  generarListaAgendar() {
+    let lista1 = this.state.datosOrdenPendiente;
+    let lista2 = this.state.datosOrdenAgendado;
+    let estudios = this.state.datosEstudio;
+    let pacientes = this.state.datosPaciente;
+
+    let listAgendar = [];
+    let listPendiente = [];
+
+    console.log(lista1);
+
+    for (let i = 0; i < lista1.length; i++) {
+      const element = {
+        codordenestudio: lista1[i].codordenestudio,
+        estudio: estudios.filter(item => {
+          return lista1[i].codestudio === item.codestudio;
+        })[0].nombre,
+        nombre:
+          pacientes.filter(item => {
+            return lista1[i].codficha === item.codficha;
+          })[0].nombres +
+          " " +
+          pacientes.filter(item => {
+            return lista1[i].codficha === item.codficha;
+          })[0].apellidos,
+        estado: lista1[i].estado
+      };
+      listAgendar.push(element);
+    }
+
+    for (let i = 0; i < lista2.length; i++) {
+      const element = {
+        codordenestudio: lista2[i].codordenestudio,
+        estudio: estudios.filter(item => {
+          return lista2[i].codestudio === item.codestudio;
+        })[0].nombre,
+        nombre:
+          pacientes.filter(item => {
+            return lista2[i].codficha === item.codficha;
+          })[0].nombres +
+          " " +
+          pacientes.filter(item => {
+            return lista2[i].codficha === item.codficha;
+          })[0].apellidos,
+        estado: lista2[i].estado
+      };
+      listPendiente.push(element);
+    }
+
+    this.setState({
+      datosAgendarTurno: listAgendar,
+      datosPendienteResultado: listPendiente
     });
   }
 
   render() {
-    const ButtonLink = props => <Button componentClass={Link} {...props} />;
-
     return (
       <div>
         <NavBarMenuLab />
-        <FlexboxGrid colspan={8}>
+        <FlexboxGrid colSpan={8}>
           <FlexboxGrid.Item style={{ paddingBottom: 10 }}>
             <div
               style={{
                 padding: 0,
                 borderLeft: "5px solid",
-                marginBottom: 15,
-                marginLeft: 50,
-
-                width: 350,
+                width: 500,
                 borderLeftColor: "#ff7a00", //"rgba(90, 154, 255, 0.6)",
                 borderRadius: "5px",
                 borderTop: "0.5px solid",
@@ -88,7 +191,7 @@ class MenuLab extends Component {
               <div>
                 <Table
                   height={500}
-                  data={this.state.datosAgenda}
+                  data={this.state.datosAgendarTurno}
                   style={{
                     color: "#3c763d",
                     textDecoration: "none",
@@ -99,7 +202,6 @@ class MenuLab extends Component {
                 >
                   <Column width={50} resizable>
                     <HeaderCell> </HeaderCell>
-
                     <Cell>
                       {rowData => {
                         const handleAgendar = () => {
@@ -120,26 +222,21 @@ class MenuLab extends Component {
                   </Column>
                   <Column width={100} resizable>
                     <HeaderCell>Estudio</HeaderCell>
-                    <Cell dataKey="orden" />
+                    <Cell dataKey="estudio" />
                   </Column>
                   <Column width={180} resizable>
                     <HeaderCell>Nombres</HeaderCell>
-                    <Cell dataKey="nombres" />
+                    <Cell dataKey="nombre" />
                   </Column>
-                  <Column width={180} resizable>
-                    <HeaderCell>Apellidos</HeaderCell>
-                    <Cell dataKey="apellidos" />
-                  </Column>
-
-                  <Column width={100} resizable>
-                    <HeaderCell>Nro. Docu</HeaderCell>
-                    <Cell dataKey="orden" />
+                  <Column width={90} resizable>
+                    <HeaderCell>Estado</HeaderCell>
+                    <Cell dataKey="estado" />
                   </Column>
                 </Table>
               </div>
             </div>
           </FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={8}>
+          <FlexboxGrid.Item colSpan={8}>
             <div
               style={{
                 padding: 0,
@@ -147,9 +244,8 @@ class MenuLab extends Component {
                 stopColor: "#43a26f",
                 borderLeft: "5px solid",
                 colorAdjust: "#43a26f",
-                marginBottom: 15,
-                marginLeft: 50,
-                width: 350,
+
+                width: 500,
                 borderLeftColor: "#43a26f", //"rgba(90, 154, 255, 0.6)",
                 borderRadius: "5px",
                 borderTop: "0.5px solid",
@@ -211,14 +307,13 @@ class MenuLab extends Component {
               </div>
             </div>
           </FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={8}>
+          <FlexboxGrid.Item colSpan={8}>
             <div
               style={{
                 padding: 0,
                 borderLeft: "5px solid",
-                marginBottom: 15,
-                marginLeft: 50,
-                width: 350,
+
+                width: 500,
                 borderLeftColor: "#8dcdff", //"rgba(90, 154, 255, 0.6)",
                 borderRadius: "5px",
                 borderTop: "0.5px solid",
