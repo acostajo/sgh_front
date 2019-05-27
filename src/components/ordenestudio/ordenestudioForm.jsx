@@ -231,10 +231,9 @@ class OrdenEstudio extends Component {
   async handleAdd() {
     var url = "http://127.0.0.1:8000/api/ordenestudio/";
     let ordenestudio = this.state.datosOrdenEstudio;
+    console.log(ordenestudio);
     ordenestudio.codestudio = this.state.estudioListTable[0].codestudio;
     ordenestudio.codficha = this.props.match.params.codficha;
-
-    console.log(ordenestudio);
 
     await axios
       .post(url, ordenestudio)

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Dropdown, Nav, Navbar, Icon, Header } from "rsuite";
 import "rsuite/dist/styles/rsuite.min.css";
 
@@ -18,7 +18,7 @@ class NavBarMenuLab extends Component {
     });
   }
   render() {
-    const NavLink = props => <Nav.Item componentClass={Link} {...props} />;
+    const NavLi = props => <Nav.Item componentClass={NavLink} {...props} />;
     return (
       <div>
         <Header>
@@ -30,17 +30,27 @@ class NavBarMenuLab extends Component {
               zIndex: 3,
 
               width: "100%",
-              backgroundColor: "#091833"
+              backgroundColor: "#002b80"
             }}
           >
             <Navbar.Body>
               <Nav>
-                <NavLink icon={<Icon icon="home" />} to="/modulos">
+                <Nav.Item icon={<Icon icon="home" />} to="/modulos">
                   Inicio
-                </NavLink>
+                </Nav.Item>
               </Nav>
               <Nav pullRight>
+                <NavLi
+                  to="/turnos"
+                  icon={<Icon icon="cog" />}
+                  style={{
+                    backgroundColor: "#00b300"
+                  }}
+                >
+                  Gestionar Turno
+                </NavLi>
                 <Nav.Item icon={<Icon icon="cog" />}>Configuracion</Nav.Item>
+
                 <Dropdown title="Usuario">
                   <Dropdown.Item>Perfil</Dropdown.Item>
                   <Dropdown.Item>Cerrar Sesión</Dropdown.Item>
@@ -54,4 +64,4 @@ class NavBarMenuLab extends Component {
   }
 }
 
-export default NavBarMenu;
+export default NavBarMenuLab;
