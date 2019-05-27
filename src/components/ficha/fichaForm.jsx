@@ -26,6 +26,7 @@ import Comorbilidad from "./../comorbilidades/comorForm";
 import EventoCardiovascular from "./../eventocardiovascular/eventocardiovascularForm";
 import Manifestaciones from "./../manifestaciones/manifestaciones";
 import SweetAlert from "react-bootstrap-sweetalert";
+import { withRouter } from "react-router-dom";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -140,7 +141,7 @@ class Ficha extends Component {
           text: "Fecha Desde"
         },
         {
-          dataField: "famedasta",
+          dataField: "famehasta",
           text: "Fecha Hasta"
         }
       ],
@@ -465,8 +466,8 @@ class Ficha extends Component {
         codfame: this.state.fameSelected.codfame,
         nombre: this.state.fameSelected.nombre,
         descripcion: this.state.fameSelected.descripcion,
-        famedesde: this.state.fameSelected.fameDesde,
-        famedasta: this.state.fameSelected.fameHasta
+        famedesde: this.state.fameDesde,
+        famehasta: this.state.fameHasta
       };
       fameList.push(fame);
       console.log(this.state.fameSelected);
@@ -2040,4 +2041,4 @@ class Ficha extends Component {
   }
 }
 
-export default Ficha;
+export default withRouter(Ficha);

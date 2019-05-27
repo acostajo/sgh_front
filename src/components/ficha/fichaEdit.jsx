@@ -141,11 +141,11 @@ class FichaEdit extends Component {
           text: "Descripción"
         },
         {
-          dataField: "fameDesde",
+          dataField: "fechadesde",
           text: "Fecha Desde"
         },
         {
-          dataField: "fameHasta",
+          dataField: "fechahasta",
           text: "Fecha Hasta"
         }
       ]
@@ -506,8 +506,8 @@ class FichaEdit extends Component {
         codfame: this.state.fameSelected.codfame,
         nombre: this.state.fameSelected.nombre,
         descripcion: this.state.fameSelected.descripcion,
-        fameDesde: this.state.fameDesde,
-        fameHasta: this.state.fameHasta
+        fechadesde: this.state.fameSelected.fameDesde,
+        fechahasta: this.state.fameSelected.fameHasta
       };
       fameList.push(fame);
       fameListNew.push(fame);
@@ -731,8 +731,8 @@ class FichaEdit extends Component {
         codfame: listf[item].codfame,
         nombre: listf[item].nombre,
         descripcion: listf[item].descripcion,
-        fameDesde: famesFicha[item].fameDesde,
-        fameHasta: famesFicha[item].fechaHasta
+        fechadesde: famesFicha[item].fechadesde,
+        fechahasta: famesFicha[item].fechahasta
       };
       listFame.push(obj);
     }
@@ -1173,8 +1173,8 @@ class FichaEdit extends Component {
       let fame = {
         codficha: codficha,
         codfame: list[item].codfame,
-        fechadesde: list[item].fameDesde,
-        fechahasta: list[item].fameHasta
+        fechadesde: list[item].fechadesde,
+        fechahasta: list[item].fechahasta
       };
 
       await fetch("http://127.0.0.1:8000/api/famesficha/", {

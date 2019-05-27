@@ -47,11 +47,11 @@ class FichaView extends Component {
           text: "Descripción"
         },
         {
-          dataField: "fameDesde",
+          dataField: "fechadesde",
           text: "Fecha Desde"
         },
         {
-          dataField: "fameHasta",
+          dataField: "fechahasta",
           text: "Fecha Hasta"
         }
       ],
@@ -310,8 +310,8 @@ class FichaView extends Component {
         codfame: listf[item].codfame,
         nombre: listf[item].nombre,
         descripcion: listf[item].descripcion,
-        fameDesde: famesFicha[item].fameDesde,
-        fameHasta: famesFicha[item].fameHasta
+        fechadesde: famesFicha[item].fechadesde,
+        fechahasta: famesFicha[item].fechahasta
       };
       listFame.push(obj);
     }
