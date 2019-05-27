@@ -258,7 +258,7 @@ class MenuPrincipal extends Component {
                 </FormGroup>
                 <div>
                   <Table virtualized height={400} data={this.state.datosAgenda}>
-                    <Column width={97} fixed>
+                    <Column width={97} align="center" fixed>
                       <HeaderCell>Asistio?</HeaderCell>
 
                       <Cell>
@@ -274,13 +274,13 @@ class MenuPrincipal extends Component {
                               <IconButton
                                 appearance="subtle"
                                 onClick={handleAsistio}
-                                icon={<Icon icon="edit2" />}
+                                icon={<Icon icon="check" />}
                               />
                               |
                               <IconButton
                                 appearance="subtle"
                                 onClick={handleNoAsistio}
-                                icon={<Icon icon="edit2" />}
+                                icon={<Icon icon="close" />}
                               />
                             </span>
                           );
