@@ -170,7 +170,7 @@ class MenuLab extends Component {
                 padding: 0,
                 borderLeft: "5px solid",
                 width: 500,
-                borderLeftColor: "#ff7a00", //"rgba(90, 154, 255, 0.6)",
+                borderLeftColor: "#0062ed", //"rgba(90, 154, 255, 0.6)",
                 borderRadius: "5px",
                 borderTop: "0.5px solid",
                 borderRight: "0.5px solid",
@@ -246,7 +246,7 @@ class MenuLab extends Component {
                 colorAdjust: "#43a26f",
 
                 width: 500,
-                borderLeftColor: "#43a26f", //"rgba(90, 154, 255, 0.6)",
+                borderLeftColor: "#3775cc", //"rgba(90, 154, 255, 0.6)",
                 borderRadius: "5px",
                 borderTop: "0.5px solid",
                 borderRight: "0.5px solid",

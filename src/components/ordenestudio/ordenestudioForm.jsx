@@ -45,6 +45,7 @@ class OrdenEstudio extends Component {
       errores: {},
       aviso: false,
       toggleEstudio: false,
+      codOrdenReturn: 0,
       visible: false,
       datosOrdenEstudio: {
         //datos correspondientes a la orden de estudio
@@ -100,6 +101,16 @@ class OrdenEstudio extends Component {
   }
   alertConfirm() {
     this.setState({ alertCreado: false });
+    this.props.history.push(
+      "/menu_ficha/" +
+        parseInt(this.props.match.params.codficha) +
+        "/buscar_ordenestudio/" +
+        parseInt(this.props.match.params.codficha) +
+        "/ordenestudio_view/" +
+        this.state.codOrdenReturn +
+        "/" +
+        parseInt(this.props.match.params.codficha)
+    );
   }
 
   handleDrop(fileList) {
@@ -231,6 +242,7 @@ class OrdenEstudio extends Component {
   async handleAdd() {
     var url = "http://127.0.0.1:8000/api/ordenestudio/";
     let ordenestudio = this.state.datosOrdenEstudio;
+    let codOrdenReturn;
     console.log(ordenestudio);
     ordenestudio.codestudio = this.state.estudioListTable[0].codestudio;
     ordenestudio.codficha = this.props.match.params.codficha;
@@ -238,6 +250,15 @@ class OrdenEstudio extends Component {
     await axios
       .post(url, ordenestudio)
       .then(function(response) {
+        if (response.codficha !== undefined && response.codficha !== null) {
+          codOrdenReturn = response.data.codordenestudio;
+          console.log(response);
+          this.setState({
+            alertCreado: true,
+            codOrdenReturn: codOrdenReturn
+          });
+        }
+
         console.log(response.data);
       })
       .catch(function(error) {
@@ -399,6 +420,13 @@ class OrdenEstudio extends Component {
         >
           Eviar a Laboratorio
         </Button>
+        <SweetAlert
+          success
+          onConfirm={this.alertConfirm}
+          show={this.state.alertCreado}
+        >
+          Panoráminca de Laboratorio agregada con éxito!
+        </SweetAlert>
       </Container>
     );
   }
