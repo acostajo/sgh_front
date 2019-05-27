@@ -88,7 +88,7 @@ class OrdenEstudioViewLab extends Component {
   }
 
   async handleDelete() {
-    const cod = this.props.match.params.codordenestudio; //direccto accedes, yaa, y eso nomas es, que te falta ahora?
+    const cod = this.props.codordenestudio; //direccto accedes, yaa, y eso nomas es, que te falta ahora?
     const url1 = "http://127.0.0.1:8000/api/ordenestudio/";
     await fetch(url1 + cod + "/", { method: "DELETE" }) //este es el method para borar y se le pasa el cod nomas
       .then(function(response) {
@@ -150,8 +150,8 @@ class OrdenEstudioViewLab extends Component {
   onSelectNumTurno(value, item, event) {
     const turno = {
       codturnodist: value.value.codturnodist,
-      codficha: this.props.match.params.codficha,
-      codordenestudio: this.props.match.params.codordenestudio,
+      codficha: this.props.codficha,
+      codordenestudio: this.props.codordenestudio,
       fechaturno: this.state.fechaTurno,
       estado: "Agendado"
     };
@@ -164,7 +164,7 @@ class OrdenEstudioViewLab extends Component {
     const url = "http://127.0.0.1:8000/api/turno/";
     const url2 =
       "http://127.0.0.1:8000/api/ordenestudio/" +
-      this.props.match.params.codordenestudio +
+      this.props.codordenestudio +
       "/";
     await axios
       .post(url, this.state.turnoAgregar)
@@ -185,7 +185,7 @@ class OrdenEstudioViewLab extends Component {
   }
 
   async componentWillMount() {
-    const cod = this.props.match.params.codordenestudio;
+    const cod = this.props.codordenestudio;
     const url1 = "http://127.0.0.1:8000/api/ordenestudio?codordenestudio=";
     const url2 = "http://127.0.0.1:8000/api/turno_dist";
     const url3 = "http://127.0.0.1:8000/api/turno";

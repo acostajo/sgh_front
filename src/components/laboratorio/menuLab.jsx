@@ -10,7 +10,8 @@ import {
   Label,
   Badge
 } from "reactstrap";
-import { FlexboxGrid, Button, Divider, Icon, Col } from "rsuite";
+import OrdenEstudioViewLab from "./ordenestudioViewLab";
+import { FlexboxGrid, Button, Divider, Icon, Col, Modal } from "rsuite";
 import { Link } from "react-router-dom";
 import { Table, IconButton, CustomWhisper } from "rsuite";
 import axios from "axios";
@@ -28,13 +29,15 @@ class MenuLab extends Component {
       datosEstudio: [],
       datosPaciente: [],
       datosAgendarTurno: [],
-      datosPendienteResultado: []
+      datosPendienteResultado: [],
+      toggleOrdenAgendar: false,
+      codOrdenAgendar: 0,
+      codFichaAgendar: 0
     };
 
-    this.handleClick = this.handleClick.bind(this);
+    this.toggleOrdenAgendar = this.toggleOrdenAgendar.bind(this);
   }
 
-  handleClick() {}
   async componentWillMount() {
     await this.getDatosOrden();
     await this.getDatosEstudio();
@@ -104,6 +107,12 @@ class MenuLab extends Component {
     console.log(datosOrden);
   }
 
+  toggleOrdenAgendar() {
+    this.setState({
+      toggleOrdenAgendar: !this.state.toggleOrdenAgendar
+    });
+  }
+
   generarListaAgendar() {
     let lista1 = this.state.datosOrdenPendiente;
     let lista2 = this.state.datosOrdenAgendado;
@@ -118,6 +127,7 @@ class MenuLab extends Component {
     for (let i = 0; i < lista1.length; i++) {
       const element = {
         codordenestudio: lista1[i].codordenestudio,
+        codficha: lista1[i].codficha,
         estudio: estudios.filter(item => {
           return lista1[i].codestudio === item.codestudio;
         })[0].nombre,
@@ -152,7 +162,7 @@ class MenuLab extends Component {
       };
       listPendiente.push(element);
     }
-
+    console.log(listPendiente);
     this.setState({
       datosAgendarTurno: listAgendar,
       datosPendienteResultado: listPendiente
@@ -162,14 +172,34 @@ class MenuLab extends Component {
   render() {
     return (
       <div>
+        <Modal
+          show={this.state.toggleOrdenAgendar}
+          onHide={() => {
+            this.setState({
+              toggleOrdenAgendar: !this.state.toggleOrdenAgendar
+            });
+            this.getDatosOrden();
+            this.getDatosEstudio();
+            this.getDatosPaciente();
+            this.generarListaAgendar();
+          }}
+          style={{ width: "80%" }}
+        >
+          <Modal.Body>
+            <OrdenEstudioViewLab
+              codordenestudio={this.state.codOrdenAgendar}
+              codficha={this.state.codFichaAgendar}
+            />
+          </Modal.Body>
+        </Modal>
         <NavBarMenuLab />
-        <FlexboxGrid colSpan={8}>
-          <FlexboxGrid.Item style={{ paddingBottom: 10 }}>
+        <FlexboxGrid align="center">
+          <FlexboxGrid.Item colSpan={8} style={{ paddingBottom: 10 }}>
             <div
               style={{
                 padding: 0,
                 borderLeft: "5px solid",
-                width: 500,
+                width: 480,
                 borderLeftColor: "#ff7a00", //"rgba(90, 154, 255, 0.6)",
                 borderRadius: "5px",
                 borderTop: "0.5px solid",
@@ -204,15 +234,18 @@ class MenuLab extends Component {
                     <HeaderCell> </HeaderCell>
                     <Cell>
                       {rowData => {
-                        const handleAgendar = () => {
-                          this.handleAgendar(rowData);
+                        const toggle = () => {
+                          this.toggleOrdenAgendar();
+                          this.setState({
+                            codOrdenAgendar: rowData.codordenestudio,
+                            codFichaAgendar: rowData.codficha
+                          });
                         };
-
                         return (
                           <span>
                             <IconButton
                               appearance="subtle"
-                              onClick={handleAgendar}
+                              onClick={toggle}
                               icon={<Icon icon="calendar-check-o" />}
                             />
                           </span>
@@ -245,7 +278,7 @@ class MenuLab extends Component {
                 borderLeft: "5px solid",
                 colorAdjust: "#43a26f",
 
-                width: 500,
+                width: 480,
                 borderLeftColor: "#43a26f", //"rgba(90, 154, 255, 0.6)",
                 borderRadius: "5px",
                 borderTop: "0.5px solid",
@@ -313,7 +346,7 @@ class MenuLab extends Component {
                 padding: 0,
                 borderLeft: "5px solid",
 
-                width: 500,
+                width: 480,
                 borderLeftColor: "#8dcdff", //"rgba(90, 154, 255, 0.6)",
                 borderRadius: "5px",
                 borderTop: "0.5px solid",
@@ -332,22 +365,34 @@ class MenuLab extends Component {
                 <Badge pill>4</Badge>
               </FormGroup>
               <div>
-                <Table height={500} data={this.state.datosAgenda}>
+                <Table
+                  height={500}
+                  data={this.state.datosPendienteResultado}
+                  style={{
+                    color: "#3c763d",
+                    textDecoration: "none",
+                    "&:hover": {
+                      textDecoration: "none"
+                    }
+                  }}
+                >
                   <Column width={50} resizable>
                     <HeaderCell> </HeaderCell>
-
                     <Cell>
                       {rowData => {
-                        const handleAgendar = () => {
-                          this.handleAgendar(rowData);
+                        const toggle = () => {
+                          this.toggleOrdenAgendar();
+                          this.setState({
+                            codOrdenAgendar: rowData.codordenestudio,
+                            codFichaAgendar: rowData.codficha
+                          });
                         };
-
                         return (
                           <span>
                             <IconButton
                               appearance="subtle"
-                              onClick={handleAgendar}
-                              icon={<Icon icon="file-text-o" />}
+                              onClick={toggle}
+                              icon={<Icon icon="calendar-check-o" />}
                             />
                           </span>
                         );
@@ -356,20 +401,15 @@ class MenuLab extends Component {
                   </Column>
                   <Column width={100} resizable>
                     <HeaderCell>Estudio</HeaderCell>
-                    <Cell dataKey="orden" />
+                    <Cell dataKey="estudio" />
                   </Column>
                   <Column width={180} resizable>
                     <HeaderCell>Nombres</HeaderCell>
-                    <Cell dataKey="nombres" />
+                    <Cell dataKey="nombre" />
                   </Column>
-                  <Column width={180} resizable>
-                    <HeaderCell>Apellidos</HeaderCell>
-                    <Cell dataKey="apellidos" />
-                  </Column>
-
-                  <Column width={100} resizable>
-                    <HeaderCell>Nro. Docu</HeaderCell>
-                    <Cell dataKey="orden" />
+                  <Column width={90} resizable>
+                    <HeaderCell>Estado</HeaderCell>
+                    <Cell dataKey="estado" />
                   </Column>
                 </Table>
               </div>

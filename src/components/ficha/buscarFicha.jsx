@@ -28,17 +28,6 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: "100%",
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper
-  },
-  inline: {
-    display: "inline"
-  }
-}));
-
 class BuscarFicha extends Component {
   constructor() {
     super();
@@ -169,9 +158,6 @@ class BuscarFicha extends Component {
     console.log(this.state.tipoBusqueda);
 
     //aca validamos que metodo de busqueda se esta usando
-  }
-  AlignItemsList() {
-    const classes = useStyles();
   }
 
   formatDate(date) {
