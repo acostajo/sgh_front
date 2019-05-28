@@ -55,7 +55,7 @@ class Resumen extends Component {
 
   async getConsultas() {
     const cod = this.props.match.params.codficha;
-    const url1 = "http://127.0.0.1:8000/api/consulta?codficha=";
+    const url1 = "http://127.0.0.1:8000/api/consulta/?codficha=";
     let datosConsulta = [];
     let dataTimeLine = this.state.dataTimeLine;
     let aux = this.state.dataTimeLineAux;
@@ -70,8 +70,9 @@ class Resumen extends Component {
       .catch(function(error) {
         console.log(error);
       });
+    console.log("datosConsulta", datosConsulta);
 
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < datosConsulta.length; i++) {
       const date = new Date(datosConsulta[i].fechaconsulta);
       const element = {
         tipo: "Consulta",

@@ -12,6 +12,7 @@ import {
   Label
 } from "reactstrap";
 import axios from "axios";
+import { withRouter } from "react-router-dom";
 import { Alert } from "rsuite";
 import SweetAlert from "react-bootstrap-sweetalert";
 class PanolabView extends Component {
@@ -533,6 +534,14 @@ class PanolabView extends Component {
             >
               ¿Estas seguro de Eliminar la Panorámica de Laboratorio?
             </SweetAlert>
+          </Button>
+          {"      "}
+          <Button
+            onClick={this.props.history.goBack}
+            appearance="primary"
+            style={{ marginTop: 20 }}
+          >
+            Atras
           </Button>
         </FormGroup>
       </Container>

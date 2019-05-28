@@ -880,6 +880,14 @@ class FichaView extends Component {
               ¿Estas seguro de Eliminar la Orden de Estudio?
             </SweetAlert>
           </Button>
+          {"      "}
+          <Button
+            onClick={this.props.history.goBack}
+            appearance="primary"
+            style={{ marginTop: 20 }}
+          >
+            Atras
+          </Button>
         </FormGroup>
       </Container>
     );
