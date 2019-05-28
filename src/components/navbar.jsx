@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import logo from "./logo.png";
 import { Dropdown, Nav, Navbar, Icon, Header } from "rsuite";
 import "rsuite/dist/styles/rsuite.min.css";
 
@@ -35,6 +36,15 @@ class NavBarMenu extends Component {
           >
             <Navbar.Body>
               <Nav>
+                <img
+                  src={logo}
+                  alt="..."
+                  style={{
+                    width: "24%",
+                    height: "35%"
+                  }}
+                />
+
                 <NavLink icon={<Icon icon="home" />} to="/modulos">
                   Inicio
                 </NavLink>
