@@ -25,24 +25,51 @@ class MenuLab extends Component {
 
     this.state = {
       datosOrdenPendiente: [],
-      datosOrdenAgendado: [],
       datosEstudio: [],
       datosPaciente: [],
       datosAgendarTurno: [],
+      datosTurno: [],
       datosPendienteResultado: [],
+      datosTurnoAgendados: [],
       toggleOrdenAgendar: false,
       codOrdenAgendar: 0,
       codFichaAgendar: 0
     };
 
     this.toggleOrdenAgendar = this.toggleOrdenAgendar.bind(this);
+    this.getDatosOrden = this.getDatosOrden.bind(this);
+    this.getDatosEstudio = this.getDatosEstudio.bind(this);
+    this.getDatosPaciente = this.getDatosPaciente.bind(this);
+    this.getDatosTurno = this.getDatosTurno.bind(this);
+    this.generarListaAgendar = this.generarListaAgendar.bind(this);
+    this.consumirTurno = this.consumirTurno.bind(this);
   }
 
   async componentWillMount() {
     await this.getDatosOrden();
     await this.getDatosEstudio();
     await this.getDatosPaciente();
+    await this.getDatosTurno();
     this.generarListaAgendar();
+  }
+
+  async getDatosTurno() {
+    const url1 = "http://127.0.0.1:8000/api/turno";
+    let datosTurno = [];
+
+    await axios //osea es traer esto vd? asi mismi pero ahi no le vas a hacer el
+      .get(url1)
+      .then(function(response) {
+        datosTurno = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    this.setState({
+      datosTurno: datosTurno
+    });
+    console.log("datosTurno", datosTurno);
   }
 
   async getDatosPaciente() {
@@ -100,8 +127,11 @@ class MenuLab extends Component {
       datosOrdenPendiente: datosOrden.filter(item => {
         return item.estado === "Pendiente";
       }),
-      datosOrdenAgendado: datosOrden.filter(item => {
+      datosTurnoAgendados: datosOrden.filter(item => {
         return item.estado === "Agendado";
+      }),
+      datosPendienteResultado: datosOrden.filter(item => {
+        return item.estado === "Pend. Archivo";
       })
     });
     console.log(datosOrden);
@@ -115,11 +145,14 @@ class MenuLab extends Component {
 
   generarListaAgendar() {
     let lista1 = this.state.datosOrdenPendiente;
-    let lista2 = this.state.datosOrdenAgendado;
+    let lista2 = this.state.datosTurnoAgendados;
+    let lista3 = this.state.datosPendienteResultado;
     let estudios = this.state.datosEstudio;
     let pacientes = this.state.datosPaciente;
+    let turnos = this.state.datosTurno;
 
     let listAgendar = [];
+    let listTurno = [];
     let listPendiente = [];
 
     console.log(lista1);
@@ -144,29 +177,74 @@ class MenuLab extends Component {
       listAgendar.push(element);
     }
 
-    for (let i = 0; i < lista2.length; i++) {
+    for (let i = 0; i < turnos.length; i++) {
+      const codestudio = lista2.filter(item => {
+        return turnos[i].codordenestudio === item.codordenestudio;
+      })[0];
+
+      if (codestudio !== undefined) {
+        const element = {
+          codordenestudio: turnos[i].codordenestudio,
+          codturno: turnos[i].codturno,
+          codficha: turnos[i].codficha,
+          estudio: estudios.filter(item => {
+            return codestudio.codestudio === item.codestudio;
+          })[0].nombre,
+          nombre:
+            pacientes.filter(item => {
+              return turnos[i].codficha === item.codficha;
+            })[0].nombres +
+            " " +
+            pacientes.filter(item => {
+              return turnos[i].codficha === item.codficha;
+            })[0].apellidos,
+          estado: turnos[i].estado
+        };
+        listTurno.push(element);
+      }
+    }
+
+    for (let i = 0; i < lista3.length; i++) {
       const element = {
-        codordenestudio: lista2[i].codordenestudio,
+        codordenestudio: lista3[i].codordenestudio,
         estudio: estudios.filter(item => {
-          return lista2[i].codestudio === item.codestudio;
+          return lista3[i].codestudio === item.codestudio;
         })[0].nombre,
         nombre:
           pacientes.filter(item => {
-            return lista2[i].codficha === item.codficha;
+            return lista3[i].codficha === item.codficha;
           })[0].nombres +
           " " +
           pacientes.filter(item => {
-            return lista2[i].codficha === item.codficha;
+            return lista3[i].codficha === item.codficha;
           })[0].apellidos,
-        estado: lista2[i].estado
+        estado: lista3[i].estado
       };
       listPendiente.push(element);
     }
-    console.log(listPendiente);
+    console.log("list3", lista3);
     this.setState({
       datosAgendarTurno: listAgendar,
-      datosPendienteResultado: listPendiente
+      datosPendienteResultado: listPendiente,
+      datosTurnoAgendados: listTurno
     });
+  }
+
+  async consumirTurno(codordenestudio) {
+    const url2 =
+      "http://127.0.0.1:8000/api/ordenestudio/" + codordenestudio + "/";
+    await axios
+      .put(url2, { estado: "Pend. Archivo" })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    await this.getDatosOrden();
+    await this.getDatosEstudio();
+    await this.getDatosPaciente();
+    this.generarListaAgendar();
   }
 
   render() {
@@ -174,13 +252,14 @@ class MenuLab extends Component {
       <div>
         <Modal
           show={this.state.toggleOrdenAgendar}
-          onHide={() => {
+          onHide={async () => {
             this.setState({
               toggleOrdenAgendar: !this.state.toggleOrdenAgendar
             });
-            this.getDatosOrden();
-            this.getDatosEstudio();
-            this.getDatosPaciente();
+            await this.getDatosOrden();
+            await this.getDatosEstudio();
+            await this.getDatosPaciente();
+            await this.getDatosTurno();
             this.generarListaAgendar();
           }}
           style={{ width: "80%" }}
@@ -297,14 +376,14 @@ class MenuLab extends Component {
                 <Badge pill>4</Badge>
               </FormGroup>
               <div>
-                <Table height={500} data={this.state.datosAgenda}>
+                <Table height={500} data={this.state.datosTurnoAgendados}>
                   <Column width={50} resizable>
                     <HeaderCell> </HeaderCell>
 
                     <Cell>
                       {rowData => {
                         const handleAgendar = () => {
-                          this.handleAgendar(rowData);
+                          this.consumirTurno(rowData.codordenestudio);
                         };
 
                         return (
@@ -312,7 +391,7 @@ class MenuLab extends Component {
                             <IconButton
                               appearance="subtle"
                               onClick={handleAgendar}
-                              icon={<Icon icon="user-analysis" />}
+                              icon={<Icon icon="file-text-o" />}
                             />
                           </span>
                         );
@@ -321,20 +400,15 @@ class MenuLab extends Component {
                   </Column>
                   <Column width={100} resizable>
                     <HeaderCell>Estudio</HeaderCell>
-                    <Cell dataKey="orden" />
+                    <Cell dataKey="estudio" />
                   </Column>
                   <Column width={180} resizable>
                     <HeaderCell>Nombres</HeaderCell>
-                    <Cell dataKey="nombres" />
+                    <Cell dataKey="nombre" />
                   </Column>
-                  <Column width={180} resizable>
-                    <HeaderCell>Apellidos</HeaderCell>
-                    <Cell dataKey="apellidos" />
-                  </Column>
-
-                  <Column width={100} resizable>
-                    <HeaderCell>Nro. Docu</HeaderCell>
-                    <Cell dataKey="orden" />
+                  <Column width={90} resizable>
+                    <HeaderCell>Estado</HeaderCell>
+                    <Cell dataKey="estado" />
                   </Column>
                 </Table>
               </div>
@@ -392,7 +466,7 @@ class MenuLab extends Component {
                             <IconButton
                               appearance="subtle"
                               onClick={toggle}
-                              icon={<Icon icon="calendar-check-o" />}
+                              icon={<Icon icon="user-analysis" />}
                             />
                           </span>
                         );

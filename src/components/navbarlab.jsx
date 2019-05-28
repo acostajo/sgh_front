@@ -42,7 +42,7 @@ class NavBarMenuLab extends Component {
               <Nav pullRight>
                 <NavLi
                   to="/turnos"
-                  icon={<Icon icon="cog" />}
+                  icon={<Icon icon="calendar" />}
                   style={{
                     backgroundColor: "#00b300"
                   }}

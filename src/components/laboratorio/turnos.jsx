@@ -352,7 +352,7 @@ class Turnos extends Component {
             <Card style={{ padding: 20 }}>
               <CardHeader
                 style={{
-                  backgroundColor: "#0B1A25",
+                  backgroundColor: "#00b300",
                   color: "white",
                   marginBottom: 20
                 }}

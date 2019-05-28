@@ -72,7 +72,7 @@ class OrdenEstudioViewLab extends Component {
     let data = new FormData();
     const file = this.state.archivo;
     data.append("archivo", file.blobFile);
-    data.append("codordenestudio", 1);
+    data.append("codordenestudio", this.props.codordenestudio);
 
     const config = {
       headers: {
@@ -277,7 +277,7 @@ class OrdenEstudioViewLab extends Component {
                       </FormGroup>
                     </Col>
                   </Row>
-                  {this.state.datosOrdenEstudio.estado === "Agendado" ? (
+                  {this.state.datosOrdenEstudio.estado === "Pend. Archivo" ? (
                     <Row>
                       <Col>
                         <Card style={{ padding: 20, marginBottom: 10 }}>

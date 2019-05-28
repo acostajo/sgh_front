@@ -16,10 +16,15 @@ import BootstrapTable from "react-bootstrap-table-next";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import SweetAlert from "react-bootstrap-sweetalert";
 import { Alert } from "rsuite";
+import Lightbox from "react-image-lightbox";
+import "react-image-lightbox/style.css";
 class OrdenEstudioView extends Component {
   constructor() {
     super();
     this.state = {
+      photoIndex: 0,
+      isOpen: false,
+      file: "",
       datosOrdenEstudio: {},
       visible: false,
       showDeclarative: false,
@@ -74,7 +79,9 @@ class OrdenEstudioView extends Component {
     const cod = this.props.match.params.codordenestudio;
     console.log(this.props.match.params.codordenestudio);
     const url1 = "http://127.0.0.1:8000/api/ordenestudio?codordenestudio=";
+    const url4 = "http://127.0.0.1:8000/api/archivo?codordenestudio=";
     let datosOrdenEstudio = {};
+    let datosArchivo = {};
 
     console.log(cod);
     await axios
@@ -87,8 +94,19 @@ class OrdenEstudioView extends Component {
         console.log(error);
       });
 
+    await axios
+      .get(url4 + cod)
+      .then(function(response) {
+        console.log("file", response.data[0].archivo);
+        datosArchivo = response.data[0].archivo;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
     this.setState({
-      datosOrdenEstudio: datosOrdenEstudio
+      datosOrdenEstudio: datosOrdenEstudio,
+      file: datosArchivo
     });
     console.log(this.state.datosOrdenEstudio); //trae bien, trae bien? el cod digo no el contenido
 
@@ -150,6 +168,8 @@ class OrdenEstudioView extends Component {
     });
   };
   render() {
+    const { photoIndex, isOpen } = this.state;
+    const images = [this.state.file];
     return (
       <Container style={{ marginTop: 20 }}>
         <Card style={{ backgroundColor: "#F9FCFB" }}>
@@ -201,6 +221,39 @@ class OrdenEstudioView extends Component {
                     </Label>
                     <p>{this.state.datosOrdenEstudio.observacion}</p>
                   </FormGroup>
+                </Col>{" "}
+              </Row>
+              <Row>
+                <Col>
+                  <div>
+                    <Button onClick={() => this.setState({ isOpen: true })}>
+                      Ver Archivo
+                    </Button>
+
+                    {isOpen && (
+                      <Lightbox
+                        mainSrc={images[photoIndex]}
+                        nextSrc={images[(photoIndex + 1) % images.length]}
+                        prevSrc={
+                          images[
+                            (photoIndex + images.length - 1) % images.length
+                          ]
+                        }
+                        onCloseRequest={() => this.setState({ isOpen: false })}
+                        onMovePrevRequest={() =>
+                          this.setState({
+                            photoIndex:
+                              (photoIndex + images.length - 1) % images.length
+                          })
+                        }
+                        onMoveNextRequest={() =>
+                          this.setState({
+                            photoIndex: (photoIndex + 1) % images.length
+                          })
+                        }
+                      />
+                    )}
+                  </div>
                 </Col>{" "}
               </Row>
             </Form>
