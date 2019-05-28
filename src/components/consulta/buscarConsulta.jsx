@@ -110,7 +110,7 @@ class BuscarConsulta extends Component {
       "Diciembre"
     ];
 
-    var day = date.getDate();
+    var day = date.getDate() + 1;
     var monthIndex = date.getMonth();
     var year = date.getFullYear();
 

@@ -15,6 +15,7 @@ import {
 import { Alert } from "rsuite";
 import axios from "axios";
 import Joi from "joi-browser";
+import { withRouter } from "react-router-dom";
 import SweetAlert from "react-bootstrap-sweetalert";
 const ColoredLine = ({ color }) => (
   <hr
@@ -739,6 +740,14 @@ class Panolab extends Component {
           >
             Panoráminca de Laboratorio agregada con éxito!
           </SweetAlert>
+          {"      "}
+          <Button
+            onClick={this.props.history.goBack}
+            appearance="primary"
+            style={{ marginTop: 20 }}
+          >
+            Atras
+          </Button>
         </Form>
       </Container>
     );

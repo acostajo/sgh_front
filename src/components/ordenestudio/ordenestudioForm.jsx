@@ -24,6 +24,7 @@ import "primeicons/primeicons.css";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import SweetAlert from "react-bootstrap-sweetalert";
 import { Alert } from "rsuite";
+import { withRouter } from "react-router-dom";
 const ColoredLine = ({ color }) => (
   <hr
     style={{
@@ -45,7 +46,7 @@ class OrdenEstudio extends Component {
       errores: {},
       aviso: false,
       toggleEstudio: false,
-      codOrdenReturn: 0,
+      codOrdenReturn: "",
       visible: false,
       datosOrdenEstudio: {
         //datos correspondientes a la orden de estudio
@@ -242,28 +243,55 @@ class OrdenEstudio extends Component {
   async handleAdd() {
     var url = "http://127.0.0.1:8000/api/ordenestudio/";
     let ordenestudio = this.state.datosOrdenEstudio;
-    let codOrdenReturn;
+    let codordenestudio;
     console.log(ordenestudio);
     ordenestudio.codestudio = this.state.estudioListTable[0].codestudio;
     ordenestudio.codficha = this.props.match.params.codficha;
 
+    // ordenestudio["codficha"] = parseInt(this.props.match.params.codficha); //vamos a dejarle nomas jaja si vamos aprovar si func
+
+    await fetch("http://127.0.0.1:8000/api/ordenestudio/", {
+      method: "POST", // or 'PUT'
+      body: JSON.stringify(ordenestudio), // data can be `string` or {object}!
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => res.json())
+      .catch(error => console.error("Error:", error))
+      // .then(response => {
+      // console.log(response);
+      // });
+      .then(response => {
+        if (response.codficha !== undefined && response.codficha !== null) {
+          codordenestudio = response.codordenestudio;
+          console.log(response);
+          this.setState({
+            alertCreado: true,
+            codOrdenReturn: codordenestudio
+          });
+        }
+      });
+
+    /*
     await axios
       .post(url, ordenestudio)
       .then(function(response) {
         if (response.codficha !== undefined && response.codficha !== null) {
-          codOrdenReturn = response.data.codordenestudio;
+          codordenestudio = response.data.codordenestudio;
           console.log(response);
           this.setState({
             alertCreado: true,
-            codOrdenReturn: codOrdenReturn
+            codOrdenReturn: codordenestudio
           });
         }
-
+        console.log(codordenestudio);
         console.log(response.data);
       })
+
       .catch(function(error) {
         console.log(error);
-      });
+      });*/
   }
 
   async handleAddEstudio(codficha) {
@@ -425,8 +453,16 @@ class OrdenEstudio extends Component {
           onConfirm={this.alertConfirm}
           show={this.state.alertCreado}
         >
-          Panoráminca de Laboratorio agregada con éxito!
+          Orden de Estudio enviada a Laboratorio con éxito!
         </SweetAlert>
+        {"      "}
+        <Button
+          onClick={this.props.history.goBack}
+          appearance="primary"
+          style={{ marginTop: 20 }}
+        >
+          Atras
+        </Button>
       </Container>
     );
   }

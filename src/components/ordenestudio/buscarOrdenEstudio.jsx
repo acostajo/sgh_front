@@ -70,7 +70,7 @@ class BuscarOrdenEstudio extends Component {
       });
     }
 
-    console.log(url1 + this.state.fechaOrdenEstudio);
+    console.log(this.state.fechaOrdenEstudio);
 
     console.log(this.props.match.params.codficha);
   }
@@ -90,7 +90,8 @@ class BuscarOrdenEstudio extends Component {
       "Diciembre"
     ];
 
-    var day = date.getDate();
+    var day = date.getDate() + 1;
+    console.log(day);
     var monthIndex = date.getMonth();
     var year = date.getFullYear();
 
@@ -111,6 +112,7 @@ class BuscarOrdenEstudio extends Component {
               name="fechaOrdenEstudio"
               id="fechaOrdenEstudio"
             />
+
             <InputGroupAddon addonType="append">
               <Button
                 onClick={this.handleSearch}
@@ -187,7 +189,7 @@ class BuscarOrdenEstudio extends Component {
                     >
                       <Row>
                         <Col>
-                          <strong>Estado: </strong> {item.estado}
+                          <strong>Estado: </strong> {item.estado}{" "}
                         </Col>
                       </Row>
                       <Row>

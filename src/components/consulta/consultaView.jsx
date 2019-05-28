@@ -14,6 +14,7 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import { Alert } from "rsuite";
+import { withRouter } from "react-router-dom";
 import Consulta from "./consultaForm";
 import BootstrapTable from "react-bootstrap-table-next";
 import "primereact/resources/themes/nova-light/theme.css";
@@ -1008,6 +1009,14 @@ class ConsultaView extends Component {
             >
               ¿Estas seguro de Eliminar la Consulta?
             </SweetAlert>
+          </Button>
+          {"      "}
+          <Button
+            onClick={this.props.history.goBack}
+            appearance="primary"
+            style={{ marginTop: 20 }}
+          >
+            Atras
           </Button>
         </FormGroup>
       </Container>

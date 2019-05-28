@@ -16,6 +16,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import SweetAlert from "react-bootstrap-sweetalert";
 import { Alert } from "rsuite";
+import { withRouter } from "react-router-dom";
 class OrdenEstudioView extends Component {
   constructor() {
     super();
@@ -229,6 +230,14 @@ class OrdenEstudioView extends Component {
             >
               ¿Estas seguro de Eliminar la Orden de Estudio?
             </SweetAlert>
+          </Button>
+          {"      "}
+          <Button
+            onClick={this.props.history.goBack}
+            appearance="primary"
+            style={{ marginTop: 20 }}
+          >
+            Atras
           </Button>
         </FormGroup>
       </Container>

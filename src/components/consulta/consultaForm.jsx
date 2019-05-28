@@ -17,6 +17,7 @@ import {
 import { Modal } from "rsuite";
 import axios from "axios";
 import InputRange from "react-input-range";
+import { withRouter } from "react-router-dom";
 import { AutoComplete } from "primereact/autocomplete";
 import BootstrapTable from "react-bootstrap-table-next";
 import "primereact/resources/themes/nova-light/theme.css";
@@ -1651,6 +1652,14 @@ class Consulta extends Component {
         >
           {" "}
           Calcular Scores
+        </Button>
+        {"      "}
+        <Button
+          onClick={this.props.history.goBack}
+          appearance="primary"
+          style={{ marginTop: 20 }}
+        >
+          Atras
         </Button>
       </Container>
     );
