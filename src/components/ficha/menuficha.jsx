@@ -38,6 +38,7 @@ import FichaEdit from "../ficha/fichaEdit";
 
 //import { Col } from "rsuite";
 import Resumen from "./../resumen/resumen";
+import NavBarFresca from "./../navFresca";
 
 class MenuFicha extends Component {
   constructor(props) {
@@ -50,15 +51,15 @@ class MenuFicha extends Component {
 
       activeStyleFicha: {
         textDecoration: "none",
-
         color: "#133E7C",
+        fontSize: "17px",
         "&:hover": {
           textDecoration: "none"
         }
       },
       activeStyleConsulta: {
         textDecoration: "none",
-
+        fontSize: "17px",
         color: "#3c763d",
         "&:hover": {
           textDecoration: "none"
@@ -66,7 +67,7 @@ class MenuFicha extends Component {
       },
       activeStylePanolab: {
         textDecoration: "none",
-
+        fontSize: "17px",
         color: "#563d7c",
         "&:hover": {
           textDecoration: "none"
@@ -74,7 +75,7 @@ class MenuFicha extends Component {
       },
       activeStyleOrden: {
         textDecoration: "none",
-
+        fontSize: "17px",
         color: "#337ab7",
         "&:hover": {
           textDecoration: "none"
@@ -119,7 +120,7 @@ class MenuFicha extends Component {
       "Mayo",
       "Junio",
       "Julio",
-      "Augusto",
+      "Agosto",
       "Septiembre",
       "Octubre",
       "Noviembre",
@@ -136,7 +137,7 @@ class MenuFicha extends Component {
     const NavLi = props => <Nav.Item componentClass={NavLink} {...props} />;
     return (
       <div>
-        <NavBarMenu />
+        <NavBarFresca />
         <FlexboxGrid
           style={{ fontFamily: "Arial, sans-serif" }}
           justify="center"

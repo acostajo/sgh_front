@@ -267,46 +267,53 @@ class Resumen extends Component {
         <Col lg="8" md="8" sm="8">
           <div className="border rounded">
             <Row>
-              <LineChart
-                width={600}
-                height={300}
-                data={this.state.datosConsulta}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <XAxis dataKey="fechaconsulta" />
-                <YAxis />
-                <CartesianGrid strokeDasharray="3 3" />
-                <Tooltip />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="cdai"
-                  stroke="blue"
-                  activeDot={{ r: 8 }}
-                />
-                <Line type="monotone" dataKey="sdai" stroke="green" />
-              </LineChart>
+              <Col>
+                <h3 class="page-title"> Scores SDAI y CDAI</h3>
+
+                <LineChart
+                  width={600}
+                  height={300}
+                  data={this.state.datosConsulta}
+                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                >
+                  <XAxis dataKey="fechaconsulta" />
+                  <YAxis />
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <Tooltip />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="cdai"
+                    stroke="blue"
+                    activeDot={{ r: 8 }}
+                  />
+                  <Line type="monotone" dataKey="sdai" stroke="green" />
+                </LineChart>
+              </Col>
             </Row>
             <Row>
-              <LineChart
-                width={600}
-                height={300}
-                data={this.state.datosConsulta}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <XAxis dataKey="fechaconsulta" />
-                <YAxis />
-                <CartesianGrid strokeDasharray="3 3" />
-                <Tooltip />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="das28pcr"
-                  stroke="orange"
-                  activeDot={{ r: 8 }}
-                />
-                <Line type="monotone" dataKey="das28vsg" stroke="violet" />
-              </LineChart>
+              <Col>
+                <h3 class="page-title"> Scores SDAI y CDAI</h3>
+                <LineChart
+                  width={600}
+                  height={300}
+                  data={this.state.datosConsulta}
+                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                >
+                  <XAxis dataKey="fechaconsulta" />
+                  <YAxis />
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <Tooltip />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="das28pcr"
+                    stroke="orange"
+                    activeDot={{ r: 8 }}
+                  />
+                  <Line type="monotone" dataKey="das28vsg" stroke="violet" />
+                </LineChart>
+              </Col>
             </Row>
           </div>
         </Col>

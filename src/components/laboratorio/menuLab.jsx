@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { Table, IconButton, CustomWhisper } from "rsuite";
 import axios from "axios";
 import NavBarMenuLab from "../navbarlab";
+import NavBarFresca from "./../navFresca";
 const { Column, HeaderCell, Cell } = Table;
 //import "rsuite/dist/styles/rsuite.css";
 
@@ -162,7 +163,7 @@ class MenuLab extends Component {
   render() {
     return (
       <div>
-        <NavBarMenuLab />
+        <NavBarFresca />
         <FlexboxGrid colSpan={8}>
           <FlexboxGrid.Item style={{ paddingBottom: 10 }}>
             <div

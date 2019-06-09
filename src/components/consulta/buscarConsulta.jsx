@@ -103,7 +103,7 @@ class BuscarConsulta extends Component {
       "Mayo",
       "Junio",
       "Julio",
-      "Augusto",
+      "Agosto",
       "Septiembre",
       "Octubre",
       "Noviembre",
@@ -138,7 +138,12 @@ class BuscarConsulta extends Component {
                 <InputGroupAddon addonType="append">
                   <Button
                     onClick={this.handleSearch}
-                    style={{ marginRight: 10, backgroundColor: "#3c763d" }}
+                    style={{
+                      marginRight: 10,
+                      backgroundColor: "#3c763d",
+                      float: "rigth",
+                      color: "white"
+                    }}
                   >
                     Buscar
                   </Button>
@@ -153,9 +158,12 @@ class BuscarConsulta extends Component {
                 style={{ color: "white" }}
               >
                 <Button
-                  style={{ float: "rigth" }}
                   onClick={this.handleAdd}
-                  style={{ backgroundColor: "#3c763d" }}
+                  style={{
+                    backgroundColor: "#3c763d",
+                    float: "rigth",
+                    color: "white"
+                  }}
                 >
                   Agregar Consulta
                 </Button>
