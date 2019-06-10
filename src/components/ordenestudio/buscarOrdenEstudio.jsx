@@ -20,6 +20,7 @@ class BuscarOrdenEstudio extends Component {
     this.state = {
       fechaOrdenEstudio: "",
       listaOrdenEstudio: [],
+      estudios: [],
       fadeIn: false,
       alert: false
     };
@@ -40,18 +41,22 @@ class BuscarOrdenEstudio extends Component {
 
   async handleSearch() {
     const url1 = "http://127.0.0.1:8000/api/ordenestudio?fechaordenestudio=";
+    const url2 = "http://127.0.0.1:8000/api/estudio/";
     const codficha = "&codficha=";
     let listado = [];
     let respuesta;
+    let estudios;
 
     const url_usar =
       url1 +
       this.state.fechaOrdenEstudio +
       codficha +
       this.props.match.params.codficha;
-    console.log(url_usar);
+
+    const url2_usar = url2 + this.state.codestudio;
+    console.log(url2_usar);
     await axios
-      .get(url_usar) //y asi queda concatenado todo, si no hay fecha igual trae solo lo de esa ficha, vamos a probar
+      .get(url_usar)
       .then(function(response) {
         if (response.data[0] === undefined) {
           respuesta = null;
@@ -61,15 +66,32 @@ class BuscarOrdenEstudio extends Component {
       })
       .catch(function(error) {
         console.log(error);
+      }); //
+
+    await axios
+      .get(url2)
+      .then(function(response) {
+        if (response.data[0] === undefined) {
+          estudios = null;
+        } else {
+          estudios = response.data;
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
       });
+
     if (respuesta === null) {
       Alert.warning("No se encontra la Orden de Estudio");
     } else {
       this.setState({
-        listaOrdenEstudio: listado
+        listaOrdenEstudio: listado,
+        estudios: estudios
       });
     }
 
+    console.log(this.setState.listaOrdenEstudio);
+    console.log(this.setState.estudioListTable);
     console.log(this.state.fechaOrdenEstudio);
 
     console.log(this.props.match.params.codficha);
@@ -83,7 +105,7 @@ class BuscarOrdenEstudio extends Component {
       "Mayo",
       "Junio",
       "Julio",
-      "Augusto",
+      "Agosto",
       "Septiembre",
       "Octubre",
       "Noviembre",
@@ -116,7 +138,11 @@ class BuscarOrdenEstudio extends Component {
             <InputGroupAddon addonType="append">
               <Button
                 onClick={this.handleSearch}
-                style={{ marginRight: 10, backgroundColor: "#337ab7" }}
+                style={{
+                  marginRight: 10,
+                  backgroundColor: "#337ab7",
+                  color: "white"
+                }}
               >
                 Buscar
               </Button>
@@ -133,7 +159,7 @@ class BuscarOrdenEstudio extends Component {
           >
             <Button
               onClick={this.handleAdd}
-              style={{ backgroundColor: "#337ab7" }}
+              style={{ backgroundColor: "#337ab7", color: "white" }}
             >
               Agregar Orden
             </Button>
@@ -194,7 +220,12 @@ class BuscarOrdenEstudio extends Component {
                       </Row>
                       <Row>
                         <Col>
-                          <strong>Tipo Estudio: </strong> {item.estudio}
+                          <strong>Tipo Estudio: </strong>{" "}
+                          {
+                            this.state.estudios.filter(estudio => {
+                              return estudio.codestudio === item.codestudio;
+                            })[0].nombre
+                          }
                         </Col>
                       </Row>
                     </div>

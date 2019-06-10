@@ -189,6 +189,7 @@ class Consulta extends Component {
     this.handleOnSelect = this.handleOnSelect.bind(this);
     this.handleOnSelectAll = this.handleOnSelectAll.bind(this);
     this.alertConfirm = this.alertConfirm.bind(this);
+    this.handleAddEfecto = this.handleAddEfecto.bind(this);
   }
   alertConfirm() {
     this.setState({ alertCreado: false });
@@ -840,7 +841,9 @@ class Consulta extends Component {
                     </Row>
                     <Row>
                       <Col>
-                        <Button onClick={this.eliminarEfecto}>Eliminar</Button>
+                        <Button color="danger" onClick={this.eliminarEfecto}>
+                          Eliminar
+                        </Button>
                       </Col>
                     </Row>
                   </Card>
@@ -954,35 +957,36 @@ class Consulta extends Component {
                         Sin dolor
                       </Button>
                       <Button
-                        color="primary"
+                        color="azul"
                         onClick={() => this.onRadioBtnClick("Dolor leve")}
                         active={this.state.rSelected === "Dolor leve"}
                       >
                         Dolor leve
                       </Button>
                       <Button
-                        color="warning"
+                        color="amarillo"
+                        backgroundColor="#ffc107"
                         onClick={() => this.onRadioBtnClick("Dolor moderado")}
                         active={this.state.rSelected === "Dolor moderado"}
                       >
                         Dolor moderado
                       </Button>
                       <Button
-                        color="success"
+                        color="verdes"
                         onClick={() => this.onRadioBtnClick("Dolor severo")}
                         active={this.state.rSelected}
                       >
                         Dolor severo
                       </Button>
                       <Button
-                        color="info"
+                        color="celeste"
                         onClick={() => this.onRadioBtnClick("Dolor muy severo")}
                         active={this.state.rSelected}
                       >
                         Dolor muy severo
                       </Button>
                       <Button
-                        color="danger"
+                        color="rojo"
                         onClick={() => this.onRadioBtnClick("Máximo dolor")}
                         active={this.state.rSelected}
                       >
@@ -1634,7 +1638,7 @@ class Consulta extends Component {
         <Button
           onClick={this.handleAdd}
           color="primary"
-          style={{ marginTop: 20, marginRight: 20 }}
+          style={{ marginTop: 20 }}
         >
           Agregar
         </Button>
@@ -1645,8 +1649,10 @@ class Consulta extends Component {
         >
           Consulta agregada con éxito!
         </SweetAlert>
+        {"      "}
         <Button
-          color="secondary"
+          type="button"
+          color="calcularscore"
           onClick={this.calcularScores}
           style={{ marginTop: 20 }}
         >

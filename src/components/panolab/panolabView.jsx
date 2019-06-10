@@ -99,7 +99,7 @@ class PanolabView extends Component {
       "Mayo",
       "Junio",
       "Julio",
-      "Augusto",
+      "Agosto",
       "Septiembre",
       "Octubre",
       "Noviembre",

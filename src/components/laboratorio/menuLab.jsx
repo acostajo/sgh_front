@@ -15,7 +15,7 @@ import { FlexboxGrid, Button, Divider, Icon, Col, Modal } from "rsuite";
 import { Link } from "react-router-dom";
 import { Table, IconButton, CustomWhisper } from "rsuite";
 import axios from "axios";
-import NavBarMenuLab from "../navbarlab";
+import NavBarFrescaLab from "./../navbarlab";
 const { Column, HeaderCell, Cell } = Table;
 //import "rsuite/dist/styles/rsuite.css";
 
@@ -262,7 +262,7 @@ class MenuLab extends Component {
             await this.getDatosTurno();
             this.generarListaAgendar();
           }}
-          style={{ width: "80%" }}
+          style={{ width: "60%", height: "80%" }}
         >
           <Modal.Body>
             <OrdenEstudioViewLab
@@ -271,15 +271,18 @@ class MenuLab extends Component {
             />
           </Modal.Body>
         </Modal>
-        <NavBarMenuLab />
+        <NavBarFrescaLab />
         <FlexboxGrid align="center">
-          <FlexboxGrid.Item colSpan={8} style={{ paddingBottom: 10 }}>
+          <FlexboxGrid.Item
+            colSpan={8}
+            style={{ paddingBottom: 10, marginTop: 50 }}
+          >
             <div
               style={{
                 padding: 0,
                 borderLeft: "5px solid",
                 width: 480,
-                borderLeftColor: "#ff7a00", //"rgba(90, 154, 255, 0.6)",
+                borderLeftColor: "#07689F ", //"rgba(90, 154, 255, 0.6)",
                 borderRadius: "5px",
                 borderTop: "0.5px solid",
                 borderRight: "0.5px solid",
@@ -302,7 +305,6 @@ class MenuLab extends Component {
                   height={500}
                   data={this.state.datosAgendarTurno}
                   style={{
-                    color: "#3c763d",
                     textDecoration: "none",
                     "&:hover": {
                       textDecoration: "none"
@@ -325,7 +327,12 @@ class MenuLab extends Component {
                             <IconButton
                               appearance="subtle"
                               onClick={toggle}
-                              icon={<Icon icon="calendar-check-o" />}
+                              icon={
+                                <Icon
+                                  icon="calendar-check-o"
+                                  style={{ color: "#07689F" }}
+                                />
+                              }
                             />
                           </span>
                         );
@@ -348,7 +355,10 @@ class MenuLab extends Component {
               </div>
             </div>
           </FlexboxGrid.Item>
-          <FlexboxGrid.Item colSpan={8}>
+          <FlexboxGrid.Item
+            colSpan={8}
+            style={{ paddingBottom: 10, marginTop: 50 }}
+          >
             <div
               style={{
                 padding: 0,
@@ -358,7 +368,7 @@ class MenuLab extends Component {
                 colorAdjust: "#43a26f",
 
                 width: 480,
-                borderLeftColor: "#43a26f", //"rgba(90, 154, 255, 0.6)",
+                borderLeftColor: "#17a2b8", //"rgba(90, 154, 255, 0.6)",
                 borderRadius: "5px",
                 borderTop: "0.5px solid",
                 borderRight: "0.5px solid",
@@ -391,7 +401,12 @@ class MenuLab extends Component {
                             <IconButton
                               appearance="subtle"
                               onClick={handleAgendar}
-                              icon={<Icon icon="file-text-o" />}
+                              icon={
+                                <Icon
+                                  icon="file-text-o"
+                                  style={{ color: "#17a2b8" }}
+                                />
+                              }
                             />
                           </span>
                         );
@@ -414,14 +429,17 @@ class MenuLab extends Component {
               </div>
             </div>
           </FlexboxGrid.Item>
-          <FlexboxGrid.Item colSpan={8}>
+          <FlexboxGrid.Item
+            colSpan={8}
+            style={{ paddingBottom: 10, marginTop: 50 }}
+          >
             <div
               style={{
                 padding: 0,
                 borderLeft: "5px solid",
 
                 width: 480,
-                borderLeftColor: "#8dcdff", //"rgba(90, 154, 255, 0.6)",
+                borderLeftColor: "#cde1ec", //"rgba(90, 154, 255, 0.6)",
                 borderRadius: "5px",
                 borderTop: "0.5px solid",
                 borderRight: "0.5px solid",
@@ -429,7 +447,8 @@ class MenuLab extends Component {
                 borderTopColor: "#eee",
                 borderRightColor: "#eee",
                 borderBottomColor: "#eee",
-                fontSize: 12
+                fontSize: 12,
+                marginBottom: 15
                 // color: "#eee"
               }}
             >
@@ -443,7 +462,6 @@ class MenuLab extends Component {
                   height={500}
                   data={this.state.datosPendienteResultado}
                   style={{
-                    color: "#3c763d",
                     textDecoration: "none",
                     "&:hover": {
                       textDecoration: "none"
@@ -466,7 +484,12 @@ class MenuLab extends Component {
                             <IconButton
                               appearance="subtle"
                               onClick={toggle}
-                              icon={<Icon icon="user-analysis" />}
+                              icon={
+                                <Icon
+                                  icon="user-analysis"
+                                  style={{ color: "#cde1ec" }}
+                                />
+                              }
                             />
                           </span>
                         );

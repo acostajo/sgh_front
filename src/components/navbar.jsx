@@ -3,14 +3,32 @@ import { Link } from "react-router-dom";
 import logo from "./logo.png";
 import { Dropdown, Nav, Navbar, Icon, Header } from "rsuite";
 import "rsuite/dist/styles/rsuite.min.css";
-
+import {
+  Route,
+  Switch,
+  BrowserRouter as Router,
+  withRouter,
+  NavLink
+} from "react-router-dom";
 class NavBarMenu extends Component {
   constructor(props) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+
+      activeStyleConsulta: {
+        textDecoration: "none",
+
+        color: "#3c763d",
+        "&:hover": {
+          textDecoration: "none",
+          color: "#3c763d",
+          backgroundcolor: "#FFFF",
+          backgroundColor: "#FFFF"
+        }
+      }
     };
   }
   toggle() {
@@ -19,7 +37,7 @@ class NavBarMenu extends Component {
     });
   }
   render() {
-    const NavLink = props => <Nav.Item componentClass={Link} {...props} />;
+    const NavLi = props => <Nav.Item componentClass={NavLink} {...props} />;
     return (
       <div>
         <Header>
@@ -31,7 +49,10 @@ class NavBarMenu extends Component {
               zIndex: 3,
 
               width: "100%",
-              backgroundColor: "#091833"
+              backgroundColor: "#133E7C",
+              "&:hover": {
+                textDecoration: "none"
+              }
             }}
           >
             <Navbar.Body>
@@ -45,9 +66,14 @@ class NavBarMenu extends Component {
                   }}
                 />
 
-                <NavLink icon={<Icon icon="home" />} to="/modulos">
+                <NavLi
+                  icon={<Icon icon="home" />}
+                  to="/modulos"
+                  style={{ color: "white", textDecoration: "none" }}
+                  activeStyle={this.state.activeStyleConsulta}
+                >
                   Inicio
-                </NavLink>
+                </NavLi>
               </Nav>
               <Nav pullRight>
                 <Nav.Item icon={<Icon icon="cog" />}>Configuracion</Nav.Item>
