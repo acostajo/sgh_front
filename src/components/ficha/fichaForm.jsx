@@ -869,6 +869,12 @@ class Ficha extends Component {
     });
   }
 
+  // When the user clicks on the button, scroll to the top of the document
+  topFunction() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+  }
+
   render() {
     return (
       <Container>
@@ -2045,6 +2051,9 @@ class Ficha extends Component {
           >
             Ficha HA agregada con éxito!
           </SweetAlert>
+          <button onclick={this.topFunction} id="myBtn" title="Go to top">
+            Top
+          </button>
         </Form>
       </Container>
     );

@@ -95,6 +95,7 @@ hr {
   overflow: visible;
 }
 
+
 h1,
 h2,
 h3,
@@ -3014,8 +3015,33 @@ input[type="button"].btn-block {
   border-bottom: 1px solid #dee2e6;
 }
 .nav-tabs .nav-item {
-  margin-bottom: -1px;
+  
 }
+.nav-link-resalted {
+ background-color:#f0f337;
+ margin-bottom: -1px;
+ color:black;
+ display: block;
+ padding: 0.5rem 1rem;
+ text-decoration: none;
+ border-radius: 3px;
+}
+.nav-link-resalted:hover {
+  background-color:#868804;
+  margin-bottom: -1px;
+  color:white;
+  display: block;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border-radius: 3px;
+ }
+
+.nav-tabs .nav-item-resalted.show .nav-link {
+  color: #495057;
+  background-color: #fff;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
+
 .nav-tabs .nav-link {
   border: 1px solid transparent;
   border-top-left-radius: 0.25rem;

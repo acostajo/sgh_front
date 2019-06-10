@@ -227,7 +227,10 @@ class OrdenEstudioView extends Component {
               <Row>
                 <Col>
                   <div>
-                    <Button onClick={() => this.setState({ isOpen: true })}>
+                    <Button
+                      onClick={() => this.setState({ isOpen: true })}
+                      color="warning"
+                    >
                       Ver Archivo
                     </Button>
 
