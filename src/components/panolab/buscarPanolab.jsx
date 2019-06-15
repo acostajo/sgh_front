@@ -124,7 +124,11 @@ class BuscarPanolab extends Component {
             <InputGroupAddon addonType="append">
               <Button
                 onClick={this.handleSearch}
-                style={{ marginRight: 10, backgroundColor: "#563d7c" }}
+                style={{
+                  marginRight: 10,
+                  backgroundColor: "#563d7c",
+                  color: "white"
+                }}
               >
                 Buscar
               </Button>
@@ -140,7 +144,7 @@ class BuscarPanolab extends Component {
             style={{ color: "white" }}
           >
             <Button
-              style={{ backgroundColor: "#563d7c" }}
+              style={{ backgroundColor: "#563d7c", color: "white" }}
               onClick={this.handleAdd}
             >
               Agregar Panorámica

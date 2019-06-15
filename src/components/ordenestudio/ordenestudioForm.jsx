@@ -416,7 +416,9 @@ class OrdenEstudio extends Component {
                     </Row>
                     <Row>
                       <Col>
-                        <Button onClick={this.eliminarEstudio}>Eliminar</Button>
+                        <Button color="danger" onClick={this.eliminarEstudio}>
+                          Eliminar
+                        </Button>
                       </Col>
                     </Row>
                   </Card>

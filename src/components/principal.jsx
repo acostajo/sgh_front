@@ -20,6 +20,7 @@ import { FlexboxGrid, Button, Divider, Col } from "rsuite";
 import { Link } from "react-router-dom";
 import { Table, IconButton, CustomWhisper } from "rsuite";
 import axios from "axios";
+import NavBarFresca from "./navFresca";
 const { Column, HeaderCell, Cell } = Table;
 class MenuPrincipal extends Component {
   constructor(props) {
@@ -205,7 +206,7 @@ class MenuPrincipal extends Component {
 
     return (
       <div style={{ marginTop: 40 }}>
-        <NavBarMenu />
+        <NavBarFresca />
 
         <Modal
           show={this.state.toggleListaPaciente}
@@ -373,9 +374,12 @@ class MenuPrincipal extends Component {
                     }
                   />
                   <div className="text-center">
-                    {parseFloat(
-                      this.state.pacientesAtendidos / this.state.totalPacientes
-                    ) * 100}
+                    {parseInt(
+                      parseFloat(
+                        this.state.pacientesAtendidos /
+                          this.state.totalPacientes
+                      ) * 100
+                    )}
                     %
                   </div>
                   <Label style={{ margin: 5 }}>Total Pacientes: </Label>

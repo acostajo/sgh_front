@@ -245,9 +245,11 @@ class OrdenEstudioViewLab extends Component {
         </Alert>
         <Row>
           <Col>
-            <Card>
-              <CardHeader>
-                <h3>Datos</h3>
+            <Card style={{ backgroundColor: "#F9FCFB" }}>
+              <CardHeader
+                style={{ backgroundColor: "#07689F", color: "white" }}
+              >
+                <h2>Datos de la Orden de Estudio</h2>
               </CardHeader>
               <CardBody>
                 <Form>
@@ -280,7 +282,7 @@ class OrdenEstudioViewLab extends Component {
                   {this.state.datosOrdenEstudio.estado === "Pend. Archivo" ? (
                     <Row>
                       <Col>
-                        <Card style={{ padding: 20, marginBottom: 10 }}>
+                        <Card>
                           <h5>Agregar Archivo</h5>
                           <Uploader
                             autoUpload={false}
@@ -290,7 +292,14 @@ class OrdenEstudioViewLab extends Component {
                             <Icon icon="file" style={{ fontSize: 40 }} />
                           </Uploader>
                         </Card>
-                        <Button onClick={this.upload}> Subir</Button>
+                        <Button
+                          onClick={this.upload}
+                          color="primary"
+                          style={{ marginTop: 20 }}
+                        >
+                          {" "}
+                          Subir
+                        </Button>
                       </Col>
                     </Row>
                   ) : null}
@@ -300,9 +309,14 @@ class OrdenEstudioViewLab extends Component {
           </Col>
           {this.state.datosOrdenEstudio.estado === "Pendiente" ? (
             <Col>
-              <Card style={{ padding: 20 }}>
+              <Card style={{ backgroundColor: "#F9FCFB" }}>
+                <CardHeader
+                  style={{ backgroundColor: "#07689F", color: "white" }}
+                >
+                  <h2>Agendar Turno</h2>
+                </CardHeader>
                 <Row>
-                  <Col style={{ paddingLeft: 90 }}>
+                  <Col>
                     <Calendar
                       onChange={e => {
                         var fechaTurno = e.toISOString().substr(0, 10);
@@ -312,7 +326,7 @@ class OrdenEstudioViewLab extends Component {
                     />
                   </Col>
                 </Row>
-                <Row style={{ marginTop: 20 }}>
+                <Row>
                   <Col>
                     <h3>Fecha: {this.state.fechaTurno}</h3>
                   </Col>
@@ -335,7 +349,7 @@ class OrdenEstudioViewLab extends Component {
                 <Row>
                   <Col>
                     <FormGroup>
-                      <Label>Numero de Turno</Label>
+                      <Label>Número de Turno</Label>
                       <FormInput>
                         <Select
                           value={this.state.turnoNumName}
@@ -350,7 +364,13 @@ class OrdenEstudioViewLab extends Component {
                 <Row>
                   <Col>
                     <FormGroup>
-                      <Button onClick={this.handleAddTurno}>Agendar</Button>
+                      <Button
+                        onClick={this.handleAddTurno}
+                        color="primary"
+                        style={{ marginTop: 20 }}
+                      >
+                        Agendar
+                      </Button>
                     </FormGroup>
                   </Col>
                 </Row>

@@ -869,14 +869,21 @@ class Ficha extends Component {
     });
   }
 
+  // When the user clicks on the button, scroll to the top of the document
+  topFunction() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+  }
+
   render() {
     return (
       <Container>
         <Form>
           <Card style={{ backgroundColor: "#F9FCFB" }}>
-            <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
-              <h3>Datos Personales</h3>
+            <CardHeader style={{ backgroundColor: "#07689F", color: "white" }}>
+              <h2>Datos Personales</h2>
             </CardHeader>
+
             <CardBody>
               <Row>
                 <Col>
@@ -1139,9 +1146,10 @@ class Ficha extends Component {
           <hr />
 
           <Card style={{ backgroundColor: "#F9FCFB" }}>
-            <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
-              <h3>Datos de la Ficha HA</h3>
+            <CardHeader style={{ backgroundColor: "#07689F", color: "white" }}>
+              <h2>Datos de la Ficha HA</h2>
             </CardHeader>
+
             <CardBody>
               <Row>
                 <Col>
@@ -1335,7 +1343,9 @@ class Ficha extends Component {
                     </Row>
                     <Row>
                       <Col>
-                        <Button onClick={this.eliminarEvento}>Eliminar</Button>
+                        <Button color="danger" onClick={this.eliminarEvento}>
+                          Eliminar
+                        </Button>
                       </Col>
                     </Row>
                   </Card>
@@ -1405,7 +1415,9 @@ class Ficha extends Component {
                     </Row>
                     <Row>
                       <Col>
-                        <Button onClick={this.eliminarMani}>Eliminar</Button>
+                        <Button color="danger" onClick={this.eliminarMani}>
+                          Eliminar
+                        </Button>
                       </Col>
                     </Row>
                   </Card>
@@ -1488,7 +1500,9 @@ class Ficha extends Component {
                     </Row>
                     <Row>
                       <Col>
-                        <Button onClick={this.eliminarComor}>Eliminar</Button>
+                        <Button color="danger" onClick={this.eliminarComor}>
+                          Eliminar
+                        </Button>
                       </Col>
                     </Row>
                   </Card>
@@ -1588,7 +1602,9 @@ class Ficha extends Component {
                     </Row>
                     <Row>
                       <Col>
-                        <Button onClick={this.eliminarFame}>Eliminar</Button>
+                        <Button color="danger" onClick={this.eliminarFame}>
+                          Eliminar
+                        </Button>
                       </Col>
                     </Row>
                   </Card>
@@ -2035,6 +2051,9 @@ class Ficha extends Component {
           >
             Ficha HA agregada con éxito!
           </SweetAlert>
+          <button onclick={this.topFunction} id="myBtn" title="Go to top">
+            Top
+          </button>
         </Form>
       </Container>
     );

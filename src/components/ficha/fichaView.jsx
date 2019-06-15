@@ -21,6 +21,7 @@ import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import EventoCardiovascular from "./../eventocardiovascular/eventocardiovascularForm";
 import { createHashHistory } from "history";
 import SweetAlert from "react-bootstrap-sweetalert";
+
 const history = createHashHistory();
 
 class FichaView extends Component {
@@ -111,8 +112,8 @@ class FichaView extends Component {
   async handleDelete() {
     //const cod = this.props.codficha; //direccto accedes, yaa, y eso nomas es, que te falta ahora?
     const cod = this.props.match.params.codficha;
-    const url1 = "http://127.0.0.1:8000/api/ficha/";
-    const response = await axios.delete(url1 + cod);
+    const url1 = "http://127.0.0.1:8000/api/ficha/" + cod + "/";
+    const response = await axios.delete(url1);
     console.log(response.status);
     if (response.status === 204) {
       Alert.success("La Ficha ha sido eliminada con éxito"); //con este avisas
@@ -362,9 +363,10 @@ class FichaView extends Component {
     return (
       <Container style={{ marginTop: 20 }}>
         <Card style={{ backgroundColor: "#F9FCFB" }}>
-          <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
-            <h3>Datos de la Ficha HA</h3>
+          <CardHeader style={{ backgroundColor: "#07689F", color: "white" }}>
+            <h2>Datos de la Ficha HA</h2>
           </CardHeader>
+
           <CardBody>
             <Row>
               <Col>
@@ -869,15 +871,14 @@ class FichaView extends Component {
               showCancel
               allowEscape
               show={this.state.confirmDelete}
-              confirmBtnText="Sí, Eliminar Orden de Estudio"
+              confirmBtnText="Sí, Eliminar la Ficha HA"
               cancelBtnText="Cancelar"
               confirmBtnBsStyle="danger"
               cancelBtnBsStyle="default"
-              title="Are you sure?"
               onConfirm={this.handleDelete}
               onCancel={this.onCancelDelete}
             >
-              ¿Estas seguro de Eliminar la Orden de Estudio?
+              ¿Estas seguro de Eliminar la Ficha HA?
             </SweetAlert>
           </Button>
           {"      "}

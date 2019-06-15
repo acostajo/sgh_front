@@ -222,7 +222,11 @@ class BuscarFicha extends Component {
           <Col>
             <Button
               onClick={this.handleSearch}
-              style={{ marginRight: 10, backgroundColor: "#007bff" }}
+              style={{
+                marginRight: 10,
+                backgroundColor: "#007bff",
+                color: "white"
+              }}
             >
               Buscar
             </Button>

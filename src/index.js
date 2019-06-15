@@ -1,19 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+//  import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import * as serviceWorker from "./serviceWorker";
-import "rsuite/dist/styles/rsuite.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import WebFont from "webfontloader";
-
-WebFont.load({
-  google: {
-    families: ["Titillium Web:300,400,700", "sans-serif"]
-  }
-});
-
+import "./themes/fresca.css";
 ReactDOM.render(
   <BrowserRouter>
     <App />

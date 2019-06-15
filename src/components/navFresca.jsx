@@ -11,7 +11,7 @@ import {
   NavLink
 } from "react-router-dom";
 
-class NavBarFrescaLab extends Component {
+class NavBarFresca extends Component {
   constructor(props) {
     super(props);
 
@@ -75,19 +75,10 @@ class NavBarFrescaLab extends Component {
             <li class="nav-item">
               <a
                 class="nav-link"
-                href="/menu_lab"
+                href="/modulos"
                 title="Current breakpoint tier"
               >
                 Inicio
-              </a>
-            </li>
-            <li class="nav-item ">
-              <a
-                class="nav-link-resalted"
-                href="/turnos"
-                title="Current breakpoint tier"
-              >
-                Gestionar Turnos
               </a>
             </li>
             <li class="nav-item">
@@ -112,4 +103,4 @@ class NavBarFrescaLab extends Component {
   }
 }
 
-export default NavBarFrescaLab;
+export default NavBarFresca;
