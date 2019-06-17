@@ -73,11 +73,7 @@ class NavBarFresca extends Component {
         <div class="collapse navbar-collapse" id="navbarColor02">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a
-                class="nav-link"
-                href="/modulos"
-                title="Current breakpoint tier"
-              >
+              <a class="nav-link" href="/menu/" title="Current breakpoint tier">
                 Inicio
               </a>
             </li>

@@ -68,7 +68,7 @@ class NavBarMenu extends Component {
 
                 <NavLi
                   icon={<Icon icon="home" />}
-                  to="/modulos"
+                  to="/menu/"
                   style={{ color: "white", textDecoration: "none" }}
                   activeStyle={this.state.activeStyleConsulta}
                 >

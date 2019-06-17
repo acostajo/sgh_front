@@ -20,13 +20,15 @@ import BuscarPaciente from "./components/laboratorio/buscarPaciente";
 import Turnos from "./components/laboratorio/turnos";
 import MenuLab from "./components/laboratorio/menuLab";
 import OrdenEstudioViewLab from "./components/laboratorio/ordenestudioViewLab";
-
+import Login from "./components/Login";
+import "antd/dist/antd.css";
 class App extends Component {
   render() {
     return (
       <div>
         <div className="content" style={{ marginTop: 60 }}>
           <Switch>
+            <Route exact path="/" component={Login} />
             <Route
               path="/lista_estudios/:codficha"
               exact
@@ -50,8 +52,8 @@ class App extends Component {
             <Route path="/ficha_buscar" component={BuscarFicha} />
             <Route path="/menu_ficha/:codficha" component={MenuFicha} />
             <Route path="/ficha" component={Ficha} />
-            <Route path="/modulos" exact component={MenuPrincipal} />
-            <Route path="/" exact component={MenuPrincipal} />
+
+            <Route path="/menu/" exact component={MenuPrincipal} />
             <Route path="/consulta/:codficha" component={Consulta} />
             <Route
               path="/consulta_view/:codconsulta/:codficha"
