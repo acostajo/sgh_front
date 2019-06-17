@@ -272,7 +272,7 @@ class MenuLab extends Component {
           </Modal.Body>
         </Modal>
         <NavBarFrescaLab />
-        <FlexboxGrid align="center">
+        <FlexboxGrid align="center" >
           <FlexboxGrid.Item
             colSpan={8}
             style={{ paddingBottom: 10, marginTop: 50 }}
@@ -344,7 +344,7 @@ class MenuLab extends Component {
                     <Cell dataKey="estudio" />
                   </Column>
                   <Column width={180} resizable>
-                    <HeaderCell>Nombres</HeaderCell>
+                    <HeaderCell>Paciente</HeaderCell>
                     <Cell dataKey="nombre" />
                   </Column>
                   <Column width={90} resizable>
@@ -418,7 +418,7 @@ class MenuLab extends Component {
                     <Cell dataKey="estudio" />
                   </Column>
                   <Column width={180} resizable>
-                    <HeaderCell>Nombres</HeaderCell>
+                    <HeaderCell>Paciente</HeaderCell>
                     <Cell dataKey="nombre" />
                   </Column>
                   <Column width={90} resizable>
@@ -501,7 +501,7 @@ class MenuLab extends Component {
                     <Cell dataKey="estudio" />
                   </Column>
                   <Column width={180} resizable>
-                    <HeaderCell>Nombres</HeaderCell>
+                    <HeaderCell>Paciente</HeaderCell>
                     <Cell dataKey="nombre" />
                   </Column>
                   <Column width={90} resizable>

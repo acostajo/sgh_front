@@ -241,7 +241,7 @@ class MenuFicha extends Component {
                   this.state.datosFicha.codficha
                 }`}
                 activeStyle={this.state.activeStyleFicha}
-                icon={<Icon icon="dashboard" />}
+                icon={<Icon icon="dashboard"   />}
               >
                 Resumen
               </NavLi>
@@ -252,7 +252,7 @@ class MenuFicha extends Component {
                   this.state.datosFicha.codficha
                 }`}
                 activeStyle={this.state.activeStyleFicha}
-                icon={<Icon icon="list-alt" />}
+                icon={<Icon icon="list-alt"   />}
               >
                 Datos Ficha
               </NavLi>
@@ -263,7 +263,7 @@ class MenuFicha extends Component {
                   this.state.datosFicha.codficha
                 }/buscar_consulta/${this.state.datosFicha.codficha}`}
                 activeStyle={this.state.activeStyleConsulta}
-                icon={<Icon icon="stethoscope" />}
+                icon={<Icon icon="stethoscope"  />}
               >
                 Consulta
               </NavLi>
@@ -344,6 +344,8 @@ class MenuFicha extends Component {
               />
             </Switch>
           </FlexboxGrid.Item>
+
+
         </FlexboxGrid>
       </div>
     );

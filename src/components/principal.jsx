@@ -27,6 +27,40 @@ class MenuPrincipal extends Component {
     super(props);
 
     this.state = {
+activeStyleFicha: {
+        textDecoration: "none",
+        color: "#133E7C",
+        fontSize: "17px",
+        "&:hover": {
+          textDecoration: "none"
+        }
+      },
+      activeStyleConsulta: {
+        textDecoration: "none",
+        fontSize: "17px",
+        color: "#3c763d",
+        "&:hover": {
+          textDecoration: "none"
+        }
+      },
+      activeStylePanolab: {
+        textDecoration: "none",
+        fontSize: "17px",
+        color: "#563d7c",
+        "&:hover": {
+          textDecoration: "none"
+        }
+      },
+      activeStyleOrden: {
+        textDecoration: "none",
+        fontSize: "17px",
+        color: "#337ab7",
+        "&:hover": {
+          textDecoration: "none"
+        }
+      },
+
+
       codSelected: 0,
       toggleListaPaciente: false,
       toggleAgregarPaciente: false,
@@ -402,6 +436,7 @@ class MenuPrincipal extends Component {
                 </Col>
               </div>
             </Col>
+          
           </Row>
         </Container>
       </div>
