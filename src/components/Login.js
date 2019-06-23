@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as actions from "../store/actions/auth";
 import { FlexboxGrid } from "rsuite";
+import axios from "axios";
 
 const FormItem = Form.Item;
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
@@ -13,8 +14,23 @@ class NormalLoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.onAuth(values.userName, values.password);
-        this.props.history.push("/menu/");
+        /*this.props.onAuth(values.userName, values.password);
+        this.props.history.push("/menu/");*/
+        axios
+          .post("http://127.0.0.1:8000/rest-auth/login/", {
+            username: values.userName,
+            password: values.password
+          })
+          .then(res => {
+            console.log(res);
+            const token = res.data.key;
+            const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+            localStorage.setItem("token", token);
+            localStorage.setItem("expirationDate", expirationDate);
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
     });
   };
