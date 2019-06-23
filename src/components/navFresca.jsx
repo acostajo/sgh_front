@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import logo from "./logo.png";
 import { Dropdown, Nav, Navbar, Icon, Header } from "rsuite";
 import "../themes/fresca.css";
+import { connect } from "react-redux";
+import * as actions from "../store/actions/auth";
 import {
   Route,
   Switch,
@@ -88,9 +90,13 @@ class NavBarFresca extends Component {
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <NavLink
+                className="nav-link"
+                to="/login"
+                onClick={this.props.logout}
+              >
                 Cerrar Sesión
-              </a>
+              </NavLink>
             </li>
           </ul>
         </div>
@@ -99,4 +105,15 @@ class NavBarFresca extends Component {
   }
 }
 
-export default NavBarFresca;
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch(actions.logout())
+  };
+};
+
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps
+  )(NavBarFresca)
+);
