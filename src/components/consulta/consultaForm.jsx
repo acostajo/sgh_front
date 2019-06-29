@@ -12,9 +12,10 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Tooltip
 } from "reactstrap";
-import { Modal } from "rsuite";
+import { Modal, InputNumber, Whisper, Input } from "rsuite";
+import { IconButton, ButtonToolbar, Icon } from "rsuite";
 import axios from "axios";
 import InputRange from "react-input-range";
 import { withRouter } from "react-router-dom";
@@ -30,6 +31,7 @@ import "react-input-range/lib/css/index.css";
 import EfectoAdverso from "./../efectoadverso/efectoAdversoForm";
 import { Alert } from "rsuite";
 import SweetAlert from "react-bootstrap-sweetalert";
+///import "./../../themes/fresca.css";
 const ColoredLine = ({ color }) => (
   <hr
     style={{
@@ -46,6 +48,8 @@ class Consulta extends Component {
   constructor() {
     super();
     this.state = {
+      intervalId: 0,
+      show: true,
       codConsultaReturn: "", //necesitamos guardar el codconsulta que retorna
       //alert
       alertCreado: false,
@@ -82,8 +86,8 @@ class Consulta extends Component {
       vgm1: 0, //	valoración global del médico para CDAI Y SDAI
       vgp2: 0, //	valoración global del Paciente para DAS28PCR Y DAS28VSG
       vgm2: 0, //	valoración global del médicopara DAS28PCR Y DAS28VSG
-      crp: 0,
-      vsg: 0,
+      // crp: 0,
+      //vsg: 0,
       cdai: 0, //	clinical disease activity index
       sdai: 0, //	simple disease activity index
       haq: 0, //	health assessment questionnaire
@@ -172,9 +176,12 @@ class Consulta extends Component {
         checkNAT26: false,
         checkNAT27: false,
         checkNAT28: false
-      }
+      },
+      tooltipOpen: false,
+      tooltipVsgOpen: false
     };
-
+    this.toggle = this.toggle.bind(this);
+    this.toggleVsg = this.toggleVsg.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     //this.onCheckNAD = this.onCheckNAD.bind(this);
@@ -190,7 +197,24 @@ class Consulta extends Component {
     this.handleOnSelectAll = this.handleOnSelectAll.bind(this);
     this.alertConfirm = this.alertConfirm.bind(this);
     this.handleAddEfecto = this.handleAddEfecto.bind(this);
+    this.IncrementItem = this.IncrementItem.bind(this);
+    this.DecreaseItem = this.DecreaseItem.bind(this);
   }
+
+  IncrementItem = () => {
+    console.log(this.state.crp);
+    this.setState({ crp: this.state.crp + 1 });
+  };
+  DecreaseItem = () => {
+    console.log(this.state.crp);
+    this.setState({ crp: this.state.crp - 1 });
+  };
+  ToggleClick = () => {
+    this.setState({ show: !this.state.show });
+  };
+  UpdateValue = e => {
+    this.setState({ crp: e.target.value });
+  };
   alertConfirm() {
     this.setState({ alertCreado: false });
     this.props.history.push(
@@ -471,6 +495,18 @@ class Consulta extends Component {
     this.handleAddEfecto(codconsulta);
   }
 
+  toggle() {
+    this.setState({
+      tooltipOpen: !this.state.tooltipOpen
+    });
+  }
+
+  toggleVsg() {
+    this.setState({
+      tooltipVsgOpen: !this.state.tooltipVsgOpen
+    });
+  }
+
   async handleAddEfecto(codconsulta) {
     const list = this.state.efectoListTable; //este hay que cambiarle
     for (let item = 0; item < list.length; item++) {
@@ -568,20 +604,190 @@ class Consulta extends Component {
     const checksNAD = Object.values(this.state.checksNAD);
     const checksNAT = Object.values(this.state.checksNAT);
 
-    for (const prop in checksNAD) {
-      if (checksNAD[prop] === true) {
+    /* for (const prop in checksNAD) {
+      if (this.state.checkNAD1 === true || this.state.checkNAD2 === true) {
         countNAD = countNAD + 1;
       }
-    }
+    }*/
+    /* console.log(countNAD);
     for (const prop in checksNAT) {
       if (checksNAT[prop] === true) {
         countNAT = countNAT + 1;
       }
+    }*/
+
+    if (this.state.checkNAD1 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD2 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD3 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD4 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD5 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD6 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD7 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD8 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD9 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD10 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD11 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD12 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD13 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD14 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD15 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD16 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD17 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD18 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD19 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD20 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD21 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD22 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD23 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD24 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD25 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD26 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD27 === true) {
+      countNAD = countNAD + 1;
+    }
+    if (this.state.checkNAD28 === true) {
+      countNAD = countNAD + 1;
+    }
+
+    if (this.state.checkNAT1 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT2 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT3 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT4 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT5 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT6 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT7 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT8 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT9 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT10 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT11 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT12 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT13 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT14 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT15 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT16 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT17 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT18 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT19 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT20 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT21 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT22 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT23 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT24 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT25 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT26 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT27 === true) {
+      countNAT = countNAT + 1;
+    }
+    if (this.state.checkNAT28 === true) {
+      countNAT = countNAT + 1;
     }
 
     //formula para cdai = NAD28 + NAT28 + VGP + VGM
     const CDAI = countNAT + countNAD + this.state.vgm1 + this.state.vgp1;
-    console.log(CDAI);
 
     if (CDAI.toFixed(2) <= 2.8) {
       CDAI_RANGO = "Remisión";
@@ -617,13 +823,17 @@ class Consulta extends Component {
     }
 
     //formula para el DAS28-PCR: 0,56 x √NAD28 + 0,28 x √NAT28 + 0,36 x ln(PCR +1) + 0,014 x VGP + 0,96
+
     const DAS28_PCR =
       0.56 * Math.sqrt(countNAD) +
       0.28 * Math.sqrt(countNAT) +
       0.36 * Math.log(this.state.crp + 1) +
-      0.14 * this.state.vgp2 +
+      0.014 * this.state.vgp2 +
       0.96;
-
+    console.log(Math.sqrt(countNAD));
+    console.log(Math.sqrt(countNAT));
+    console.log(this.state.crp);
+    console.log(this.state.vgp2);
     if (DAS28_PCR.toFixed(2) <= 2.6) {
       DAS28_PCR_RANGO = "Remisión";
     }
@@ -642,7 +852,7 @@ class Consulta extends Component {
       0.56 * Math.sqrt(countNAD) +
       0.28 * Math.sqrt(countNAT) +
       0.7 * Math.log(this.state.vsg) +
-      0.14 * this.state.vgp2;
+      0.014 * this.state.vgp2;
 
     if (DAS28_VSG.toFixed(2) <= 2.6) {
       DAS28_VSG_RANGO = "Remisión";
@@ -671,13 +881,29 @@ class Consulta extends Component {
     });
     console.log(CDAI_RANGO); //aca toma otro valor q esta mal, ok vamos a mirar, aca cambia
   }
-
+  scroll() {
+    let intervalId = setInterval(
+      this.scrollStep.bind(this),
+      this.props.delayInMs
+    );
+    //store the intervalId inside the state,
+    //so we can use it later to cancel the scrolling
+    this.setState({ intervalId: intervalId });
+  }
+  scrollStep() {
+    if (window.scrollY === 0) {
+      clearInterval(this.state.intervalId);
+    }
+    window.scroll(0, window.scrollY - this.props.scrollStepInPx);
+  }
   render() {
     return (
       <Container style={{ marginTop: 20 }}>
         <Card style={{ backgroundColor: "#F9FCFB" }}>
-          <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
-            <h3>Datos de Consulta</h3>
+          <CardHeader style={{ backgroundColor: "#07689F" }}>
+            <h2 style={{ backgroundColor: "#07689F", color: "#FFFFFF" }}>
+              Datos Consulta
+            </h2>
           </CardHeader>
           <CardBody>
             <Form>
@@ -1028,6 +1254,13 @@ class Consulta extends Component {
                                   alt=""
                                 />
                                 <input
+                                  type="checkbox"
+                                  class="custom-control-input"
+                                  id="customCheck"
+                                  checked=""
+                                />
+                                <input
+                                  class="custom-control-input"
                                   type="checkbox"
                                   className="checkBox1"
                                   name="checkNAD1"
@@ -1445,23 +1678,48 @@ class Consulta extends Component {
                       <Col>
                         <FormGroup>
                           <Label>CRP</Label>
-                          <InputRange
-                            maxValue={100}
-                            minValue={0}
-                            value={this.state.crp}
+
+                          <InputNumber
+                            postfix="mg/l"
+                            max={100}
+                            min={0}
                             onChange={value => this.setState({ crp: value })}
+                            value={this.state.crp}
+                            placeholder="0 - 100"
+                            name="crp"
+                            id="crp"
                           />
+                          <Tooltip
+                            placement="top"
+                            isOpen={this.state.tooltipOpen}
+                            target="crp"
+                            toggle={this.toggle}
+                          >
+                            rango : 0 - 100
+                          </Tooltip>
                         </FormGroup>
                       </Col>
                       <Col>
                         <FormGroup>
                           <Label>VSG</Label>
-                          <InputRange
-                            maxValue={200}
-                            minValue={0}
-                            value={this.state.vsg}
+                          <InputNumber
+                            postfix="mm/h"
+                            max={200}
+                            min={0}
                             onChange={value => this.setState({ vsg: value })}
+                            value={this.state.vsg}
+                            placeholder="0 - 200"
+                            name="vsg"
+                            id="vsg"
                           />
+                          <Tooltip
+                            placement="top"
+                            isOpen={this.state.tooltipVsgOpen}
+                            target="vsg"
+                            toggleVsg={this.toggleVsg}
+                          >
+                            rango : 0 - 200
+                          </Tooltip>
                         </FormGroup>
                       </Col>
                     </Row>
@@ -1481,12 +1739,23 @@ class Consulta extends Component {
                       <Col>
                         <FormGroup>
                           <Label>VGP</Label>
-                          <InputRange
-                            maxValue={10}
-                            minValue={0}
-                            value={this.state.vgp1}
+                          <InputNumber
+                            max={10}
+                            min={0}
                             onChange={value => this.setState({ vgp1: value })}
+                            value={this.state.vgp1}
+                            placeholder="0 - 10"
+                            name="vgp1"
+                            id="vgp1"
                           />
+                          <Tooltip
+                            placement="top"
+                            isOpen={this.state.tooltipOpen}
+                            target="vgp1"
+                            toggle={this.toggle}
+                          >
+                            rango : 0=mejor a 10=peor
+                          </Tooltip>
                         </FormGroup>
                       </Col>
                       <Col>
@@ -1634,7 +1903,6 @@ class Consulta extends Component {
             </Form>
           </CardBody>
         </Card>
-
         <Button
           onClick={this.handleAdd}
           color="primary"
@@ -1667,6 +1935,19 @@ class Consulta extends Component {
         >
           Atras
         </Button>
+
+        <Icon
+          href="#"
+          id="scroll"
+          className="scroll"
+          style={{ marginLeft: 700, color: "#07689F", background: "white" }}
+          onClick={event => {
+            event.preventDefault();
+            this.scroll();
+          }}
+          icon="angle-double-up"
+          size="4x"
+        />
       </Container>
     );
   }

@@ -12,7 +12,7 @@ import {
   Label,
   Input
 } from "reactstrap";
-import { Alert } from "rsuite";
+import { Alert, Icon } from "rsuite";
 import axios from "axios";
 import Joi from "joi-browser";
 import { withRouter } from "react-router-dom";
@@ -33,6 +33,7 @@ class Panolab extends Component {
   constructor() {
     super();
     this.state = {
+      intervalId: 0,
       codPanolabReturn: "",
       //alert
       alertCreado: false,
@@ -195,14 +196,30 @@ class Panolab extends Component {
 
     console.log(this.props.match.params.codficha);
   }
-
+  scroll() {
+    let intervalId = setInterval(
+      this.scrollStep.bind(this),
+      this.props.delayInMs
+    );
+    //store the intervalId inside the state,
+    //so we can use it later to cancel the scrolling
+    this.setState({ intervalId: intervalId });
+  }
+  scrollStep() {
+    if (window.scrollY === 0) {
+      clearInterval(this.state.intervalId);
+    }
+    window.scroll(0, window.scrollY - this.props.scrollStepInPx);
+  }
   render() {
     return (
       <Container style={{ marginTop: 20 }}>
         <Form>
           <Card style={{ backgroundColor: "#F9FCFB" }}>
-            <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
-              <h3>Datos Panorámica de Laboratorio</h3>
+            <CardHeader style={{ backgroundColor: "#07689F" }}>
+              <h2 style={{ backgroundColor: "#07689F", color: "#FFFFFF" }}>
+                Datos Panorámica de Laboratorio
+              </h2>
             </CardHeader>
             <CardBody style={{ marginBottom: 20 }}>
               <Form>
@@ -748,6 +765,18 @@ class Panolab extends Component {
           >
             Atras
           </Button>
+          <Icon
+            href="#"
+            id="scroll"
+            className="scroll"
+            style={{ marginLeft: 700, color: "#07689F", background: "white" }}
+            onClick={event => {
+              event.preventDefault();
+              this.scroll();
+            }}
+            icon="angle-double-up"
+            size="4x"
+          />
         </Form>
       </Container>
     );

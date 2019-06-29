@@ -325,8 +325,10 @@ class OrdenEstudio extends Component {
     return (
       <Container style={{ marginTop: 20 }}>
         <Card style={{ backgroundColor: "#F9FCFB" }}>
-          <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
-            <h3>Datos</h3>
+          <CardHeader style={{ backgroundColor: "#07689F" }}>
+            <h2 style={{ backgroundColor: "#07689F", color: "#FFFFFF" }}>
+              Datos Orden de Estudio
+            </h2>
           </CardHeader>
           <CardBody>
             <Form>

@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import logo from "./logo.png";
 import { Dropdown, Nav, Navbar, Icon, Header } from "rsuite";
 import "../themes/fresca.css";
+import { Modal } from "rsuite";
+import axios from "axios";
+import Turnos from "./laboratorio/turnos";
 import {
   Route,
   Switch,
@@ -18,7 +21,7 @@ class NavBarFrescaLab extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
-
+      toggleListaPaciente: false,
       activeStyleConsulta: {
         textDecoration: "none",
 
@@ -31,7 +34,14 @@ class NavBarFrescaLab extends Component {
         }
       }
     };
+    this.toggleListaPaciente = this.toggleListaPaciente.bind(this);
   }
+  toggleListaPaciente() {
+    this.setState({
+      toggleListaPaciente: !this.state.toggleListaPaciente
+    });
+  }
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
@@ -59,7 +69,17 @@ class NavBarFrescaLab extends Component {
             }}
           />
         </nav>
-
+        <div style={{ marginTop: 40 }}>
+          <Modal
+            show={this.state.toggleListaPaciente}
+            onHide={this.toggleListaPaciente}
+            style={{ width: "60%" }}
+          >
+            <Modal.Body>
+              <Turnos />
+            </Modal.Body>
+          </Modal>
+        </div>
         <button
           class="navbar-toggler"
           type="button"
@@ -73,30 +93,22 @@ class NavBarFrescaLab extends Component {
         <div class="collapse navbar-collapse" id="navbarColor02">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a
-                class="nav-link"
-                href="/menu_lab"
-                title="Current breakpoint tier"
-              >
+              <a class="nav-link" href="/menu_lab">
                 Inicio
               </a>
             </li>
             <li class="nav-item ">
-              <a
-                class="nav-link-resalted"
-                href="/turnos"
-                title="Current breakpoint tier"
-              >
+              <a class="nav-link-resalted" onClick={this.toggleListaPaciente}>
                 Gestionar Turnos
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#" title="Current breakpoint tier">
+              <a class="nav-link" href="#">
                 Configuración
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#" title="Current breakpoint tier">
+              <a class="nav-link" href="#">
                 Perfil
               </a>
             </li>

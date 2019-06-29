@@ -140,6 +140,7 @@ class Turnos extends Component {
     var turnos = [];
 
     for (let i = 0; i < datosTurnos.length; i++) {
+      console.log(this.state.datosTurnos[i]);
       var codturno = datosTurnos[i].codturno;
       var nombre = datosFicha.filter(item => {
         return item.codficha === datosTurnos[i].codficha;
@@ -153,12 +154,12 @@ class Turnos extends Component {
       var numeroTurno = datosTurnosDist.filter(item => {
         return item.codturnodist === datosTurnos[i].codturnodist;
       })[0].desturno;
-      var codEstudio = datosOrdenEstudio.filter(item => {
+      /*var codEstudio = datosOrdenEstudio.filter(item => {
         return item.codordenestudio === datosTurnos[i].codordenestudio;
       })[0].codestudio;
       var tipoEstudio = datosEstudio.filter(item => {
         return item.codestudio === codEstudio;
-      })[0].nombre;
+      })[0].nombre;*/
 
       const turno = {
         codturno: codturno,
@@ -166,7 +167,7 @@ class Turnos extends Component {
         apellido: apellido,
         turno: turno,
         numeroTurno: numeroTurno,
-        tipoEstudio: tipoEstudio,
+        /*tipoEstudio: tipoEstudio,*/
         fechaturno: datosTurnos[i].fechaturno
       };
       turnos.push(turno);
@@ -246,14 +247,14 @@ class Turnos extends Component {
       var numeroTurno = this.state.datosTurnosDist.filter(item => {
         return item.codturnodist === this.state.datosTurnos[i].codturnodist;
       })[0].desturno;
-      var codEstudio = this.state.datosOrdenEstudio.filter(item => {
+      /* var codEstudio = this.state.datosOrdenEstudio.filter(item => {
         return (
           item.codordenestudio === this.state.datosTurnos[i].codordenestudio
         );
       })[0].codestudio;
       var tipoEstudio = this.state.datosEstudio.filter(item => {
         return item.codestudio === codEstudio;
-      })[0].nombre;
+      })[0].nombre;*/
 
       const turno = {
         codturno: codturno,
@@ -261,7 +262,7 @@ class Turnos extends Component {
         apellido: apellido,
         turno: turno,
         numeroTurno: numeroTurno,
-        tipoEstudio: tipoEstudio,
+        /*  tipoEstudio: tipoEstudio,*/
         fechaturno: this.state.datosTurnos[i].fechaturno
       };
       turnos.push(turno);
@@ -272,7 +273,7 @@ class Turnos extends Component {
     var turnosList = turnos.filter(item => {
       return item.fechaturno === fechaTurno;
     });
-    this.setState({ dataTurno: turnosList }, () => {
+    this.setState({ dataTurno: turnosList, fechaTurno: fechaTurno }, () => {
       console.log(this.state.dataTurno);
     });
   }
@@ -333,7 +334,28 @@ class Turnos extends Component {
       toggleEvento: !this.state.toggleEvento
     });
   }
+  formatDate(date) {
+    var monthNames = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "April",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Augusto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ];
 
+    var day = date.getUTCDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+
+    return day + " " + monthNames[monthIndex] + " " + year;
+  }
   render() {
     const data = [
       {
@@ -346,118 +368,117 @@ class Turnos extends Component {
       }
     ];
     return (
-      <Container>
-        <Row>
-          <Col>
-            <Card style={{ padding: 20 }}>
-              <CardHeader
-                style={{
-                  backgroundColor: "#00b300",
-                  color: "white",
-                  marginBottom: 20
+      <Container style={{ marginTop: 20 }}>
+        <Card style={{ backgroundColor: "#F9FCFB" }}>
+          <CardHeader style={{ backgroundColor: "#07689F" }}>
+            <h2 style={{ backgroundColor: "#07689F", color: "#FFFFFF" }}>
+              Gestión de Turnos
+            </h2>
+          </CardHeader>
+          <Row>
+            <Col xs="4" style={{ padding: 20 }}>
+              <Label>
+                <h4>Seleccione una Fecha Especifica</h4>
+              </Label>
+              <Calendar onChange={this.onFechaChange} />
+            </Col>
+            <Col xs="8" style={{ padding: 20 }}>
+              <Label>
+                <h4>Turnos Agendados</h4>
+              </Label>
+              <BootstrapTable
+                keyField="codturno"
+                data={this.state.dataTurno}
+                columns={this.state.columns}
+                selectRow={{
+                  mode: "radio",
+                  clickToSelect: true,
+                  onSelect: (row, isSelect, rowIndex, e) => {
+                    this.setState({
+                      turnoSelected: row.codturno
+                    });
+                  }
                 }}
-              >
-                <h3>Gestion de Turnos</h3>
-              </CardHeader>
-              <Row>
-                <Col xs="4">
-                  <Label>
-                    <h3>Fecha</h3>
-                  </Label>
-                  <Calendar onChange={this.onFechaChange} />
-                </Col>
-                <Col xs="8">
-                  <Label>
-                    <h3>Turnos</h3>
-                  </Label>
-                  <BootstrapTable
-                    keyField="codturno"
-                    data={this.state.dataTurno}
-                    columns={this.state.columns}
-                    selectRow={{
-                      mode: "radio",
-                      clickToSelect: true,
-                      onSelect: (row, isSelect, rowIndex, e) => {
-                        this.setState({
-                          turnoSelected: row.codturno
-                        });
-                      }
-                    }}
-                    pagination={paginationFactory({ sizePerPage: 5 })}
-                  />
-                  <Button color="danger" onClick={this.eliminarTurno}>
-                    Eliminar
-                  </Button>{" "}
-                  <Button color="success" onClick={this.toggleEvento}>
-                    Modificar
-                  </Button>
-                  <Modal
-                    show={this.state.toggleEvento}
-                    onHide={this.toggleEvento}
-                  >
-                    <Card style={{ padding: 20 }}>
-                      <Row>
-                        <Col style={{ paddingLeft: 90 }}>
-                          <Calendar
-                            onChange={e => {
-                              var fechaTurno = e.toISOString().substr(0, 10);
-                              this.setState({ fechaTurno: fechaTurno });
-                            }}
-                            name="fechaTurno"
+                pagination={paginationFactory({ sizePerPage: 5 })}
+              />
+              <Button color="danger" onClick={this.eliminarTurno}>
+                Eliminar
+              </Button>{" "}
+              <Button color="success" onClick={this.toggleEvento}>
+                Modificar
+              </Button>
+              <Modal show={this.state.toggleEvento} onHide={this.toggleEvento}>
+                <Card style={{ padding: 20 }}>
+                  <Row>
+                    <Col style={{ paddingLeft: 90 }}>
+                      <Calendar
+                        onChange={e => {
+                          var fechaTurno = e.toISOString().substr(0, 10);
+                          var fechaTurnoFormateado = this.formatDate(
+                            new Date(e)
+                          );
+                          this.setState({ fechaTurno: fechaTurno });
+                        }}
+                        name="fechaTurno"
+                      />
+                    </Col>
+                  </Row>
+                  <Row style={{ marginTop: 20 }}>
+                    <Col>
+                      <h3>
+                        Fecha:
+                        {this.formatDate(new Date(this.state.fechaTurno))}{" "}
+                      </h3>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <FormGroup>
+                        <Label>Turno </Label>
+                        <FormInput>
+                          <Select
+                            value={this.state.turnoName}
+                            onChange={this.onSelectTurno}
+                            options={data}
+                            isSearchable={false}
                           />
-                        </Col>
-                      </Row>
-                      <Row style={{ marginTop: 20 }}>
-                        <Col>
-                          <h3>Fecha: {this.state.fechaTurno}</h3>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <FormGroup>
-                            <Label>Turno </Label>
-                            <FormInput>
-                              <Select
-                                value={this.state.turnoName}
-                                onChange={this.onSelectTurno}
-                                options={data}
-                                isSearchable={false}
-                              />
-                            </FormInput>
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <FormGroup>
-                            <Label>Numero de Turno</Label>
-                            <FormInput>
-                              <Select
-                                value={this.state.turnoNumName}
-                                onChange={this.onSelectNumTurno}
-                                options={this.state.datosTurnoDistSelect}
-                                isSearchable={false}
-                              />
-                            </FormInput>
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <FormGroup>
-                            <Button onClick={this.modificarTurno}>
-                              Agendar
-                            </Button>
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </Card>
-                  </Modal>
-                </Col>
-              </Row>
-            </Card>
-          </Col>
-        </Row>
+                        </FormInput>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <FormGroup>
+                        <Label>Número de Turno</Label>
+                        <FormInput>
+                          <Select
+                            value={this.state.turnoNumName}
+                            onChange={this.onSelectNumTurno}
+                            options={this.state.datosTurnoDistSelect}
+                            isSearchable={false}
+                          />
+                        </FormInput>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <FormGroup>
+                        <Button
+                          onClick={this.modificarTurno}
+                          color="primary"
+                          style={{ marginTop: 20 }}
+                        >
+                          Agendar
+                        </Button>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                </Card>
+              </Modal>
+            </Col>
+          </Row>
+        </Card>
       </Container>
     );
   }
