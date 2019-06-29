@@ -22,6 +22,7 @@ import MenuLab from "./components/laboratorio/menuLab";
 import OrdenEstudioViewLab from "./components/laboratorio/ordenestudioViewLab";
 import Login from "./components/Login";
 import "antd/dist/antd.css";
+import "rsuite/dist/styles/rsuite.min.css";
 class App extends Component {
   render() {
     return (

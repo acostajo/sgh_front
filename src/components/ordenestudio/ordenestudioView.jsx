@@ -168,14 +168,40 @@ class OrdenEstudioView extends Component {
       confirmCancel: !this.state.confirmCancel
     });
   };
+
+  formatDate(date) {
+    var monthNames = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "April",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ];
+
+    var day = date.getUTCDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+
+    return day + " " + monthNames[monthIndex] + " " + year;
+  }
+
   render() {
     const { photoIndex, isOpen } = this.state;
     const images = [this.state.file];
     return (
       <Container style={{ marginTop: 20 }}>
         <Card style={{ backgroundColor: "#F9FCFB" }}>
-          <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
-            <h3>Datos</h3>
+          <CardHeader style={{ backgroundColor: "#07689F" }}>
+            <h2 style={{ backgroundColor: "#07689F", color: "#FFFFFF" }}>
+              Datos Orden de Estudio
+            </h2>
           </CardHeader>
           <CardBody>
             <Form>
@@ -185,7 +211,11 @@ class OrdenEstudioView extends Component {
                     <Label>
                       <strong>Fecha:</strong>
                     </Label>
-                    <p>{this.state.datosOrdenEstudio.fechaordenestudio}</p>
+                    <p>
+                      {this.formatDate(
+                        new Date(this.state.datosOrdenEstudio.fechaordenestudio)
+                      )}
+                    </p>
                   </FormGroup>
                 </Col>
                 <Col>
@@ -280,7 +310,6 @@ class OrdenEstudioView extends Component {
               cancelBtnText="Cancelar"
               confirmBtnBsStyle="danger"
               cancelBtnBsStyle="default"
-              title="Are you sure?"
               onConfirm={this.handleDelete}
               onCancel={this.onCancelDelete}
             >

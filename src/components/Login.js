@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as actions from "../store/actions/auth";
 import { FlexboxGrid } from "rsuite";
+import logo from "./logolindo.png";
+import { Card, CardBody, CardImg } from "reactstrap";
 
 const FormItem = Form.Item;
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
@@ -15,6 +17,7 @@ class NormalLoginForm extends React.Component {
       if (!err) {
         this.props.onAuth(values.userName, values.password);
         this.props.history.push("/menu/");
+        console.log(this.props.onAuth(values.userName, values.password));
       }
     });
   };
@@ -34,44 +37,76 @@ class NormalLoginForm extends React.Component {
           {this.props.loading ? (
             <Spin indicator={antIcon} />
           ) : (
-            <Form onSubmit={this.handleSubmit} className="login-form">
-              <FormItem>
-                {getFieldDecorator("userName", {
-                  rules: [{ required: true, message: "Ingrese un usuario!" }]
-                })(
-                  <Input
-                    prefix={
-                      <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
-                    }
-                    placeholder="Usuario"
-                  />
-                )}
-              </FormItem>
+            <Card
+              style={{
+                boxShadow:
+                  "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
+              }}
+            >
+              <CardImg
+                top
+                width="100%"
+                src={logo}
+                style={{
+                  paddingTop: "5px",
+                  paddingBottom: "5px",
+                  backgroundColor: "#07689F",
+                  color: "white"
+                }}
+              />
 
-              <FormItem>
-                {getFieldDecorator("password", {
-                  rules: [{ required: true, message: "Ingrese la contraseña!" }]
-                })(
-                  <Input
-                    prefix={
-                      <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
-                    }
-                    type="password"
-                    placeholder="Contraseña"
-                  />
-                )}
-              </FormItem>
+              <CardBody>
+                <Form onSubmit={this.handleSubmit} className="login-form">
+                  <FormItem>
+                    {getFieldDecorator("userName", {
+                      rules: [
+                        { required: true, message: "Ingrese un usuario!" }
+                      ]
+                    })(
+                      <Input
+                        prefix={
+                          <Icon
+                            type="user"
+                            style={{ color: "rgba(0,0,0,.25)" }}
+                          />
+                        }
+                        placeholder="Usuario"
+                      />
+                    )}
+                  </FormItem>
 
-              <FormItem>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  style={{ marginRight: "10px" }}
-                >
-                  Acceder
-                </Button>
-              </FormItem>
-            </Form>
+                  <FormItem>
+                    {getFieldDecorator("password", {
+                      rules: [
+                        { required: true, message: "Ingrese la contraseña!" }
+                      ]
+                    })(
+                      <Input
+                        prefix={
+                          <Icon
+                            type="lock"
+                            style={{ color: "rgba(0,0,0,.25)" }}
+                          />
+                        }
+                        type="password"
+                        placeholder="Contraseña"
+                      />
+                    )}
+                  </FormItem>
+
+                  <FormItem>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      style={{ marginRight: "10px" }}
+                    >
+                      Acceder
+                    </Button>
+                    <a style={{ marginRight: "10px" }}>Olvido su Contraseña?</a>
+                  </FormItem>
+                </Form>
+              </CardBody>
+            </Card>
           )}
         </div>
       </FlexboxGrid>

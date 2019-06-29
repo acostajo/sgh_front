@@ -112,7 +112,7 @@ class BuscarOrdenEstudio extends Component {
       "Diciembre"
     ];
 
-    var day = date.getDate() + 1;
+    var day = date.getUTCDate() ;
     console.log(day);
     var monthIndex = date.getMonth();
     var year = date.getFullYear();

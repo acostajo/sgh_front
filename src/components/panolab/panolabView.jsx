@@ -13,12 +13,13 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
-import { Alert } from "rsuite";
+import { Alert, Icon } from "rsuite";
 import SweetAlert from "react-bootstrap-sweetalert";
 class PanolabView extends Component {
   constructor() {
     super();
     this.state = {
+      intervalId: 0,
       datosPanolab: {},
       visible: false,
       showDeclarative: false,
@@ -106,18 +107,35 @@ class PanolabView extends Component {
       "Diciembre"
     ];
 
-    var day = date.getDate();
+    var day = date.getUTCDate();
     var monthIndex = date.getMonth();
     var year = date.getFullYear();
 
     return day + " " + monthNames[monthIndex] + " " + year;
   }
+  scroll() {
+    let intervalId = setInterval(
+      this.scrollStep.bind(this),
+      this.props.delayInMs
+    );
+    //store the intervalId inside the state,
+    //so we can use it later to cancel the scrolling
+    this.setState({ intervalId: intervalId });
+  }
+  scrollStep() {
+    if (window.scrollY === 0) {
+      clearInterval(this.state.intervalId);
+    }
+    window.scroll(0, window.scrollY - this.props.scrollStepInPx);
+  }
   render() {
     return (
       <Container style={{ marginTop: 20 }}>
         <Card style={{ backgroundColor: "#F9FCFB" }}>
-          <CardHeader style={{ backgroundColor: "#133E7C", color: "white" }}>
-            <h3>Datos</h3>
+          <CardHeader style={{ backgroundColor: "#07689F" }}>
+            <h2 style={{ backgroundColor: "#07689F", color: "#FFFFFF" }}>
+              Datos Panorámica de Laboratorio
+            </h2>
           </CardHeader>
           <CardBody>
             <Form>
@@ -528,11 +546,10 @@ class PanolabView extends Component {
               cancelBtnText="Cancelar"
               confirmBtnBsStyle="danger"
               cancelBtnBsStyle="default"
-              title="Are you sure?"
               onConfirm={this.handleDelete}
               onCancel={this.onCancelDelete}
             >
-              ¿Estas seguro de Eliminar la Panorámica de Laboratorio?
+              ¿Estas seguro de Eliminar la Panorámica?
             </SweetAlert>
           </Button>
           {"      "}
@@ -543,6 +560,18 @@ class PanolabView extends Component {
           >
             Atras
           </Button>
+          <Icon
+            href="#"
+            id="scroll"
+            className="scroll"
+            style={{ marginLeft: 700, color: "#07689F", background: "white" }}
+            onClick={event => {
+              event.preventDefault();
+              this.scroll();
+            }}
+            icon="angle-double-up"
+            size="4x"
+          />
         </FormGroup>
       </Container>
     );

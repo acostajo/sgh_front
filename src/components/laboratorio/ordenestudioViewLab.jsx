@@ -201,6 +201,8 @@ class OrdenEstudioViewLab extends Component {
       .catch(function(error) {
         console.log(error);
       });
+
+    console.log(this.state.datosOrdenEstudio.codficha);
     //datos de la distribucion de turnos
     await axios
       .get(url2)
@@ -227,6 +229,29 @@ class OrdenEstudioViewLab extends Component {
     });
     console.log(this.state.datosTurno);
   }
+
+  formatDate(date) {
+    var monthNames = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "April",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Augusto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ];
+
+    var day = date.getUTCDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+
+    return day + " " + monthNames[monthIndex] + " " + year;
+  }
   render() {
     const data = [
       {
@@ -238,6 +263,7 @@ class OrdenEstudioViewLab extends Component {
         value: "Tarde"
       }
     ];
+
     return (
       <Container>
         <Alert color="info" isOpen={this.state.visible} toggle={this.onDismiss}>
@@ -246,11 +272,12 @@ class OrdenEstudioViewLab extends Component {
         <Row>
           <Col>
             <Card style={{ backgroundColor: "#F9FCFB" }}>
-              <CardHeader
-                style={{ backgroundColor: "#07689F", color: "white" }}
-              >
-                <h2>Datos de la Orden de Estudio</h2>
+              <CardHeader style={{ backgroundColor: "#07689F" }}>
+                <h2 style={{ backgroundColor: "#07689F", color: "#FFFFFF" }}>
+                  Datos de la Orden de Estudio
+                </h2>
               </CardHeader>
+
               <CardBody>
                 <Form>
                   <Row>
@@ -259,7 +286,13 @@ class OrdenEstudioViewLab extends Component {
                         <Label>
                           <strong>Fecha:</strong>
                         </Label>
-                        <p>{this.state.datosOrdenEstudio.fechaordenestudio}</p>
+                        <p>
+                          {this.formatDate(
+                            new Date(
+                              this.state.datosOrdenEstudio.fechaordenestudio
+                            )
+                          )}
+                        </p>
                       </FormGroup>
                     </Col>
                     <Col>
@@ -310,10 +343,10 @@ class OrdenEstudioViewLab extends Component {
           {this.state.datosOrdenEstudio.estado === "Pendiente" ? (
             <Col>
               <Card style={{ backgroundColor: "#F9FCFB" }}>
-                <CardHeader
-                  style={{ backgroundColor: "#07689F", color: "white" }}
-                >
-                  <h2>Agendar Turno</h2>
+                <CardHeader style={{ backgroundColor: "#07689F" }}>
+                  <h2 style={{ backgroundColor: "#07689F", color: "#FFFFFF" }}>
+                    Agendar Turno
+                  </h2>
                 </CardHeader>
                 <Row>
                   <Col>

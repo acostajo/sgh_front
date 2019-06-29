@@ -880,8 +880,10 @@ class Ficha extends Component {
       <Container>
         <Form>
           <Card style={{ backgroundColor: "#F9FCFB" }}>
-            <CardHeader style={{ backgroundColor: "#07689F", color: "white" }}>
-              <h2>Datos Personales</h2>
+            <CardHeader style={{ backgroundColor: "#07689F" }}>
+              <h2 style={{ backgroundColor: "#07689F", color: "#FFFFFF" }}>
+                Datos Personales
+              </h2>
             </CardHeader>
 
             <CardBody>
@@ -1146,8 +1148,10 @@ class Ficha extends Component {
           <hr />
 
           <Card style={{ backgroundColor: "#F9FCFB" }}>
-            <CardHeader style={{ backgroundColor: "#07689F", color: "white" }}>
-              <h2>Datos de la Ficha HA</h2>
+            <CardHeader style={{ backgroundColor: "#07689F" }}>
+              <h2 style={{ backgroundColor: "#07689F", color: "#FFFFFF" }}>
+                Datos de la Ficha HA
+              </h2>
             </CardHeader>
 
             <CardBody>
@@ -2051,9 +2055,6 @@ class Ficha extends Component {
           >
             Ficha HA agregada con éxito!
           </SweetAlert>
-          <button onclick={this.topFunction} id="myBtn" title="Go to top">
-            Top
-          </button>
         </Form>
       </Container>
     );

@@ -127,7 +127,7 @@ class MenuFicha extends Component {
       "Diciembre"
     ];
 
-    var day = date.getDate();
+    var day = date.getUTCDate();
     var monthIndex = date.getMonth();
     var year = date.getFullYear();
 
