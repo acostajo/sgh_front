@@ -12,9 +12,10 @@ import {
   Form,
   FormGroup,
   Label,
-  Tooltip
+  Tooltip,
+  Input
 } from "reactstrap";
-import { Modal, InputNumber, Whisper, Input } from "rsuite";
+import { Modal, InputNumber, Whisper } from "rsuite";
 import { IconButton, ButtonToolbar, Icon } from "rsuite";
 import axios from "axios";
 import InputRange from "react-input-range";
@@ -32,17 +33,6 @@ import EfectoAdverso from "./../efectoadverso/efectoAdversoForm";
 import { Alert } from "rsuite";
 import SweetAlert from "react-bootstrap-sweetalert";
 ///import "./../../themes/fresca.css";
-const ColoredLine = ({ color }) => (
-  <hr
-    style={{
-      color: color,
-      backgroundColor: color,
-      height: 150,
-      width: 2,
-      borderleft: 1
-    }}
-  />
-);
 
 class Consulta extends Component {
   constructor() {

@@ -2427,6 +2427,14 @@ class FichaEdit extends Component {
         >
           Ficha HA modificada con éxito!
         </SweetAlert>
+        {"      "}
+        <Button
+          onClick={this.props.history.goBack}
+          appearance="primary"
+          style={{ marginTop: 20 }}
+        >
+          Atras
+        </Button>
       </Container>
     );
   }
