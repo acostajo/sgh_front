@@ -30,6 +30,7 @@ class App extends Component {
         <div className="content" style={{ marginTop: 60 }}>
           <Switch>
             <Route exact path="/" component={Login} />
+            <Route exact path="/login" component={Login} />
             <Route
               path="/lista_estudios/:codficha"
               exact
