@@ -123,7 +123,9 @@ class OrdenEstudioViewLab extends Component {
     var list2 = this.state.datosTurno.filter(item => {
       return item.fechaturno === this.state.fechaTurno;
     });
+
     var listTurnos = [];
+    console.log(list);
 
     var turnos = list.filter(item => {
       return item.turno === value.value;
@@ -144,6 +146,7 @@ class OrdenEstudioViewLab extends Component {
         }
       }
     }
+    console.log(listTurnos);
     this.setState({ turno: value.value, datosTurnoDistSelect: listTurnos });
   }
 
@@ -208,6 +211,7 @@ class OrdenEstudioViewLab extends Component {
       .get(url2)
       .then(function(response) {
         datosTurnoDist = response.data;
+        console.log("datos turno distribucion" + response.data);
       })
       .catch(function(error) {
         console.log(error);

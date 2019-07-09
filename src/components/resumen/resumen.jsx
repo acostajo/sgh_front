@@ -316,7 +316,7 @@ class Resumen extends Component {
             </Row>
             <Row>
               <Col>
-                <h3 class="page-title"> Scores SDAI y CDAI</h3>
+                <h3 class="page-title"> Scores das28pcr y das28vsg</h3>
                 <LineChart
                   width={600}
                   height={300}

@@ -18,7 +18,9 @@ import SweetAlert from "react-bootstrap-sweetalert";
 import { Alert } from "rsuite";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
+
 import { withRouter } from "react-router-dom";
+
 class OrdenEstudioView extends Component {
   constructor() {
     super();
@@ -84,7 +86,7 @@ class OrdenEstudioView extends Component {
     let datosOrdenEstudio = {};
     let datosArchivo = {};
 
-    console.log(cod);
+    console.log("cod_orden de estudio " + cod);
     await axios
       .get(url1 + cod)
       .then(function(response) {
@@ -98,7 +100,13 @@ class OrdenEstudioView extends Component {
     await axios
       .get(url4 + cod)
       .then(function(response) {
-        console.log("file", response.data[0].archivo);
+        if (response.data === undefined) {
+          return;
+        } else {
+          datosArchivo = response.data.filter(item => {
+            return item.codordenestudio === cod;
+          });
+        }
         datosArchivo = response.data[0].archivo;
       })
       .catch(function(error) {
