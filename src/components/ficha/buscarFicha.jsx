@@ -76,6 +76,7 @@ class BuscarFicha extends Component {
     var listado;
     var fichas;
 
+    // eslint-disable-next-line default-case
     switch (this.state.tipoBusqueda) {
       case "Nro. Documento":
         await axios
@@ -88,20 +89,18 @@ class BuscarFicha extends Component {
             console.log(error);
           });
 
-        fichas = listado.filter(item => {
-          //return item.nrodocumento === parametro;
-          return item.nrodocumento
-            .toLowerCase()
-            .startsWith(parametro.toLowerCase());
-        });
-
-        if (fichas.length === 0) {
+        if (listado === undefined) {
           Alert.warning(
             "No se encontró el Paciente con ese Nro. Documento",
             5000
           );
         } else {
-          //aviso = false;
+          fichas = listado.filter(item => {
+            //return item.nrodocumento === parametro;
+            return item.nrodocumento
+              .toLowerCase()
+              .startsWith(parametro.toLowerCase());
+          });
         }
         console.log(fichas);
         this.setState({ datosficha: fichas, parametro: "" });
@@ -116,14 +115,15 @@ class BuscarFicha extends Component {
           .catch(function(error) {
             console.log(error);
           });
-        fichas = listado.filter(item => {
-          return item.nombres.toLowerCase().startsWith(parametro.toLowerCase());
-        });
 
-        if (fichas.length === 0) {
+        if (listado === undefined) {
           Alert.warning("No se encontró el Paciente con ese Nombre", 5000);
         } else {
-          //aviso = false;
+          fichas = listado.filter(item => {
+            return item.nombres
+              .toLowerCase()
+              .startsWith(parametro.toLowerCase());
+          });
         }
 
         console.log(fichas);
@@ -139,16 +139,15 @@ class BuscarFicha extends Component {
           .catch(function(error) {
             console.log(error);
           });
-        fichas = listado.filter(item => {
-          return item.apellidos
-            .toLowerCase()
-            .startsWith(parametro.toLowerCase());
-        });
 
-        if (fichas.length === 0) {
+        if (listado === undefined) {
           Alert.warning("No se encontró el Paciente con ese Apellido", 5000);
         } else {
-          //aviso = false;
+          fichas = listado.filter(item => {
+            return item.apellidos
+              .toLowerCase()
+              .startsWith(parametro.toLowerCase());
+          });
         }
         console.log(fichas);
         this.setState({ datosficha: fichas, parametro: "" });
@@ -235,124 +234,126 @@ class BuscarFicha extends Component {
 
         <hr />
         <Container>
-          {list.map(item => (
-            <div
-              style={{
-                borderLeft: "5px solid",
-                marginBottom: 15,
-                padding: 10,
-                borderLeftColor: "#007bff",
-                borderRadius: "5px",
-                borderTop: "0.5px solid",
-                borderRight: "0.5px solid",
-                borderBottom: "0.5px solid",
-                borderTopColor: "#eee",
-                borderRightColor: "#eee",
-                borderBottomColor: "#eee"
-                // color: "#eee"
-              }}
-            >
-              <Row key={item.codficha}>
-                <List
+          {list === undefined
+            ? ""
+            : list.map(item => (
+                <div
                   style={{
-                    width: "100%",
-                    maxWidth: 500
+                    borderLeft: "5px solid",
+                    marginBottom: 15,
+                    padding: 10,
+                    borderLeftColor: "#007bff",
+                    borderRadius: "5px",
+                    borderTop: "0.5px solid",
+                    borderRight: "0.5px solid",
+                    borderBottom: "0.5px solid",
+                    borderTopColor: "#eee",
+                    borderRightColor: "#eee",
+                    borderBottomColor: "#eee"
+                    // color: "#eee"
                   }}
                 >
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar src={blank_pic} alt="..." />
-                    </ListItemAvatar>
+                  <Row key={item.codficha}>
+                    <List
+                      style={{
+                        width: "100%",
+                        maxWidth: 500
+                      }}
+                    >
+                      <ListItem alignItems="flex-start">
+                        <ListItemAvatar>
+                          <Avatar src={blank_pic} alt="..." />
+                        </ListItemAvatar>
 
-                    <ListItemText
-                      primary={
-                        <Link
-                          style={{
-                            color: "#007bff",
-                            textDecoration: "none",
-                            "&:hover": {
-                              textDecoration: "none"
-                            }
-                          }}
-                          to={`/menu_ficha/${item.codficha}/ficha_view/${
-                            item.codficha
-                          }`}
-                        >
-                          <h4>
-                            {item.nombres} {item.apellidos}{" "}
-                          </h4>
-                          <Icon
-                            icon="angle-double-right"
-                            size="2x"
-                            style={{ float: "right" }}
-                          />
-                        </Link>
-                      }
-                      secondary={
-                        <React.Fragment>
-                          <Col>
-                            <Typography
-                              component="span"
-                              variant="body2"
-                              style={{ display: "inline" }}
-                              color="textPrimary"
+                        <ListItemText
+                          primary={
+                            <Link
+                              style={{
+                                color: "#007bff",
+                                textDecoration: "none",
+                                "&:hover": {
+                                  textDecoration: "none"
+                                }
+                              }}
+                              to={`/menu_ficha/${item.codficha}/ficha_view/${
+                                item.codficha
+                              }`}
                             >
-                              Nro. Documento:
-                            </Typography>
-                            {item.nrodocumento}
-                          </Col>
-                          <Col>
-                            <Typography
-                              component="span"
-                              variant="body2"
-                              style={{ display: "inline" }}
-                              color="textPrimary"
-                            >
-                              Fecha de Inclusión:
-                            </Typography>
-                            {this.formatDate(new Date(item.fechainclusion))}
-                          </Col>
-                          <Col>
-                            <Typography
-                              component="span"
-                              variant="body2"
-                              style={{ display: "inline" }}
-                              color="textPrimary"
-                            >
-                              Forma Inicio:
-                            </Typography>
-                            {item.formainic}
-                          </Col>
-                          <Col>
-                            <Typography
-                              component="span"
-                              variant="body2"
-                              style={{ display: "inline" }}
-                              color="textPrimary"
-                            >
-                              Fecha Diagnóstico:
-                            </Typography>
-                            {this.formatDate(new Date(item.fechadiagnos))}
-                          </Col>
-                          <Col>
-                            <Typography
-                              component="span"
-                              variant="body2"
-                              style={{ display: "inline" }}
-                              color="textPrimary"
-                            >
-                              Diagnóstico:
-                            </Typography>
-                            {item.diagnostico}
-                          </Col>
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                </List>
-              </Row>
-            </div>
-          ))}
+                              <h4>
+                                {item.nombres} {item.apellidos}{" "}
+                              </h4>
+                              <Icon
+                                icon="angle-double-right"
+                                size="2x"
+                                style={{ float: "right" }}
+                              />
+                            </Link>
+                          }
+                          secondary={
+                            <React.Fragment>
+                              <Col>
+                                <Typography
+                                  component="span"
+                                  variant="body2"
+                                  style={{ display: "inline" }}
+                                  color="textPrimary"
+                                >
+                                  Nro. Documento:
+                                </Typography>
+                                {item.nrodocumento}
+                              </Col>
+                              <Col>
+                                <Typography
+                                  component="span"
+                                  variant="body2"
+                                  style={{ display: "inline" }}
+                                  color="textPrimary"
+                                >
+                                  Fecha de Inclusión:
+                                </Typography>
+                                {this.formatDate(new Date(item.fechainclusion))}
+                              </Col>
+                              <Col>
+                                <Typography
+                                  component="span"
+                                  variant="body2"
+                                  style={{ display: "inline" }}
+                                  color="textPrimary"
+                                >
+                                  Forma Inicio:
+                                </Typography>
+                                {item.formainic}
+                              </Col>
+                              <Col>
+                                <Typography
+                                  component="span"
+                                  variant="body2"
+                                  style={{ display: "inline" }}
+                                  color="textPrimary"
+                                >
+                                  Fecha Diagnóstico:
+                                </Typography>
+                                {this.formatDate(new Date(item.fechadiagnos))}
+                              </Col>
+                              <Col>
+                                <Typography
+                                  component="span"
+                                  variant="body2"
+                                  style={{ display: "inline" }}
+                                  color="textPrimary"
+                                >
+                                  Diagnóstico:
+                                </Typography>
+                                {item.diagnostico}
+                              </Col>
+                            </React.Fragment>
+                          }
+                        />
+                      </ListItem>
+                    </List>
+                  </Row>
+                </div>
+              ))}
         </Container>
       </Container>
     );

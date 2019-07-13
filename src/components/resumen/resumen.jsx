@@ -28,6 +28,7 @@ class Resumen extends Component {
     };
     this.compare = this.compare.bind(this);
     this.getConsultas = this.getConsultas.bind(this);
+    this.formatterX = this.formatterX.bind(this);
   }
 
   async componentWillMount() {
@@ -73,11 +74,10 @@ class Resumen extends Component {
     console.log("datosConsulta", datosConsulta);
 
     for (let i = 0; i < datosConsulta.length; i++) {
-      const date = new Date(datosConsulta[i].fechaconsulta);
       const element = {
         tipo: "Consulta",
-        fecha: date.toLocaleDateString(),
-        fechaComp: date,
+        fecha: this.formatterX(datosConsulta[i].fechaconsulta),
+        fechaComp: this.formatterX(datosConsulta[i].fechaconsulta),
         titulo: datosConsulta[i].limitacion,
         contenido: datosConsulta[i].diagnostico,
         icono: "stethoscope",
@@ -86,14 +86,14 @@ class Resumen extends Component {
       dataTimeLine.push(element);
       aux.push(element);
       const grafico1 = {
-        fecha: date.toLocaleDateString(),
+        fecha: this.formatterX(datosConsulta[i].fechaconsulta),
         cdai: datosConsulta[i].cdai,
         sdai: datosConsulta[i].sdai
       };
       data1.push(grafico1);
 
       const grafico2 = {
-        fecha: date.toLocaleDateString(),
+        fecha: this.formatterX(datosConsulta[i].fechaconsulta),
         das28vsg: datosConsulta[i].das28vsg,
         das28pcr: datosConsulta[i].das28pcr
       };
@@ -126,11 +126,10 @@ class Resumen extends Component {
       });
 
     for (let i = 0; i < datosPanolab.length; i++) {
-      const date = new Date(datosPanolab[i].fechapanolab);
       const element = {
         tipo: "Panoramica de Laboratorio",
-        fecha: date.toLocaleDateString(),
-        fechaComp: date,
+        fecha: this.formatterX(datosPanolab[i].fechapanolab),
+        fechaComp: this.formatterX(datosPanolab[i].fechapanolab),
         titulo: "Panoramica de Laboratorio",
         contenido: datosPanolab[i].observacion,
         icono: "flask",
@@ -162,8 +161,8 @@ class Resumen extends Component {
       const date = new Date(datosOrden[i].fechaordenestudio);
       const element = {
         tipo: "Orden de Estudio",
-        fecha: date.toLocaleDateString(),
-        fechaComp: date,
+        fecha: this.formatterX(datosOrden[i].fechaordenestudio),
+        fechaComp: this.formatterX(datosOrden[i].fechaordenestudio),
         titulo: datosOrden[i].estado,
         contenido: datosOrden[i].observacion,
         icono: "file-text-o",
@@ -184,11 +183,32 @@ class Resumen extends Component {
     }
     return 0;
   }
+  compare2(a, b) {
+    if (a.fechaconsulta > b.fechaconsulta) {
+      return 1;
+    }
+    if (a.fechaconsulta < b.fechaconsulta) {
+      return -1;
+    }
+    return 0;
+  }
+
+  formatterX(fecha) {
+    const date = new Date(fecha);
+    var month = date.getUTCMonth() + 1; //months from 1-12
+    var day = date.getUTCDate();
+    var year = date.getUTCFullYear();
+
+    const newdate = day + "/" + month + "/" + year;
+    return newdate;
+  }
 
   render() {
     const order = this.state.dataTimeLine.sort(this.compare);
     const data = this.state.dataCdaiSdai;
-    console.log(data);
+    console.log(this.state.datosConsulta);
+    const datosConsulta = this.state.datosConsulta.sort(this.compare2);
+    console.log(datosConsulta);
 
     return (
       <Row style={{ margin: 10 }}>
@@ -273,13 +293,16 @@ class Resumen extends Component {
                 <LineChart
                   width={600}
                   height={300}
-                  data={this.state.datosConsulta}
+                  data={datosConsulta}
                   margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                 >
-                  <XAxis dataKey="fechaconsulta" />
+                  <XAxis
+                    dataKey="fechaconsulta"
+                    tickFormatter={this.formatterX}
+                  />
                   <YAxis />
                   <CartesianGrid strokeDasharray="3 3" />
-                  <Tooltip />
+                  <Tooltip labelFormatter={this.formatterX} />
                   <Legend />
                   <Line
                     type="monotone"
@@ -293,17 +316,20 @@ class Resumen extends Component {
             </Row>
             <Row>
               <Col>
-                <h3 class="page-title"> Scores SDAI y CDAI</h3>
+                <h3 class="page-title"> Scores das28pcr y das28vsg</h3>
                 <LineChart
                   width={600}
                   height={300}
-                  data={this.state.datosConsulta}
+                  data={datosConsulta}
                   margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                 >
-                  <XAxis dataKey="fechaconsulta" />
+                  <XAxis
+                    dataKey="fechaconsulta"
+                    tickFormatter={this.formatterX}
+                  />
                   <YAxis />
                   <CartesianGrid strokeDasharray="3 3" />
-                  <Tooltip />
+                  <Tooltip labelFormatter={this.formatterX} />
                   <Legend />
                   <Line
                     type="monotone"

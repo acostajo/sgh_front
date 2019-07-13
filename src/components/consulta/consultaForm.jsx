@@ -12,9 +12,10 @@ import {
   Form,
   FormGroup,
   Label,
-  Tooltip
+  Tooltip,
+  Input
 } from "reactstrap";
-import { Modal, InputNumber, Whisper, Input } from "rsuite";
+import { Modal, InputNumber, Whisper } from "rsuite";
 import { IconButton, ButtonToolbar, Icon } from "rsuite";
 import axios from "axios";
 import InputRange from "react-input-range";
@@ -32,17 +33,6 @@ import EfectoAdverso from "./../efectoadverso/efectoAdversoForm";
 import { Alert } from "rsuite";
 import SweetAlert from "react-bootstrap-sweetalert";
 ///import "./../../themes/fresca.css";
-const ColoredLine = ({ color }) => (
-  <hr
-    style={{
-      color: color,
-      backgroundColor: color,
-      height: 150,
-      width: 2,
-      borderleft: 1
-    }}
-  />
-);
 
 class Consulta extends Component {
   constructor() {
@@ -81,11 +71,11 @@ class Consulta extends Component {
       nad: 0, //	número de articulaciones dolorosas
       nat: 0, //	número de articulaciones tumefactas
       eva: 0, //	escala visual analógica
-      vgp: 0, //	valoración global del Paciente para CDAI Y SDAI
-      vgp1: 0, //	valoración global del Paciente para CDAI Y SDAI
-      vgm1: 0, //	valoración global del médico para CDAI Y SDAI
-      vgp2: 0, //	valoración global del Paciente para DAS28PCR Y DAS28VSG
-      vgm2: 0, //	valoración global del médicopara DAS28PCR Y DAS28VSG
+      //vgp: 0, //	valoración global del Paciente para CDAI Y SDAI
+      //vgp1: 0, //	valoración global del Paciente para CDAI Y SDAI
+      //vgm1: 0, //	valoración global del médico para CDAI Y SDAI
+      //vgp2: 0, //	valoración global del Paciente para DAS28PCR Y DAS28VSG
+      //vgm2: 0, //	valoración global del médicopara DAS28PCR Y DAS28VSG
       // crp: 0,
       //vsg: 0,
       cdai: 0, //	clinical disease activity index
@@ -1689,14 +1679,6 @@ class Consulta extends Component {
                             name="crp"
                             id="crp"
                           />
-                          <Tooltip
-                            placement="top"
-                            isOpen={this.state.tooltipOpen}
-                            target="crp"
-                            toggle={this.toggle}
-                          >
-                            rango : 0 - 100
-                          </Tooltip>
                         </FormGroup>
                       </Col>
                       <Col>
@@ -1712,14 +1694,6 @@ class Consulta extends Component {
                             name="vsg"
                             id="vsg"
                           />
-                          <Tooltip
-                            placement="top"
-                            isOpen={this.state.tooltipVsgOpen}
-                            target="vsg"
-                            toggleVsg={this.toggleVsg}
-                          >
-                            rango : 0 - 200
-                          </Tooltip>
                         </FormGroup>
                       </Col>
                     </Row>
@@ -1748,24 +1722,20 @@ class Consulta extends Component {
                             name="vgp1"
                             id="vgp1"
                           />
-                          <Tooltip
-                            placement="top"
-                            isOpen={this.state.tooltipOpen}
-                            target="vgp1"
-                            toggle={this.toggle}
-                          >
-                            rango : 0=mejor a 10=peor
-                          </Tooltip>
                         </FormGroup>
                       </Col>
+
                       <Col>
                         <FormGroup>
-                          <Label>VGM </Label>
-                          <InputRange
-                            maxValue={10}
-                            minValue={0}
-                            value={this.state.vgm1}
+                          <Label>VGM</Label>
+                          <InputNumber
+                            max={10}
+                            min={0}
                             onChange={value => this.setState({ vgm1: value })}
+                            value={this.state.vgm1}
+                            placeholder="0 - 10"
+                            name="vgm1"
+                            id="vgm1"
                           />
                         </FormGroup>
                       </Col>
@@ -1784,22 +1754,28 @@ class Consulta extends Component {
                       <Col>
                         <FormGroup>
                           <Label>VGM</Label>
-                          <InputRange
-                            maxValue={100}
-                            minValue={0}
-                            value={this.state.vgm2}
+                          <InputNumber
+                            max={100}
+                            min={0}
                             onChange={value => this.setState({ vgm2: value })}
+                            value={this.state.vgm2}
+                            placeholder="0 - 100"
+                            name="vgm2"
+                            id="vgm2"
                           />
                         </FormGroup>
                       </Col>
                       <Col>
                         <FormGroup>
                           <Label>VGP</Label>
-                          <InputRange
-                            maxValue={100}
-                            minValue={0}
-                            value={this.state.vgp2}
+                          <InputNumber
+                            max={100}
+                            min={0}
                             onChange={value => this.setState({ vgp2: value })}
+                            value={this.state.vgp2}
+                            placeholder="0 - 100"
+                            name="vgp2"
+                            id="vgp2"
                           />
                         </FormGroup>
                       </Col>

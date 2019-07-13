@@ -27,7 +27,7 @@ class MenuPrincipal extends Component {
     super(props);
 
     this.state = {
-activeStyleFicha: {
+      activeStyleFicha: {
         textDecoration: "none",
         color: "#133E7C",
         fontSize: "17px",
@@ -59,7 +59,6 @@ activeStyleFicha: {
           textDecoration: "none"
         }
       },
-
 
       codSelected: 0,
       toggleListaPaciente: false,
@@ -245,6 +244,7 @@ activeStyleFicha: {
         <Modal
           show={this.state.toggleListaPaciente}
           onHide={this.toggleListaPaciente}
+          style={{ width: "50%" }}
         >
           <Modal.Body>
             <BuscarFicha />
@@ -254,6 +254,7 @@ activeStyleFicha: {
           show={this.state.toggleAgregarPaciente}
           onHide={this.toggleAgregarPaciente}
           style={{ width: "90%" }}
+          backdrop="static"
         >
           <Modal.Body>
             <Ficha />
@@ -436,7 +437,6 @@ activeStyleFicha: {
                 </Col>
               </div>
             </Col>
-          
           </Row>
         </Container>
       </div>

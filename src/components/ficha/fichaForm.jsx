@@ -105,7 +105,7 @@ class Ficha extends Component {
         acpa_nivel: "", // #anticuerpo antinuclear
         ana_pos: "", //ANA patron
         ana_neg: "", //ANA patron
-        ana_patron: "Nuclear Homogéneo", //ANA patron
+        ana_patron: "", //ANA patron
         rxmanos: false, //#erecciones sí o no
         rxmanosfecha: null, //#la fecha que tuvo las erecciones ----------> wtf erecciones hei
         rxpies: false, //#erecciones sí o no
@@ -1150,7 +1150,7 @@ class Ficha extends Component {
           <Card style={{ backgroundColor: "#F9FCFB" }}>
             <CardHeader style={{ backgroundColor: "#07689F" }}>
               <h2 style={{ backgroundColor: "#07689F", color: "#FFFFFF" }}>
-                Datos de la Ficha HA
+                Ficha Epidemiológica
               </h2>
             </CardHeader>
 
@@ -1832,29 +1832,41 @@ class Ficha extends Component {
                 <Col>
                   <Card style={{ padding: 20 }}>
                     <Row>
-                      <Col>
+                      <Col style={{ paddingLeft: 40 }}>
                         <FormGroup>
-                          <Label for="factorreuma_pos">FR (+)</Label>
                           <Input
-                            type="text"
+                            type="checkbox"
                             onChange={this.handleChange}
                             value={this.state.datosFicha.factorreuma_pos}
                             name="factorreuma_pos"
                             id="factorreuma_pos"
                           />
+                          <Label for="factorreuma_pos">FR (+)</Label>
                         </FormGroup>
                       </Col>
-                      <Col>
+                      <Col style={{ paddingLeft: 40 }}>
                         <FormGroup>
-                          <Label for="factorreuma_neg">FR (-)</Label>
                           <Input
-                            type="text"
+                            type="checkbox"
                             onChange={this.handleChange}
                             value={this.state.datosFicha.factorreuma_neg}
                             name="factorreuma_neg"
                             id="factorreuma_neg"
                           />
+                          <Label for="factorreuma_neg">FR (-)</Label>
                         </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Label for="factorreuma_valor">Valor</Label>
+                        <Input
+                          type="text"
+                          onChange={this.handleChange}
+                          value={this.state.datosFicha.factorreuma_nivel}
+                          name="factorreuma_valor"
+                          id="factorreuma_valor"
+                        />
                       </Col>
                     </Row>
                     <Row>
@@ -1881,29 +1893,41 @@ class Ficha extends Component {
                     }}
                   >
                     <Row>
-                      <Col>
+                      <Col style={{ paddingLeft: 40 }}>
                         <FormGroup>
-                          <Label for="acpa_pos">ACPA (+)</Label>
                           <Input
-                            type="text"
+                            type="checkbox"
                             onChange={this.handleChange}
                             value={this.state.datosFicha.acpa_pos}
                             name="acpa_pos"
                             id="acpa_pos"
                           />
+                          <Label for="acpa_pos">ACPA (+)</Label>
                         </FormGroup>
                       </Col>
-                      <Col>
+                      <Col style={{ paddingLeft: 40 }}>
                         <FormGroup>
-                          <Label for="acpa_neg">ACPA (-)</Label>
                           <Input
-                            type="text"
+                            type="checkbox"
                             onChange={this.handleChange}
                             value={this.state.datosFicha.acpa_neg}
                             name="acpa_neg"
                             id="acpa_neg"
-                          />
+                          />{" "}
+                          <Label for="acpa_neg">ACPA (-)</Label>
                         </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Label for="acpa_valor">Valor</Label>
+                        <Input
+                          type="text"
+                          onChange={this.handleChange}
+                          value={this.state.datosFicha.acpa_nivel}
+                          name="acpa_valor"
+                          id="acpa_valor"
+                        />
                       </Col>
                     </Row>
                     <Row>
@@ -1924,29 +1948,41 @@ class Ficha extends Component {
                 <Col>
                   <Card style={{ padding: 20, marginBottom: 20 }}>
                     <Row>
-                      <Col>
+                      <Col style={{ paddingLeft: 40 }}>
                         <FormGroup>
-                          <Label for="ana_pos">ANA (+)</Label>
                           <Input
-                            type="text"
+                            type="checkbox"
                             onChange={this.handleChange}
                             value={this.state.datosFicha.ana_pos}
                             name="ana_pos"
                             id="ana_pos"
                           />
+                          <Label for="ana_pos">ANA (+)</Label>
                         </FormGroup>
                       </Col>
-                      <Col>
+                      <Col style={{ paddingLeft: 40 }}>
                         <FormGroup>
-                          <Label for="ana_neg">ANA (-)</Label>
                           <Input
-                            type="text"
+                            type="checkbox"
                             onChange={this.handleChange}
                             value={this.state.datosFicha.ana_neg}
                             name="ana_neg"
                             id="ana_neg"
                           />
+                          <Label for="ana_pos">ANA (+)</Label>
                         </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Label for="ana_patron">Valor</Label>
+                        <Input
+                          type="text"
+                          onChange={this.handleChange}
+                          value={this.state.datosFicha.ana_valor}
+                          name="ana_patron"
+                          id="ana_patron"
+                        />
                       </Col>
                     </Row>
                     <Row>
@@ -1988,19 +2024,32 @@ class Ficha extends Component {
                         </FormGroup>
                       </Col>
                       <Col>
-                        <Row>
-                          <FormGroup>
-                            <Label for="rxmanosfecha">Fecha de RX Manos</Label>
-                            <Input
-                              disabled={this.state.deshabilitarrxmanos}
-                              type="date"
-                              onChange={this.handleChange}
-                              value={this.state.datosFicha.rxmanosfecha}
-                              name="rxmanosfecha"
-                              id="rxmanosfecha"
-                            />
-                          </FormGroup>
-                        </Row>
+                        <FormGroup>
+                          <Label for="rxmanosfecha">Fecha de RX Manos</Label>
+                          <Input
+                            disabled={this.state.deshabilitarrxmanos}
+                            type="date"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.rxmanosfecha}
+                            name="rxmanosfecha"
+                            id="rxmanosfecha"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label for="desrxmanos">Descripcion</Label>
+                          <Input
+                            disabled={this.state.deshabilitarrxmanos}
+                            type="text"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.desrxmanos}
+                            name="desrxmanos"
+                            id="desrxmanos"
+                          />
+                        </FormGroup>
                       </Col>
                     </Row>
                   </Card>
@@ -2021,19 +2070,32 @@ class Ficha extends Component {
                         </FormGroup>
                       </Col>
                       <Col>
-                        <Row>
-                          <FormGroup>
-                            <Label for="rxpiesfecha">Fecha de RX Pies</Label>
-                            <Input
-                              disabled={this.state.deshabilitarrxpies}
-                              type="date"
-                              onChange={this.handleChange}
-                              value={this.state.datosFicha.rxpiesfecha}
-                              name="rxpiesfecha"
-                              id="rxpiesfecha"
-                            />
-                          </FormGroup>
-                        </Row>
+                        <FormGroup>
+                          <Label for="rxpiesfecha">Fecha de RX Pies</Label>
+                          <Input
+                            disabled={this.state.deshabilitarrxpies}
+                            type="date"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.rxpiesfecha}
+                            name="rxpiesfecha"
+                            id="rxpiesfecha"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <Label for="desrxpies">Descripcion</Label>
+                          <Input
+                            disabled={this.state.deshabilitarrxpies}
+                            type="text"
+                            onChange={this.handleChange}
+                            value={this.state.datosFicha.desrxpies}
+                            name="desrxpies"
+                            id="desrxpies"
+                          />
+                        </FormGroup>
                       </Col>
                     </Row>
                   </Card>
