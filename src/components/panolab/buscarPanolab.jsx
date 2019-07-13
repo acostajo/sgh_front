@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import {
   Button,
   Container,
@@ -12,15 +11,8 @@ import {
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
-import {
-  Route,
-  Switch,
-  BrowserRouter as Router,
-  Link,
-  withRouter
-} from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import { Alert, Icon } from "rsuite";
-import PanolabView from "./panolabView";
 
 class BuscarPanolab extends Component {
   constructor() {

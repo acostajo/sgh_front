@@ -39,6 +39,12 @@ import FichaEdit from "../ficha/fichaEdit";
 //import { Col } from "rsuite";
 import Resumen from "./../resumen/resumen";
 import NavBarFresca from "./../navFresca";
+import Haq from "./../cuestionarios/haq";
+import Egc from "./../cuestionarios/egc";
+import Mbg from "./../cuestionarios/mbg";
+import BuscarEGC from "./../cuestionarios/buscarEgc";
+import BuscarMBG from "./../cuestionarios/buscarMBG";
+import BuscarHAQ from "./../cuestionarios/buscarHAQ";
 
 class MenuFicha extends Component {
   constructor(props) {
@@ -77,6 +83,30 @@ class MenuFicha extends Component {
         textDecoration: "none",
         fontSize: "17px",
         color: "#337ab7",
+        "&:hover": {
+          textDecoration: "none"
+        }
+      },
+      activeStyleMbg: {
+        textDecoration: "none",
+        fontSize: "17px",
+        color: "#497665",
+        "&:hover": {
+          textDecoration: "none"
+        }
+      },
+      activeStyleHaq: {
+        textDecoration: "none",
+        fontSize: "17px",
+        color: "#FFA630",
+        "&:hover": {
+          textDecoration: "none"
+        }
+      },
+      activeStyleEgc: {
+        textDecoration: "none",
+        fontSize: "17px",
+        color: "#FF4C58",
         "&:hover": {
           textDecoration: "none"
         }
@@ -241,7 +271,7 @@ class MenuFicha extends Component {
                   this.state.datosFicha.codficha
                 }`}
                 activeStyle={this.state.activeStyleFicha}
-                icon={<Icon icon="dashboard"   />}
+                icon={<Icon icon="dashboard" />}
               >
                 Resumen
               </NavLi>
@@ -252,7 +282,7 @@ class MenuFicha extends Component {
                   this.state.datosFicha.codficha
                 }`}
                 activeStyle={this.state.activeStyleFicha}
-                icon={<Icon icon="list-alt"   />}
+                icon={<Icon icon="list-alt" />}
               >
                 Datos Ficha
               </NavLi>
@@ -263,7 +293,7 @@ class MenuFicha extends Component {
                   this.state.datosFicha.codficha
                 }/buscar_consulta/${this.state.datosFicha.codficha}`}
                 activeStyle={this.state.activeStyleConsulta}
-                icon={<Icon icon="stethoscope"  />}
+                icon={<Icon icon="stethoscope" />}
               >
                 Consulta
               </NavLi>
@@ -288,6 +318,30 @@ class MenuFicha extends Component {
                 icon={<Icon icon="file-text-o" />}
               >
                 Orden de Estudio
+              </NavLi>
+              <NavLi
+                eventKey="haq"
+                to={`/menu_ficha/${this.state.datosFicha.codficha}/buscar_haq/`}
+                activeStyle={this.state.activeStyleHaq}
+                icon={<Icon icon="file-text-o" />}
+              >
+                HAQ
+              </NavLi>
+              <NavLi
+                eventKey="haq"
+                to={`/menu_ficha/${this.state.datosFicha.codficha}/buscar_grc/`}
+                activeStyle={this.state.activeStyleEgc}
+                icon={<Icon icon="file-text-o" />}
+              >
+                GRC
+              </NavLi>
+              <NavLi
+                eventKey="haq"
+                to={`/menu_ficha/${this.state.datosFicha.codficha}/buscar_mbg/`}
+                activeStyle={this.state.activeStyleMbg}
+                icon={<Icon icon="file-text-o" />}
+              >
+                MBG
               </NavLi>
             </Nav>
 
@@ -342,10 +396,32 @@ class MenuFicha extends Component {
                 path="/menu_ficha/:codficha/buscar_ordenestudio/:codficha"
                 component={BuscarOrdenEstudio}
               />
+              <Route
+                path="/menu_ficha/:codficha/buscar_haq/haq/"
+                component={Haq}
+              />
+              <Route
+                path="/menu_ficha/:codficha/buscar_haq/"
+                component={BuscarHAQ}
+              />
+              <Route
+                path="/menu_ficha/:codficha/buscar_grc/grc/"
+                component={Egc}
+              />
+              <Route
+                path="/menu_ficha/:codficha/buscar_grc/"
+                component={BuscarEGC}
+              />
+              <Route
+                path="/menu_ficha/:codficha/buscar_mbg/mbg/"
+                component={Mbg}
+              />
+              <Route
+                path="/menu_ficha/:codficha/buscar_mbg/"
+                component={BuscarMBG}
+              />
             </Switch>
           </FlexboxGrid.Item>
-
-
         </FlexboxGrid>
       </div>
     );
