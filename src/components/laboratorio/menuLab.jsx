@@ -11,7 +11,7 @@ import {
   Badge
 } from "reactstrap";
 import OrdenEstudioViewLab from "./ordenestudioViewLab";
-import { FlexboxGrid, Button, Divider, Icon, Col, Modal } from "rsuite";
+import { FlexboxGrid, Button, Divider, Icon, Col, Modal, Alert } from "rsuite";
 import { Link } from "react-router-dom";
 import { Table, IconButton, CustomWhisper } from "rsuite";
 import axios from "axios";
@@ -237,6 +237,7 @@ class MenuLab extends Component {
       .put(url2, { estado: "Pend. Archivo" })
       .then(function(response) {
         console.log(response);
+        Alert.success("Estudio a pasado a la  espera del resultado", 2000);
       })
       .catch(function(error) {
         console.log(error);
@@ -272,7 +273,7 @@ class MenuLab extends Component {
           </Modal.Body>
         </Modal>
         <NavBarFrescaLab />
-        <FlexboxGrid align="center" >
+        <FlexboxGrid align="center">
           <FlexboxGrid.Item
             colSpan={8}
             style={{ paddingBottom: 10, marginTop: 50 }}

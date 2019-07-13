@@ -6,7 +6,6 @@ import {
   CardBody,
   Container,
   Row,
-  Alert,
   Col,
   Form,
   FormGroup,
@@ -15,7 +14,7 @@ import {
 } from "reactstrap";
 import Select from "react-select";
 import axios from "axios";
-import { Uploader, Icon, SelectPicker } from "rsuite";
+import { Uploader, Icon, Alert } from "rsuite";
 import "flatpickr/dist/themes/material_blue.css";
 import Calendar from "react-calendar";
 import { FormInput } from "semantic-ui-react";
@@ -83,6 +82,7 @@ class OrdenEstudioViewLab extends Component {
 
     await axios.post(url, data, config).then(res => {
       console.log(res);
+      Alert.success("Archivo subido con éxito", 2000);
       console.log(res.data);
     });
   }
@@ -173,6 +173,9 @@ class OrdenEstudioViewLab extends Component {
       .post(url, this.state.turnoAgregar)
       .then(function(response) {
         console.log(response);
+        if (response.data.estado == "Agendado") {
+          Alert.success("El turno fue agendado con éxito", 2000);
+        } else return;
       })
       .catch(function(error) {
         console.log(error);
@@ -270,9 +273,9 @@ class OrdenEstudioViewLab extends Component {
 
     return (
       <Container>
-        <Alert color="info" isOpen={this.state.visible} toggle={this.onDismiss}>
-          La Orden de Estudio fue eliminada con con exito!
-        </Alert>
+        {/* <Alert color="info" isOpen={this.state.visible} toggle={this.onDismiss}>
+          El turno fue agendad con xito!
+        </Alert> */}
         <Row>
           <Col>
             <Card style={{ backgroundColor: "#F9FCFB" }}>
